@@ -45,7 +45,7 @@
         <gap height="30px" />
 
         <grid name="showcase" columns="2" css-min-height="200px" item-gap="15px">
-            <image name="showcase-images" list-child="true" />
+            <image name="showcase-images" list-child="true" aspect-ratio="0.75" />
         </grid>
 
         <gap height="30px" />
