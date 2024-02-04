@@ -39,7 +39,7 @@
 
     <view>
         <cover>
-            <image name="banner-image" list-selector="[$name].$[list-idx]" />
+            <image name="banner-image" list-child="true" list-selector="[$name].$[list-idx]" />
         </cover>
     </view>
 
