@@ -1,0 +1,106 @@
+<page url="_home" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+        <align>
+            <span>Example of banner below - click on + to add slides</span>
+        </align>
+
+        <gap height="30px" />
+
+        <banner name="banner" aspect-ratio="3.5">
+            <container css-height="100%">
+                <pos-middle>
+                    <inline name="banner-label-heading" list-child="true">banner label</inline>
+                    <gap height="30px"/>
+                    <inline name="banner-label-text" list-child="true">banner label</inline>
+                </pos-middle>
+            </container>
+        </banner>
+
+        <gap height="30px" />
+
+        <align>
+            <span>Example of editable text below - click on the heading and description to edit</span>
+        </align>
+
+        <align>
+            <inline name="page-heading" element="h1">Page Heading - click to edit</inline>
+        </align>
+
+        <gap height="30px" />
+
+        <align>
+            <textedit name="company-description" css-min-height="100px">
+                Example company description. Click to edit this.
+            </textedit>
+        </align>                        
+
+        <gap height="30px" />
+
+        <align>
+            <span>Example of a 2 column grid layout below - click on the + icon to add items in that grid</span>
+        </align>
+
+        <gap height="30px" />
+
+        <grid name="showcase" columns="2" css-min-height="200px" item-gap="15px">
+            <image name="showcase-images" list-child="true" />
+        </grid>
+
+        <gap height="30px" />
+
+        <align>
+            <span>Example of a list layout in row orientation below - click on the + icon to add items in that list</span>
+        </align>
+
+        <gap height="30px" />
+
+        <list name="featured" item-gap="32px" orientation="row" css-min-height="200px">
+            <align>
+                <circle class="featured-image-circle" style="border:5px solid [$border-color]">
+                    <image name="feature-image" list-child="true" toolbar-top="calc(50% - 15px)" toolbar-left="calc(50% - 15px)" aspect-ratio="1"/>
+                </circle>
+            </align>
+            <align height="fit-content">
+                <inline name="feature-label" list-child="true">feature label</inline>
+            </align>
+        </list>
+
+        <gap height="30px" />
+
+        <align>
+            <span>Examples of image and text block - click on the upload icon to upload images and click on text to edit</span>
+        </align>
+
+        <gap height="30px" />
+
+        <row>
+            <!-- 2 columns with image on left and text on right -->
+            <column>
+                <image name="example-image-1" aspect-ratio="1.5" />
+            </column>
+            <column ratio="6">
+                <textedit name="example-text-1">
+                    example text 1 Click to edit this text block
+                </textedit>
+            </column>
+        </row>
+
+        <gap height="30px" />
+
+        <row>
+            <!-- 2 columns with image on left and text on right -->
+            <column ratio="6">
+                <textedit name="example-text-2">
+                    example text 2 Click to edit this text block
+                </textedit>
+            </column>
+            <column>
+                <image name="example-image-2" aspect-ratio="1.5" />
+            </column>
+        </row>
+    </container>
+
+    #include includes/footer.xml
+</page>

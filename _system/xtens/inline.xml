@@ -1,0 +1,100 @@
+<xten name="inline" element="span">
+    <mandatory>name</mandatory>
+    <allow>owner, admin</allow>
+    <style>
+        display: inline-block;
+    </style>
+
+    <css>
+        .inline._unsaved_inline {
+            border: 1px solid yellow;
+        } 
+        .inline._empty_inline {
+            border: 1px solid red;
+            width: 100%; 
+            min-width: 50px;
+        }
+    </css>
+
+    <load>
+        const value = await database.inlineValue(node, context, xten);
+        if (value) {
+            node.text = value;
+        }
+    </load>
+
+    <initElement>
+    <%
+        const access = checkAccess(element);
+        if (access) {
+            element.setAttribute('contenteditable', true);
+            wxfns.addClass(element, 'editable');
+            const prevText = element.innerText.trim();
+            if (!prevText.length) {
+                element.classList.add('_empty_inline');
+            }
+            else
+            {
+                element.classList.remove('_empty_inline');
+            }
+            element.__inlineValue = prevText;
+        }
+        else
+        {
+            element.removeAttribute('contenteditable');
+            wxfns.removeClass(element, 'editable');
+        }
+    %>
+    </initElement>
+
+    <event name="keyup" fname="_inlineEventKeyUp">
+    <%
+        const element = event.target;
+        const text = element.innerText.trim();
+        const origValue = element.__inlineValue;
+        if (!text) {
+            element.classList.add('_empty_inline');
+        }
+        else {
+            element.classList.remove('_empty_inline');
+        }
+        if (text != origValue) {
+            element.classList.add('_unsaved_inline');
+            const timout = setTimeout(((_element) => {
+
+            })(event.target), 3000);
+        }
+        else {
+            element.classList.remove('_unsaved_inline');
+        }
+    %>
+    </event>
+
+    <event name="blur" fname="_inlineEventBlur">
+    <%
+        const element = event.target;
+        const text = element.innerText.trim();
+        const origValue = element.__inlineValue;
+        if (text == origValue) {
+            return;
+        }
+        if (!text) {
+            element.classList.add('_empty_inline');
+        }
+        else {
+            element.classList.remove('_empty_inline');
+        }
+        if (text) {
+            wxfns.transaction(element, 'save-page-data', element.innerText.trim());
+            element.classList.remove('_unsaved_inline');
+            element.classList.remove('_empty_inline');
+            element.__inlineValue = text;
+        }
+        else {
+            element.innerText = element.__inlineValue;
+            element.classList.remove('_unsaved_inline');
+            element.classList.remove('_empty_inline');
+        }
+    %>
+    </event>
+</xten>

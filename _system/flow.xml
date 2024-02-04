@@ -1,0 +1,63 @@
+<xten name="allow">
+
+</xten>
+
+<xten name="show" element="div">
+    <mandatory>role</mandatory>
+    <style>
+        display: none;
+    </style>
+
+    <initElement>
+        <%
+        const user = getUser();
+
+        const role = user ? user.role.trim() : 'public';
+        var allow = element.getAttribute('role');
+        if (allow == 'logged_in') {
+            if (role != 'public') {
+                element.style.display = 'initial';
+            }
+            return;
+        }
+
+        allow = allow ? allow.split(/\s*\,\s*/) : [];
+        if (allow.includes(role)) {
+            element.style.display = 'initial';
+        }
+        %>
+    </initElement>
+</xten>
+
+<xten name="repeat" element="div">
+    <load>
+        <%
+        const output = new DomNode('div');
+        const children = node.children;
+        if (!(children && children.length) && !text) {
+            node.attribs.error = 'nothing to repeat';
+            common.nodeerror('nothing to repeat', node);
+            return;
+        }
+
+        const n = (node.getValue('n') || '0').toString();
+        const wrapper = new DomNode('div');
+        for (var i = 0; i < n; i++) {
+            const _clone = node.clone();
+            _clone.children.forEach(child => {
+                child.attribs['repeat-idx'] = i.toString();
+            });
+            wrapper.insertChildren('last', _clone.children);
+        }
+        node.empty();
+        node.insertChildren(0, wrapper.children);
+        %>
+    </load>
+</xten>
+
+<!-- to be done -->
+<xten name="if" element="_hidden">
+    <mandatory>condition</mandatory>
+
+</xten>
+

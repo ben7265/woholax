@@ -1,0 +1,25 @@
+<xten name="list" extend="_list" element="div">
+    <allow>owner, admin</allow>
+    <css>
+        .wx-xten-list > .wx-view-datalist {
+            display: flex;
+            position: relative;
+            width: 100%;
+        }
+        .wx-xten-list .list-item-toolbar {display: none;}
+        .wx-xten-list.wx-state-editable .list-item-toolbar {display: inline-block;}
+        .wx-xten-list .list-toolbar {display: none;}
+        .wx-xten-list.wx-state-editable .list-toolbar {display: inline-block; }
+    </css>
+    <cssNode>
+        #[$id] > .wx-view-datalist {
+            flex-direction: [$orientation||column];
+            gap: [$item-gap||0];
+            width: 100%;
+        }
+
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
+            flex: 1 1 auto;
+        }
+    </cssNode>
+</xten>

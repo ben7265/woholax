@@ -1,0 +1,66 @@
+<page url="layout-example" max-width="[$max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+        <row >
+            <column css-background-color="lightgrey">
+                <center>
+                    Section 1
+                </center>
+            </column>
+
+            <column ratio="3">
+                <row css-background-color="yellow">
+                    <center>
+                        Section 2
+                    </center>
+                </row>
+                <row>
+                    <column>
+                        <row>
+                            <column css-background-color="brown" color="white" css-height="100px">
+                                <center>
+                                    Section 3
+                                </center>
+                            </column>
+                            <column>
+                                <center css-background-color="green">
+                                    Section 4
+                                </center>
+                            </column>
+                        </row>
+                        <row css-background-color="red" css-color="white" css-height="200px">
+                            <center>
+                                Section 5
+                            </center>
+                        </row>
+                        <row>
+                            <column css-background-color="brown" css-color="white" css-height="200px">
+                                <center>
+                                    Section 7
+                                </center>
+                            </column>
+                            <column ratio="5">
+                                <center css-background-color="green">
+                                    Section 8
+                                </center>
+                            </column>
+                        </row>
+                    </column>
+                    <column css-background-color="blue">
+                        <center>
+                            Section 6
+                        </center>
+                    </column>
+                </row>
+            </column>
+        </row>
+        <row css-background-color="yellow" css-height="100px">
+            <center>
+                Section 9
+            </center>
+        </row>
+    </container>
+
+    #include includes/footer.xml
+</page>

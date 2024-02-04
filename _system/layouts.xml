@@ -1,0 +1,347 @@
+<xten name="container" element="div">
+    <style>
+        display: block;
+    </style>
+</xten>
+
+<xten name="gap" element="div">
+    <mandatory>height</mandatory>
+    <nodeStyle>
+        height: [$height||15px];
+    </nodeStyle>
+    <view>
+        <space />
+    </view>
+</xten>
+
+<xten name="space" element="span">
+    <init>
+        <%
+        const n = parseInt(node.getValue(node.attribs.n) || 1);
+        node.text = '';
+        for (var i = 0; i < n; i++) {
+            node.text += '&nbsp;';
+        }
+        %>
+    </init>
+</xten>
+
+<xten name="cover" element="div">
+    <style>
+        display: flex;
+        position: absolute;
+    </style>
+    <nodeStyle>
+        top: [$top||0];
+        left: [$top||0];
+        bottom: [$top||0];
+        right: [$top||0];
+        justify-content: [$horizontal||center];
+        align-items: [$vertical||center];
+    </nodeStyle>
+</xten>
+
+<xten name="center" element="div">
+    <style>
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    </style>
+</xten>
+
+<!--
+    horizontal options
+    
+    flex-start: Aligns items to the start of the flex container. This is the default value.
+    flex-end: Aligns items to the end of the flex container.
+    center: Centers the items along the main axis of the flex container.
+    space-between: Distributes items evenly along the main axis, with the first item aligned to the start and the last item aligned to the end.
+    space-around: Distributes items evenly along the main axis, with equal space around them.
+    space-evenly: Distributes items evenly along the main axis, with equal space between them.
+    stretch: Stretch items to fill the flex container along the main axis. This is the default behavior when the align-items property is set to stretch.
+
+    vertical options
+    
+    flex-start: Aligns items to the start of the cross axis of the flex container.
+    flex-end: Aligns items to the end of the cross axis of the flex container.
+    center: Centers the items along the cross axis of the flex container.
+    baseline: Aligns items such that their baselines align.
+    stretch: Stretch items to fill the flex container along the cross axis. This is the default value.
+
+    default options are center, center so it aligns items vertically and horizontall in center
+-->
+<xten name="align" element="div">
+    <style>
+        position: relative;
+        display: flex;
+    </style>
+    <nodeStyle>
+        width:[$width||100%];
+        height:[$height||100%];
+        justify-content: [$horizontal||center];
+        align-items: [$vertical||center];
+    </nodeStyle>
+</xten>
+
+<xten name="screencover" element="div">
+    <style>
+        position: fixed;
+        top: 0; 
+        left: 0; 
+        width: 100vw;
+        height: 100vh;
+    </style>
+</xten>
+
+<xten name="columns" element="div">
+    <nodeStyle>column-count:[$cols||1]</nodeStyle>
+    <nodeTablet>column-count:[$cols-tablet||1]</nodeTablet>
+    <nodePhone>column-count:[$cols-phone||1]</nodePhone>
+</xten>
+
+<xten name="row" element="div">
+    <style>
+        display: flex;
+        position: relative;
+        width: 100%;
+        align-content: stretch;
+    </style>
+    <nodeStyle>
+        gap:[$item-gap||0];
+        height:[$height||fit-content];
+    </nodeStyle>
+    <tablet>
+        flex-direction:column
+    </tablet>
+</xten>
+
+<xten name="column" element="div">
+    <style>
+        position: relative;
+    </style>
+    <nodeStyle>
+        flex: [$ratio||1] [$ratio||0] [$width||1px];
+    </nodeStyle>
+</xten>
+
+<xten name="layers" element="div">
+    <style>
+        position:relative;
+        display: block;
+        height: 100%;
+    </style>
+</xten>
+
+<xten name="layer" element="div">
+    <style>
+        position:absolute;
+    </style>
+    <nodeStyle>
+        top:[$layer-top||0]; 
+        bottom:[$layer-bottom||0];
+        left: [$layer-left||0];
+        right: [$layer-right||0];
+        z-index: [$index||0];
+    </nodeStyle>
+</xten>
+
+<xten name="fitwidth" element="div">
+    <style>
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    </style>
+    <css>
+        .wx-xten-fitwidth > * {
+            width: 100%;
+            height: auto;
+        }
+
+        .wx-xten-fitwidth > * > img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </css>
+</xten>
+
+<xten name="fitheight" element="div">
+    <style>
+        display: block;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    </style>
+    <css>
+        .wx-xten-fitheight > .wx-xten-image {
+            height: 100%;
+        }
+        .wx-xten-fitheight > .wx-xten-image > img {
+            display: block; 
+            width: auto;
+            height: 100%;
+        }
+    </css>
+</xten>
+
+<xten name="draggable" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        height: auto;
+        width: auto;
+    </style>
+
+    <nodeStyle>
+        overflow: [$overflow||hidden];
+        resize: [$resize||both];
+        cursor: [$cursor||move];
+    </nodeStyle>
+
+    <initElement>
+        <%
+            element.onmousedown = (e) => {
+                const resizeHandleSize = 15;
+                const width = element.offsetWidth;
+                const height = element.offsetHeight;
+
+                const computedStyle = window.getComputedStyle(element);
+                const cursorStyle = computedStyle.getPropertyValue('cursor');
+
+                if (e.clientX > (element.offsetLeft + width - resizeHandleSize) && e.clientY > (element.offsetTop + height - resizeHandleSize))
+                {
+                    return true;
+                }
+
+                var currentX = 0;
+                var currentY = 0;
+
+                currentX = e.clientX;
+                currentY = e.clientY;
+
+                element.classList.add("dragging");
+
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                    element.classList.remove("dragging");
+                };
+
+                document.onmousemove = (e) => {
+                    element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
+                    element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
+                    currentX = e.clientX;
+                    currentY = e.clientY;
+                };
+            };
+        %>
+    </initElement>
+</xten>
+
+<xten name="pos-left" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+    </style>
+
+    <nodeStyle>
+        /*
+        width: [$width||fit-content];
+        height: [$height||fit-content];
+        */
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    </nodeStyle>
+</xten>
+
+<xten name="pos-right" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    </style>
+</xten>
+
+<xten name="pos-bottom" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+    </style>
+</xten>
+
+<xten name="pos-top" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+    </style>
+</xten>
+
+<xten name="pos-top-left" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+    </style>
+</xten>
+
+<xten name="pos-top-right" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        top: 0;
+    </style>
+</xten>
+
+<xten name="pos-bottom-left" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        bottom: 0;
+    </style>
+</xten>
+
+<xten name="pos-bottom-right" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        bottom: 0;
+    </style>
+</xten>
+
+<xten name="pos-middle">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    </style>
+</xten>
+
+
+<!-- not working or incomplete -->
+<xten name="flex" element="div">
+    <style>
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: 100%;
+    </style>
+</xten>

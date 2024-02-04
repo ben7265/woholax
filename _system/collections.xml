@@ -1,0 +1,90 @@
+<!-- default system collections -->
+<collections name="default">
+    <collection name="urls">
+        <struct>
+            <url/>
+            <type default="page">
+                <page/>
+                <redirect/>
+            </type>
+            <pagename/>
+        </struct>
+        <index name="url_index" type="unique">
+            <field>
+                <name>url</name>
+                <value>1</value>
+            </field>
+        </index>
+    </collection>
+
+    <collection name="object_data">
+        <index name="url" type="unique">
+            <field>
+                <name>url</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="name_index" type="unique">
+            <field>
+                <name>name</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="key_index" type="unique">
+            <field>
+                <name>key</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="type_index" type="unique">
+            <field>
+                <name>type</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="data_index">
+            <field>
+                <name>data.$**</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="text_index">
+            <field>
+                <name>data</name>
+                <value>text</value>
+            </field>
+        </index>
+    </collection>
+
+    <collection name="users">
+        <struct>
+            <key type="uuid"/>
+            <email type="email"/>
+            <password/>
+            <name/>
+            <role default="user">
+                <user/>
+                <admin/>
+            </role>
+        </struct>
+
+        <index name="email_index" unique="1">
+            <field>
+                <name>email</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="key_index" unique="1">
+            <field>
+                <name>key</name>
+                <value>1</value>
+            </field>
+        </index>
+    </collection>
+</collections>

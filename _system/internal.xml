@@ -1,0 +1,144 @@
+<xten name="body">
+    <style>
+        padding: 0;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    </style>
+
+    <nodeStyle>
+        background-color: [$dynamic-background-color||#ffffff];
+    </nodeStyle>
+
+    <css>
+        [show] {display: none;}
+    </css>
+
+    <prepend>
+        <configuration name="page-configuration" object-name="_all" />
+        <configuration name="page-configuration" />
+    </prepend>
+</xten>
+
+<xten name="page-container" element="div">
+    <style>
+        width: 100%;
+        margin: auto;
+        background-color: white;
+    </style>
+
+    <nodeStyle>
+        max-width: [$max-width||100%];
+    </nodeStyle>
+</xten>
+
+<xten name="page-content" element="div">
+    <style>
+        min-height: 100vh;
+    </style>
+</xten>
+
+<xten name="background-filter" element="div">
+</xten>
+
+<xten name="_list" element="_hidden">
+    <toolbar name="list-toolbar" class="list-toolbar">
+        <icon name="add">
+            <tooltip>add new list item</tooltip>
+            <click>
+                <transaction name="add-list-item" />
+                <reload />
+            </click>
+        </icon>
+    </toolbar>
+
+    <style>
+        position: relative;
+    </style>
+
+    <css>
+        .wx-xten-list > .wx-view-datalist {
+            position: relative;
+            width: 100%;
+        }
+    </css>
+
+    <init>
+    <%
+        xten._data = {};
+        const _toolbar = node.findChild('toolbar');
+        const toolbar = _toolbar.clone();
+        _toolbar.remove();
+        xten._data.children = node.children;
+        xten._data.name = node.getValue('name');
+
+        node.empty();
+        const list = node.newChild('div');
+        list.attribs.name = 'wx-view-datalist';
+        list.addClass('wx-view-datalist');
+        node.addChild(toolbar);
+    %>
+    </init>
+
+    <load>
+    <%
+        const wrapper = new DomNode('div');
+        const toolbar = node.find('.list-toolbar')[0].clone();
+        const list = node.findNamedChild('div', 'wx-view-datalist').clone();
+        list.empty();
+        wrapper.addChild(list);
+        wrapper.addChild(toolbar);
+
+        node.empty();
+        node.insertChildren(0, wrapper.children);
+
+        const value = await database.inlineValue(node, context, xten);
+        if (!value || !value.length) {
+            node.attribs['item-count'] = '0';
+            return;
+        }
+
+        node.attribs['item-count'] = value.length.toString();
+
+        for (var i = 0; i < value.length; i++) {
+            const listitem = list.newChild('listitem', 'last');
+            xten._data.children.forEach(child => {
+                listitem.addChild(child.clone());
+            });
+            
+            const uid = value[i].uid;
+            processXtens(listitem, context);
+            listitem.iterate((_node) => {
+                if (_node.attribs['list-child']) {
+                    _node.attribs['list-selector'] = xten._data.name + '.$[list-idx]';
+                    _node.attribs['list-idx'] = i.toString();
+                }
+            });
+
+            common.substituteVars(listitem, node.attribs);
+
+            listitem.attribs.id = uid;
+            listitem.attribs.name = node.getValue('name');
+            listitem.attribs['list-idx'] = i.toString();
+            if (i == 0) {
+                listitem.addClass('active');
+            }
+        }
+    %>
+    </load>
+</xten>
+
+<xten name="listitem" element="div">
+    <style>
+        position: relative;
+    </style>
+
+    <toolbar name="list-item-toolbar" right="31px">
+        <icon name="remove">
+            <tooltip>delete list item</tooltip>
+            <click>
+                <transaction name="delete-list-item" />
+                <reload />
+            </click>
+        </icon>
+    </toolbar>
+</xten>

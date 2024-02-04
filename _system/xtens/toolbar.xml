@@ -1,0 +1,15 @@
+<xten name="toolbar" element="div">
+    <style>
+        display: flex;
+        gap: 0;
+    </style>
+
+    <nodeStyle>
+        top: [$top||0];
+        right: [$right||0];
+        left: [$left||auto];
+        bottom: [$bottom||auto];
+        position: [$position||absolute];
+        z-index: [$index||1];
+    </nodeStyle>
+</xten>

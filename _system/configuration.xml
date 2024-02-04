@@ -1,0 +1,328 @@
+<!-- incomplete -->
+<xten name="configuration" element="div">
+    <allow>admin</allow>
+
+    <style>
+        display: none;
+        background-color: white;
+        border-bottom: 3px solid #84bbee;
+        display: flex;
+        align-items: center;
+        background-color: #dfeaf4;
+    </style>
+
+    <css>
+        .wx-xten-configuration .wx-xten-toolbar {
+            position: relative !important;
+            display: flex !important;
+            align-items: center;
+            top: 0;
+            left: 0;
+            right: auto;
+        }
+
+        .wx-xten-configuration .wx-xten-toolbar .wx-xten-tooltip {
+            left: 0;
+            right: auto;
+        }
+
+        .wx-xten-configuration .config-name {
+            margin-right: 15px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+
+        .wx-xten-configuration .page-errors-notification {display: none; margin-left: 10px; color: red; font-weight: bold;}
+        .wx-xten-configuration .wx-xten-toolbar > .close {display: none;}
+        .wx-xten-configuration .wx-xten-toolbar > .save {display: none;}
+        .wx-xten-configuration.background-changed .wx-xten-toolbar > .close {display: inline-block;}
+        .wx-xten-configuration.background-changed .wx-xten-toolbar > .save {display: inline-block;}
+
+        body {
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: var(--page-filter-opacity);
+            background-color: var(--page-filter-color);
+        }
+    </css>
+
+    <cssNode>
+        body::before {z-index: [$index||-1];}
+    </cssNode>
+
+    <view>
+        <row>
+            <column>
+                <div class="config-name">[$name] - [$object-name]</div>
+            </column>
+            <column>
+                <toolbar>
+                    <icon name="landscape" background-color="#dedede">
+                        <tooltip>page background toolbar</tooltip>
+                    </icon>
+
+                    <icon name="save">
+                        <tooltip>upload image</tooltip>
+                        <click fname="_backgroundSaveImage" field-selector="page-configuration.background-image">
+                            <code>
+                                const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                eventCurrentTarget.setAttribute('field-selector', 'page-configuration.background-image');
+                                const result = await wxfns.upload(eventCurrentTarget, 'save-image', null, toolbarParent['changed-file']);
+                                if (result.rc != 'success') {
+                                    wxfns.error('Error in transaction save-image', result.rc);
+                                    return;
+                                }
+                                toolbarParent['uploaded-url'] = result.output;
+                            </code>
+                            <set-style name="background-image" parent="body">
+                                'url(' + toolbarParent['uploaded-url'] + ')'
+                            </set-style>
+                            <set-attrib name="background-image" parent=".wx-xten-configuration">
+                                toolbarParent['uploaded-url']
+                            </set-attrib>
+                            <unset-var name="uploaded-url" />
+                            <unset-var name="changed-file" />
+                            <remove-class classes="background-changed" parent=".wx-xten-configuration" />
+                        </click>
+                    </icon>
+                    <icon name="close">
+                        <tooltip>cancel</tooltip>
+                        <click fname="_backgroundCancelImage">
+                            <set-style name="background-image" parent="body">
+                                toolbarParent.closest('.wx-xten-configuration').getAttribute('background-image');
+                            </set-style>
+                            <unset-var name="changed-file" />
+                            <remove-class classes="background-changed" parent=".wx-xten-configuration" />
+                        </click>
+                    </icon>
+                    <icon name="upload">
+                        <tooltip>select image</tooltip>
+                        <click fname="_backgroundUploadImage">
+                            <selectfile file-type="image/*" file="changed-file" />
+                            <set-style name="background-image" parent="body">
+                                'url(' + URL.createObjectURL(toolbarParent['changed-file']) + ')'
+                            </set-style>
+                            <add-class classes="background-changed" parent=".wx-xten-configuration" />
+                        </click>
+                    </icon>
+                    <icon name="colors">
+                        <tooltip>background color</tooltip>
+                        <click fname="_backgroundColor" field-selector="page-configuration.background-color">
+                            <set-var name="background-color">
+                                toolbarParent.getAttribute('background-color')
+                            </set-var>
+                            <get-value name="background-color" type="color" value="background-color" title="Background Color" />
+                            <save-value name="background-color">
+                                toolbarParent['background-color']
+                            </save-value>
+                            <set-style name="background-color" parent="body">
+                                toolbarParent['background-color']
+                            </set-style>
+                            <set-attrib name="background-color">
+                                toolbarParent['background-color']
+                            </set-attrib>
+                            <unset-var name="background-color" />
+                        </click>
+                    </icon>
+                    <icon name="filter">
+                        <tooltip>filter color</tooltip>
+                        <click fname="_backgroundFilterColor" field-selector="page-configuration.page-filter-color">
+                            <set-var name="page-filter-color">
+                                toolbarParent.getAttribute('page-filter-color')
+                            </set-var>
+                            <get-value name="page-filter-color" type="color" value="page-filter-color" title="Page Filter Color" />
+                            <save-value name="page-filter-color">
+                                toolbarParent['page-filter-color']
+                            </save-value>
+                            <set-css-var name="--page-filter-color" parent="body">
+                                toolbarParent['page-filter-color']
+                            </set-css-var>
+                            <set-attrib name="page-filter-color">
+                                toolbarParent['page-filter-color']
+                            </set-attrib>
+                            <unset-var name="page-filter-color" />
+                        </click>
+                    </icon>
+                    <icon name="glasses">
+                        <tooltip>filter opacity</tooltip>
+                        <click fname="_backgroundFilterOpacity" field-selector="page-configuration.page-filter-opacity">
+                            <set-var name="page-filter-opacity">
+                                toolbarParent.getAttribute('page-filter-opacity')
+                            </set-var>
+                            <get-value name="page-filter-opacity" type="number" min="0" max="1" step="0.01" value="page-filter-opacity" title="Page Background Filter Opacity" />
+                            <save-value name="page-filter-opacity">
+                                toolbarParent['page-filter-opacity']
+                            </save-value>
+                            <set-css-var name="--page-filter-opacity" parent="body">
+                                toolbarParent['page-filter-opacity']
+                            </set-css-var>
+                            <set-attrib name="page-filter-opacity">
+                                toolbarParent['page-filter-opacity']
+                            </set-attrib>
+                            <unset-var name="page-filter-opacity" />
+                        </click>
+                    </icon>
+                    <icon name="delete-landscape">
+                        <tooltip>delete landscape</tooltip>
+                        <click fname="_deletePageBackground">
+                            <code>
+                                const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                const result = await wxfns.transaction(element, 'delete-background', {name: element.getAttribute('name')});
+                                if (result.rc != 'success') {
+                                    wxfns.error('Error in transaction [$name]', result.rc);
+                                    return;
+                                }
+                            </code>
+                            <unset-style name="background-image" parent="body" />
+                            <unset-attrib name="background-image" />
+                            <unset-style name="background-color" parent="body" />
+                            <unset-attrib name="background-color" />
+                            <unset-css-var name="--page-filter-color" parent="body" />
+                            <unset-attrib name="page-filter-color" />
+                            <unset-css-var name="--page-filter-opacity" parent="body" />
+                            <unset-attrib name="page-filter-opacity" />
+                        </click>
+                    </icon>
+                </toolbar>
+            </column>
+            <column>
+                <div class="page-errors-notification">
+                    <icon name="bug">
+                        <tooltip>errors in page</tooltip>
+                    </icon>
+                </div>
+            </column>
+            <column>
+            </column>
+        </row>
+    </view>
+
+    <initElement>
+    <%
+        const access = checkAccess(element);
+        if (access) {
+            element.style.display = "flex";
+            wxfns.addClass(element, 'wx-state-editable');
+        } else {
+            element.style.display = "none";
+            wxfns.removeClass(element, 'wx-state-editable');
+        }
+
+        if (document.querySelector('[error]') && access) {
+            document.querySelector('.page-errors-notification').style.display = 'block';
+        }
+
+        const backgroundImage = element.getAttribute('background-image');
+        if (backgroundImage) {
+            element.parentElement.style['background-image'] = backgroundImage;
+        }
+        else
+        {
+            element.parentElement.style['background-image'] = null;
+        }
+
+        const backgroundColor = element.getAttribute('background-color');
+        if (backgroundColor) {
+            element.parentElement.style['background-color'] = backgroundColor;
+        }
+        else
+        {
+            element.parentElement.style['background-color'] = 'none';
+        }
+
+        const underlayColor = element.getAttribute('page-filter-color');
+        if (underlayColor) {
+            element.parentElement.style.setProperty('--page-filter-color', underlayColor);
+        }
+        else
+        {
+            element.parentElement.style.setProperty('--page-filter-color', 'none');
+        }
+
+        const underlayOpacity = element.getAttribute('page-filter-opacity');
+        if (underlayOpacity) {
+            element.parentElement.style.setProperty('--page-filter-opacity', underlayOpacity);
+        }
+        else
+        {
+            element.parentElement.style.setProperty('--page-filter-opacity', 'none');
+        }
+    %>
+    </initElement>
+
+    <load>
+        <%
+        const value = await database.inlineValue(node, context, xten);
+
+        if (value && value['background-image'])
+        {
+            node.attribs['background-image'] = 'url(' + value['background-image'] + ')';
+        }
+        else
+        {
+            delete node.attribs['background-image'];
+        }
+
+        if (value && value['background-color'])
+        {
+            node.attribs['background-color'] = value['background-color'];
+        }
+        else
+        {
+            delete node.attribs['background-color'];
+        }
+
+        if (value && value['page-filter-color'])
+        {
+            node.attribs['page-filter-color'] = value['page-filter-color'];
+        }
+        else
+        {
+            delete node.attribs['page-filter-color'];
+        }
+
+        if (value && value['page-filter-opacity'])
+        {
+            node.attribs['page-filter-opacity'] = value['page-filter-opacity'];
+        }
+        else
+        {
+            delete node.attribs['page-filter-opacity'];
+        }
+        %>
+    </load>
+
+    <txn name="delete-background">
+    <%
+        const name = attribs.name;
+        const collName = keyData.collection;
+        var objKey = keyData.url == '/' ? '_home' : keyData.url.startsWith('/') ? keyData.url.slice(1) : keyData.url;
+        objKey = attribs['object-name'] || keyData.page || objKey;
+
+        if (!name) {
+            return ({ rc: 'missing name in txn: ' + txn });
+        }
+
+        const value = await database.getFieldValue(objKey, name, attribs, collName);
+        const prevFileURL = value ? value['background-image'] : null;
+        if (prevFileURL) {
+            const prevFilePath = context.config.siteroot + '/public/uploads/' + prevFileURL;
+            files.remove(prevFilePath);
+        }
+
+        return await database.removeFieldValue(objKey, name, keyData, attribs, collName);
+    %>
+    </txn>
+</xten>

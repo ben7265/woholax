@@ -1,0 +1,58 @@
+<view name="v.input" element="div">
+    <row>
+        <column><span class="input_label">[$label]</span></column>
+        <column><input name="[$name]" type="[$type]" placeholder="[$placeholder]"/></column>
+    </row>
+    <span class="input_error"></span>
+</view>
+
+<!-- default system views -->
+<view name="v.loginform">
+    <h1 class="form_heading">[$heading||Login Form]</h1>
+    <div class="form_body">
+        <row>
+            <column><span class="input_label">Email</span></column>
+            <column ratio="4"><input name="email" type="email" placeholder="Email"/></column>
+        </row>
+        <span class="input_error email"></span>
+
+        <row>
+            <column><span class="input_label">Password</span></column>
+            <column ratio="4"><input name="password" type="password" placeholder="Password"/></column>
+        </row>
+        <span class="input_error password"></span>
+
+        <row>
+            <column><input type="checkbox" name="remember" value="remember" /></column>
+            <column ratio="4">Remember Me</column>
+        </row>
+    </div>
+    <div class="form_error"></div>
+    <div style="text-align: center">
+        <button>Login</button>
+    </div>
+</view>
+
+<view name="v.unauthorised">
+    <html>
+        <body>
+            <div>You are not authorised to view this page.</div>
+        </body>
+    </html>
+</view>
+
+<view name="v.notfound">
+    <html>
+        <body>
+            <div>Page not found.</div>
+        </body>
+    </html>
+</view>
+
+<view name="v.error">
+    <html>
+        <body>
+            <div>Error: [$error]</div>
+        </body>
+    </html>
+</view>

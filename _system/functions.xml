@@ -1,0 +1,162 @@
+<function name="code">
+    [$_text]
+</function>
+
+<function name="reload">
+    window.location.reload();
+</function>
+
+<!--function name="xxxtransaction-parent">
+    const result = await wxfns.transaction(toolbarParent, '[$name]', [$data||null]);
+    if (result.rc != 'success') {
+        wxfns.error('Error in transaction [$name]', result.rc);
+        return;
+    }
+    toolbarParent['[$output]'] = result.output;
+</function -->
+
+<function name="transaction">
+    var target = toolbarParent;
+    if ('[$target]' == 'event-target') {
+        target = eventCurrentTarget;
+    }
+    const result = await wxfns.transaction(target, '[$name]', [$data||null]);
+    if (result.rc != 'success') {
+        wxfns.error('Error in transaction [$name]', result.rc);
+        return;
+    }
+    toolbarParent['[$output]'] = result.output;
+</function>
+
+<function name="upload">
+    var formData = null;
+    const result = await wxfns.upload(toolbarParent, '[$name]', null, toolbarParent['[$file]']);
+    if (result.rc != 'success') {
+        wxfns.error('Error in transaction [$name]', result.rc);
+        return;
+    }
+    toolbarParent['[$file-url]'] = result.output;
+</function>
+
+<function name="confirm">
+    if (!await wxfns.confirm('[$_text]', '[$heading||Are you sure?]', '[$yestext||Yes]', '[$notext||No]')) {
+        return;
+    }
+</function>
+
+<function name="inform">
+    await wxfns.inform('[$message]', [$timeout||0]);
+</function>
+
+<function name="error">
+    await wxfns.error('[$heading]', '[$message]');
+</function>
+
+<function name="selectfile">
+    toolbarParent['[$file]'] = await wxfns.selectFile('[$file-type]');
+</function>
+
+<function name="remove-class">
+    wxfns.removeClass(fntarget, '[$classes]');
+</function>
+
+<function name="add-class">
+    wxfns.addClass(fntarget, '[$classes]');
+</function>
+
+<function name="unset-var">
+    delete fntarget['[$name]'];
+</function>
+
+<function name="set-var">
+    if ('[$value||null]' != 'null') {
+        fntarget['[$name]'] = '[$value]';
+    }
+    else
+    {
+        fntarget['[$name]'] = [$_text];
+    }
+</function>
+
+<function name="get-value">
+    const fargs = [$_fargs];
+    fargs.value = toolbarParent[fargs.value];
+    const value = await wxfns.getValue('[$name]', '[$type]', '[$title]', fargs);
+    if (value == null) {
+        return;
+    }
+    fntarget['[$name]'] = value;
+</function>
+
+<function name="log-var">
+    common.info(fntarget['[$name]']);
+</function>
+
+<function name="set-style">
+    if ('[$value||null]' != 'null') {
+        fntarget.style['[$name]'] = '[$value]';
+    }
+    else
+    {
+        fntarget.style['[$name]'] = [$_text];
+    }
+</function>
+
+<function name="unset-style">
+    fntarget.style['[$name]'] = null;
+</function>
+
+<function name="set-attrib">
+    if ('[$value||null]' != 'null') {
+        fntarget.setAttribute('[$name]', '[$value]');
+    }
+    else
+    {
+        fntarget.setAttribute('[$name]', [$_text]);
+    }
+</function>
+
+<function name="unset-attrib">
+    fntarget.removeAttribute('[$name]');
+</function>
+
+<function name="alert">
+    if ('[$message||null]' != 'null') {
+        alert('[$message]');
+    }
+    else
+    {
+        alert([$_text]);
+    }
+</function>
+
+<function name="set-css-var">
+    if ('[$value||null]' != 'null') {
+        fntarget.style.setProperty('[$name]', '[$value]');
+    }
+    else
+    {
+        fntarget.style.setProperty('[$name]', [$_text]);
+    }
+</function>
+
+<function name="unset-css-var">
+    fntarget.style.removeProperty('[$name]');
+</function>
+
+<function name="save-value">
+    <%
+    var result = null;
+    if ('[$value||null]' != 'null') {
+        result = await wxfns.transaction(eventCurrentTarget, 'save-page-data', '[$value]');
+    }
+    else
+    {
+        result = await wxfns.transaction(eventCurrentTarget, 'save-page-data', [$_text]);
+    }
+    if (result && result.rc != 'success') {
+        return;
+    }
+    eventCurrentTarget.result = result;
+    %>
+</function>

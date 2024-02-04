@@ -1,0 +1,24 @@
+<font name="Roboto" weight="400" />
+
+<header css-font-family="Roboto">
+    <row>
+        <column>
+            <fitwidth>
+                <image name="site-logo" object-name="all" alt="Site Logo" />
+            </fitwidth>
+        </column>
+        <column ratio="8">
+            <align horizontal="flex-end">
+                <navbar transform="uppercase" css-margin="0.5rem" item-gap="15px" navitem-hover-style="color: blue">
+                    <navitem href="/">Home</navitem>
+                    <navitem href="blog">Blog</navitem>
+                    <navitem href="contact">Contact</navitem>
+                    <navitem>
+                        <show role="public"><a href="login">Login</a></show>
+                        <show role="logged_in"><logout>Logout</logout></show>
+                    </navitem>
+                </navbar>
+            </align>
+        </column>
+    </row>
+</header>

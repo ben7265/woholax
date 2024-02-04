@@ -1,0 +1,9 @@
+<page url="contact" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+        contact page
+    </container>
+
+    #include includes/footer.xml
+</page>

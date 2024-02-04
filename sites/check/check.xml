@@ -1,0 +1,10 @@
+#include _system/system.xml
+
+<page url="_home">
+    <align>
+        <h1>Welcome to Wohola X</h1>
+    </align>
+    <align>
+        <span>Your installation was successful.</span>
+    </align>
+</page>

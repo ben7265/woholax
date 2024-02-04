@@ -1,0 +1,26 @@
+<xten name="line" element="div">
+    <style>
+        position: relative;        
+    </style>
+
+    <nodeStyle>
+        border-top: [$line-style||1px solid #000000];
+    </nodeStyle>
+
+    <cssNode>
+        #[$id]:before {
+            content: "";
+            width: 100%;
+            border-top: [$before-style||none];
+            position: absolute;
+            top: -5px;
+        }
+        #[$id]:after {
+            content: "";
+            width: 100%;
+            border-top: [$after-style||none];
+            position: absolute;
+            top: 5px;
+        }
+    </cssNode>
+</xten>

@@ -1,0 +1,9 @@
+<page url="blog" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+        blog page
+    </container>
+
+    #include includes/footer.xml
+</page>

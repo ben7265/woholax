@@ -1,0 +1,54 @@
+/* configuration */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* modal */
+
+.modal {
+    min-width: 300px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid darkgrey;
+    box-sizing: border-box;
+}
+
+.modal * {
+    box-sizing: border-box;
+}
+
+.modal .title {
+    padding: 10px;
+    border-bottom: 1px solid darkgrey;
+}
+
+.modal .modal-body {
+    min-height: 50px;
+}
+
+.modal .button-panel {
+    padding: 10px; 
+    border-top: 1px solid darkgrey;
+    text-align: right;
+}
+
+.modal .button-panel .button {
+    padding: 15px;
+}
+
+/* get-value */
+.get-value .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.get-value input {
+    display: block;
+    width: 200px;
+    margin: 10px;
+}
+

@@ -1,0 +1,31 @@
+<_comment>default _system/head.xml file</_comment>
+
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<_blankline/>
+
+<meta name="description" content="[$site-description|| ] [$page-description|| ]" />
+<meta name="keywords" content="[$site-keywords|| ], [$page-keywords || ]" />
+<meta name="author" content="[$author|| ]" />
+
+<_blankline/>
+
+<link rel="icon" href="[$favicon||favicon.ico]" type="image/x-icon" />
+
+<_blankline/>
+
+<meta name="robots" content="[$robots||index,follow]" />
+
+<_blankline/>
+
+<title>[$site-title] - [$page-title]</title>
+<_blankline/>
+
+<script src="/socket.io/socket.io.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+
