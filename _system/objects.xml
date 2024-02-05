@@ -80,7 +80,7 @@
 <view name="object-list-toolbar">
     <toolbar name="object-list-toolbar" class="object-list-toolbar" object-type="[@object-type]" top="[$toolbar-top||0]" right="[$toolbar-right||0]">
         <icon name="add">
-            <tooltip>add [$object-label]</tooltip>
+            <tooltip>add [@object-label]</tooltip>
             <add-object object-type="[@object-type]"/>
         </icon>
     </toolbar>
@@ -134,7 +134,7 @@
         node.attribs['object-label'] = node.getValue('label') || common.toCamelCase(objType);
         const vars = node.vars; /*common.getVariables(node, context);*/
 
-        var pageSize = vars[objType + '-pagesize'] || node.getValue('pagesize') || objConfig['pagesize'];
+        var pageSize = node.getValue('pagesize') || vars[objType + '-pagesize'] || configNode.getValue('pagesize');
         pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
         if (!pageSize) {
             return;
@@ -336,7 +336,7 @@
         var pageSize = node.getValue('pagesize') || vars[objType + '-pagesize'] || configNode.getValue('pagesize');
         pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
 
-        var pageNumber = vars[objType + '-pagenum'] || node.getValue('pagenum');
+        var pageNumber = context.vars[objType + '-pagenum'] || node.getValue('pagenum');
         pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
 
         const sort = node.getValue('sort') || vars[objType + '-sort'] || configNode.getValue('sort') || 'created:-1';

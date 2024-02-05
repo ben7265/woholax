@@ -4,9 +4,12 @@
 
 <db name="wx_demo" />
 
+#include includes/blog-post.xml
+
 #include pages/home.xml
 #include pages/blog.xml
 #include pages/contact.xml
 #include pages/login.xml
 
 #include pages/layout-example.xml
+

@@ -13,7 +13,7 @@
 
 <_blankline/>
 
-<link rel="icon" href="[$favicon||favicon.ico]" type="image/x-icon" />
+<link rel="icon" href="[$favicon||images/favicon.ico]" type="image/x-icon" />
 
 <_blankline/>
 

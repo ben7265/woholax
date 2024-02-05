@@ -1,0 +1,18 @@
+<page url="login" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+
+        <show role="public" style="margin: 200px 0 100px 0">
+            <align>
+                <loginform style="width:500px" heading="Website Admin Login" action="redirect:/" />
+            </align>
+        </show>
+
+        <show role="logged_in">
+            You are already logged in
+        </show>
+    </container>
+
+    #include includes/footer.xml
+</page>

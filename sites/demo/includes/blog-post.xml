@@ -1,0 +1,127 @@
+<object-config name="blog-post">
+    <label>Blog Post</label>
+
+    <page name="default" max-width="900px" redirect="/">
+        #include includes/header.xml
+        <div>some information to show before the object on this page</div>
+        <gap height="20px"/>
+
+        <object object-name="[@object-name]" />
+        <gap height="20px"/>
+
+        <div>some information to show after the object on this page</div>
+        #include includes/footer.xml
+    </page>
+
+    <object-view name="default">
+        <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" />
+        <gap height="20px"/>
+        <textalign>
+            <inline name="blog-title" element="div" object-name="[@object-name]">
+                Add Post Title
+            </inline>
+        </textalign>
+        <gap height="20px"/>
+        <textedit name="blog-desc" element="div" object-name="[@object-name]">
+            Add post description
+        </textedit>
+        <object-list-toolbar />
+    </object-view>
+
+    <list-view name="default">
+        <data-view name="default">
+            <div>Blog Post List</div>
+            <div>
+                <list-items />
+            </div>
+            <div>my footer</div>
+            <object-list-toolbar />
+            <paginator object-type="blog-post" pagesize="[$pagesize]" list-style="padding: 10px;" />
+        </data-view>
+
+        <list-item-view name="default">
+            <div name="list-item">
+                <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" />
+                <gap height="10px"/>
+                <textalign>
+                    <inline name="blog-title" object-name="[@object-name]">
+                        Blog Title
+                    </inline>
+                </textalign>
+                <gap height="10px"/>
+                <value name="blog-description" summary="40" readonly="true" element="div" object-name="[@object-name]">
+                    Blog Post
+                </value>
+                <gap height="10px"/>
+                <a class="continue-link" href="[@url-default]">
+                    <span>Continue Reading...</span>
+                </a>
+                <object-item-toolbar />
+            </div>
+        </list-item-view>
+
+        <empty-view name="default">
+            <div>list is empty</div>
+            <object-list-toolbar />
+        </empty-view>
+    </list-view>
+
+    <list-view name="table">
+        <data-view name="default">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th>image</th>
+                        <th>title</th>
+                        <th><object-list-toolbar /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <list-items />
+                </tbody>
+            </table>
+            <paginator object-type="blog-post" pagesize="[$pagesize]" />
+        </data-view>
+
+        <list-item-view name="default">
+            <tr template="list-item">
+                <td style="width: 150px"><image name="blog-image" object-name="[@object-name]" aspect-ratio="0.75" /></td>
+                <td><value name="blog-title" object-name="[@object-name]">blog title</value></td>
+                <td><object-item-toolbar /></td>
+            </tr>
+        </list-item-view>
+
+        <empty-view name="default">
+            <div>no items in the list</div>
+            <object-list-toolbar />
+        </empty-view>
+    </list-view>
+
+    <list-view name="list">
+        <data-view name="default">
+            <ul>
+                <list-items />
+            </ul>
+            <object-list-toolbar />
+        </data-view>
+
+        <list-item-view name="default">
+            <li object-name="[@object-name]">
+                <row>
+                    <column>
+                        <fitwidth>
+                            <image name="blog-image" object-name="[@object-name]" aspect-ratio="0.75" />
+                        </fitwidth>
+                    </column>
+                    <column ratio="5"><value name="blog-title" object-name="[@object-name]" /></column>
+                </row>
+                <object-item-toolbar />
+            </li>
+        </list-item-view>
+
+        <empty-view name="default">
+            <div>list view is empty</div>
+            <object-list-toolbar />
+        </empty-view>
+    </list-view>
+</object-config>

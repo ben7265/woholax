@@ -4,6 +4,12 @@
     </style>
 </xten>
 
+<xten name="textalign" element="div">
+    <nodeStyle>
+        text-align: [$align||center];
+    </nodeStyle>
+</xten>
+
 <xten name="gap" element="div">
     <mandatory>height</mandatory>
     <nodeStyle>
