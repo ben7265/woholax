@@ -12,6 +12,15 @@ Target audience: any company or person developing websites or web based solution
 The current release is for internal team only but members of public are welcome to download and try it out. The public release would be made towards the end of March, 2024.
 There is a quick start guide in docs folder to get you started. If you like what you see we have Wohola Development Partners who are ready to work with you on your project or you could learn WXML and build the project yourself.
 
+Getting Started
+---------------
+
+1. There is a quick start guide in docs folder and code for a demo system. You can download this on any Windows Server and try out the demo based on the quick start guide. Currently this is a beta internal release only so detailed Developer Guides and Reference Manual would be available when the new release is done.
+2. For any IT services companies or developers who would like to learn WXML or use this in their projects in the meantime can send or post a message. We have free training programs to train companies or developers on Wohola X development.
+
+What is Wohola X?
+-----------------
+
 1. Wohola X is an enterprise grade solution for developing large scale web based solutions quickly and easily. It can be configured to handle websites of any size, scale or traffic. 
 2. Wohola X scales automatically based on server capability. There is no need for external software or any coding for the same. It has a very small footprint, very small code base and fast page processing times so even without any additional configuration it can handle large loads on relatively smaller servers.
 3. Wohola X is the tenth version of Wohola, a long running platform. WX was written from scratch and has been developed with the mindset that one solution should fit all and should take care of potentially ALL problems faced in their web based solutions by developers, managers, testers, server or database administrators, site administrators, users and companies.
@@ -24,6 +33,7 @@ There is a quick start guide in docs folder to get you started. If you like what
 
 Summary Advantages
 ------------------
+
 1. For typical WX projects, for most of the work you do not need
 - Database developers and adminstrators
 - Software architects
@@ -31,14 +41,16 @@ Summary Advantages
 - Server administrators
 - Developers with skills in technologies like PHP, Python, Node.js, Angular, React etc
 - Developers to build admin panels for managing site data
-2. Majority of the work that is done by such developers is managed automatically by WX so project can be done with a smaller team of HTML/CSS developers instead of needing a bigger team of developer with knowledge of PHP, Python, Node.js, Angular, React etc
-3. For most work you only need developers with prior knowledge of HTML and CSS
-4. For building new features you only developers with knowledge of HTML, CSS and Javascript
-5. Any non-technical person can manage the site by clicking on the page and editing images, text etc directly on page
-6. It has security, scalability features in built.
+2. Majority of the work that is done by such developers is managed automatically by WX
+3. Project can be done with a smaller team of HTML/CSS developers instead of needing a bigger team of developer with knowledge of PHP, Python, Node.js, Angular, React etc
+4. For most work you only need developers with prior knowledge of HTML and CSS
+5. New features can be built by developers with knowledge of HTML, CSS and Javascript only
+6. Any non-technical person can manage the site by clicking on the page and editing images, text etc directly on page
+7. Wohola X has security, scalability features in built.
 
 Detailed Advantages
-----------
+-------------------
+
 1. WX uses WXML (Wohola X Markkup Language or Wohola XML) an enhanced version of HTML/CSS so developers with HTML/CSS can do most of the project developement. There is no need for developers to have skills in PHP, Python, Node.js or other such technologies.
 2. There is no need for knowledge of databases, backend code for WXML developers. They only define what the objects look like on the screen. How to save and retrieve data is managed automatically by WX. So there is no need for backend or database developers and database administrators.
 3. WX has its own internal architecture which is scalable, extensible and delployment ready, so there is no need for software architects.
@@ -59,4 +71,4 @@ Limitations
 -----------
 1. Currently WX can only cater to Web Based requirements. It cannot take care of Mobile apps for the time being.
 2. WX is currently restricted to a Windows Server only due to its philosophy that things should either be done automatically by the system or should be easy enough for end user. So this configuration makes it easier for even a non-technical person to learn how to manage the WX server. WX can work on Linux also and if any project requires such infrastructure it can be done for that project.
-3. WX is based on licensing model. You can download and run the wx.exe for learning, testing and other such purposes using localhost. This exe would have certain issues if used to handle live domains without a license file. You can send us a message to find out more about the license file. Meanwhile you can try it out.
+3. WX is based on licensing model. You can download and run the wx.exe freely for learning, development, testing and other such purposes using localhost. This exe would have certain issues if used to handle live domains without a license file. You can send us a message to find out more about the license file. Meanwhile you can try it out with the quick start guide in docs folder and with the demo code within this repository.
