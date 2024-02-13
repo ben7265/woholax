@@ -4,7 +4,6 @@
     <style>
         display: inline-block;
     </style>
-
     <css>
         .inline._unsaved_inline {
             border: 1px solid yellow;

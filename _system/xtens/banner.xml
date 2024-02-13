@@ -3,10 +3,9 @@
     <mandatory>aspect-ratio</mandatory>
     <style>
         position: relative;
-        background-color: #efefef;
     </style>
 
-    <css>
+    <css enhance="append">
         .wx-xten-banner > .wx-view-datalist {
             display: flex;
             position: relative;
@@ -16,140 +15,116 @@
         .wx-xten-banner > .wx-view-datalist > .wx-xten-listitem {
             display: none;
             width: 100%;
-            aspect-ratio: [$aspect-ratio||1];
         }
 
         .wx-xten-banner > .wx-view-datalist > .wx-xten-listitem.active {
             display: block;
         }
 
-        .wx-xten-banner .list-item-toolbar {display: none;}
-        .wx-xten-banner.wx-state-editable .list-item-toolbar {display: inline-block;}
-        .wx-xten-banner .list-item-toolbar {display: none;}
-        .wx-xten-banner.wx-state-editable .list-toolbar {display: inline-block;}
-        .wx-xten-banner .banner-controls {display: none;}
-        .wx-xten-banner.wx-state-editable .banner-controls {display: inline-block;}
+        .wx-xten-banner .banner-controls {display: display-block;}
     </css>
 
-    <!--toolbar>
-        <icon name="info">
-            <tooltip>extra buttons</tooltip>
-        </icon>
-    </toolbar -->
+    <cssNode>
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
+            aspect-ratio: [$aspect-ratio||1];
+        }
+    </cssNode>
 
     <view>
-        <cover>
-            <image name="banner-image" list-child="true" list-selector="[$name].$[list-idx]" aspect-ratio="[$aspect-ratio]" />
-        </cover>
-    </view>
-
-    <data>
-        <pos-left class="banner-controls">
+        <pos-left name="banner-left-button" class="banner-controls">
             <icon name="left">
-                <click>
+                <click name="_fnBannerLeftClick">
                 <%
                     const element = event.target.closest('.wx-xten-banner');
                     var active = element.querySelector('.wx-xten-listitem.active');
-                    const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
+                    idx = parseInt(active ? active.getAttribute('list-idx') : '0');
+                    if (active) {
+                        active.classList.remove('active');
+                    }
                     var total = element.querySelectorAll('.wx-xten-listitem').length;
-                    active.classList.remove('active');
                     const next = idx == 0 ? total - 1 : idx - 1;
                     const target = element.querySelector('.wx-xten-listitem[list-idx="' + next.toString() + '"]');
-                    target.classList.add('active');
-                    const listToolbar = element.querySelector('.list-toolbar');
-                    const itemToolbar = target.querySelector('.list-item-toolbar');
-                    adjustToolbarPosition([listToolbar, itemToolbar]);
+                    target && target.classList.add('active');
                 %>
                 </click>
             </icon>
         </pos-left>
 
-        <pos-right class="banner-controls">
+        <pos-right name="banner-right-button" class="banner-controls">
             <icon name="right">
-                <click>
+                <click name="_fnBannerRightClick">
                 <%
                     const element = event.target.closest('.wx-xten-banner');
                     var active = element.querySelector('.wx-xten-listitem.active');
                     const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
+                    if (active) {
+                        active.classList.remove('active');
+                    }
                     var total = element.querySelectorAll('.wx-xten-listitem').length;
-                    active.classList.remove('active');
                     const next = idx == total - 1 ? 0 : idx + 1;
                     const target = element.querySelector('.wx-xten-listitem[list-idx="' + next.toString() + '"]');
-                    target.classList.add('active');
-                    const listToolbar = element.querySelector('.list-toolbar');
-                    const itemToolbar = target.querySelector('.list-item-toolbar');
-                    adjustToolbarPosition([listToolbar, itemToolbar]);
+                    target && target.classList.add('active');
                 %>
                 </click>
             </icon>
         </pos-right>
 
-        <pos-bottom class="banner-controls">
-            <repeat n="[$item-count]">
-                <div name="slide-changer" style="display: inline-block; cursor: pointer; padding: 2px;">
-                    <span>o</span>
-                    <click>
-                    <%
-                        const element = event.target.closest('.wx-xten-banner');
-                        var active = element.querySelector('.wx-xten-listitem.active');
-                        const idx = active.getAttribute('list-idx');
-                        active.classList.remove('active');
-                        const clicked = event.target.closest('[name="slide-changer"]');
-                        const target = element.querySelector('.wx-xten-listitem[list-idx="' + clicked.getAttribute('repeat-idx') + '"]');
-                        target.classList.add('active');
-                        const listToolbar = element.querySelector('.list-toolbar');
-                        const itemToolbar = target.querySelector('.list-item-toolbar');
-                        adjustToolbarPosition([listToolbar, itemToolbar]);
-                    %>
-                    </click>
-                </div>
-            </repeat>
+        <pos-bottom name="banner-bottom-toolbar" class="banner-controls" bottom="30px">
+            <toolbar name="slide-changer">
+            </toolbar>
         </pos-bottom>
-    </data>
+    </view>
 
     <initElement>
+    <%
         const item = element.querySelector('.wx-xten-listitem');
         if (item) {
             item.classList.add('active');
         }
+
+        const icons = element.querySelectorAll('.change-slide');
+        icons.forEach(_icon => {
+            _icon.addEventListener('click', (event) => {
+                event.preventDefault();
+                const element = event.target.closest('.wx-xten-banner');
+                var active = element.querySelector('.wx-xten-listitem.active');
+                if (active) {
+                    const idx = active.getAttribute('list-idx');
+                    active.classList.remove('active');
+                }
+                const target = element.querySelector('.wx-xten-listitem[list-idx="' + _icon.getAttribute('slide-idx') + '"]');
+                target && target.classList.add('active');
+            });
+        });
+    %>
     </initElement>
 
-    <init>
-    <%
-        xten._data = {};
-        const slide = xten.view[0].node;
-        const placeholder = slide.newChild('container');
-        const _toolbar = node.findChild('toolbar');
-        const toolbar = _toolbar.clone();
-        _toolbar.remove();
-        placeholder.insertChildren(0, node.children);
-        xten._data.children = slide.children;
-        xten._data.name = node.getValue('name');
-        slide.attribs.element = '_hidden';
-
-        node.empty();
-        const list = node.newChild('div');
-        list.attribs.name = 'wx-view-datalist';
-        list.addClass('wx-view-datalist');
-        node.addChild(toolbar);
-    %>
-    </init>
-
     <load enhance="append">
-        <%
-        const data = xten.data.node;
-        const left = data.findChild('pos-left').clone();
-        processXtens(left, context);
-        node.addChild(left);
-        
-        const right = data.findChild('pos-right').clone();
-        processXtens(right, context);
-        node.addChild(right);
-        
-        const bottom = data.findChild('pos-bottom').clone();
-        common.substituteVars(bottom, node.attribs);
-        processXtens(bottom, context);
-        node.addChild(bottom);
-        %>
+    <%
+        const bottom = node.findChild('pos-bottom') || node.findNamedChild('div', 'banner-bottom-toolbar');
+        const changer = bottom.findChild('toolbar') || bottom.findNamedChild('div', 'slide-changer');
+        changer.empty();
+        for (var i = 0; i < value.length; i++) {
+            const icon = changer.newChild('icon');
+            icon.attribs.name = 'circle';
+            icon.attribs['slide-idx'] = i.toString();
+            icon.addClass('change-slide');
+            const tooltip = icon.newChild('tooltip');
+            tooltip.text = 'Slide ' + (i + 1).toString();
+        }
+        xtensions.processXtens(bottom, context);
+    %>
     </load>
+</xten>
+
+<xten name="change-slide" element="div">
+    <view>
+        <div style="background-color: #fefefe">
+            <circle style="background-color: #aaaaaa" css-width="50px" css-height="50px">
+                <align>
+                    {$eval([$list-idx] + 1)}
+                </align>
+            </circle>
+        </div>
+    </view>
 </xten>

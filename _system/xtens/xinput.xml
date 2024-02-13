@@ -1,0 +1,38 @@
+<xten name="xinput" element="div">
+    <mandatory>name, type</mandatory>
+
+    <css>
+        .wx-xten-xinput[type="textarea"] label {
+            display: inline-block;
+        }
+
+        .wx-xten-xinput textarea {
+            width: 100%;
+            min-height: 100px;
+        }
+
+        .wx-xten-xinput input {
+            width: 100%;
+            height: calc(100%);
+        }
+    </css>
+
+    <view>
+        <row item-gap="15px">
+            <column>
+                <label xten="inline" name="input-label-[$name]">
+                    [$label||editable label]
+                </label>
+            </column>
+            <column ratio="3">
+                <if condition="node.closest('.wx-xten-xinput').attribs.type != 'textarea'">
+                    <input name="[$name]" type="[$type]" required="[$required||false]" class="xinput" />
+                </if>
+                <if condition="node.closest('.wx-xten-xinput').attribs.type == 'textarea'">
+                    <textarea name="[$name]" required="[$required||false]" class="xinput" />
+                </if>
+            </column>
+        </row>
+        <gap height="5px"/>
+    </view>
+</xten>

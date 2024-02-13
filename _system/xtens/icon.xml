@@ -1,7 +1,6 @@
 <xten name="icon" element="div">
     <view>
         <div name="icon-code">
-
         </div>
     </view>
     <style>
@@ -23,36 +22,46 @@
         <%
         const name = node.getValue('name');
         const code = node.findNamedChild('div', 'icon-code');
-        if (!globals.icons) {
-            globals.icons = {};
+        /*
+        if (!context.globals.icons) {
+            context.globals.icons = {};
         }
 
-        if (globals.icons[name]) {
-            code.addChild(globals.icons[name].clone());
+        if (context.globals.icons[name]) {
+            code.addChild(context.globals.icons[name].clone());
             return;
         }
-
-        const result = files.read('public/icons/' + name + '.svg', context.config.siteroot);
+        */
+        const result = files.read('public/icons/' + name + '.svg', context.siteRoot);
         if (result.rc != 'success') {
             const child = code.newChild('div');
             child.text = '.';
         }
         const filepath = 'public/icons/' + name + '.svg';
-        const _lines = preprocessor(filepath, context.config.siteroot);
+        const _lines = preprocessor(filepath, context.siteRoot);
         if (!_lines) {
             common.error('could not parse file : ' + filepath);
             node.attribs.error('could not parse file : ' + filepath);
             return;
         }
-        const root = parser(_lines, filepath, context.config.siteRoot);
+        const root = parser(_lines, filepath, context.siteRoot);
         const svg = root.findChildren('svg')[0];
         if (!svg.attribs.viewBox) {
             svg.attribs.viewBox = '0 0 ' + svg.attribs.width + ' ' + svg.attribs.height;
-            delete svg.attribs.width;
-            delete svg.attribs.height;
         }
+        delete svg.attribs.width;
+        delete svg.attribs.height;
+
+        const defs = svg.findChild('defs');
+        if (defs) {
+            defs.remove();
+            const g = svg.findChild('g');
+            delete g.attribs['clip-path'];
+        }
+
         code.addChild(svg);
-        globals.icons[name] = svg.clone();
+        
+        /* context.globals.icons[name] = svg.clone(); */
         %>
     </init>
 </xten>

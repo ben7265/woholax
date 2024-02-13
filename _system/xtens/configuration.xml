@@ -19,10 +19,12 @@
             top: 0;
             left: 0;
             right: auto;
+            z-index: 0;
         }
 
         .wx-xten-configuration .wx-xten-toolbar .wx-xten-tooltip {
             left: 0;
+            z-index: 1;
             right: auto;
         }
 
@@ -31,7 +33,6 @@
             margin-left: 5px;
             font-weight: bold;
         }
-
 
         .wx-xten-configuration .page-errors-notification {display: none; margin-left: 10px; color: red; font-weight: bold;}
         .wx-xten-configuration .wx-xten-toolbar > .close {display: none;}
@@ -65,7 +66,7 @@
     <view>
         <row>
             <column>
-                <div class="config-name">[$name] - [$object-name]</div>
+                <div class="config-name">[$name] - [$url]</div>
             </column>
             <column>
                 <toolbar>
@@ -79,9 +80,15 @@
                             <code>
                                 const element = eventCurrentTarget.closest('[xten="configuration"]');
                                 eventCurrentTarget.setAttribute('field-selector', 'page-configuration.background-image');
+                                if (element.getAttribute('object-name')) {
+                                    eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));
+                                }
+                                else
+                                {
+                                    eventCurrentTarget.removeAttribute('object-name');
+                                }
                                 const result = await wxfns.upload(eventCurrentTarget, 'save-image', null, toolbarParent['changed-file']);
                                 if (result.rc != 'success') {
-                                    wxfns.error('Error in transaction save-image', result.rc);
                                     return;
                                 }
                                 toolbarParent['uploaded-url'] = result.output;
@@ -124,9 +131,22 @@
                                 toolbarParent.getAttribute('background-color')
                             </set-var>
                             <get-value name="background-color" type="color" value="background-color" title="Background Color" />
-                            <save-value name="background-color">
-                                toolbarParent['background-color']
-                            </save-value>
+                            <code>
+                                const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                eventCurrentTarget.setAttribute('field-selector', 'page-configuration.background-color');
+                                if (element.getAttribute('object-name')) {
+                                    eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));
+                                }
+                                else
+                                {
+                                    eventCurrentTarget.removeAttribute('object-name');
+                                }
+                                const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['background-color']);
+                                if (result.rc != 'success') {
+                                    return;
+                                }
+                                toolbarParent['uploaded-url'] = result.output;
+                            </code>
                             <set-style name="background-color" parent="body">
                                 toolbarParent['background-color']
                             </set-style>
@@ -143,9 +163,22 @@
                                 toolbarParent.getAttribute('page-filter-color')
                             </set-var>
                             <get-value name="page-filter-color" type="color" value="page-filter-color" title="Page Filter Color" />
-                            <save-value name="page-filter-color">
-                                toolbarParent['page-filter-color']
-                            </save-value>
+                            <code>
+                                const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-color');
+                                if (element.getAttribute('object-name')) {
+                                    eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));
+                                }
+                                else
+                                {
+                                    eventCurrentTarget.removeAttribute('object-name');
+                                }
+                                const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['page-filter-color']);
+                                if (result.rc != 'success') {
+                                    return;
+                                }
+                                toolbarParent['uploaded-url'] = result.output;
+                            </code>
                             <set-css-var name="--page-filter-color" parent="body">
                                 toolbarParent['page-filter-color']
                             </set-css-var>
@@ -162,9 +195,23 @@
                                 toolbarParent.getAttribute('page-filter-opacity')
                             </set-var>
                             <get-value name="page-filter-opacity" type="number" min="0" max="1" step="0.01" value="page-filter-opacity" title="Page Background Filter Opacity" />
-                            <save-value name="page-filter-opacity">
-                                toolbarParent['page-filter-opacity']
-                            </save-value>
+                            <code>
+                                const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-opacity');
+                                if (element.getAttribute('object-name')) {
+                                    eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));
+                                }
+                                else
+                                {
+                                    eventCurrentTarget.removeAttribute('object-name');
+                                }
+                                eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-opacity');
+                                const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['page-filter-opacity']);
+                                if (result.rc != 'success') {
+                                    return;
+                                }
+                                toolbarParent['uploaded-url'] = result.output;
+                            </code>
                             <set-css-var name="--page-filter-opacity" parent="body">
                                 toolbarParent['page-filter-opacity']
                             </set-css-var>
@@ -179,9 +226,15 @@
                         <click fname="_deletePageBackground">
                             <code>
                                 const element = eventCurrentTarget.closest('[xten="configuration"]');
+                                if (element.getAttribute('object-name')) {
+                                    eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));
+                                }
+                                else
+                                {
+                                    eventCurrentTarget.removeAttribute('object-name');
+                                }
                                 const result = await wxfns.transaction(element, 'delete-background', {name: element.getAttribute('name')});
                                 if (result.rc != 'success') {
-                                    wxfns.error('Error in transaction [$name]', result.rc);
                                     return;
                                 }
                             </code>
@@ -260,6 +313,10 @@
     %>
     </initElement>
 
+    <init>
+        common.substituteVars(node, node.attribs, true);
+    </init>
+
     <load>
         <%
         const value = await database.inlineValue(node, context, xten);
@@ -304,23 +361,16 @@
 
     <txn name="delete-background">
     <%
-        const name = attribs.name;
-        const collName = keyData.collection;
-        var objKey = keyData.url == '/' ? '_home' : keyData.url.startsWith('/') ? keyData.url.slice(1) : keyData.url;
-        objKey = attribs['object-name'] || keyData.page || objKey;
+        const objKey = attribs['object-name'] || context['object-name'];
 
-        if (!name) {
-            return ({ rc: 'missing name in txn: ' + txn });
-        }
-
-        const value = await database.getFieldValue(objKey, name, attribs, collName);
+        const value = await database.getFieldValue(objKey, attribs.name, attribs);
         const prevFileURL = value ? value['background-image'] : null;
         if (prevFileURL) {
-            const prevFilePath = context.config.siteroot + '/public/uploads/' + prevFileURL;
+            const prevFilePath = context.siteRoot + '/public/uploads/' + prevFileURL;
             files.remove(prevFilePath);
         }
 
-        return await database.removeFieldValue(objKey, name, keyData, attribs, collName);
+        return await database.removeFieldValue(objKey, attribs.name, attribs);
     %>
     </txn>
 </xten>

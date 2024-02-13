@@ -1,0 +1,9 @@
+<xten name="pos-bottom" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        left: 50%;
+        bottom: [$bottom||0];
+        transform: translate(-50%, -100%);
+    </style>
+</xten>

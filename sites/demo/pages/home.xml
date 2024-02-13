@@ -9,13 +9,12 @@
         <gap height="30px" />
 
         <banner name="banner" aspect-ratio="3.5">
-            <container css-height="100%">
-                <pos-middle>
-                    <inline name="banner-label-heading" list-child="true">banner label</inline>
-                    <gap height="30px"/>
-                    <inline name="banner-label-text" list-child="true">banner label</inline>
-                </pos-middle>
-            </container>
+            <image name="slide-image" list-child="true" translate-y="-50%" />
+            <pos-middle>
+                <inline name="banner-label-heading" list-child="true">banner label</inline>
+                <gap height="10px"/>
+                <inline name="banner-label-text" list-child="true">banner text</inline>
+            </pos-middle>
         </banner>
 
         <gap height="30px" />
@@ -58,8 +57,8 @@
 
         <list name="featured" item-gap="32px" orientation="row" css-min-height="200px">
             <align>
-                <circle class="featured-image-circle" style="border:5px solid [$border-color]">
-                    <image name="feature-image" list-child="true" toolbar-top="calc(50% - 15px)" toolbar-left="calc(50% - 15px)" aspect-ratio="1"/>
+                <circle class="featured-image-circle" style="border:5px solid red">
+                    <image name="feature-image" list-child="true" toolbar-top="calc(50% - 15px)" toolbar-left="calc(50% - 15px)" aspect-ratio="1" />
                 </circle>
             </align>
             <align height="fit-content">

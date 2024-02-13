@@ -11,7 +11,8 @@
         gap: [$item-gap||0];
     </nodeStyle>
     <css>
-        .wx-xten-navbar .wx-xten-navitem {flex: [$nav-item-flex||1 1 auto]; text-align: [$align-navitem||center]}
+        .wx-xten-navbar .wx-xten-navitem {flex: [$nav-item-flex||1 0 0]; text-align: [$align-navitem||center]; justify-content: center;}
+        .wx-xten-navbar > .wx-xten-navgroup {flex: [$nav-item-flex||1 0 0]; text-align: [$align-navitem||center]; justify-content: center;}
         .wx-xten-navbar .wx-xten-navitem::first {padding-left: 0;}
         .wx-xten-navbar .wx-xten-navitem::last {padding-right: 0;}
     </css>
@@ -21,7 +22,7 @@
         #[$id] > .wx-xten-navitem { text-decoration: none; [$navitem-style|| ] }
         #[$id] > .wx-xten-navitem:hover { [$navitem-hover-style|| ] }
 
-        #[$id] > .wx-xten-navgroup:hover > .navclass-column {display:flex;position:absolute;top:[$nav-top];left:[$nav-left||0];}
+        #[$id] > .wx-xten-navgroup:hover > .navclass-column {display:flex;position:absolute;top:[$nav-top||0];left:[$nav-left||0];}
         #[$id] > .wx-xten-navgroup:hover > .navclass-row {display:flex;position:absolute;top:[$nav-top||0];left:[$nav-left||0];}
 
         #[$id] > .wx-xten-navgroup > .wx-xten-navitem { [$navitem-style|| ] }

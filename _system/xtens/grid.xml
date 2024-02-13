@@ -1,18 +1,10 @@
 <xten name="grid" extend="_list" element="div">
     <allow>owner, admin</allow>
     <mandatory>columns</mandatory>
-    <css>
+    <css enhance="append">
         .wx-xten-grid > .wx-view-datalist {
-            display: flex;
-            position: relative;
             flex-wrap: wrap;
-            width: 100%;
         }
-
-        .wx-xten-grid .list-item-toolbar {display: none;}
-        .wx-xten-grid.wx-state-editable .list-item-toolbar {display: inline-block;}
-        .wx-xten-grid .list-toolbar {display: none;}
-        .wx-xten-grid.wx-state-editable .list-toolbar {display: inline-block; }
     </css>
     <cssNode>
         #[$id] > .wx-view-datalist {
@@ -25,13 +17,7 @@
             flex-shrink: [$shrink||0];
             flex-basis: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] ); 
             width: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] );
-            [$listitem-style|| ];
         }
     </cssNode>
-    <!-- cssPhone>
-        .wx-xten-grid > .wx-view-datalist {
-            orientation: column;
-        }
-    </cssPhone -->
 </xten>
 

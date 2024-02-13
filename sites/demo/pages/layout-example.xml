@@ -1,4 +1,4 @@
-<page url="layout-example" max-width="[$max-width]">
+<page url="layout-example" max-width="[#max-width]">
     #include includes/header.xml
 
     <container name="page-body">

@@ -1,0 +1,2549 @@
+{
+  "tag": "page",
+  "attribs": {
+    "url": "layout-example",
+    "max-width": "1000px",
+    "type": "static"
+  },
+  "children": [
+    {
+      "tag": "html",
+      "attribs": {
+        "child-idx": 0
+      },
+      "children": [
+        {
+          "tag": "head",
+          "attribs": {
+            "child-idx": 0
+          },
+          "children": [],
+          "text": null
+        },
+        {
+          "tag": "body",
+          "attribs": {
+            "xten": "body",
+            "class": "wx-xten-body",
+            "element": "body",
+            "id": "x-e76a981f-5451-495f-95f0-a16acf153da9-7730",
+            "child-idx": 1
+          },
+          "children": [
+            {
+              "tag": "configuration",
+              "attribs": {
+                "name": "page-configuration",
+                "class": "has-load wx-xten-configuration page-configuration",
+                "xten": "configuration",
+                "element": "div",
+                "id": "x-aebfd917-ce86-4976-8067-0c56056ad65c-3506",
+                "allow": "admin",
+                "child-idx": 0
+              },
+              "children": [
+                {
+                  "tag": "row",
+                  "attribs": {
+                    "xten": "row",
+                    "class": "wx-xten-row",
+                    "element": "div",
+                    "id": "x-36fcb8fa-9b45-4fd6-981b-b4910132f5b4-9861",
+                    "child-idx": 0
+                  },
+                  "children": [
+                    {
+                      "tag": "column",
+                      "attribs": {
+                        "xten": "column",
+                        "class": "wx-xten-column",
+                        "element": "div",
+                        "id": "x-d35abcf1-9553-40b9-ba28-bd0eb92f10d5-9227",
+                        "child-idx": 0
+                      },
+                      "children": [
+                        {
+                          "tag": "div",
+                          "attribs": {
+                            "class": "config-name",
+                            "child-idx": 0
+                          },
+                          "children": [],
+                          "text": "page-configuration - [$url]"
+                        }
+                      ],
+                      "text": null
+                    },
+                    {
+                      "tag": "column",
+                      "attribs": {
+                        "xten": "column",
+                        "class": "wx-xten-column",
+                        "element": "div",
+                        "id": "x-0bd05fd6-f4a6-40e9-aaca-cf4f873cbe9f-4481",
+                        "child-idx": 1
+                      },
+                      "children": [
+                        {
+                          "tag": "toolbar",
+                          "attribs": {
+                            "xten": "toolbar",
+                            "class": "wx-xten-toolbar",
+                            "element": "div",
+                            "id": "x-72af2387-3132-42eb-8c39-a3841fc29986-6823",
+                            "child-idx": 0
+                          },
+                          "children": [
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "landscape",
+                                "background-color": "#dedede",
+                                "class": "tooltip-parent wx-xten-icon landscape",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-c79c4272-3a81-484a-b3b4-5d381d9e74c9-1288",
+                                "child-idx": 0
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-37987cf2-fb25-46e4-8fdc-0c2709af1148-596",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "page background toolbar"
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-95 -59)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M129 92.94C129 94.641 127.621 96.02 125.92 96.02 124.219 96.02 122.84 94.641 122.84 92.94 122.84 91.24 125.92 86.78 125.92 86.78 125.92 86.78 129 91.24 129 92.94Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M135.56 91.18C135.56 92.395 134.575 93.38 133.36 93.38 132.145 93.38 131.16 92.395 131.16 91.18 131.16 89.97 133.36 86.78 133.36 86.78 133.36 86.78 135.56 90 135.56 91.18Z",
+                                                "child-idx": 1
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M120.6 91.18C120.682 92.3923 119.766 93.4414 118.553 93.5232 117.341 93.6051 116.292 92.6887 116.21 91.4765 116.203 91.3778 116.203 91.2787 116.21 91.18 116.21 89.97 118.4 86.78 118.4 86.78 118.4 86.78 120.6 90 120.6 91.18Z",
+                                                "child-idx": 2
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M140.84 80.84C140.849 78.5425 138.993 76.6729 136.696 76.6641 136.463 76.6632 136.23 76.6819 136 76.72L136 76.66C135.997 73.7495 133.635 71.3923 130.725 71.395 130.166 71.3956 129.611 71.485 129.08 71.66 127.413 68.5555 123.546 67.3897 120.441 69.0563 118.411 70.1462 117.126 72.2461 117.08 74.55 114.221 73.9769 111.438 75.8301 110.865 78.6893 110.292 81.5485 112.145 84.331 115.005 84.9041 115.257 84.9547 115.513 84.9867 115.77 85L136.88 85C139.094 84.8833 140.833 83.0576 140.84 80.84Z",
+                                                "child-idx": 3
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M137.33 123C143.71 119.689 150.812 118.013 158 118.12L158.42 118.12C152.999 113.765 146.301 111.306 139.35 111.12 134.726 111.104 130.155 112.104 125.96 114.05 130.331 116.21 134.203 119.259 137.33 123Z",
+                                                "child-idx": 4
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M107.51 134C123.45 132.74 131.76 126.78 132.31 126.38 133.08 125.723 133.888 125.112 134.73 124.55 122.4 110.29 100 112 100 112L100 134.31Z",
+                                                "child-idx": 5
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M182.46 129.41C181.687 128.688 180.865 128.019 180 127.41L180 115.7C183.389 114.527 185.618 111.284 185.5 107.7 185.5 102.7 179.62 91.52 178 91.52 176.38 91.52 170.5 102.74 170.5 107.7 170.382 111.284 172.611 114.527 176 115.7L176 125.08C172.214 123.266 168.163 122.068 164 121.53L164 101.76C168.64 100.76 172.14 96.06 172.14 89.51 172.14 82.05 164.43 66 162 66 159.57 66 151.86 82.05 151.86 89.51 151.86 96.06 155.36 100.72 160 101.76L160 121.17C159.32 121.17 158.64 121.12 158 121.12 148.62 121.12 139.94 123.91 134.24 128.75 134.14 128.82 125.35 135.65 107.73 137.02L100 137 100 148 186 148 186 132.21Z",
+                                                "child-idx": 6
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "save",
+                                "class": "tooltip-parent wx-xten-icon save",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-5b8ac4b5-7e80-4268-bb62-490666f0896d-9831",
+                                "onclick": "_backgroundSaveImage(event)",
+                                "child-idx": 1
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-ac790b43-cc8c-486c-8f50-f0f5fedfca88-2128",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "upload image"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundSaveImage",
+                                    "field-selector": "page-configuration.background-image",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-0c24856a-f0c7-40a7-9e55-ec781f65f120-4805",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "code",
+                                      "attribs": {
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "const element = eventCurrentTarget.closest('[xten=\"configuration\"]');eventCurrentTarget.setAttribute('field-selector', 'page-configuration.background-image');if (element.getAttribute('object-name')) {eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));}else{eventCurrentTarget.removeAttribute('object-name');}const result = await wxfns.upload(eventCurrentTarget, 'save-image', null, toolbarParent['changed-file']);if (result.rc != 'success') {return;}toolbarParent['uploaded-url'] = result.output;"
+                                    },
+                                    {
+                                      "tag": "set-style",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "parent": "body",
+                                        "class": "background-image",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": "'url(' + toolbarParent['uploaded-url'] + ')'"
+                                    },
+                                    {
+                                      "tag": "set-attrib",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "parent": ".wx-xten-configuration",
+                                        "class": "background-image",
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['uploaded-url']"
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "uploaded-url",
+                                        "class": "uploaded-url",
+                                        "child-idx": 3
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "changed-file",
+                                        "class": "changed-file",
+                                        "child-idx": 4
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "remove-class",
+                                      "attribs": {
+                                        "classes": "background-changed",
+                                        "parent": ".wx-xten-configuration",
+                                        "child-idx": 5
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-592 -312)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M626 336 632 336 632 351 626 351Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M658 355 622 355 622 332 658 332 658 355ZM640 381C634.5 381 630 376.5 630 371 630 365.5 634.5 361 640 361 645.5 361 650 365.5 650 371 650 376.5 645.5 381 640 381ZM670 326 658 326 622 326 616 326 606 336 606 390C606 392.2 607.8 394 610 394L670 394C672.2 394 674 392.2 674 390L674 330C674 327.8 672.2 326 670 326Z",
+                                                "child-idx": 1
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M637 368 643 368 643 374 637 374Z",
+                                                "child-idx": 2
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "close",
+                                "class": "tooltip-parent wx-xten-icon close",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-d49f27e8-14ec-4dca-a40f-2b3730e3722c-7400",
+                                "onclick": "_backgroundCancelImage(event)",
+                                "child-idx": 2
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-c4d20599-ccf0-453c-995c-7f66a438654a-9520",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "cancel"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundCancelImage",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-22d9adce-fe8a-44a2-b219-d87b4fa5fb37-573",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "set-style",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "parent": "body",
+                                        "class": "background-image",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent.closest('.wx-xten-configuration').getAttribute('background-image');"
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "changed-file",
+                                        "class": "changed-file",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "remove-class",
+                                      "attribs": {
+                                        "classes": "background-changed",
+                                        "parent": ".wx-xten-configuration",
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-592 -312)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M675.4 333.1 666.9 324.6 640 351.5 613.1 324.6 604.6 333.1 631.5 360 604.6 386.9 613.1 395.4 640 368.5 666.9 395.4 675.4 386.9 648.5 360Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "upload",
+                                "class": "tooltip-parent wx-xten-icon upload",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-92f4d8ee-ef71-46eb-b01d-b8f53e55542f-6308",
+                                "onclick": "_backgroundUploadImage(event)",
+                                "child-idx": 3
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-d97ac91d-c8aa-4d18-aee8-5807063b4629-3716",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "select image"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundUploadImage",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-c948973d-2591-4af9-8775-13a8ac900bfe-1349",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "selectfile",
+                                      "attribs": {
+                                        "file-type": "image/*",
+                                        "file": "changed-file",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "set-style",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "parent": "body",
+                                        "class": "background-image",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": "'url(' + URL.createObjectURL(toolbarParent['changed-file']) + ')'"
+                                    },
+                                    {
+                                      "tag": "add-class",
+                                      "attribs": {
+                                        "classes": "background-changed",
+                                        "parent": ".wx-xten-configuration",
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-1012 -101)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M1028.22 162.925C1025.16 161.801 1022.65 159.513 1021.26 156.556 1019.38 152.376 1019.87 147.514 1022.53 143.786 1025.24 140.107 1029.77 138.239 1034.29 138.936L1037.84 139.526 1037.84 135.656C1037.87 128.572 1042.69 122.405 1049.55 120.656 1056.44 118.996 1063.55 122.315 1066.71 128.656L1067.92 131.066 1070.43 130.176C1074.19 128.851 1078.35 129.433 1081.6 131.736 1084.83 134.101 1086.74 137.862 1086.75 141.866L1086.75 144.986 1090.83 144.986C1096.01 145.181 1100.06 149.539 1099.86 154.722 1099.68 159.669 1095.68 163.623 1090.73 163.756L1085.48 163.756 1072.52 163.734 1072.52 169.966 1080.17 169.986 1090.73 169.986C1099.37 169.782 1106.2 162.616 1106 153.98 1105.82 146.362 1100.17 139.982 1092.63 138.876 1091.83 133.986 1089.15 129.604 1085.15 126.676 1081.01 123.747 1075.85 122.661 1070.88 123.676 1065.99 116.132 1056.88 112.489 1048.14 114.586 1039.6 116.763 1033.21 123.865 1031.95 132.586 1026.29 132.758 1021.02 135.501 1017.64 140.036 1013.62 145.622 1012.89 152.928 1015.72 159.2 1018.6 165.383 1024.65 169.484 1031.46 169.88L1038.8 169.88 1046.52 169.901 1046.52 163.689 1033.52 163.666 1031.72 163.666C1030.58 163.594 1029.46 163.365 1028.39 162.986Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M1067.52 181.986 1067.52 157.986 1080.02 157.986 1059.52 133.986 1039.02 157.986 1051.52 157.986 1051.52 181.986 1067.52 181.986Z",
+                                                "child-idx": 1
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "colors",
+                                "class": "tooltip-parent wx-xten-icon colors",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-adf1775a-036f-41f1-9b1c-c37addc4b611-9197",
+                                "onclick": "_backgroundColor(event)",
+                                "child-idx": 4
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-90fdc2a7-b7d3-4332-ba6d-d35bb32c5d48-9665",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "background color"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundColor",
+                                    "field-selector": "page-configuration.background-color",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-175dbafb-235e-4ab7-ac0d-49b5e8d6d9f9-392",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "set-var",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "class": "background-color",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent.getAttribute('background-color')"
+                                    },
+                                    {
+                                      "tag": "get-value",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "type": "color",
+                                        "value": "background-color",
+                                        "title": "Background Color",
+                                        "class": "background-color",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "code",
+                                      "attribs": {
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": "const element = eventCurrentTarget.closest('[xten=\"configuration\"]');eventCurrentTarget.setAttribute('field-selector', 'page-configuration.background-color');if (element.getAttribute('object-name')) {eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));}else{eventCurrentTarget.removeAttribute('object-name');}const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['background-color']);if (result.rc != 'success') {return;}toolbarParent['uploaded-url'] = result.output;"
+                                    },
+                                    {
+                                      "tag": "set-style",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "parent": "body",
+                                        "class": "background-color",
+                                        "child-idx": 3
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['background-color']"
+                                    },
+                                    {
+                                      "tag": "set-attrib",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "class": "background-color",
+                                        "child-idx": 4
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['background-color']"
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "class": "background-color",
+                                        "child-idx": 5
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-1022 -101)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M1100 152C1097.2 152 1095 150.4 1095 148.5 1095 146.6 1097.2 145 1100 145 1102.8 145 1105 146.6 1105 148.5 1105 150.4 1102.8 152 1100 152ZM1095 163C1092.2 163 1090 161.4 1090 159.5 1090 157.6 1092.2 156 1095 156 1097.8 156 1100 157.6 1100 159.5 1100 161.4 1097.8 163 1095 163ZM1084 135C1081.2 135 1079 133.4 1079 131.5 1079 129.6 1081.2 128 1084 128 1086.8 128 1089 129.6 1089 131.5 1089 133.4 1086.8 135 1084 135ZM1084 169C1081.2 169 1079 167.4 1079 165.5 1079 163.6 1081.2 162 1084 162 1086.8 162 1089 163.6 1089 165.5 1089 167.4 1086.8 169 1084 169ZM1070 172C1067.2 172 1065 170.4 1065 168.5 1065 166.6 1067.2 165 1070 165 1072.8 165 1075 166.6 1075 168.5 1075 170.4 1072.8 172 1070 172ZM1064.6 131.6C1066.2 130 1068.3 129.7 1069.4 130.8 1070.5 131.9 1070.1 134 1068.6 135.6 1067 137.2 1064.9 137.5 1063.8 136.4 1062.6 135.3 1063 133.1 1064.6 131.6ZM1056 170C1053.2 170 1051 168.4 1051 166.5 1051 164.6 1053.2 163 1056 163 1058.8 163 1061 164.6 1061 166.5 1061 168.4 1058.8 170 1056 170ZM1095 135C1097.8 135 1100 136.6 1100 138.5 1100 140.4 1097.8 142 1095 142 1092.2 142 1090 140.4 1090 138.5 1090 136.6 1092.2 135 1095 135ZM1070 121C1047.3 121 1050.9 129.9 1053 132L1058 137C1061.2 140.3 1057.3 144 1053.6 142.4L1041.1 137C1032.3 133.2 1030 143.9 1030 149 1030 164.5 1047.9 177 1070 177 1092.1 177 1110 164.5 1110 149 1110 133.5 1092.1 121 1070 121Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "filter",
+                                "class": "tooltip-parent wx-xten-icon filter",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-27052bdb-aef1-41e4-8baa-9a128b73c810-710",
+                                "onclick": "_backgroundFilterColor(event)",
+                                "child-idx": 5
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-dd9da8df-bbc3-4943-9d49-ecdb2811831c-2736",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "filter color"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundFilterColor",
+                                    "field-selector": "page-configuration.page-filter-color",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-ac076eaf-82e1-43bf-b95a-3662eb14d773-992",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "set-var",
+                                      "attribs": {
+                                        "name": "page-filter-color",
+                                        "class": "page-filter-color",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent.getAttribute('page-filter-color')"
+                                    },
+                                    {
+                                      "tag": "get-value",
+                                      "attribs": {
+                                        "name": "page-filter-color",
+                                        "type": "color",
+                                        "value": "page-filter-color",
+                                        "title": "Page Filter Color",
+                                        "class": "page-filter-color",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "code",
+                                      "attribs": {
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": "const element = eventCurrentTarget.closest('[xten=\"configuration\"]');eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-color');if (element.getAttribute('object-name')) {eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));}else{eventCurrentTarget.removeAttribute('object-name');}const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['page-filter-color']);if (result.rc != 'success') {return;}toolbarParent['uploaded-url'] = result.output;"
+                                    },
+                                    {
+                                      "tag": "set-css-var",
+                                      "attribs": {
+                                        "name": "--page-filter-color",
+                                        "parent": "body",
+                                        "class": "--page-filter-color",
+                                        "child-idx": 3
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['page-filter-color']"
+                                    },
+                                    {
+                                      "tag": "set-attrib",
+                                      "attribs": {
+                                        "name": "page-filter-color",
+                                        "class": "page-filter-color",
+                                        "child-idx": 4
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['page-filter-color']"
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "page-filter-color",
+                                        "class": "page-filter-color",
+                                        "child-idx": 5
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-95 -295)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M177 309 109 309 139 339 139 369 139 377 147 369 147 339Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "glasses",
+                                "class": "tooltip-parent wx-xten-icon glasses",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-2c5c08cd-f405-41b8-be16-75f07177749a-8272",
+                                "onclick": "_backgroundFilterOpacity(event)",
+                                "child-idx": 6
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-2300d3ef-a595-4981-9153-d5bd898c03fd-8245",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "filter opacity"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_backgroundFilterOpacity",
+                                    "field-selector": "page-configuration.page-filter-opacity",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-8151b943-d366-42b1-9cdd-cbf79e2b7c6e-774",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "set-var",
+                                      "attribs": {
+                                        "name": "page-filter-opacity",
+                                        "class": "page-filter-opacity",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent.getAttribute('page-filter-opacity')"
+                                    },
+                                    {
+                                      "tag": "get-value",
+                                      "attribs": {
+                                        "name": "page-filter-opacity",
+                                        "type": "number",
+                                        "min": "0",
+                                        "max": "1",
+                                        "step": "0.01",
+                                        "value": "page-filter-opacity",
+                                        "title": "Page Background Filter Opacity",
+                                        "class": "page-filter-opacity",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "code",
+                                      "attribs": {
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": "const element = eventCurrentTarget.closest('[xten=\"configuration\"]');eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-opacity');if (element.getAttribute('object-name')) {eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));}else{eventCurrentTarget.removeAttribute('object-name');}eventCurrentTarget.setAttribute('field-selector', 'page-configuration.page-filter-opacity');const result = await wxfns.upload(eventCurrentTarget, 'save-page-data', toolbarParent['page-filter-opacity']);if (result.rc != 'success') {return;}toolbarParent['uploaded-url'] = result.output;"
+                                    },
+                                    {
+                                      "tag": "set-css-var",
+                                      "attribs": {
+                                        "name": "--page-filter-opacity",
+                                        "parent": "body",
+                                        "class": "--page-filter-opacity",
+                                        "child-idx": 3
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['page-filter-opacity']"
+                                    },
+                                    {
+                                      "tag": "set-attrib",
+                                      "attribs": {
+                                        "name": "page-filter-opacity",
+                                        "class": "page-filter-opacity",
+                                        "child-idx": 4
+                                      },
+                                      "children": [],
+                                      "text": "toolbarParent['page-filter-opacity']"
+                                    },
+                                    {
+                                      "tag": "unset-var",
+                                      "attribs": {
+                                        "name": "page-filter-opacity",
+                                        "class": "page-filter-opacity",
+                                        "child-idx": 5
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-95 -186)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M184 221.7C173.3 219.6 159.5 218.7 147 223.7 144.4 224.6 141.6 224.6 139 223.7 126.5 218.7 112.7 219.6 102 221.7 100.4 222 99 223.1 99 224.7 99 226.4 100.3 227.7 102 227.7 102 227.7 102.9 231.7 104.3 238.2 105.7 244.7 109.2 248 120 248 125.3 248 129.2 247.8 132 245 135.5 241.4 139.4 231.9 139.4 231.9 140.1 230.6 141.5 229.8 143 229.8 144.5 229.8 145.9 230.6 146.6 231.9 146.6 231.9 150.5 241.4 154 245 156.8 247.8 160.7 248 166 248 176.8 248 180.2 244.8 181.7 238.2 183.2 231.6 184 227.8 184 227.8 185.7 227.8 187 226.5 187 224.8 187 223 185.6 222 184 221.7Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "delete-landscape",
+                                "class": "tooltip-parent wx-xten-icon delete-landscape",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-6152c6ae-34ba-47b4-8eec-5c1dd306a287-110",
+                                "onclick": "_deletePageBackground(event)",
+                                "child-idx": 7
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-a6148b34-ec4b-4574-8d8f-5d223b1c167c-8820",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "delete landscape"
+                                },
+                                {
+                                  "tag": "click",
+                                  "attribs": {
+                                    "fname": "_deletePageBackground",
+                                    "xten": "click",
+                                    "class": "wx-xten-click",
+                                    "element": "_hidden",
+                                    "id": "x-73c91fd0-70e0-4ce8-9e9f-b795da6502e1-5350",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "code",
+                                      "attribs": {
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "const element = eventCurrentTarget.closest('[xten=\"configuration\"]');if (element.getAttribute('object-name')) {eventCurrentTarget.setAttribute('object-name', element.getAttribute('object-name'));}else{eventCurrentTarget.removeAttribute('object-name');}const result = await wxfns.transaction(element, 'delete-background', {name: element.getAttribute('name')});if (result.rc != 'success') {return;}"
+                                    },
+                                    {
+                                      "tag": "unset-style",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "parent": "body",
+                                        "class": "background-image",
+                                        "child-idx": 1
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-attrib",
+                                      "attribs": {
+                                        "name": "background-image",
+                                        "class": "background-image",
+                                        "child-idx": 2
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-style",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "parent": "body",
+                                        "class": "background-color",
+                                        "child-idx": 3
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-attrib",
+                                      "attribs": {
+                                        "name": "background-color",
+                                        "class": "background-color",
+                                        "child-idx": 4
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-css-var",
+                                      "attribs": {
+                                        "name": "--page-filter-color",
+                                        "parent": "body",
+                                        "class": "--page-filter-color",
+                                        "child-idx": 5
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-attrib",
+                                      "attribs": {
+                                        "name": "page-filter-color",
+                                        "class": "page-filter-color",
+                                        "child-idx": 6
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-css-var",
+                                      "attribs": {
+                                        "name": "--page-filter-opacity",
+                                        "parent": "body",
+                                        "class": "--page-filter-opacity",
+                                        "child-idx": 7
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "unset-attrib",
+                                      "attribs": {
+                                        "name": "page-filter-opacity",
+                                        "class": "page-filter-opacity",
+                                        "child-idx": 8
+                                      },
+                                      "children": [],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 2
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-95 -59)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M129 92.94C129 94.641 127.621 96.02 125.92 96.02 124.219 96.02 122.84 94.641 122.84 92.94 122.84 91.24 125.92 86.78 125.92 86.78 125.92 86.78 129 91.24 129 92.94Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M135.56 91.18C135.56 92.395 134.575 93.38 133.36 93.38 132.145 93.38 131.16 92.395 131.16 91.18 131.16 89.97 133.36 86.78 133.36 86.78 133.36 86.78 135.56 90 135.56 91.18Z",
+                                                "child-idx": 1
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M120.6 91.18C120.682 92.3923 119.766 93.4414 118.553 93.5232 117.341 93.6051 116.292 92.6887 116.21 91.4765 116.203 91.3778 116.203 91.2787 116.21 91.18 116.21 89.97 118.4 86.78 118.4 86.78 118.4 86.78 120.6 90 120.6 91.18Z",
+                                                "child-idx": 2
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M140.84 80.84C140.849 78.5425 138.993 76.6729 136.696 76.6641 136.463 76.6632 136.23 76.6819 136 76.72L136 76.66C135.997 73.7495 133.635 71.3923 130.725 71.395 130.166 71.3956 129.611 71.485 129.08 71.66 127.413 68.5555 123.546 67.3897 120.441 69.0563 118.411 70.1462 117.126 72.2461 117.08 74.55 114.221 73.9769 111.438 75.8301 110.865 78.6893 110.292 81.5485 112.145 84.331 115.005 84.9041 115.257 84.9547 115.513 84.9867 115.77 85L136.88 85C139.094 84.8833 140.833 83.0576 140.84 80.84Z",
+                                                "child-idx": 3
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M137.33 123C143.71 119.689 150.812 118.013 158 118.12L158.42 118.12C152.999 113.765 146.301 111.306 139.35 111.12 134.726 111.104 130.155 112.104 125.96 114.05 130.331 116.21 134.203 119.259 137.33 123Z",
+                                                "child-idx": 4
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M107.51 134C123.45 132.74 131.76 126.78 132.31 126.38 133.08 125.723 133.888 125.112 134.73 124.55 122.4 110.29 100 112 100 112L100 134.31Z",
+                                                "child-idx": 5
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M182.46 129.41C181.687 128.688 180.865 128.019 180 127.41L180 115.7C183.389 114.527 185.618 111.284 185.5 107.7 185.5 102.7 179.62 91.52 178 91.52 176.38 91.52 170.5 102.74 170.5 107.7 170.382 111.284 172.611 114.527 176 115.7L176 125.08C172.214 123.266 168.163 122.068 164 121.53L164 101.76C168.64 100.76 172.14 96.06 172.14 89.51 172.14 82.05 164.43 66 162 66 159.57 66 151.86 82.05 151.86 89.51 151.86 96.06 155.36 100.72 160 101.76L160 121.17C159.32 121.17 158.64 121.12 158 121.12 148.62 121.12 139.94 123.91 134.24 128.75 134.14 128.82 125.35 135.65 107.73 137.02L100 137 100 148 186 148 186 132.21Z",
+                                                "child-idx": 6
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        },
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "fill": "#ff4343",
+                                            "clip-path": "url(#clip0)",
+                                            "transform": "translate(-622 -90)",
+                                            "child-idx": 1
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M705.4 111.1 696.9 102.6 670 129.5 643.1 102.6 634.6 111.1 661.5 138 634.6 164.9 643.1 173.4 670 146.5 696.9 173.4 705.4 164.9 678.5 138Z",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            }
+                          ],
+                          "text": null
+                        }
+                      ],
+                      "text": null
+                    },
+                    {
+                      "tag": "column",
+                      "attribs": {
+                        "xten": "column",
+                        "class": "wx-xten-column",
+                        "element": "div",
+                        "id": "x-4fd0a9a1-61f3-4a1f-9ba7-3a5a57e7b670-9287",
+                        "child-idx": 2
+                      },
+                      "children": [
+                        {
+                          "tag": "div",
+                          "attribs": {
+                            "class": "page-errors-notification",
+                            "child-idx": 0
+                          },
+                          "children": [
+                            {
+                              "tag": "icon",
+                              "attribs": {
+                                "name": "bug",
+                                "class": "tooltip-parent wx-xten-icon bug",
+                                "xten": "icon",
+                                "element": "div",
+                                "id": "x-e5ce6743-77fe-438d-9986-a42d9a6f4aed-7089",
+                                "child-idx": 0
+                              },
+                              "children": [
+                                {
+                                  "tag": "tooltip",
+                                  "attribs": {
+                                    "xten": "tooltip",
+                                    "class": "wx-xten-tooltip",
+                                    "element": "div",
+                                    "id": "x-7382570b-2085-4dc9-afd3-23757455fae6-7071",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "errors in page"
+                                },
+                                {
+                                  "tag": "div",
+                                  "attribs": {
+                                    "name": "icon-code",
+                                    "class": "icon-code",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "svg",
+                                      "attribs": {
+                                        "xmlns": "http://www.w3.org/2000/svg",
+                                        "xlink": "http://www.w3.org/1999/xlink",
+                                        "space": "preserve",
+                                        "overflow": "hidden",
+                                        "viewBox": "0 0 96 96",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "g",
+                                          "attribs": {
+                                            "transform": "translate(-592 -312)",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "path",
+                                              "attribs": {
+                                                "d": "M672.4 351.82C669.4 350.33 665.84 350.29 662.51 350.82 661.524 348.751 660.31 346.799 658.89 345 661.72 342.61 665.24 340.46 668.46 340.61 669.565 340.657 670.498 339.8 670.545 338.695 670.592 337.59 669.735 336.657 668.63 336.61L668.17 336.61C663.71 336.61 659.41 339.31 656.17 342.04 655.57 341.46 654.95 340.91 654.31 340.4 654.373 340.003 654.407 339.602 654.41 339.2 654.41 334.2 650.41 329.98 644.88 328.29 645.023 327.928 645.222 327.591 645.47 327.29 646.57 325.91 648.69 325.29 651.77 325.55 652.875 325.627 653.833 324.795 653.91 323.69 653.987 322.585 653.155 321.627 652.05 321.55 647.57 321.24 644.3 322.33 642.33 324.81 641.677 325.639 641.191 326.586 640.9 327.6 640.46 327.6 640.01 327.55 639.56 327.55 638.794 327.554 638.03 327.604 637.27 327.7 636.982 326.649 636.485 325.666 635.81 324.81 633.81 322.33 630.57 321.23 626.09 321.55 624.985 321.63 624.155 322.59 624.235 323.695 624.315 324.8 625.275 325.63 626.38 325.55 629.44 325.32 631.57 325.91 632.67 327.29 632.982 327.69 633.216 328.144 633.36 328.63 628.26 330.48 624.71 334.53 624.71 339.25 624.714 339.824 624.775 340.397 624.89 340.96 624.31 341.46 623.75 341.96 623.2 342.54 619.85 339.64 615.2 336.66 610.48 336.87 609.375 336.917 608.518 337.85 608.565 338.955 608.612 340.06 609.545 340.917 610.65 340.87 613.98 340.73 617.65 343.07 620.57 345.58 619.256 347.332 618.127 349.216 617.2 351.2 613.71 350.55 609.89 350.5 606.72 352.08 605.716 352.541 605.276 353.729 605.737 354.732 606.198 355.736 607.386 356.176 608.39 355.715 608.427 355.698 608.464 355.679 608.5 355.66 610.788 354.715 613.309 354.485 615.73 355 614.564 358.635 613.98 362.432 614 366.25 613.973 371.802 615.251 377.283 617.73 382.25 614.9 384.25 612.29 386.84 611.2 390.1 610.844 391.149 611.406 392.289 612.455 392.645 613.504 393.001 614.644 392.439 615 391.39 615.72 389.21 617.59 387.31 619.77 385.74 624.48 392.79 631.77 397.3 640 397.3 648.23 397.3 655.26 392.89 660 386 661.867 387.294 663.317 389.104 664.17 391.21 664.526 392.268 665.672 392.836 666.73 392.48 667.788 392.124 668.356 390.978 668 389.92 666.822 386.914 664.762 384.334 662.09 382.52 664.675 377.487 666.016 371.908 666 366.25 666.008 362.31 665.373 358.395 664.12 354.66 666.326 354.268 668.598 354.525 670.66 355.4 671.646 355.892 672.844 355.494 673.34 354.51 673.827 353.519 673.418 352.32 672.427 351.833 672.418 351.829 672.409 351.824 672.4 351.82ZM622.85 369.9C620.85 369.9 619.25 367.9 619.25 365.4 619.25 362.9 620.86 360.9 622.85 360.9 624.84 360.9 626.45 362.9 626.45 365.4 626.45 367.9 624.84 369.9 622.85 369.9ZM631.66 382.9C630.06 384.08 628.05 384.07 627.16 382.9 626.27 381.73 626.85 379.77 628.44 378.59 630.03 377.41 632.05 377.42 632.94 378.59 633.83 379.76 633.26 381.69 631.66 382.87ZM631 355C629.067 355 627.5 353.433 627.5 351.5 627.5 349.567 629.067 348 631 348 632.933 348 634.5 349.567 634.5 351.5 634.5 353.433 632.933 355 631 355ZM642 393.18C640.668 393.26 639.332 393.26 638 393.18L638 341 642 341ZM646.3 351.5C646.3 349.567 647.867 348 649.8 348 651.733 348 653.3 349.567 653.3 351.5 653.3 353.433 651.733 355 649.8 355 647.867 355.028 646.278 353.483 646.25 351.55 646.25 351.534 646.25 351.517 646.25 351.5ZM653.59 382.84C652.71 384.04 650.69 384.05 649.09 382.84 647.49 381.63 646.92 379.72 647.81 378.53 648.7 377.34 650.71 377.32 652.31 378.53 653.91 379.74 654.43 381.65 653.54 382.84ZM657.85 369.9C655.85 369.9 654.25 367.9 654.25 365.4 654.25 362.9 655.86 360.9 657.85 360.9 659.84 360.9 661.45 362.9 661.45 365.4 661.45 367.9 659.84 369.9 657.85 369.9Z",
+                                                "fill": "#C00000",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            }
+                          ],
+                          "text": null
+                        }
+                      ],
+                      "text": null
+                    },
+                    {
+                      "tag": "column",
+                      "attribs": {
+                        "xten": "column",
+                        "class": "wx-xten-column",
+                        "element": "div",
+                        "id": "x-22a487c8-f1ed-420c-8c03-469ba439d0ab-9254",
+                        "child-idx": 3
+                      },
+                      "children": [],
+                      "text": null
+                    }
+                  ],
+                  "text": null
+                }
+              ],
+              "text": null
+            },
+            {
+              "tag": "page-container",
+              "attribs": {
+                "max-width": "1000px",
+                "xten": "page-container",
+                "class": "wx-xten-page-container",
+                "element": "div",
+                "id": "x-b5c96e75-b75c-4d87-a9e9-7de7d07cba99-8627",
+                "child-idx": 1
+              },
+              "children": [
+                {
+                  "tag": "layers",
+                  "attribs": {
+                    "name": "page-layers",
+                    "xten": "layers",
+                    "class": "wx-xten-layers",
+                    "element": "div",
+                    "id": "x-4de9488b-5722-4017-8ebf-63ffe25e5843-4435",
+                    "child-idx": 0
+                  },
+                  "children": [
+                    {
+                      "tag": "layer",
+                      "attribs": {
+                        "index": -1,
+                        "xten": "layer",
+                        "class": "wx-xten-layer",
+                        "element": "div",
+                        "id": "x-484f7d41-b7eb-4e94-a2b5-11bc9d8ef30b-7864",
+                        "child-idx": 0
+                      },
+                      "children": [
+                        {
+                          "tag": "background-filter",
+                          "attribs": {
+                            "xten": "background-filter",
+                            "class": "wx-xten-background-filter",
+                            "element": "div",
+                            "id": "x-35810b0b-e0fa-47ec-971d-bab87cc45785-205",
+                            "child-idx": 0
+                          },
+                          "children": [],
+                          "text": null
+                        }
+                      ],
+                      "text": null
+                    },
+                    {
+                      "tag": "page-content",
+                      "attribs": {
+                        "xten": "page-content",
+                        "class": "wx-xten-page-content",
+                        "element": "div",
+                        "id": "x-06d1dd25-32a3-4104-af94-8e5d5a191581-735",
+                        "child-idx": 1
+                      },
+                      "children": [
+                        {
+                          "tag": "font",
+                          "attribs": {
+                            "name": "Roboto",
+                            "weight": "400",
+                            "class": "wx-xten-font Roboto",
+                            "xten": "font",
+                            "element": "_hidden",
+                            "id": "x-3582c4ef-1e3b-463c-8b08-dd9153d18d6a-6383",
+                            "child-idx": 0
+                          },
+                          "children": [],
+                          "text": null
+                        },
+                        {
+                          "tag": "header",
+                          "attribs": {
+                            "cssvar-local-font-family": "font-family",
+                            "style": "font-family:Roboto;",
+                            "child-idx": 1
+                          },
+                          "children": [
+                            {
+                              "tag": "row",
+                              "attribs": {
+                                "xten": "row",
+                                "class": "wx-xten-row",
+                                "element": "div",
+                                "id": "x-0578dba5-7ba9-4466-9158-b08709230b5e-7224",
+                                "child-idx": 0
+                              },
+                              "children": [
+                                {
+                                  "tag": "column",
+                                  "attribs": {
+                                    "xten": "column",
+                                    "class": "wx-xten-column",
+                                    "element": "div",
+                                    "id": "x-134e5855-dd86-4aa5-b04d-906b2ae5613b-3964",
+                                    "child-idx": 0
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "fitwidth",
+                                      "attribs": {
+                                        "xten": "fitwidth",
+                                        "class": "wx-xten-fitwidth",
+                                        "element": "div",
+                                        "id": "x-12568f91-26ad-4444-9983-048c0a7493ca-8599",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "image",
+                                          "attribs": {
+                                            "name": "site-logo",
+                                            "object-name": "all",
+                                            "alt": "Site Logo",
+                                            "class": "has-load wx-xten-image site-logo",
+                                            "xten": "image",
+                                            "element": "div",
+                                            "id": "x-2c846c7e-7db1-4551-8473-94ac0998762a-1967",
+                                            "allow": "owner, admin",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "img",
+                                              "attribs": {
+                                                "src": "images/blank.jpg",
+                                                "alt": "undefined",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "toolbar",
+                                              "attribs": {
+                                                "top": "0",
+                                                "left": "0",
+                                                "right": "auto",
+                                                "bottom": "auto",
+                                                "xten": "toolbar",
+                                                "class": "wx-xten-toolbar",
+                                                "element": "div",
+                                                "id": "x-21408d51-7b9d-4bd8-bcf2-de8a6fd96e9b-820",
+                                                "child-idx": 1
+                                              },
+                                              "children": [
+                                                {
+                                                  "tag": "icon",
+                                                  "attribs": {
+                                                    "name": "save",
+                                                    "class": "tooltip-parent wx-xten-icon save",
+                                                    "xten": "icon",
+                                                    "element": "div",
+                                                    "id": "x-ae49f5ef-a475-4b8e-b93a-7b878a250e3e-405",
+                                                    "onclick": "_imageSaveImage(event)",
+                                                    "child-idx": 0
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "tooltip",
+                                                      "attribs": {
+                                                        "xten": "tooltip",
+                                                        "class": "wx-xten-tooltip",
+                                                        "element": "div",
+                                                        "id": "x-6e7a6018-6a4c-46b9-9e15-3fd6aaff6d10-4269",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "upload image"
+                                                    },
+                                                    {
+                                                      "tag": "click",
+                                                      "attribs": {
+                                                        "fname": "_imageSaveImage",
+                                                        "xten": "click",
+                                                        "class": "wx-xten-click",
+                                                        "element": "_hidden",
+                                                        "id": "x-5d3b14e7-3a85-4439-8da3-8e6d3b138061-2060",
+                                                        "child-idx": 1
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "upload",
+                                                          "attribs": {
+                                                            "name": "save-image",
+                                                            "file": "changed-file",
+                                                            "file-url": "uploaded-url",
+                                                            "class": "save-image",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        },
+                                                        {
+                                                          "tag": "set-attrib",
+                                                          "attribs": {
+                                                            "name": "src",
+                                                            "child": "img",
+                                                            "class": "src",
+                                                            "child-idx": 1
+                                                          },
+                                                          "children": [],
+                                                          "text": "toolbarParent['uploaded-url']"
+                                                        },
+                                                        {
+                                                          "tag": "set-attrib",
+                                                          "attribs": {
+                                                            "name": "src",
+                                                            "class": "src",
+                                                            "child-idx": 2
+                                                          },
+                                                          "children": [],
+                                                          "text": "toolbarParent['uploaded-url']"
+                                                        },
+                                                        {
+                                                          "tag": "unset-var",
+                                                          "attribs": {
+                                                            "name": "uploaded-url",
+                                                            "class": "uploaded-url",
+                                                            "child-idx": 3
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        },
+                                                        {
+                                                          "tag": "unset-var",
+                                                          "attribs": {
+                                                            "name": "changed-file",
+                                                            "class": "changed-file",
+                                                            "child-idx": 4
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        },
+                                                        {
+                                                          "tag": "remove-class",
+                                                          "attribs": {
+                                                            "classes": "image-changed",
+                                                            "child-idx": 5
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    },
+                                                    {
+                                                      "tag": "div",
+                                                      "attribs": {
+                                                        "name": "icon-code",
+                                                        "class": "icon-code",
+                                                        "child-idx": 2
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "svg",
+                                                          "attribs": {
+                                                            "xmlns": "http://www.w3.org/2000/svg",
+                                                            "xlink": "http://www.w3.org/1999/xlink",
+                                                            "space": "preserve",
+                                                            "overflow": "hidden",
+                                                            "viewBox": "0 0 96 96",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "tag": "g",
+                                                              "attribs": {
+                                                                "transform": "translate(-592 -312)",
+                                                                "child-idx": 0
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M626 336 632 336 632 351 626 351Z",
+                                                                    "child-idx": 0
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                },
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M658 355 622 355 622 332 658 332 658 355ZM640 381C634.5 381 630 376.5 630 371 630 365.5 634.5 361 640 361 645.5 361 650 365.5 650 371 650 376.5 645.5 381 640 381ZM670 326 658 326 622 326 616 326 606 336 606 390C606 392.2 607.8 394 610 394L670 394C672.2 394 674 392.2 674 390L674 330C674 327.8 672.2 326 670 326Z",
+                                                                    "child-idx": 1
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                },
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M637 368 643 368 643 374 637 374Z",
+                                                                    "child-idx": 2
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                }
+                                                              ],
+                                                              "text": null
+                                                            }
+                                                          ],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                },
+                                                {
+                                                  "tag": "icon",
+                                                  "attribs": {
+                                                    "name": "close",
+                                                    "class": "tooltip-parent wx-xten-icon close",
+                                                    "xten": "icon",
+                                                    "element": "div",
+                                                    "id": "x-f86c4ff7-d611-4f67-83a1-4b26534b1a34-241",
+                                                    "onclick": "_imageCancelImageSave(event)",
+                                                    "child-idx": 1
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "tooltip",
+                                                      "attribs": {
+                                                        "xten": "tooltip",
+                                                        "class": "wx-xten-tooltip",
+                                                        "element": "div",
+                                                        "id": "x-8e81cd31-ee83-4250-8f30-1b4b68299476-2359",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "cancel"
+                                                    },
+                                                    {
+                                                      "tag": "click",
+                                                      "attribs": {
+                                                        "fname": "_imageCancelImageSave",
+                                                        "xten": "click",
+                                                        "class": "wx-xten-click",
+                                                        "element": "_hidden",
+                                                        "id": "x-bf14802e-848e-4d3f-bfd5-198b7e674c98-5512",
+                                                        "child-idx": 1
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "set-attrib",
+                                                          "attribs": {
+                                                            "name": "src",
+                                                            "child": "img",
+                                                            "class": "src",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [],
+                                                          "text": "toolbarParent.getAttribute('src')"
+                                                        },
+                                                        {
+                                                          "tag": "unset-var",
+                                                          "attribs": {
+                                                            "name": "changed-file",
+                                                            "class": "changed-file",
+                                                            "child-idx": 1
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        },
+                                                        {
+                                                          "tag": "remove-class",
+                                                          "attribs": {
+                                                            "classes": "image-changed",
+                                                            "child-idx": 2
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    },
+                                                    {
+                                                      "tag": "div",
+                                                      "attribs": {
+                                                        "name": "icon-code",
+                                                        "class": "icon-code",
+                                                        "child-idx": 2
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "svg",
+                                                          "attribs": {
+                                                            "xmlns": "http://www.w3.org/2000/svg",
+                                                            "xlink": "http://www.w3.org/1999/xlink",
+                                                            "space": "preserve",
+                                                            "overflow": "hidden",
+                                                            "viewBox": "0 0 96 96",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "tag": "g",
+                                                              "attribs": {
+                                                                "transform": "translate(-592 -312)",
+                                                                "child-idx": 0
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M675.4 333.1 666.9 324.6 640 351.5 613.1 324.6 604.6 333.1 631.5 360 604.6 386.9 613.1 395.4 640 368.5 666.9 395.4 675.4 386.9 648.5 360Z",
+                                                                    "child-idx": 0
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                }
+                                                              ],
+                                                              "text": null
+                                                            }
+                                                          ],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                },
+                                                {
+                                                  "tag": "icon",
+                                                  "attribs": {
+                                                    "name": "upload",
+                                                    "class": "tooltip-parent wx-xten-icon upload",
+                                                    "xten": "icon",
+                                                    "element": "div",
+                                                    "id": "x-39e2a6d5-3b0e-41c9-9775-976d06cffa39-4207",
+                                                    "onclick": "_imageUploadImage(event)",
+                                                    "child-idx": 2
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "tooltip",
+                                                      "attribs": {
+                                                        "xten": "tooltip",
+                                                        "class": "wx-xten-tooltip",
+                                                        "element": "div",
+                                                        "id": "x-0e199895-8c72-4a1e-bca2-ac2bff31fc9c-2308",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "select image"
+                                                    },
+                                                    {
+                                                      "tag": "event",
+                                                      "attribs": {
+                                                        "name": "click",
+                                                        "fname": "_imageUploadImage",
+                                                        "class": "wx-xten-event click",
+                                                        "xten": "event",
+                                                        "element": "_hidden",
+                                                        "id": "x-3717e1c1-02e4-472f-855f-230fc8daa599-1875",
+                                                        "child-idx": 1
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "selectfile",
+                                                          "attribs": {
+                                                            "file-type": "image/*",
+                                                            "file": "changed-file",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        },
+                                                        {
+                                                          "tag": "set-attrib",
+                                                          "attribs": {
+                                                            "name": "src",
+                                                            "child": "img",
+                                                            "class": "src",
+                                                            "child-idx": 1
+                                                          },
+                                                          "children": [],
+                                                          "text": "URL.createObjectURL(toolbarParent['changed-file'])"
+                                                        },
+                                                        {
+                                                          "tag": "add-class",
+                                                          "attribs": {
+                                                            "classes": "image-changed",
+                                                            "child-idx": 2
+                                                          },
+                                                          "children": [],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    },
+                                                    {
+                                                      "tag": "div",
+                                                      "attribs": {
+                                                        "name": "icon-code",
+                                                        "class": "icon-code",
+                                                        "child-idx": 2
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "svg",
+                                                          "attribs": {
+                                                            "xmlns": "http://www.w3.org/2000/svg",
+                                                            "xlink": "http://www.w3.org/1999/xlink",
+                                                            "space": "preserve",
+                                                            "overflow": "hidden",
+                                                            "viewBox": "0 0 96 96",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "tag": "g",
+                                                              "attribs": {
+                                                                "transform": "translate(-1012 -101)",
+                                                                "child-idx": 0
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M1028.22 162.925C1025.16 161.801 1022.65 159.513 1021.26 156.556 1019.38 152.376 1019.87 147.514 1022.53 143.786 1025.24 140.107 1029.77 138.239 1034.29 138.936L1037.84 139.526 1037.84 135.656C1037.87 128.572 1042.69 122.405 1049.55 120.656 1056.44 118.996 1063.55 122.315 1066.71 128.656L1067.92 131.066 1070.43 130.176C1074.19 128.851 1078.35 129.433 1081.6 131.736 1084.83 134.101 1086.74 137.862 1086.75 141.866L1086.75 144.986 1090.83 144.986C1096.01 145.181 1100.06 149.539 1099.86 154.722 1099.68 159.669 1095.68 163.623 1090.73 163.756L1085.48 163.756 1072.52 163.734 1072.52 169.966 1080.17 169.986 1090.73 169.986C1099.37 169.782 1106.2 162.616 1106 153.98 1105.82 146.362 1100.17 139.982 1092.63 138.876 1091.83 133.986 1089.15 129.604 1085.15 126.676 1081.01 123.747 1075.85 122.661 1070.88 123.676 1065.99 116.132 1056.88 112.489 1048.14 114.586 1039.6 116.763 1033.21 123.865 1031.95 132.586 1026.29 132.758 1021.02 135.501 1017.64 140.036 1013.62 145.622 1012.89 152.928 1015.72 159.2 1018.6 165.383 1024.65 169.484 1031.46 169.88L1038.8 169.88 1046.52 169.901 1046.52 163.689 1033.52 163.666 1031.72 163.666C1030.58 163.594 1029.46 163.365 1028.39 162.986Z",
+                                                                    "child-idx": 0
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                },
+                                                                {
+                                                                  "tag": "path",
+                                                                  "attribs": {
+                                                                    "d": "M1067.52 181.986 1067.52 157.986 1080.02 157.986 1059.52 133.986 1039.02 157.986 1051.52 157.986 1051.52 181.986 1067.52 181.986Z",
+                                                                    "child-idx": 1
+                                                                  },
+                                                                  "children": [],
+                                                                  "text": null
+                                                                }
+                                                              ],
+                                                              "text": null
+                                                            }
+                                                          ],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                }
+                                              ],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "column",
+                                  "attribs": {
+                                    "ratio": "8",
+                                    "xten": "column",
+                                    "class": "wx-xten-column",
+                                    "element": "div",
+                                    "id": "x-524b4863-cf99-4581-9f5b-c149df49afee-9258",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "align",
+                                      "attribs": {
+                                        "horizontal": "flex-end",
+                                        "xten": "align",
+                                        "class": "wx-xten-align",
+                                        "element": "div",
+                                        "id": "x-61b1c3f0-36b6-4e42-8e92-4b244671e5a8-8005",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "navbar",
+                                          "attribs": {
+                                            "transform": "uppercase",
+                                            "item-gap": "15px",
+                                            "navitem-hover-style": "color: blue",
+                                            "cssvar-local-margin": "margin",
+                                            "style": "margin:0.5rem;",
+                                            "xten": "navbar",
+                                            "class": "navclass-row wx-xten-navbar",
+                                            "element": "div",
+                                            "id": "x-73bd0d68-e358-41d4-82e1-65fd57bf82e6-6143",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "navitem",
+                                              "attribs": {
+                                                "href": "/",
+                                                "xten": "navitem",
+                                                "class": "wx-xten-navitem",
+                                                "element": "span",
+                                                "id": "x-0a52ac99-1f79-4e78-9f02-3acd9f04d953-8075",
+                                                "onclick": "events_navitem_onclick(event)",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": "Home"
+                                            },
+                                            {
+                                              "tag": "navitem",
+                                              "attribs": {
+                                                "href": "blog",
+                                                "xten": "navitem",
+                                                "class": "wx-xten-navitem",
+                                                "element": "span",
+                                                "id": "x-a94b5c18-0905-43d8-a4b2-e2f5d1c7367a-7941",
+                                                "onclick": "events_navitem_onclick(event)",
+                                                "child-idx": 1
+                                              },
+                                              "children": [],
+                                              "text": "Blog"
+                                            },
+                                            {
+                                              "tag": "navitem",
+                                              "attribs": {
+                                                "href": "contact",
+                                                "xten": "navitem",
+                                                "class": "wx-xten-navitem",
+                                                "element": "span",
+                                                "id": "x-cebd5aaf-9527-4e2c-885e-beda078049c8-9606",
+                                                "onclick": "events_navitem_onclick(event)",
+                                                "child-idx": 2
+                                              },
+                                              "children": [],
+                                              "text": "Contact"
+                                            },
+                                            {
+                                              "tag": "navitem",
+                                              "attribs": {
+                                                "xten": "navitem",
+                                                "class": "wx-xten-navitem",
+                                                "element": "span",
+                                                "id": "x-b7ff0362-f1d3-41fe-8d84-a2bd5cee4ecf-7470",
+                                                "onclick": "events_navitem_onclick(event)",
+                                                "child-idx": 3
+                                              },
+                                              "children": [
+                                                {
+                                                  "tag": "show",
+                                                  "attribs": {
+                                                    "role": "public",
+                                                    "xten": "show",
+                                                    "class": "wx-xten-show",
+                                                    "element": "div",
+                                                    "id": "x-eda4a22f-f6db-4e60-b490-e5f820b659a7-3797",
+                                                    "child-idx": 0
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "a",
+                                                      "attribs": {
+                                                        "href": "login",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Login"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                },
+                                                {
+                                                  "tag": "show",
+                                                  "attribs": {
+                                                    "role": "logged_in",
+                                                    "xten": "show",
+                                                    "class": "wx-xten-show",
+                                                    "element": "div",
+                                                    "id": "x-7859127c-0450-499d-b08d-d13ef572b6ac-3929",
+                                                    "child-idx": 1
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "logout",
+                                                      "attribs": {
+                                                        "xten": "logout",
+                                                        "class": "wx-xten-logout",
+                                                        "element": "span",
+                                                        "id": "x-ab706a1d-d161-4f90-8067-3a3b56e47d56-5888",
+                                                        "onclick": "events_logout_onclick(event)",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Logout"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                }
+                                              ],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            }
+                          ],
+                          "text": null
+                        },
+                        {
+                          "tag": "container",
+                          "attribs": {
+                            "name": "page-body",
+                            "class": "wx-xten-container page-body",
+                            "xten": "container",
+                            "element": "div",
+                            "id": "x-f3c4fe3b-718f-4092-9a73-0c08530e1e8a-6532",
+                            "child-idx": 2
+                          },
+                          "children": [
+                            {
+                              "tag": "row",
+                              "attribs": {
+                                "xten": "row",
+                                "class": "wx-xten-row",
+                                "element": "div",
+                                "id": "x-f20131c3-69fa-4592-ac3b-0a52e965eae9-4456",
+                                "child-idx": 0
+                              },
+                              "children": [
+                                {
+                                  "tag": "column",
+                                  "attribs": {
+                                    "cssvar-local-background-color": "background-color",
+                                    "style": "background-color:lightgrey;",
+                                    "xten": "column",
+                                    "class": "wx-xten-column",
+                                    "element": "div",
+                                    "id": "x-4a141776-ef74-4b1e-904d-71f97e3958e0-1839",
+                                    "child-idx": 0
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "center",
+                                      "attribs": {
+                                        "xten": "center",
+                                        "class": "wx-xten-center",
+                                        "element": "div",
+                                        "id": "x-b37018cc-e02b-4439-9e51-9141f4526775-9106",
+                                        "child-idx": 0
+                                      },
+                                      "children": [],
+                                      "text": "Section 1"
+                                    }
+                                  ],
+                                  "text": null
+                                },
+                                {
+                                  "tag": "column",
+                                  "attribs": {
+                                    "ratio": "3",
+                                    "xten": "column",
+                                    "class": "wx-xten-column",
+                                    "element": "div",
+                                    "id": "x-1596dc61-2aef-4e64-88e6-850932c1779c-8905",
+                                    "child-idx": 1
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "row",
+                                      "attribs": {
+                                        "cssvar-local-background-color": "background-color",
+                                        "style": "background-color:yellow;",
+                                        "xten": "row",
+                                        "class": "wx-xten-row",
+                                        "element": "div",
+                                        "id": "x-51e109cb-1d25-4796-8ba7-26afd1638728-3633",
+                                        "child-idx": 0
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "center",
+                                          "attribs": {
+                                            "xten": "center",
+                                            "class": "wx-xten-center",
+                                            "element": "div",
+                                            "id": "x-ff926c71-7c78-46fc-8cd0-87ef9a7eee68-2246",
+                                            "child-idx": 0
+                                          },
+                                          "children": [],
+                                          "text": "Section 2"
+                                        }
+                                      ],
+                                      "text": null
+                                    },
+                                    {
+                                      "tag": "row",
+                                      "attribs": {
+                                        "xten": "row",
+                                        "class": "wx-xten-row",
+                                        "element": "div",
+                                        "id": "x-892366be-93e0-4eee-a830-640cbfee2b80-7203",
+                                        "child-idx": 1
+                                      },
+                                      "children": [
+                                        {
+                                          "tag": "column",
+                                          "attribs": {
+                                            "xten": "column",
+                                            "class": "wx-xten-column",
+                                            "element": "div",
+                                            "id": "x-557b5a51-df9b-465e-b16a-5ce63923bf03-2749",
+                                            "child-idx": 0
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "row",
+                                              "attribs": {
+                                                "xten": "row",
+                                                "class": "wx-xten-row",
+                                                "element": "div",
+                                                "id": "x-47d46d85-6092-4a60-90de-d80d53a4addb-860",
+                                                "child-idx": 0
+                                              },
+                                              "children": [
+                                                {
+                                                  "tag": "column",
+                                                  "attribs": {
+                                                    "color": "white",
+                                                    "cssvar-local-background-color": "background-color",
+                                                    "style": "background-color:brown;height:100px;",
+                                                    "cssvar-local-height": "height",
+                                                    "xten": "column",
+                                                    "class": "wx-xten-column",
+                                                    "element": "div",
+                                                    "id": "x-cf7b7bda-d768-4f91-b9a2-34bf3b3bd1b4-2420",
+                                                    "child-idx": 0
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "center",
+                                                      "attribs": {
+                                                        "xten": "center",
+                                                        "class": "wx-xten-center",
+                                                        "element": "div",
+                                                        "id": "x-47aa6f54-6fd9-46a0-af28-9f929b9f3764-606",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Section 3"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                },
+                                                {
+                                                  "tag": "column",
+                                                  "attribs": {
+                                                    "xten": "column",
+                                                    "class": "wx-xten-column",
+                                                    "element": "div",
+                                                    "id": "x-3fff5a3a-fd2e-4831-b495-827cc5499741-19",
+                                                    "child-idx": 1
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "center",
+                                                      "attribs": {
+                                                        "cssvar-local-background-color": "background-color",
+                                                        "style": "background-color:green;",
+                                                        "xten": "center",
+                                                        "class": "wx-xten-center",
+                                                        "element": "div",
+                                                        "id": "x-6b9512f7-3008-4281-871e-4c3586adf35c-3900",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Section 4"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                }
+                                              ],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "row",
+                                              "attribs": {
+                                                "cssvar-local-background-color": "background-color",
+                                                "style": "background-color:red;color:white;height:200px;",
+                                                "cssvar-local-color": "color",
+                                                "cssvar-local-height": "height",
+                                                "xten": "row",
+                                                "class": "wx-xten-row",
+                                                "element": "div",
+                                                "id": "x-373e2d0f-0385-4d79-8470-546624ed9e21-797",
+                                                "child-idx": 1
+                                              },
+                                              "children": [
+                                                {
+                                                  "tag": "center",
+                                                  "attribs": {
+                                                    "xten": "center",
+                                                    "class": "wx-xten-center",
+                                                    "element": "div",
+                                                    "id": "x-527ad51d-8f45-4cf2-9d46-d5bf0826483c-3293",
+                                                    "child-idx": 0
+                                                  },
+                                                  "children": [],
+                                                  "text": "Section 5"
+                                                }
+                                              ],
+                                              "text": null
+                                            },
+                                            {
+                                              "tag": "row",
+                                              "attribs": {
+                                                "xten": "row",
+                                                "class": "wx-xten-row",
+                                                "element": "div",
+                                                "id": "x-ccdad6fd-d8e1-4de3-b879-157cbc024840-3911",
+                                                "child-idx": 2
+                                              },
+                                              "children": [
+                                                {
+                                                  "tag": "column",
+                                                  "attribs": {
+                                                    "cssvar-local-background-color": "background-color",
+                                                    "style": "background-color:brown;color:white;height:200px;",
+                                                    "cssvar-local-color": "color",
+                                                    "cssvar-local-height": "height",
+                                                    "xten": "column",
+                                                    "class": "wx-xten-column",
+                                                    "element": "div",
+                                                    "id": "x-2506944e-df04-449a-b01e-887c6cfe0226-6927",
+                                                    "child-idx": 0
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "center",
+                                                      "attribs": {
+                                                        "xten": "center",
+                                                        "class": "wx-xten-center",
+                                                        "element": "div",
+                                                        "id": "x-bc5cc25d-2733-42e7-9a32-d2d8bd80dc81-147",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Section 7"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                },
+                                                {
+                                                  "tag": "column",
+                                                  "attribs": {
+                                                    "ratio": "5",
+                                                    "xten": "column",
+                                                    "class": "wx-xten-column",
+                                                    "element": "div",
+                                                    "id": "x-b2b499b8-92b8-47e2-a568-2eec90e03e62-9239",
+                                                    "child-idx": 1
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "center",
+                                                      "attribs": {
+                                                        "cssvar-local-background-color": "background-color",
+                                                        "style": "background-color:green;",
+                                                        "xten": "center",
+                                                        "class": "wx-xten-center",
+                                                        "element": "div",
+                                                        "id": "x-3b1cc81c-6d4b-441c-a313-0a17a6fa9120-6005",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "Section 8"
+                                                    }
+                                                  ],
+                                                  "text": null
+                                                }
+                                              ],
+                                              "text": null
+                                            }
+                                          ],
+                                          "text": null
+                                        },
+                                        {
+                                          "tag": "column",
+                                          "attribs": {
+                                            "cssvar-local-background-color": "background-color",
+                                            "style": "background-color:blue;",
+                                            "xten": "column",
+                                            "class": "wx-xten-column",
+                                            "element": "div",
+                                            "id": "x-ddba9aef-6be7-4bfa-b25f-a034f4800971-1684",
+                                            "child-idx": 1
+                                          },
+                                          "children": [
+                                            {
+                                              "tag": "center",
+                                              "attribs": {
+                                                "xten": "center",
+                                                "class": "wx-xten-center",
+                                                "element": "div",
+                                                "id": "x-027586a5-aab3-4a49-81c2-809956c8f8de-5025",
+                                                "child-idx": 0
+                                              },
+                                              "children": [],
+                                              "text": "Section 6"
+                                            }
+                                          ],
+                                          "text": null
+                                        }
+                                      ],
+                                      "text": null
+                                    }
+                                  ],
+                                  "text": null
+                                }
+                              ],
+                              "text": null
+                            },
+                            {
+                              "tag": "row",
+                              "attribs": {
+                                "cssvar-local-background-color": "background-color",
+                                "style": "background-color:yellow;height:100px;",
+                                "cssvar-local-height": "height",
+                                "xten": "row",
+                                "class": "wx-xten-row",
+                                "element": "div",
+                                "id": "x-ab7d50e7-4c58-40d6-a18d-a680201995e2-6939",
+                                "child-idx": 1
+                              },
+                              "children": [
+                                {
+                                  "tag": "center",
+                                  "attribs": {
+                                    "xten": "center",
+                                    "class": "wx-xten-center",
+                                    "element": "div",
+                                    "id": "x-27369396-186f-4bba-b996-603736a32300-5335",
+                                    "child-idx": 0
+                                  },
+                                  "children": [],
+                                  "text": "Section 9"
+                                }
+                              ],
+                              "text": null
+                            }
+                          ],
+                          "text": null
+                        },
+                        {
+                          "tag": "footer",
+                          "attribs": {
+                            "child-idx": 3
+                          },
+                          "children": [
+                            {
+                              "tag": "align",
+                              "attribs": {
+                                "xten": "align",
+                                "class": "wx-xten-align",
+                                "element": "div",
+                                "id": "x-8a8b1841-7fdb-4b2a-ae56-3c907512481d-1486",
+                                "child-idx": 0
+                              },
+                              "children": [],
+                              "text": "footer"
+                            }
+                          ],
+                          "text": null
+                        }
+                      ],
+                      "text": null
+                    }
+                  ],
+                  "text": null
+                }
+              ],
+              "text": null
+            }
+          ],
+          "text": null
+        }
+      ],
+      "text": null
+    }
+  ],
+  "text": null
+}

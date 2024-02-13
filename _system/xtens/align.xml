@@ -1,0 +1,33 @@
+<!--
+    horizontal options
+    
+    flex-start: Aligns items to the start of the flex container.
+    flex-end: Aligns items to the end of the flex container.
+    center: Centers the items along the main axis of the flex container.
+    space-between: Distributes items evenly along the main axis, with the first item aligned to the start and the last item aligned to the end.
+    space-around: Distributes items evenly along the main axis, with equal space around them.
+    space-evenly: Distributes items evenly along the main axis, with equal space between them.
+    stretch: Stretch items to fill the flex container along the main axis. This is the default behavior when the align-items property is set to stretch.
+
+    vertical options
+    
+    flex-start: Aligns items to the start of the cross axis of the flex container.
+    flex-end: Aligns items to the end of the cross axis of the flex container.
+    center: Centers the items along the cross axis of the flex container.
+    baseline: Aligns items such that their baselines align.
+    stretch: Stretch items to fill the flex container along the cross axis.
+
+    default options are center, center so it aligns items vertically and horizontall in center
+-->
+<xten name="align" element="div">
+    <style>
+        position: relative;
+        display: flex;
+    </style>
+    <nodeStyle>
+        width:[$width||100%];
+        height:[$height||100%];
+        justify-content: [$horizontal||center];
+        align-items: [$vertical||center];
+    </nodeStyle>
+</xten>

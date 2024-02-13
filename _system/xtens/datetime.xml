@@ -9,7 +9,7 @@
         }
 
         const collection = node.getValue('collection') || 'object_data';
-        const objKey = node.getValue('object-name') || context.objKey;
+        const objKey = node.getValue('object-name') || context['object-name'];
         const value = await database.getFieldValue(objKey, name, node.attribs, collection);
         if (!value) {
             return;

@@ -1,0 +1,5 @@
+<xten name="columns" element="div">
+    <nodeStyle>column-count:[$cols||1]</nodeStyle>
+    <nodeTablet>column-count:[$cols-tablet||1]</nodeTablet>
+    <nodePhone>column-count:[$cols-phone||1]</nodePhone>
+</xten>

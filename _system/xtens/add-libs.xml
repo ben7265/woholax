@@ -1,0 +1,20 @@
+<xten name="add-libs" element="_hidden">
+    <init>
+    <%
+        const _value = (node.attribs['libs'] || node.text).trim();
+        if (!_value) {
+            return;
+        }
+        if (!context.libs) {
+            context.libs = {};
+        }
+        const list = _value.split(',');
+        list.forEach((lib) => {
+            const _lib = lib.trim();
+            if (!context.libs[_lib]) {
+                context.libs[_lib] = _lib;
+            }
+        });
+    %>
+    </init>
+</xten>

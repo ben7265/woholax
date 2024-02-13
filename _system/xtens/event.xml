@@ -1,0 +1,5 @@
+<xten name="event" element="_hidden">
+    <init>
+        addEvent(node, node.getValue('name'), context, prop);
+    </init>
+</xten>

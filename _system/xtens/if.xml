@@ -1,0 +1,15 @@
+<xten name="if" element="_hidden">
+    <mandatory>condition</mandatory>
+    <load>
+    <%
+        const condition = node.getValue('condition');
+        try {
+            const result = eval(condition);
+            node.attribs.element = result ? "_children" : "_hidden";
+        }
+        catch (e) {
+            common.nodeerror('error in if condition: ' + e.message, node);
+        }
+    %>
+    </load>
+</xten>

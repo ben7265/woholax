@@ -1,0 +1,20 @@
+<xten name="fitwidth" element="div">
+    <style>
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    </style>
+    <css>
+        .wx-xten-fitwidth > * {
+            width: 100%;
+            height: auto;
+        }
+
+        .wx-xten-fitwidth > * > img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </css>
+</xten>

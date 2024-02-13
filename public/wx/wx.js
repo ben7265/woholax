@@ -16,25 +16,29 @@ window.addEventListener('resize', (event) => {
 });
 
 const setUser = (user) => {
-  user && localStorage.setItem('user', user.stringify());
+  user && localStorage.setItem('user', JSON.stringify(user || null));
+};
+
+const clearUser = () => {
+  localStorage.removeItem('user');
 };
 
 const getUser = () => {
-  return JSON.parse(localStorage.getItem('user'));
+  return JSON.parse(localStorage.getItem('user') || null);
 };
 
 server.post = async (url, data) => {
   const response = await fetch(url, {
     method: "POST",
-    mode: "cors", // no-cors, *cors, same-origin
+    mode: "same-origin", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
+    credentials: "include", // include, *same-origin, omit
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    referrerPolicy: "strict-origin", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
   return response.json();
@@ -136,45 +140,6 @@ const initialiseCSSVars = () => {
 
 const validateForm = (form) => {
   return true;
-};
-
-const getFormData = (form) => {
-  const data = {};
-  for (var i = 0; i < form.elements.length; i++) {
-    const element = form.elements[i];
-    if (!element.name) {
-      continue;
-    }
-    const name = element.name;
-    const type = element.type;
-    if (!name) {
-      continue;
-    }
-    switch (type) {
-      case 'file':
-        data[name] = element.files;
-        break;
-      case 'radio':
-        if (!data[name]) {
-          data[name] = null;
-        }
-        if (element.checked) {
-          data[name] = element.value;
-        }
-        break;
-      case 'checkbox':
-        if (!data[name]) {
-          data[name] = [];
-        }
-        if (element.checked) {
-          data[name].push(element.value);
-        }
-        break;
-      default:
-        data[name] = element.value;
-    }
-  }
-  return data;
 };
 
 socket.on('hello', (message) => {
@@ -456,6 +421,7 @@ const wxfns = {
       modalBody.classList.add('modal-body');
       modal.appendChild(modalBody);
 
+      const label = document.createElement('label');
       const input = document.createElement('input');
 
       const apply = ['type', 'name', 'value', 'min', 'max', 'step'];
@@ -466,6 +432,10 @@ const wxfns = {
         }
       });
 
+      label.style = 'margin-right: 2px;'
+      input.style = input.type != 'color' ? 'padding: 5px; margin: 5px;' : 'margin: 5px;';
+
+      modalBody.appendChild(label);
       modalBody.appendChild(input);
 
       const buttonPanel = document.createElement('div');
@@ -490,8 +460,124 @@ const wxfns = {
       const titleHeight = titlebar.offsetHeight;
       const closeHeight = closeButton.offsetHeight;
 
-      closeButton.style.top = (titleHeight - closeHeight) + 'px';
-      closeButton.style.right = closeButton.style.top;
+      closeButton.style.top = 0;
+      closeButton.style.right = 0;
+
+      function removeModal() {
+        document.body.removeChild(overlay);
+      }  
+    });
+
+    return await confirmation;
+  },
+
+  getMultipleValues: async (list, title, formStyle) => {    
+    const confirmation = new Promise((resolve) => {
+      const overlay = document.createElement('div');
+      overlay.classList.add('overlay');
+      overlay.style = 'position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 9999;';
+
+      const modal = document.createElement('div');
+      modal.classList.add('modal');
+      modal.classList.add('get-values');
+      modal.style = 'position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%)';
+
+      const titlebar = wxfns.addTitle(modal, title);
+
+      const closeButton = wxfns.closeButton(modal, () => {
+        removeModal();
+        resolve(null);
+      });
+
+      const modalBody = document.createElement('div');
+      modalBody.classList.add('modal-body');
+      modal.appendChild(modalBody);
+
+      const form = document.createElement('form');
+      form.style = 'display: block; width: 100%; padding: 10px;';
+
+      const apply = ['type', 'name', 'value', 'min', 'max', 'step', 'required', 'height'];
+
+      list.forEach(input => {
+        const label = document.createElement('label');
+        label.innerText = input.label;
+        label.style = 'width: 150px; display: inline-block;';
+        const field = document.createElement(input.tag);
+        field.style = 'width: 200px; display: inline-block; padding: 5px; margin: 5px';
+
+        const attribs = input;
+
+        apply.forEach((att) => {
+          if (att == 'value') {
+            if (input.type == 'checkbox') {
+              field.checked = String(input.value).toLowerCase() == 'true';
+              return;
+            }
+            field.value = input.value;
+            return;
+          }
+          if (attribs[att]) {
+            field.setAttribute(att, attribs[att]);
+          }
+        });
+        const group = document.createElement('div');
+        group.style = 'padding: 5px';
+        group.appendChild(label);
+        group.appendChild(field);
+        form.appendChild(group);
+      });
+
+      const showError = document.createElement('div');
+      showError.style = 'display: none;';
+      if (formStyle) {
+        form.style = formStyle;
+      }
+
+      form.appendChild(showError);
+      modalBody.appendChild(form);
+
+      const buttonPanel = document.createElement('div');
+      buttonPanel.classList.add('button-panel');
+      modal.appendChild(buttonPanel);
+
+      wxfns.addButton(buttonPanel, 'Save', () => {
+        const data = wxfns.getFormData(form);
+        for (var i = 0; i < list.length; i++) {
+          const _input = list[i];
+          if (_input.required && !data[_input.name]) {
+            showError.innerText = _input.label + ' is mandatory';
+            showError.style = 'display: block; color: red; padding: 10px 0;';
+            return;
+          }
+
+          if (_input.validation) {
+            if (typeof _input.validation == 'function') {
+              const error = _input.validation(data[_input.name]);
+              if (error) {
+                showError.innerText = error;
+                showError.style = 'display: block; color: red; padding: 10px 0;';
+              }
+            }
+          }
+        }
+        showError.style = 'display: none';
+        removeModal();
+        resolve(data);
+      });
+
+      wxfns.addButton(buttonPanel, 'Cancel', () => {
+        removeModal();
+        resolve(null);
+      });
+      
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+  
+      const titleHeight = titlebar.offsetHeight;
+      const closeHeight = closeButton.offsetHeight;
+
+      closeButton.style.top = 0;
+      closeButton.style.right = 0;
 
       function removeModal() {
         document.body.removeChild(overlay);
@@ -527,9 +613,10 @@ const wxfns = {
     attribs['_text'] = element.innerText;
 
     const serverData = {
-      user: localStorage.getItem('user'),
+      user: getUser(),
       attribs: attribs,
       txn: txn,
+      'calling-url': window.location.href,
       data: data
     };
 
@@ -553,28 +640,17 @@ const wxfns = {
   },
 
   transaction: async (element, txn, data, dontShowError) => {
-    var serverKeys = element.getAttribute('server-keys');
-    if (!serverKeys) {
-        const target = element.closest('[server-keys]');
-        if (!target) {
-          !dontShowError && wxfns.error('Could not find server keys', txn);
-          return {rc: 'Could not find server keys ' + txn}; 
-        }
-        serverKeys = target.getAttribute('server-keys');
-    }
-    const attribs = [...element.attributes].reduce((attrs, attribute) => {
+      const attribs = [...element.attributes].reduce((attrs, attribute) => {
       attrs[attribute.name] = attribute.value;
       return attrs;
     }, {});
 
     attribs['_text'] = element.innerText;
-    if (!attribs['server-keys']) {
-      attribs['server-keys'] = serverKeys;
-    }
 
     const serverData = {
-      user: localStorage.getItem('user'),
+      user: getUser(),
       attribs: attribs,
+      'calling-url': window.location.href,
       txn: txn,
       data: data
     };
@@ -585,6 +661,7 @@ const wxfns = {
       return null;
     }
     if (result && result.rc != 'success') {
+      console.log(result);
       !dontShowError && wxfns.error('Error executing transaction ' + txn, result.rc);
     }
     return result;
@@ -636,5 +713,42 @@ const wxfns = {
     }
     
     return element;
+  },
+
+  getFormData: (form) => {
+    const data = {};
+    for (var i = 0; i < form.elements.length; i++) {
+      const element = form.elements[i];
+      if (!element.name) {
+        continue;
+      }
+      const name = element.name;
+      const type = element.type;
+      if (!name) {
+        continue;
+      }
+      switch (type) {
+        case 'file':
+          data[name] = element.files;
+          break;
+        case 'radio':
+          if (!data[name]) {
+            data[name] = null;
+          }
+          if (element.checked) {
+            data[name] = element.value;
+          }
+          break;
+        case 'checkbox':
+          if (!data[name]) {
+            data[name] = null;
+          }
+          data[name] = element.checked;
+          break;
+        default:
+          data[name] = element.value;
+      }
+    }
+    return data;
   }
 }

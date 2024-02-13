@@ -1,0 +1,13 @@
+<xten name="xbutton" element="button">
+    <event name="click">
+        <%
+            event.preventDefault();
+            element = event.currentTarget;
+            const href = element.getAttribute('href');
+            if (href && href != '#') {
+                window.location.href = href;
+                return;
+            }
+        %>
+    </event>
+</xten>

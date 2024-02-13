@@ -1,30 +1,27 @@
 <!-- default system collections -->
 <collections name="default">
     <collection name="urls">
-        <struct>
-            <url/>
-            <type default="page">
-                <page/>
-                <redirect/>
-            </type>
-            <pagename/>
-        </struct>
         <index name="url_index" type="unique">
             <field>
-                <name>url</name>
+                <name>name</name>
+                <value>1</value>
+            </field>
+        </index>
+        <index name="type_index">
+            <field>
+                <name>type</name>
+                <value>1</value>
+            </field>
+        </index>
+        <index name="object_name_index">
+            <field>
+                <name>object-name</name>
                 <value>1</value>
             </field>
         </index>
     </collection>
 
     <collection name="object_data">
-        <index name="url" type="unique">
-            <field>
-                <name>url</name>
-                <value>1</value>
-            </field>
-        </index>
-
         <index name="name_index" type="unique">
             <field>
                 <name>name</name>
@@ -32,31 +29,31 @@
             </field>
         </index>
 
-        <index name="key_index" type="unique">
+        <index name="object_name_index">
             <field>
-                <name>key</name>
+                <name>object-name</name>
                 <value>1</value>
             </field>
         </index>
 
-        <index name="type_index" type="unique">
+        <index name="type_index">
             <field>
                 <name>type</name>
                 <value>1</value>
             </field>
         </index>
 
-        <index name="data_index">
+        <index name="urls_index">
             <field>
-                <name>data.$**</name>
+                <name>urls</name>
                 <value>1</value>
             </field>
         </index>
 
-        <index name="text_index">
+        <index name="created_index">
             <field>
-                <name>data</name>
-                <value>text</value>
+                <name>created</name>
+                <value>1</value>
             </field>
         </index>
     </collection>
@@ -83,6 +80,22 @@
         <index name="key_index" unique="1">
             <field>
                 <name>key</name>
+                <value>1</value>
+            </field>
+        </index>
+    </collection>
+
+    <collection name="constants">
+        <index name="scope_index">
+            <field>
+                <name>scope</name>
+                <value>1</value>
+            </field>
+        </index>
+
+        <index name="name_index">
+            <field>
+                <name>name</name>
                 <value>1</value>
             </field>
         </index>

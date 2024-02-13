@@ -41,16 +41,16 @@
 
         <list-item-view name="default">
             <div name="list-item">
-                <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" />
+                <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" src="[@blog-image]" />
                 <gap height="10px"/>
                 <textalign>
                     <inline name="blog-title" object-name="[@object-name]">
-                        Blog Title
+                        [@blog-title||Blog Title]
                     </inline>
                 </textalign>
                 <gap height="10px"/>
                 <value name="blog-description" summary="40" readonly="true" element="div" object-name="[@object-name]">
-                    Blog Post
+                    [@blog-description||Blog description]
                 </value>
                 <gap height="10px"/>
                 <a class="continue-link" href="[@url-default]">

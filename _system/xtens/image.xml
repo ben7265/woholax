@@ -1,7 +1,6 @@
 <xten name="image" element="div">
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
-
     <view>
         <img src="[$src||images/blank.jpg]" alt="[$alt||$name]" />
         <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
@@ -44,10 +43,13 @@
     </view>
 
     <style>
+        display: flex;
         position: relative;
         overflow: hidden;
         width: 100%;
         max-height: 100%;
+        justify-content: center;
+        align-items: center;
     </style>
 
     <nodeStyle>
@@ -55,11 +57,19 @@
     </nodeStyle>
 
     <css>
-        .wx-xten-image > .wx-xten-toolbar {display: none;}
+        .wx-xten-image > .wx-xten-toolbar {
+            display: none;
+            position: relative;
+        }
         .wx-xten-image.wx-state-editable .wx-xten-toolbar {display: inline-block;}
         .wx-xten-image.image-changed .wx-xten-toolbar {display: inline-block;}
         .wx-xten-image.image-changed {border: 5px solid red;}
-        .wx-xten-image > img {width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .wx-xten-image > img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center;
+        }
         .wx-xten-image > .wx-xten-toolbar > .close {display: none;}
         .wx-xten-image > .wx-xten-toolbar > .save {display: none;}
         .wx-xten-image.image-changed > .wx-xten-toolbar > .close {display: inline-block;}
@@ -67,7 +77,18 @@
     </css>
 
     <cssNode>
-        [$id] > .img {aspect-ratio: [$aspect-ratio||auto]}
+        #[$id] > img {
+            aspect-ratio: [$aspect-ratio||auto];
+        }
+
+        #[$id].wx-state-editable > .wx-xten-toolbar {
+            display: inline-block;
+            position: absolute;
+            top: [$toolbar-top||0];
+            left: [$toolbar-left||0];
+            right: [$toolbar-right||auto];
+            bottom: [$toolbar-bottom||auto];
+        }
     </cssNode>
 
     <initElement>

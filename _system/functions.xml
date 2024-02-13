@@ -9,7 +9,6 @@
 <!--function name="xxxtransaction-parent">
     const result = await wxfns.transaction(toolbarParent, '[$name]', [$data||null]);
     if (result.rc != 'success') {
-        wxfns.error('Error in transaction [$name]', result.rc);
         return;
     }
     toolbarParent['[$output]'] = result.output;
@@ -22,7 +21,6 @@
     }
     const result = await wxfns.transaction(target, '[$name]', [$data||null]);
     if (result.rc != 'success') {
-        wxfns.error('Error in transaction [$name]', result.rc);
         return;
     }
     toolbarParent['[$output]'] = result.output;
@@ -32,7 +30,6 @@
     var formData = null;
     const result = await wxfns.upload(toolbarParent, '[$name]', null, toolbarParent['[$file]']);
     if (result.rc != 'success') {
-        wxfns.error('Error in transaction [$name]', result.rc);
         return;
     }
     toolbarParent['[$file-url]'] = result.output;

@@ -1,96 +1,24 @@
-<xten name="add-object" element="_hidden">
-    <mandatory>object-type</mandatory>
-    <event name="click">
-        <transaction target="event-target" name="txn-add-object" />
-        <reload/>
-    </event>
-
-    <init>
-        node.parent.attribs['object-type'] = node.attribs['object-type'];
-    </init>
-
-    <txn name="txn-add-object">
-    <%
-        const objType = attribs['object-type'];
-        if (!objType) {
-            return {rc: 'object-type is missing'};
-        }
-
-        const objConfigNode = common.findNamed(node, 'object-config', objType);
-        if (!objConfigNode) {
-            return {rc: 'invalid object type: ' + objType};
-        }
-
-        const objConfig = common._tojson(objConfigNode, 'page, view');
-        if (!objConfig) {
-            return {rc: 'could not parse object-config: ' + objType};
-        }
-
-        const allow = objConfig.allow || ['owner', 'admin'];
-
-        
-        const pageNames = objConfig.page.map(_pc => (_pc.name));
-
-        var structure = objConfigNode.findChildren('structure')[0];
-        return await database.createObject(objType, pageNames, structure, keyData.collection);
-    %>
-    </txn>
-</xten>
-
-<xten name="delete-object" element="_hidden">
-    <mandatory>object-type, object-name</mandatory>
-    <event name="click">
-        <confirm>Do you want to delete object [$object-name]?</confirm>
-        <transaction target="event-target" name="txn-delete-object" />
-        <reload/>
-    </event>
-
-    <init>
-        node.parent.attribs['object-type'] = node.attribs['object-type'];
-        node.parent.attribs['object-name'] = node.attribs['object-name'];
-    </init>
-
-    <txn name="txn-delete-object">
-    <%
-        const objType = attribs['object-type'];
-        if (!objType) {
-            return {rc: 'object-type is missing'};
-        }
-
-        var named = common.findNamed(node, 'object-config', objType);
-        if (!named) {
-            return {rc: 'invalid object type: ' + objType};
-        }
-
-        /* check access for object type
-        also additional collection override can be in object-config */
-
-        const objKey = attribs['object-name'];
-        if (!objKey) {
-            return {rc: 'object-name is missing in txn-delete-object'};
-        }
-
-        const collName = keyData.collection;
-        delete context.config.pages[objKey];
-        return await database.deleteObject(objKey, collName);
-    %>
-    </txn>
-</xten>
-
 <view name="object-list-toolbar">
     <toolbar name="object-list-toolbar" class="object-list-toolbar" object-type="[@object-type]" top="[$toolbar-top||0]" right="[$toolbar-right||0]">
         <icon name="add">
             <tooltip>add [@object-label]</tooltip>
-            <add-object object-type="[@object-type]"/>
+            <click name="_eventObjectAdd">
+                <transaction name="add-object" />
+                <reload/>
+            </click>
         </icon>
     </toolbar>
 </view>
 
 <view name="object-item-toolbar">
     <toolbar name="object-item-toolbar" class="object-item-toolbar">
-        <icon name="remove">
+        <icon name="remove" object-type="[@object-type]" object-name="[@object-name]">
             <tooltip>delete [@object-label] </tooltip>
-            <delete-object object-type="[@object-type]" object-name="[@object-name]"/>
+            <click name="_eventObjectDelete">
+                <confirm>Do you want to delete object [@object-name]?</confirm>
+                <transaction name="delete-object" target="event-target" />
+                <reload/>
+            </click>
         </icon>
     </toolbar>
 </view>
@@ -132,19 +60,18 @@
         node.empty();
 
         node.attribs['object-label'] = node.getValue('label') || common.toCamelCase(objType);
-        const vars = node.vars; /*common.getVariables(node, context);*/
 
-        var pageSize = node.getValue('pagesize') || vars[objType + '-pagesize'] || configNode.getValue('pagesize');
+        var pageSize = node.getValue('pagesize') || context.vars[objType + '-pagesize'] || configNode.getValue('pagesize');
         pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
         if (!pageSize) {
             return;
         }
 
-        var pageNumber = node.getValue('pagenum') || vars[objType + '-pagenum'];
+        var pageNumber = node.getValue('pagenum') || context.vars[objType + '-pagenum'];
         pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
 
-        var url = vars.url;
-        const query = vars.query || null;
+        var url = context.vars.url;
+        const query = context.vars.query || null;
 
         url += '?';
 
@@ -195,15 +122,53 @@
 
     <load>
     <%
-        const objType = node.getValue('object-type');
-        if (!objType) {
-            common.nodeerror('object-type is missing', node);
+        var objKey = node.getValue('object-name');
+        if (!objKey) {
+            common.nodeerror('object-name is missing in xten object', node);
             return;
         }
 
-        const objConfigNode = common.findNamed(node, 'object-config', objType);
+        var output = null;
+        if (objKey.startsWith('[@')) {
+            output = await database.getPageDataFromURL(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find page ' + context.vars.url, node);
+                return;
+            }
+        }
+        else
+        {
+            output = await database.getPageDataFromObjectName(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find object ' + objKey, node);
+                return;
+            }
+        }
+
+        if (!output.doc) {
+            common.nodeerror('empty page data found ' + objKey + '-' + context.vars.url, node);
+            return;
+        }
+
+        objKey = output.doc['object-name'];
+        objType = output.doc.type;
+
+        objConfigNode = common.findNamed(node, 'object-config', objType);
         if (!objConfigNode) {
             common.nodeerror('invalid object type: ' + objType, node);
+            return;
+        }
+
+        const objConfig = common._tojson(objConfigNode, 'page, view');
+
+        const data = await database.getObjectData(objKey, node.getValue('collection') || objConfig.collection || 'object_data');
+        if (data.rc != 'success') {
+            common.nodeerror('System Error ' + data.rc, node);
+            return;
+        }
+
+        if (!data.doc) {
+            common.nodeerror('page not found ' + objKey, node);
             return;
         }
 
@@ -214,14 +179,7 @@
             return;
         }
 
-        const objKey = node.getValue('object-name');
-        if (!objKey) {
-            common.nodeerror('object-name is missing in xten object', node);
-            return;
-        }
-
-        const objConfig = common._tojson(objConfigNode, 'page, view');
-        common.substituteVars(view, common.getLocalVariables(node));
+        common.substituteVars(view, node.attribs);
 
         const toolbarView = common.findNamed(node, 'view', 'object-item-toolbar');
         var objectItemToolbar = null;
@@ -233,52 +191,39 @@
             }
         }
 
-        node.attribs['object-label'] = node.getValue('label') || common.toCamelCase(objType);
-        const vars = node.vars; /* common.getVariables(node, context);*/
+        node.attribs['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+        const vars = node.attribs;
         for (var prop in node.attribs) {
             vars[prop] = node.attribs[prop];
         }
         
         node.empty();
 
-        const data = await database.getObjectData(objKey, objConfig.collection);
-        if (data.rc != 'success') {
-            common.nodeerror('System Error', data.rc);
-            return;
-        }
-
-        if (!data.doc) {
-            common.nodeerror('page not found', node);
-            return;
-        }
-
         const rec = data.doc;
 
         const _vars = rec;
         _vars['object-type'] = objType;
-        _vars['object-name'] = rec['name'];
-        _vars['object-label'] = node.getValue('label') || common.toCamelCase(objType);
+        _vars['object-name'] = objKey;
+        _vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
 
         vars['object-name'] = rec['name'];
-        vars['object-label'] = node.getValue('label') || common.toCamelCase(objType);
+        vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
         const _view = view.clone();
         _view.attribs.element = 'div';
         _view.addClass('wx-view-object-list-item');
         _view.attribs.name = 'object-view';
-        /*_view.attribs['object-name'] = rec.name;*/
-        /*_view.attribs.redirect = '/';*/
 
         var _toolbar = null;
         if (objectItemToolbar) {
             _toolbar = objectItemToolbar.clone();
-            common.substituteVars(_toolbar, common.getLocalVariables(node));
             node.addChild(_toolbar);
         }
 
-        common.substituteVars(_view, _vars, common.recordPattern);
-        common.substituteVars(_view, common.getLocalVariables(node));
+        common.substituteVars(_view, _vars, true, common.recordPattern);
+        common.substituteVars(_view, node.attribs);
+
         node.addChild(_view);
-        processXtens(node, context);
+        xtensions.processXtens(node, context);
     %>
     </load>
 </xten>
@@ -295,9 +240,9 @@
         .wx-xten-object-list .wx-view-list-parent {position: relative;}
         .wx-xten-object-list .wx-view-list-parent:not(tbody) {display: flex; flex-wrap: wrap; width: 100%;}
         .wx-xten-object-list .object-list-toolbar {display: none;}
-        .wx-xten-object-list .wx-xten-object-item-toolbar {display: none;}
+        .wx-xten-object-list .object-item-toolbar {display: none;}
         .wx-xten-object-list.wx-state-editable .object-list-toolbar {display: inline-block;}
-        .wx-xten-object-list.wx-state-editable .wx-xten-object-item-toolbar {display: inline-block;}
+        .wx-xten-object-list.wx-state-editable .object-item-toolbar {display: inline-block;}
     </css>
     <cssNode>
         #[$id] .wx-view-list-parent:not(tbody) {flex-direction: [$orientation||row]; gap:[$item-gap||0];}
@@ -309,6 +254,7 @@
 
     <load>
     <%
+        /*var startTime = common.startTimer();*/
         const objType = node.getValue('object-type');
         if (!objType) {
             node.attribs.error = 'object-type is mandatory';
@@ -331,7 +277,7 @@
             return;
         }
 
-        const vars = node.vars; /* common.getVariables(node, context);*/
+        const vars = node.attribs;
 
         var pageSize = node.getValue('pagesize') || vars[objType + '-pagesize'] || configNode.getValue('pagesize');
         pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
@@ -339,7 +285,7 @@
         var pageNumber = context.vars[objType + '-pagenum'] || node.getValue('pagenum');
         pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
 
-        const sort = node.getValue('sort') || vars[objType + '-sort'] || configNode.getValue('sort') || 'created:-1';
+        const sort = node.getValue('sort') || vars[objType + '-sort'] || configNode.getValue('sort') || 'created:1';
         const _sort = common.nameValueStr2Json(sort);
 
         const label = node.getValue('label') || configNode.getValue('label') || common.toCamelCase(objType);
@@ -375,9 +321,9 @@
             node.empty();
             node.insertChildren(0, emptyView.children);
 
-            common.substituteVars(node, _vars, common.recordPattern);
+            common.substituteVars(node, _vars, true, common.recordPattern);
             common.substituteVars(node, node.attribs);
-            processXtens(node, context);
+            xtensions.processXtens(node, context);
             return;
         }
 
@@ -438,7 +384,9 @@
             
             const li = listItemView.clone();
             li.children[0].addClass('wx-view-list-item');
-            common.substituteVars(li, rec, common.recordPattern);
+            common.substituteVars(li, rec, true, common.recordPattern);
+            common.substituteVars(li, node.attribs);
+            /*xtensions.processXtens(li, context);*/
 
             listParent.insertChildren(0, li.children);
         }
@@ -446,9 +394,13 @@
         node.empty();
         node.insertChildren(0, dataView.children);
 
-        common.substituteVars(node, _vars, common.recordPattern);
+        common.substituteVars(node, _vars, true, common.recordPattern);
         common.substituteVars(node, node.attribs);
-        processXtens(node, context);
+        /*common.endTimer(startTime, '=> object-list load before process xtens.');*/
+
+        /*var startTime = common.startTimer();*/
+        xtensions.processXtens(node, context);
+        /*common.endTimer(startTime, '=> object-list load process xtens.');*/
     %>
     </load>
 </xten>

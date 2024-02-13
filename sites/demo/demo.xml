@@ -4,6 +4,12 @@
 
 <db name="wx_demo" />
 
+<public>asdf, asdf</public>
+
+<css name="test">
+    .test { color: red; }
+</css>
+
 #include includes/blog-post.xml
 
 #include pages/home.xml

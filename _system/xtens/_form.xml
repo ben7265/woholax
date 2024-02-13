@@ -1,0 +1,41 @@
+<xten name="_form" element="form">
+    <style>
+        position: relative;
+        display: block;
+    </style>
+
+    <nodeStyle>
+        width: [$width||100%];
+        padding: [$padding||20px];
+    </nodeStyle>
+
+    <css>
+        .wx-xten-_form label {
+            flex: 1 0 30%;
+            text-align: right;
+        }
+
+        .wx-xten-_form input {
+            flex: 1 0 70%;
+        }
+    </css>
+
+    <init>
+    <%
+        const name = node.getValue('name');
+        const children = node.children;
+        const labels = node.find('label');
+        labels.forEach(label => {
+            label.attribs['object-name'] = name;
+        });
+
+        const objName = node.getValue('object-name');
+        if (objName) {
+            const inputs = node.find('.xinput');
+            inputs.forEach(input => {
+                input.attribs['object-name'] = objName;
+            });
+        }
+    %>
+    </init>
+</xten>

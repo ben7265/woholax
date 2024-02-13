@@ -23,10 +23,14 @@
 .modal .title {
     padding: 10px;
     border-bottom: 1px solid darkgrey;
+    font-weight: bold;
 }
 
 .modal .modal-body {
     min-height: 50px;
+    padding: 5px;
+    width: 200px;
+    text-align: center;
 }
 
 .modal .button-panel {
@@ -35,8 +39,10 @@
     text-align: right;
 }
 
-.modal .button-panel .button {
-    padding: 15px;
+.modal .button-panel button {
+    padding: 5px 10px;
+    background-color: lightblue;
+    margin: 5px;
 }
 
 /* get-value */

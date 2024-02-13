@@ -1,38 +1,67 @@
 #include _system/functions.xml
 #include _system/views.xml
 
-#include _system/xtends.xml
-#include _system/internal.xml
-#include _system/layouts.xml
+#include _system/_internal.xml
 #include _system/objects.xml
 
-#include _system/xtens/configuration.xml
-#include _system/xtens/navbar.xml
-#include _system/xtens/tooltip.xml
-#include _system/xtens/icon.xml
-#include _system/xtens/toolbar.xml
-#include _system/xtens/circle.xml
-#include _system/xtens/line.xml
-#include _system/xtens/grid.xml
-#include _system/xtens/list.xml
+#include _system/xtens/_form.xml
+#include _system/xtens/_list.xml
+#include _system/xtens/add-libs.xml
+#include _system/xtens/align.xml
 #include _system/xtens/banner.xml
-#include _system/xtens/inline.xml
-#include _system/xtens/image.xml
-#include _system/xtens/quickplay.xml
-#include _system/xtens/show.xml
-#include _system/xtens/repeat.xml
-#include _system/xtens/value.xml
+#include _system/xtens/body.xml
+#include _system/xtens/carousel.xml
+#include _system/xtens/center.xml
+#include _system/xtens/circle.xml
+#include _system/xtens/click.xml
+#include _system/xtens/column.xml
+#include _system/xtens/columns.xml
+#include _system/xtens/configuration.xml
+#include _system/xtens/container.xml
+#include _system/xtens/cover.xml
+#include _system/xtens/css.xml
 #include _system/xtens/datetime.xml
-
-
-
-<!--
-#include _system/xtends.xml
-#include _system/components.xml
-#include _system/editables.xml
-#include _system/flow.xml
-#include _system/formats.xml
--->
+#include _system/xtens/draggable.xml
+#include _system/xtens/email-form.xml
+#include _system/xtens/fitheight.xml
+#include _system/xtens/fitwidth.xml
+#include _system/xtens/flex.xml
+#include _system/xtens/event.xml
+#include _system/xtens/font.xml
+#include _system/xtens/gap.xml
+#include _system/xtens/grid.xml
+#include _system/xtens/icon.xml
+#include _system/xtens/if.xml
+#include _system/xtens/image.xml
+#include _system/xtens/inline.xml
+#include _system/xtens/layers.xml
+#include _system/xtens/line.xml
+#include _system/xtens/list.xml
+#include _system/xtens/navbar.xml
+#include _system/xtens/pos-bottom-left.xml
+#include _system/xtens/pos-bottom-right.xml
+#include _system/xtens/pos-bottom.xml
+#include _system/xtens/pos-left.xml
+#include _system/xtens/pos-middle.xml
+#include _system/xtens/pos-right.xml
+#include _system/xtens/pos-top-left.xml
+#include _system/xtens/pos-top-right.xml
+#include _system/xtens/pos-top.xml
+#include _system/xtens/quickplay.xml
+#include _system/xtens/repeat.xml
+#include _system/xtens/row.xml
+#include _system/xtens/screencover.xml
+#include _system/xtens/show.xml
+#include _system/xtens/space.xml
+#include _system/xtens/sudo.xml
+#include _system/xtens/textalign.xml
+#include _system/xtens/textedit.xml
+#include _system/xtens/toolbar.xml
+#include _system/xtens/tooltip.xml
+#include _system/xtens/value.xml
+#include _system/xtens/xbutton.xml
+#include _system/xtens/xinput.xml
+#include _system/xtens/xstyle.xml
 
 #include _system/collections.xml
 

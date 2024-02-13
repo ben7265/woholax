@@ -1,0 +1,53 @@
+<xten name="draggable" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        height: auto;
+        width: auto;
+    </style>
+
+    <nodeStyle>
+        overflow: [$overflow||hidden];
+        resize: [$resize||both];
+        cursor: [$cursor||move];
+    </nodeStyle>
+
+    <initElement>
+        <%
+            element.onmousedown = (e) => {
+                const resizeHandleSize = 15;
+                const width = element.offsetWidth;
+                const height = element.offsetHeight;
+
+                const computedStyle = window.getComputedStyle(element);
+                const cursorStyle = computedStyle.getPropertyValue('cursor');
+
+                if (e.clientX > (element.offsetLeft + width - resizeHandleSize) && e.clientY > (element.offsetTop + height - resizeHandleSize))
+                {
+                    return true;
+                }
+
+                var currentX = 0;
+                var currentY = 0;
+
+                currentX = e.clientX;
+                currentY = e.clientY;
+
+                element.classList.add("dragging");
+
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                    element.classList.remove("dragging");
+                };
+
+                document.onmousemove = (e) => {
+                    element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
+                    element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
+                    currentX = e.clientX;
+                    currentY = e.clientY;
+                };
+            };
+        %>
+    </initElement>
+</xten>
