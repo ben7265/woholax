@@ -17,19 +17,24 @@ Wohola X is a licensed product. You can freely download it for learning or devel
 
 **To enquire about or to procure licenses, or to have someone develop Wohola X solutions for you you can contact one of the Wohola X solution providers. We have a number of solution providers who can help you with your solutions.**
 
-Wohola X is a UK product and usage would be governed by laws of England and Wales. License information would be uploaded here at the time of the public release.
+Wohola X is a UK product and usage would be governed by laws of England and Wales. License information would be uploaded here at the time of public release.
 
 Wohola X Solution Providers
 ---------------------------
 
 **India**
 
-Sahyog Consulting<br>
+_Sahyog Consulting_<br>
 Website: www.sahyogconsulting.com<br>
 Email: info@sahyogconsulting.com<br>
 Contact: Vineet Srivastava<br>
 Phone: +91 9716953125<br>
 Email: vineet@sahyogconsulting.com<br>
+
+_Grads IT Solutions Pvt Limited_<br>
+Contact: Pankaj Chahal<br>
+Phone: +91 9891605876<br>
+Email: pankaj.chahal@GradsIT.com<br>
 
 _More coming soon..._
 
