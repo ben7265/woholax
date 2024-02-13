@@ -10,11 +10,12 @@ Target audience: any company or person developing web based solutions
 ---------------------------------------------------------------------
 
 The current release is for internal team only but members of public are welcome to download and try it out. The public release would be made towards the end of March, 2024.
+
 There is a quick start guide in docs folder to get you started. If you like what you see we have Wohola Development Partners who are ready to work with you on your project or you could learn WXML and build the project yourself.
 
 Wohola X is a licensed product. You can freely download it for learning or development purposes on localhost but to make that project live on a live domain you would need a license file installed in your system. 
 
-**To enquire about or procure licenses, or to have someone develop Wohola X solutions for you you can contact one of the Wohola X solution providers. We have a number of solution providers who can help you with your solutions.**
+**To enquire about or to procure licenses, or to have someone develop Wohola X solutions for you you can contact one of the Wohola X solution providers. We have a number of solution providers who can help you with your solutions.**
 
 Wohola X is a UK product and usage would be governed by laws of England and Wales. License information would be uploaded here at the time of the public release.
 
