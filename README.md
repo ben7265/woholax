@@ -22,12 +22,13 @@ Wohola X Solution Providers
 ---------------------------
 
 **India**
-Sahyog Consulting
-www.sahyogconsulting.com
-info@sahyogconsulting.com
-Vineet Srivastava
-+91 9716953125
-vineet@sahyogconsulting.com 
+
+_Sahyog Consulting_
+Website: www.sahyogconsulting.com
+Email: info@sahyogconsulting.com
+Contact: Vineet Srivastava
+Phone: +91 9716953125
+Email: vineet@sahyogconsulting.com
 
 More coming soon...
 
