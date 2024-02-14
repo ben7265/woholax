@@ -4,7 +4,7 @@ Wohola X
 --------
 An enterprise solution for developing scalable web based applications easily and quickly.
 
-Release 1.0 beta
+Release 1.1 beta
 
 Target audience: any company or person developing web based solutions
 ---------------------------------------------------------------------
