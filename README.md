@@ -11,7 +11,7 @@ Target audience: any company or person developing web based solutions
 
 The current release is for internal team only but members of public are welcome to download and try it out. The public release would be made towards the end of March, 2024.
 
-There is a quick start guide in docs folder to get you started. If you like what you see we have Wohola Development Partners who are ready to work with you on your project or you could learn WXML and build the project yourself.
+There is a quick start guide in docs folder to get you started. If you like what you see we have Wohola Development Partners who are ready to work with you on your project or you could learn WXML and build the project yourself. Feel free to contact us here to join our free training programs in case you wish to learn Wohola X coding.
 
 Wohola X is a licensed product. You can freely download it for learning or development purposes on localhost but to make that project live on a live domain you would need a license file installed in your system. 
 
