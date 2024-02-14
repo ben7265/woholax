@@ -103,9 +103,20 @@ Notes for Enterprises
 6. WX can be one software for all the web based workflows within an organization eliminating the need for various different systems and integrations.
 7. Typical ERP implementations are never suitable for any enterprise out of the box, and require a lot of custimizations. The end result often is a massive system that requires extensive training for users. WX has very simple WYSIWG (What You See Is What You Get) user interface and its philosophy of WYNIWYD (What Need Is What You Develop/Deploy) you end up with a smaller system which is much easier to manage and use.
 8. WX can be customised or WXML can be enhanced easily by developers with knowlege of HTML/CSS and Javascript to take care of any business needs for an enterprise, regardless of features it comes out of box with.
-9. There is already a community of WX developers and a growing network of WX solution providers to address any business continuity concerns.
+9. WX has in built security and role based authentication which is at par with other such libraries. 
+10. There is already a community of WX developers and a growing network of WX solution providers to address any business continuity concerns.
 
-We welcome technical evaluation and benchmarking with your typical deployment for you to be able to compare the difference.
+We welcome technical evaluation and benchmarking with your typical deployment for you to be able to compare the difference. Seeing is believing, so you can contact our solution providers for a demo.
+
+Notes for Developers of Web Based Solutions
+-------------------------------------------
+1. WX comes with a database structure which is suitable for 90% of typical business requirements. It creates and manages the database as well as data internally with zero coding. So you only create layout on what the screen looks like and WX figures out where and how to store and retrieve the data. The standard database can be enhanced, customized or replaced altogether on need basis.
+2. HTML/XML is very basic skill and it is difficult to imagine being able to build full scale solutions using WXML, a language that is nothing but new HTML tags with a syntax of XML, for developers used to complex technologies like PHP, React, Java or Angular. You can read through quick start guide quickly and if you have time try the examples in the demo to see that its actually possible.
+3. To add new tags (XTENS) you simply create another WXML file and encapsulate all the HTML, CSS, browser javascript and server side javascript in a single file. So there is no need for you to go looking around where the problem is when a problem occurs. You can check out _system/xtens folder to see the XTENS currently packaged with WX and see how easy it is to enhance WXML.
+4. With open source technologies or with solutions built on PHY, Python or Javascript it can be difficult to protect your source code. In WX it is possible for you to deploy an encrypted version of XTENS and/or JSON files on client server where they can run the application but cannot view or modify your source code.
+5. You can develop and deploy applications quicker and build new solutions quicker and have less problems overall. Users would also like the ease of use of final outcome.
+
+Seeing is believing, so you can contact us to see a demo and if you like you can join our network of Wohola Solution providers. Currently we have ongoing free training programs for companies or developers willing to join the Wonderful World of Wohola X. With a powerful solution like Wohola X and a network of like minded companies you end up with capability to deliver any size project with any level of complexity.
 
 Limitations
 -----------
