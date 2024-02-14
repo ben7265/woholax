@@ -22,7 +22,22 @@ Wohola X is a UK product and usage would be governed by laws of England and Wale
 Wohola X Solution Providers
 ---------------------------
 
+**USA**
+
+_Pyramid Cyber Security America Inc._<br>
+Address: 4677 Old Ironsides Drive, Ste.310, Santa Clara, CA 95054<br>
+Website: pyramidcyber.com<br>
+Phone: 408-769-4996<br>
+Email: contact@pyramidcyber.com<br>
+
 **India**
+
+_Samtech Innovations Private Limited_<br>
+Address: 14-DSIDC, Computer Complex, Scheme1,<br>
+Okhla Industrial Area Phase II,<br>
+New Delhi-110020, India<br>
+Website: samtechinnovations.com
+Phone: +91-9899481938, +91-7303416041
 
 _Sahyog Consulting_<br>
 Website: www.sahyogconsulting.com<br>
