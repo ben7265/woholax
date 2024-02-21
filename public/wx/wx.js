@@ -428,7 +428,7 @@ const wxfns = {
       
       apply.forEach((att) => {
         if (attribs[att]) {
-          input.setAttribute(att, attribs[att]);
+          input.setAttribute(att, attribs[att] || '');
         }
       });
 
@@ -513,7 +513,7 @@ const wxfns = {
               field.checked = String(input.value).toLowerCase() == 'true';
               return;
             }
-            field.value = input.value;
+            field.value = input.value || '';
             return;
           }
           if (attribs[att]) {
@@ -630,11 +630,11 @@ const wxfns = {
     });
     const result = await response.json();
     if (!result) {
-      !dontShowError && wxfns.error('No result from server ' + txn, result.rc);
+      !dontShowError && wxfns.error('No result', 'Server did not send any data for ' + txn);
       return null;
     }
     if (result && result.rc != 'success') {
-      !dontShowError && wxfns.error('Error executing transaction ' + txn, result.rc);
+      !dontShowError && wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error in txn ' + txn);
     }
     return result;
   },
@@ -657,12 +657,11 @@ const wxfns = {
 
     const result = await server.post('/transaction', serverData);
     if (!result) {
-      !dontShowError && wxfns.error('Error executing transaction ' + txn, result.rc);
+      !dontShowError && wxfns.error('No result', 'Server did not send any data for ' + txn);
       return null;
     }
     if (result && result.rc != 'success') {
-      console.log(result);
-      !dontShowError && wxfns.error('Error executing transaction ' + txn, result.rc);
+      !dontShowError && wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error in txn ' + txn);
     }
     return result;
   },
@@ -715,8 +714,15 @@ const wxfns = {
     return element;
   },
 
+  toCamelCase: (str) => {
+    return str.split(/[\s\_\-\.]/).map((s) => { return s.trim() }).map((s) => { return s.charAt(0).toUpperCase() + s.substring(1) }).join(' ');
+  },
+
   getFormData: (form) => {
     const data = {};
+    const checkHuman = form.querySelector('.wx-xten-check-human');
+    data['check-human'] = checkHuman ? checkHuman._value : true;
+
     for (var i = 0; i < form.elements.length; i++) {
       const element = form.elements[i];
       if (!element.name) {

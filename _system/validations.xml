@@ -1,0 +1,17 @@
+<validations>
+    <integer>
+        return /^[0-9]+$/.test(value) ? null : 'not a valid integer';
+    </integer>
+    <email>
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : 'not a valid email';
+    </email>
+    <phone>
+        return /^\+?[0-9][0-9\-\s]+$/.test(value) ? null : 'not a valid phone';
+    </phone>
+    <bool>
+        return value == 'true' || value == true || value == 'false' || value == false ? null : 'not boolean';
+    </bool>
+    <true>
+        return value == 'true' || value == true ? null : 'not true';
+    </true>
+</validations>

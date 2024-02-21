@@ -3,18 +3,25 @@
 
     <page name="default" max-width="900px" redirect="/">
         #include includes/header.xml
+
         <div>some information to show before the object on this page</div>
         <gap height="20px"/>
 
         <object object-name="[@object-name]" />
+
         <gap height="20px"/>
 
         <div>some information to show after the object on this page</div>
+
         #include includes/footer.xml
     </page>
 
+    <page name="summary-page">
+        <object object-name="[@object-name]" object-view="summary-view" />
+    </page>
+
     <object-view name="default">
-        <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" />
+        <image name="blog-image" aspect-ratio="1.5" object-name="[@object-name]" />
         <gap height="20px"/>
         <textalign>
             <inline name="blog-title" element="div" object-name="[@object-name]">
@@ -25,7 +32,10 @@
         <textedit name="blog-desc" element="div" object-name="[@object-name]">
             Add post description
         </textedit>
-        <object-list-toolbar />
+        <object-item-toolbar />
+    </object-view>
+
+    <object-view name="summary-view">
     </object-view>
 
     <list-view name="default">
@@ -41,7 +51,7 @@
 
         <list-item-view name="default">
             <div name="list-item">
-                <image name="blog-image" aspect-ratio=".75" object-name="[@object-name]" src="[@blog-image]" />
+                <image name="blog-image" aspect-ratio="1.5" object-name="[@object-name]" src="[@blog-image||images/blank.jpg]" />
                 <gap height="10px"/>
                 <textalign>
                     <inline name="blog-title" object-name="[@object-name]">
@@ -61,7 +71,11 @@
         </list-item-view>
 
         <empty-view name="default">
-            <div>list is empty</div>
+            <container style="height:100px; background: yellow;">
+                <align>
+                list is empty
+                </align>
+            </container>
             <object-list-toolbar />
         </empty-view>
     </list-view>
@@ -70,7 +84,7 @@
         <data-view name="default">
             <table width="100%">
                 <thead>
-                    <tr>
+                    <tr style="height: 50px">
                         <th>image</th>
                         <th>title</th>
                         <th><object-list-toolbar /></th>
@@ -84,8 +98,12 @@
         </data-view>
 
         <list-item-view name="default">
-            <tr template="list-item">
-                <td style="width: 150px"><image name="blog-image" object-name="[@object-name]" aspect-ratio="0.75" /></td>
+            <tr name="list-item">
+                <xstyle selector=".blog-title td">
+                    border: 1px solid red;
+                </xstyle>
+
+                <td style="width: 150px"><image name="blog-image" object-name="[@object-name]" aspect-ratio="1.5" /></td>
                 <td><value name="blog-title" object-name="[@object-name]">blog title</value></td>
                 <td><object-item-toolbar /></td>
             </tr>
@@ -110,7 +128,7 @@
                 <row>
                     <column>
                         <fitwidth>
-                            <image name="blog-image" object-name="[@object-name]" aspect-ratio="0.75" />
+                            <image name="blog-image" object-name="[@object-name]" aspect-ratio="1.5" />
                         </fitwidth>
                     </column>
                     <column ratio="5"><value name="blog-title" object-name="[@object-name]" /></column>

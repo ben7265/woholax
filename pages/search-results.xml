@@ -1,0 +1,14 @@
+<page url="search-results" max-width="[#max-width]">
+    #include includes/header.xml
+    
+    <container name="page-body">
+        <textalign>
+            <inline name="search-results-heading">Search Results</inline>
+        </textalign>
+
+        <search-results>
+        </search-results>
+    </container>
+
+    #include includes/footer.xml
+</page>

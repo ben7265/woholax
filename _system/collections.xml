@@ -56,6 +56,13 @@
                 <value>1</value>
             </field>
         </index>
+
+        <index name="text_index">
+            <field>
+                <name>$**</name>
+                <value>text</value>
+            </field>
+        </index>
     </collection>
 
     <collection name="users">

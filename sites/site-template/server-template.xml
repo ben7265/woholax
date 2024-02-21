@@ -1,8 +1,0 @@
-#include _system/system.xml
-
-#define max-width   1000px
-
-<db name="db_name" />
-
-#include pages/home.xml
-#include pages/login.xml

@@ -2,7 +2,6 @@
     #include includes/header.xml
 
     <container name="page-body">
-        <inline name="test" >sadf</inline>
         <h1>Example of blog-post default list-view</h1>
         <object-list object-type="blog-post" pagesize="6" orientation="row" columns="3" item-gap="15px" />
     
@@ -13,7 +12,6 @@
         <gap height="30px"/>
         <h1>Example of blog-post 'list' list-view</h1>
         <object-list object-type="blog-post" list-view="list" pagesize="6" />
-
     </container>
 
     #include includes/footer.xml

@@ -22,6 +22,9 @@
         }
 
         .wx-xten-banner .banner-controls {display: display-block;}
+
+        .wx-xten-banner[item-count="0"] .banner-controls {display: none;}
+        .wx-xten-banner[item-count="1"] .banner-controls {display: none;}
     </css>
 
     <cssNode>

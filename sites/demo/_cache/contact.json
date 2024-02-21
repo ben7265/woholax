@@ -26,7 +26,7 @@
             "xten": "body",
             "class": "wx-xten-body",
             "element": "body",
-            "id": "x-524dc0fe-4677-46df-9af6-c91ffd68fd2a-6464",
+            "id": "x-c55ff62c-6590-4380-abd9-26ca6d2f003d-8120",
             "child-idx": 1
           },
           "children": [
@@ -37,7 +37,7 @@
                 "class": "has-load wx-xten-configuration page-configuration",
                 "xten": "configuration",
                 "element": "div",
-                "id": "x-02e25d5c-3137-4ae3-8508-d84eb330b31d-9538",
+                "id": "x-654eea31-3f83-4537-aeb7-b216c442ee25-4734",
                 "allow": "admin",
                 "child-idx": 0
               },
@@ -48,7 +48,7 @@
                     "xten": "row",
                     "class": "wx-xten-row",
                     "element": "div",
-                    "id": "x-a2a11e33-c89a-4dc8-9197-7b7d8801c779-1409",
+                    "id": "x-40cd9180-31fb-4eb7-8c03-09b2f6eea0ea-4458",
                     "child-idx": 0
                   },
                   "children": [
@@ -58,7 +58,7 @@
                         "xten": "column",
                         "class": "wx-xten-column",
                         "element": "div",
-                        "id": "x-995fa8e3-6df9-4064-9d81-6736299e4389-6427",
+                        "id": "x-f232ae55-ce56-49b2-bf3e-22dbdc12c9f4-3729",
                         "child-idx": 0
                       },
                       "children": [
@@ -80,7 +80,7 @@
                         "xten": "column",
                         "class": "wx-xten-column",
                         "element": "div",
-                        "id": "x-2f6ef704-3ed6-4717-89fe-8fa347f5b118-2131",
+                        "id": "x-872cab3b-70cc-4278-ae2d-33895d877900-4711",
                         "child-idx": 1
                       },
                       "children": [
@@ -90,7 +90,7 @@
                             "xten": "toolbar",
                             "class": "wx-xten-toolbar",
                             "element": "div",
-                            "id": "x-e00f4ea6-5e28-43d9-81b2-a95dd7c98cae-7751",
+                            "id": "x-f21e1f39-a212-4ded-903a-f1aa7e4d1f44-3698",
                             "child-idx": 0
                           },
                           "children": [
@@ -102,7 +102,7 @@
                                 "class": "tooltip-parent wx-xten-icon landscape",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-41ddb8e2-664d-427c-be42-4d00d9025894-3459",
+                                "id": "x-78b89d1e-aac7-4cf5-9494-ea5378210fa5-8061",
                                 "child-idx": 0
                               },
                               "children": [
@@ -112,7 +112,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-e1e5af15-3874-4bb7-a511-a3c61809c4aa-9833",
+                                    "id": "x-c3767ebe-5b27-4293-b2fd-bdd2a58284cb-8988",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -226,7 +226,7 @@
                                 "class": "tooltip-parent wx-xten-icon save",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-d09d9a1d-f846-423c-a2cc-8b76b8fbc242-3657",
+                                "id": "x-0f4fbefe-3d82-4554-a325-40b374a70935-6556",
                                 "onclick": "_backgroundSaveImage(event)",
                                 "child-idx": 1
                               },
@@ -237,7 +237,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-4f247162-9196-4c8f-b6a7-03d06037ca0f-5402",
+                                    "id": "x-8adfe734-bffd-4f9c-a8a1-384d58a508bb-588",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -251,7 +251,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-6463ada6-2f95-4580-8e51-f2425bf3056c-4614",
+                                    "id": "x-b6d082d1-6731-405d-a98b-70600a753530-3595",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -390,7 +390,7 @@
                                 "class": "tooltip-parent wx-xten-icon close",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-b7dd21c9-c0ce-4eb3-8153-cb9215640e4c-7118",
+                                "id": "x-1c6e20aa-ae97-49da-898d-69f2a2d9fe8c-419",
                                 "onclick": "_backgroundCancelImage(event)",
                                 "child-idx": 2
                               },
@@ -401,7 +401,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-44f00d81-2195-4843-a51f-d08f89ace4c4-3238",
+                                    "id": "x-57f4a2ca-0023-4fc5-b070-39ae3f9a11d6-25",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -414,7 +414,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-be2c985a-8508-4d63-ab55-0201bd6ae41b-7943",
+                                    "id": "x-8631249c-b47d-4aeb-93c0-413e6fdc729b-9951",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -506,7 +506,7 @@
                                 "class": "tooltip-parent wx-xten-icon upload",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-3a978c13-0b9f-4566-854e-3b574a3f86a8-4987",
+                                "id": "x-033f86b8-0734-4dd6-b0f9-49fc69f709d9-1681",
                                 "onclick": "_backgroundUploadImage(event)",
                                 "child-idx": 3
                               },
@@ -517,7 +517,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-84c9297b-1886-48e8-a62d-a77a30c50e80-896",
+                                    "id": "x-67e870ba-f0ae-4f8f-90b3-acda0558f9a0-3121",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -530,7 +530,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-27a3ee0b-b079-44b1-a18f-748b938ba228-2884",
+                                    "id": "x-3d6b8db3-2d10-410d-b338-cb6b8e14db35-2765",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -631,7 +631,7 @@
                                 "class": "tooltip-parent wx-xten-icon colors",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-b9e4688a-7680-4446-a877-7aae24ed6028-758",
+                                "id": "x-48608d99-2306-4b8d-8edf-bc2ac3a9cc63-3274",
                                 "onclick": "_backgroundColor(event)",
                                 "child-idx": 4
                               },
@@ -642,7 +642,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-cb37405a-3131-44cc-a55a-0cfc0b18e847-746",
+                                    "id": "x-544c6a9e-2814-4489-bb8f-9ff155bea0a8-435",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -656,7 +656,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-ea333e2f-fdf4-4216-a617-13f554692fab-2872",
+                                    "id": "x-e0e47ca6-bd25-43bc-be94-1ec2141a0819-4640",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -779,7 +779,7 @@
                                 "class": "tooltip-parent wx-xten-icon filter",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-0afc95a9-881f-4797-bb34-6546aa02be27-3958",
+                                "id": "x-e5cd1e6a-27fd-4e24-89ae-26d64392340e-275",
                                 "onclick": "_backgroundFilterColor(event)",
                                 "child-idx": 5
                               },
@@ -790,7 +790,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-83e39d96-0fee-4985-a95c-a36e618a00ee-4319",
+                                    "id": "x-d0bce399-ed4c-4d7c-8c18-058a3512d237-1474",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -804,7 +804,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-03cea137-f9f9-4fc6-9d9a-3c43a2f9a1b2-1189",
+                                    "id": "x-f96f75d9-5649-4e90-bbb7-c6569c4ff278-8515",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -927,7 +927,7 @@
                                 "class": "tooltip-parent wx-xten-icon glasses",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-58cce103-819f-47ce-9506-a99b4d99582e-3618",
+                                "id": "x-04e502e1-7811-4d80-8a0f-71fc22109287-177",
                                 "onclick": "_backgroundFilterOpacity(event)",
                                 "child-idx": 6
                               },
@@ -938,7 +938,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-da1b5e5b-7cec-45cb-bbe7-0209924a955a-6742",
+                                    "id": "x-40b7e4d0-773e-4af7-b574-1d81d183f5e2-8994",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -952,7 +952,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-e00886cf-8f12-4147-bcc5-1b9b3a30e210-1665",
+                                    "id": "x-83a9f831-c842-4940-848c-dcaffbb2504c-5182",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -1078,7 +1078,7 @@
                                 "class": "tooltip-parent wx-xten-icon delete-landscape",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-6326cc3f-cd06-47d7-bb1f-6fec582b30ff-2430",
+                                "id": "x-6caf86f0-670f-44aa-937b-d9d88e6fa35a-9813",
                                 "onclick": "_deletePageBackground(event)",
                                 "child-idx": 7
                               },
@@ -1089,7 +1089,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-c31ed072-4363-4043-85e2-b061e232ba5f-8657",
+                                    "id": "x-7e7cfa90-89cc-4915-8edc-8e20652bdb81-8519",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -1102,7 +1102,7 @@
                                     "xten": "click",
                                     "class": "wx-xten-click",
                                     "element": "_hidden",
-                                    "id": "x-0fcba0cd-0cb4-42d1-ac74-d27eb1d96b11-8098",
+                                    "id": "x-c7f01deb-4743-4c13-83b4-fc9617720f50-3733",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -1335,7 +1335,7 @@
                         "xten": "column",
                         "class": "wx-xten-column",
                         "element": "div",
-                        "id": "x-3a351401-2737-4b75-9224-74de96117048-5091",
+                        "id": "x-8f9f32d9-4ef6-4083-9b09-c8f97a0f11bb-4965",
                         "child-idx": 2
                       },
                       "children": [
@@ -1353,7 +1353,7 @@
                                 "class": "tooltip-parent wx-xten-icon bug",
                                 "xten": "icon",
                                 "element": "div",
-                                "id": "x-69c63c6f-e2d9-4b2e-b9fa-2beb7f436c47-753",
+                                "id": "x-44ee2da9-d8c4-4354-bccf-a5c5cddd392a-6479",
                                 "child-idx": 0
                               },
                               "children": [
@@ -1363,7 +1363,7 @@
                                     "xten": "tooltip",
                                     "class": "wx-xten-tooltip",
                                     "element": "div",
-                                    "id": "x-7efd6ce9-ba3a-4b4c-b772-7fff0cc2e3db-9138",
+                                    "id": "x-37bc6c69-a551-444f-a3a9-8c11b81581f9-4851",
                                     "child-idx": 0
                                   },
                                   "children": [],
@@ -1429,7 +1429,7 @@
                         "xten": "column",
                         "class": "wx-xten-column",
                         "element": "div",
-                        "id": "x-1f0ee705-7b9f-43a5-af92-c94ee119fa5f-6165",
+                        "id": "x-c049ecc4-352e-4d5a-9edd-65120905e111-4596",
                         "child-idx": 3
                       },
                       "children": [],
@@ -1448,7 +1448,7 @@
                 "xten": "page-container",
                 "class": "wx-xten-page-container",
                 "element": "div",
-                "id": "x-ac4ae18f-e869-43a4-8a71-3fd142d72c5c-4190",
+                "id": "x-1e2160ac-e2c5-447c-a702-453acf88afb1-5317",
                 "child-idx": 1
               },
               "children": [
@@ -1459,7 +1459,7 @@
                     "xten": "layers",
                     "class": "wx-xten-layers",
                     "element": "div",
-                    "id": "x-8f8e10f7-436d-4add-931c-7ac02c65e369-778",
+                    "id": "x-ecfc4a50-4332-410a-8eb0-ba7beba400be-7142",
                     "child-idx": 0
                   },
                   "children": [
@@ -1470,7 +1470,7 @@
                         "xten": "layer",
                         "class": "wx-xten-layer",
                         "element": "div",
-                        "id": "x-84ab6573-3451-4848-941c-5200607d1d73-8589",
+                        "id": "x-48613b9b-4da9-44ec-8def-e72f225e28d3-6708",
                         "child-idx": 0
                       },
                       "children": [
@@ -1480,7 +1480,7 @@
                             "xten": "background-filter",
                             "class": "wx-xten-background-filter",
                             "element": "div",
-                            "id": "x-89f0dee8-064e-445c-ab83-a755048d6883-7820",
+                            "id": "x-65875130-f06c-461e-a6ff-e5ae38e2d274-5323",
                             "child-idx": 0
                           },
                           "children": [],
@@ -1495,7 +1495,7 @@
                         "xten": "page-content",
                         "class": "wx-xten-page-content",
                         "element": "div",
-                        "id": "x-d3853afb-1543-426c-b0da-1e973eaba534-5871",
+                        "id": "x-314abb59-4ad5-4bf0-aeef-fd31de176599-9816",
                         "child-idx": 1
                       },
                       "children": [
@@ -1507,7 +1507,7 @@
                             "class": "wx-xten-font Roboto",
                             "xten": "font",
                             "element": "_hidden",
-                            "id": "x-88587636-8129-4aa5-b727-2be6006811cc-6005",
+                            "id": "x-5e6fd488-2d15-41ff-a939-6e6ff86f7334-3343",
                             "child-idx": 0
                           },
                           "children": [],
@@ -1527,7 +1527,7 @@
                                 "xten": "row",
                                 "class": "wx-xten-row",
                                 "element": "div",
-                                "id": "x-e0079b34-5423-4279-a054-9363d369b666-5674",
+                                "id": "x-16a00318-b2ff-401b-a071-c59e6d076e32-6806",
                                 "child-idx": 0
                               },
                               "children": [
@@ -1537,7 +1537,7 @@
                                     "xten": "column",
                                     "class": "wx-xten-column",
                                     "element": "div",
-                                    "id": "x-9217b1a2-189c-465a-b81d-558ed7e48346-1936",
+                                    "id": "x-34c538a0-2142-4acd-b9c0-4454cfeae770-8001",
                                     "child-idx": 0
                                   },
                                   "children": [
@@ -1547,7 +1547,7 @@
                                         "xten": "fitwidth",
                                         "class": "wx-xten-fitwidth",
                                         "element": "div",
-                                        "id": "x-ed06017b-701c-4897-9958-1c1a2c4c22de-2933",
+                                        "id": "x-b6baed8a-ab68-4536-8c54-d5b5172ea469-1682",
                                         "child-idx": 0
                                       },
                                       "children": [
@@ -1560,8 +1560,9 @@
                                             "class": "has-load wx-xten-image site-logo",
                                             "xten": "image",
                                             "element": "div",
-                                            "id": "x-4f50dfe4-2d2c-4a51-a7d0-8576332eaa9b-9003",
+                                            "id": "x-5c6b79ef-4986-4c29-8f48-50bda5770884-5874",
                                             "allow": "owner, admin",
+                                            "onclick": "events_image_onclick(event)",
                                             "child-idx": 0
                                           },
                                           "children": [
@@ -1569,7 +1570,7 @@
                                               "tag": "img",
                                               "attribs": {
                                                 "src": "images/blank.jpg",
-                                                "alt": "undefined",
+                                                "alt": "Site Logo",
                                                 "child-idx": 0
                                               },
                                               "children": [],
@@ -1585,7 +1586,7 @@
                                                 "xten": "toolbar",
                                                 "class": "wx-xten-toolbar",
                                                 "element": "div",
-                                                "id": "x-6a1b06b8-befa-4d0b-a393-8155f3701fb6-1772",
+                                                "id": "x-b73e59d7-10b9-45a1-97a0-2e1de73571e3-7542",
                                                 "child-idx": 1
                                               },
                                               "children": [
@@ -1596,7 +1597,7 @@
                                                     "class": "tooltip-parent wx-xten-icon save",
                                                     "xten": "icon",
                                                     "element": "div",
-                                                    "id": "x-f14c94fe-8bb1-42a5-aa07-67e8a6b600d9-5811",
+                                                    "id": "x-e24f2316-90d7-4a26-b6d4-a493c6ca9740-2964",
                                                     "onclick": "_imageSaveImage(event)",
                                                     "child-idx": 0
                                                   },
@@ -1607,7 +1608,7 @@
                                                         "xten": "tooltip",
                                                         "class": "wx-xten-tooltip",
                                                         "element": "div",
-                                                        "id": "x-e146ebed-d5ad-4156-b5c3-4b8b398a70fa-7554",
+                                                        "id": "x-b8f55581-0871-4241-93fb-32a98ef6064b-1419",
                                                         "child-idx": 0
                                                       },
                                                       "children": [],
@@ -1620,7 +1621,7 @@
                                                         "xten": "click",
                                                         "class": "wx-xten-click",
                                                         "element": "_hidden",
-                                                        "id": "x-40e45c94-b979-4f07-a5b1-c9a159efc674-7149",
+                                                        "id": "x-49487fc8-9873-43bb-9342-fc61a32d7921-5939",
                                                         "child-idx": 1
                                                       },
                                                       "children": [
@@ -1761,7 +1762,7 @@
                                                     "class": "tooltip-parent wx-xten-icon close",
                                                     "xten": "icon",
                                                     "element": "div",
-                                                    "id": "x-b1c6912e-fbb1-48ab-80df-a8350240136c-436",
+                                                    "id": "x-545438f9-0f50-49db-98b1-c0f0cac6b88c-3048",
                                                     "onclick": "_imageCancelImageSave(event)",
                                                     "child-idx": 1
                                                   },
@@ -1772,7 +1773,7 @@
                                                         "xten": "tooltip",
                                                         "class": "wx-xten-tooltip",
                                                         "element": "div",
-                                                        "id": "x-d41fdad5-0070-4ed7-8bde-f50c3c4fae2e-4962",
+                                                        "id": "x-6497e14c-a248-42be-bf61-896ca8ff84c2-6385",
                                                         "child-idx": 0
                                                       },
                                                       "children": [],
@@ -1785,7 +1786,7 @@
                                                         "xten": "click",
                                                         "class": "wx-xten-click",
                                                         "element": "_hidden",
-                                                        "id": "x-5e8058f0-dff8-477b-b56a-e939bd42cbc2-3303",
+                                                        "id": "x-b6356255-8271-459a-94bb-e462ddac4246-3622",
                                                         "child-idx": 1
                                                       },
                                                       "children": [
@@ -1876,7 +1877,7 @@
                                                     "class": "tooltip-parent wx-xten-icon upload",
                                                     "xten": "icon",
                                                     "element": "div",
-                                                    "id": "x-65604996-a456-40fe-b653-cbe908bdd743-7132",
+                                                    "id": "x-b7bc9edc-b680-46a4-8c54-a450e6e99216-2528",
                                                     "onclick": "_imageUploadImage(event)",
                                                     "child-idx": 2
                                                   },
@@ -1887,7 +1888,7 @@
                                                         "xten": "tooltip",
                                                         "class": "wx-xten-tooltip",
                                                         "element": "div",
-                                                        "id": "x-e447ec58-7fbf-4fd3-9325-c4c2a69a5702-9553",
+                                                        "id": "x-365b1a6d-bf05-4c79-a012-2425a3dd673f-1731",
                                                         "child-idx": 0
                                                       },
                                                       "children": [],
@@ -1901,7 +1902,7 @@
                                                         "class": "wx-xten-event click",
                                                         "xten": "event",
                                                         "element": "_hidden",
-                                                        "id": "x-ca964d9d-b0f8-488a-8e01-d7bae5ccdf18-8168",
+                                                        "id": "x-971ebd2a-5281-489c-a245-328e938ab82f-1168",
                                                         "child-idx": 1
                                                       },
                                                       "children": [
@@ -1993,6 +1994,78 @@
                                                     }
                                                   ],
                                                   "text": null
+                                                },
+                                                {
+                                                  "tag": "icon",
+                                                  "attribs": {
+                                                    "name": "add-link",
+                                                    "class": "tooltip-parent wx-xten-icon add-link",
+                                                    "xten": "icon",
+                                                    "element": "div",
+                                                    "id": "x-e40097ad-e5ca-4d0f-ae36-6e7eaeab3d30-8883",
+                                                    "onclick": "_imageAddHyperlink(event)",
+                                                    "child-idx": 3
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "tag": "tooltip",
+                                                      "attribs": {
+                                                        "xten": "tooltip",
+                                                        "class": "wx-xten-tooltip",
+                                                        "element": "div",
+                                                        "id": "x-627ddffe-9dcf-48b2-9167-1b7fd2a6d566-8156",
+                                                        "child-idx": 0
+                                                      },
+                                                      "children": [],
+                                                      "text": "add hyperlink"
+                                                    },
+                                                    {
+                                                      "tag": "event",
+                                                      "attribs": {
+                                                        "name": "click",
+                                                        "fname": "_imageAddHyperlink",
+                                                        "class": "wx-xten-event click",
+                                                        "xten": "event",
+                                                        "element": "_hidden",
+                                                        "id": "x-af8e0598-4803-4e67-8fc6-001375e8cc2f-8004",
+                                                        "child-idx": 1
+                                                      },
+                                                      "children": [],
+                                                      "text": "const element = event.target.closest('.wx-xten-image');const value = await wxfns.getValue('hyperlink', 'hyperlink', 'Hyperlink', {hyperlink: element.getAttribute('href')});const result = await wxfns.transaction(element, 'add-hyperlink', value);if (value) {element.setAttribute('href', value);}else{element.removeAttribute('href');}"
+                                                    },
+                                                    {
+                                                      "tag": "div",
+                                                      "attribs": {
+                                                        "name": "icon-code",
+                                                        "class": "icon-code",
+                                                        "child-idx": 2
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "tag": "svg",
+                                                          "attribs": {
+                                                            "xmlns": "http://www.w3.org/2000/svg",
+                                                            "viewBox": "0 -960 960 960",
+                                                            "child-idx": 0
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "tag": "path",
+                                                              "attribs": {
+                                                                "d": "M680-160v-120H560v-80h120v-120h80v120h120v80H760v120h-80ZM440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm560-40h-80q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480Z",
+                                                                "child-idx": 0
+                                                              },
+                                                              "children": [],
+                                                              "text": null
+                                                            }
+                                                          ],
+                                                          "text": null
+                                                        }
+                                                      ],
+                                                      "text": null
+                                                    }
+                                                  ],
+                                                  "text": null
                                                 }
                                               ],
                                               "text": null
@@ -2013,7 +2086,7 @@
                                     "xten": "column",
                                     "class": "wx-xten-column",
                                     "element": "div",
-                                    "id": "x-68c74d90-4b6b-4a78-881f-14e41e03af1b-4887",
+                                    "id": "x-e4a4c201-4b08-4a14-9ced-519eacef56b7-3885",
                                     "child-idx": 1
                                   },
                                   "children": [
@@ -2024,7 +2097,7 @@
                                         "xten": "align",
                                         "class": "wx-xten-align",
                                         "element": "div",
-                                        "id": "x-2ba5e49b-9230-4df8-abab-25c65e879915-4152",
+                                        "id": "x-bbed1b91-9b3f-4deb-ad94-b13ac7c8402d-1898",
                                         "child-idx": 0
                                       },
                                       "children": [
@@ -2039,7 +2112,7 @@
                                             "xten": "navbar",
                                             "class": "navclass-row wx-xten-navbar",
                                             "element": "div",
-                                            "id": "x-4d97c845-3c43-4965-9ef7-a692b458b439-7626",
+                                            "id": "x-16dda982-c499-4f19-b960-b9189250780d-2721",
                                             "child-idx": 0
                                           },
                                           "children": [
@@ -2050,7 +2123,7 @@
                                                 "xten": "navitem",
                                                 "class": "wx-xten-navitem",
                                                 "element": "span",
-                                                "id": "x-0ba8b9ad-746f-463e-8995-2244821796aa-3498",
+                                                "id": "x-49a66497-8f8d-4760-b835-5b6836f7d9d7-42",
                                                 "onclick": "events_navitem_onclick(event)",
                                                 "child-idx": 0
                                               },
@@ -2064,7 +2137,7 @@
                                                 "xten": "navitem",
                                                 "class": "wx-xten-navitem",
                                                 "element": "span",
-                                                "id": "x-baff66fb-94be-4493-ab6b-c0b4f5f354a6-2611",
+                                                "id": "x-29ae0434-1da3-4321-9b37-f777692b8032-2936",
                                                 "onclick": "events_navitem_onclick(event)",
                                                 "child-idx": 1
                                               },
@@ -2078,7 +2151,7 @@
                                                 "xten": "navitem",
                                                 "class": "wx-xten-navitem",
                                                 "element": "span",
-                                                "id": "x-c977609f-3cc0-4945-bb76-777efca01f47-1716",
+                                                "id": "x-44f3d36a-a9f9-40e3-97c1-c31735ebf0bf-9144",
                                                 "onclick": "events_navitem_onclick(event)",
                                                 "child-idx": 2
                                               },
@@ -2091,7 +2164,7 @@
                                                 "xten": "navitem",
                                                 "class": "wx-xten-navitem",
                                                 "element": "span",
-                                                "id": "x-270cc8a5-27a9-4272-846e-28e2afaf9123-3606",
+                                                "id": "x-f31fea78-d350-493b-b938-405111005f3f-7158",
                                                 "onclick": "events_navitem_onclick(event)",
                                                 "child-idx": 3
                                               },
@@ -2103,7 +2176,7 @@
                                                     "xten": "show",
                                                     "class": "wx-xten-show",
                                                     "element": "div",
-                                                    "id": "x-79a7e709-c555-4797-a4b4-b421311ec5a4-137",
+                                                    "id": "x-68c8dacc-0d87-4850-b372-12ae1366f5e8-4327",
                                                     "child-idx": 0
                                                   },
                                                   "children": [
@@ -2126,7 +2199,7 @@
                                                     "xten": "show",
                                                     "class": "wx-xten-show",
                                                     "element": "div",
-                                                    "id": "x-78bc914c-476e-4565-9c96-aed0ea5f208e-6661",
+                                                    "id": "x-0348072c-1786-4218-968d-3aff518ba2ab-8355",
                                                     "child-idx": 1
                                                   },
                                                   "children": [
@@ -2136,7 +2209,7 @@
                                                         "xten": "logout",
                                                         "class": "wx-xten-logout",
                                                         "element": "span",
-                                                        "id": "x-4b0754e9-31c7-445d-8e4a-5f23dd4ddf7b-5841",
+                                                        "id": "x-d6aa44de-5f6f-47bb-9b14-c977d90a5138-1898",
                                                         "onclick": "events_logout_onclick(event)",
                                                         "child-idx": 0
                                                       },
@@ -2171,7 +2244,7 @@
                             "class": "wx-xten-container page-body",
                             "xten": "container",
                             "element": "div",
-                            "id": "x-22ce1e58-a9a2-4661-a217-b086c086451b-7701",
+                            "id": "x-f0b31da6-94e9-4bb8-9011-80869b19a380-4379",
                             "child-idx": 2
                           },
                           "children": [],
@@ -2189,7 +2262,7 @@
                                 "xten": "align",
                                 "class": "wx-xten-align",
                                 "element": "div",
-                                "id": "x-27365416-4580-47e1-9d96-d51b1dd8ab8e-4896",
+                                "id": "x-f5081e05-94a4-4b93-944a-6ac6ad10a2e6-7584",
                                 "child-idx": 0
                               },
                               "children": [],

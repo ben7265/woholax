@@ -1,11 +1,14 @@
 <xten name="email-form" extend="_form">
     <mandatory>name, smtp-settings</mandatory>
+    <allow>admin</allow>
     
     <css>
         .wx-xten-email-form .edit-email-text {display: none; background-color: lightgrey; z-index: 9999;}
         .wx-xten-email-form.show-email .edit-email-text {display: block;}
         .wx-xten-email-form .wx-xten-textedit {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
         .wx-xten-email-form .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
+        .wx-xten-email-form .wx-xten-toolbar {display: none;}
+        .wx-xten-email-form.wx-state-editable .wx-xten-toolbar {display: initial;}
     </css>
 
     <view>
@@ -26,7 +29,7 @@
                     <row>
                         <column><align horizontal="flex-start">To Email</align></column>
                         <column ratio="3">
-                            <inline class="email-settings" name="email-recipient" object-name="[$name]" collection="constants">
+                            <inline class="email-settings" name="to-email-config.email-recipient" object-name="[$name]" collection="constants">
                                 To Email Address
                             </inline>
                         </column>
@@ -34,18 +37,18 @@
                     <row>
                         <column><align horizontal="flex-start">Email Subject</align></column>
                         <column ratio="3">
-                            <inline class="email-settings" name="email-subject" object-name="[$name]" collection="constants">
+                            <inline class="email-settings" name="to-email-config.email-subject" object-name="[$name]" collection="constants">
                                 Email subject
                             </inline>
                         </column>
                     </row>
-                    <textedit name="email-text" object-name="[$name]" collection="constants"/>
+                    <textedit name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
                 </container>
             </center>
         </screencover>
     </view>
 
-    <toolbar top="-31px">
+    <toolbar>
         <icon name="system">
             <tooltip>SMTP Settings</tooltip>
             <click>
@@ -130,4 +133,74 @@
             </click>
         </icon>
     </toolbar>
+
+    <initElement enhance="append">
+    <%
+        element.addEventListener('form-submit', async (event) => {
+            const data = event.detail;
+            const result = await wxfns.transaction(element, 'email-form', data);
+            const captcha = element.querySelector('.wx-xten-check-human');
+            if (captcha) {
+                xfns['check-human'].clear(captcha);
+            }
+            if (result.rc != 'success') {
+                return;
+            }
+            wxfns.inform('Email sent successfully');
+            element.reset();
+        });
+    %>
+    </initElement>
+
+    <txn name="email-form">
+    <%
+        if (data.gotcha) {
+            return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
+        }
+
+        if (!data['check-human']) {
+            return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
+        }
+
+        const name = node.attribs.name;
+        const smtpScope = node.attribs['smtp-settings'] || name;
+        const smtp = await database.getConstant('smtp-settings', smtpScope, user, context);
+        if (!smtp) {
+            return {rc: 'smtp-configuration', output: 'SMTP must be configured for this form'};
+        }
+
+        const toconfig = await database.getConstant('to-email-config', name, user, context);
+
+        delete data.gotcha;
+        delete data['check-human'];
+        
+        var html = '<table>';
+        html += '<tbody>';
+
+        for (var prop in data) {
+            html += '<tr>';
+            html += '<td>';
+            html += prop;
+            html += '</td>';
+            html += '<td>';
+            html += data[prop];
+            html += '</td>';
+            html += '</tr>';
+        }
+
+        html += '</tbody>';
+        html += '</table>';
+
+        toconfig['email-text'] = 
+            '<html><body>' +
+            common.substitute(toconfig['email-text'], {'form-data': html}) +
+            '</body></html>';
+
+        const result = await require('./mailer').sendMail(smtp, smtp.from, toconfig);
+        if (result) {
+            return {rc: 'sendmail-error', output: result};
+        }
+        return {rc: 'success'};
+    %>
+    </txn>
 </xten>

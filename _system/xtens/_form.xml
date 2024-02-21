@@ -20,6 +20,66 @@
         }
     </css>
 
+    <initElement>
+    <%
+        element.addEventListener('submit', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        element.addEventListener('form-submit-clicked', () => {
+            const list = element.querySelectorAll('.wx-xten-xinput');
+            var valid = true;
+            var checkHuman = null;
+            for (var i = 0; i < list.length; i++) {
+                const _valid = xfns.xinput.validate(list[i]);
+                if (!_valid) {
+                    valid = false;
+                }
+            }
+
+            if (!valid) {
+                const captcha = element.querySelector('.wx-xten-check-human');
+                if (captcha) {
+                    xfns['check-human'].clear(captcha);
+                }
+
+                return;
+            }
+            const data = wxfns.getFormData(element);
+            
+            if (data.gotcha) {
+                wxfns.error('No entry', 'Bots are not allowed to click buttons in Wohola X');
+                const captcha = element.querySelector('.wx-xten-check-human');
+                if (captcha) {
+                    xfns['check-human'].clear(captcha);
+                }
+
+                return;
+            }
+
+            if (data.hasOwnProperty('check-human')) {
+                const human = data['check-human'];
+                if (!human) {
+                    const captcha = element.querySelector('.wx-xten-check-human');
+                    if (captcha) {
+                        xfns['check-human'].clear(captcha);
+                    }
+
+                    wxfns.error('Cannot Send Message', 'Bot check failed');
+                    return;
+                }
+            }
+
+            const submit = new CustomEvent('form-submit', {
+                bubbles: true,
+                detail: data
+            });
+            element.dispatchEvent(submit);
+        });
+    %>
+    </initElement>
+
     <init>
     <%
         const name = node.getValue('name');

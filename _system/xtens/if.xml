@@ -1,7 +1,27 @@
 <xten name="if" element="_hidden">
-    <mandatory>condition</mandatory>
     <load>
     <%
+        const defined = node.getValue('defined');
+        if (defined) {
+            const vars = common.getVariables(node, context);
+            node.attribs.element = vars.hasOwnProperty(defined) ? "_children" : "_hidden";
+            return;
+        }
+
+        const notdefined = node.getValue('not-defined');
+        if (notdefined) {
+            const vars = common.getVariables(node, context);
+            node.attribs.element = vars.hasOwnProperty(notdefined) ? "_hidden" : "_children";
+            return;
+        }
+
+        const name = node.getValue('var-value');
+        if (name) {
+            const vars = common.getVariables(node, context);
+            node.attribs.element = vars[name] ? "_children" : "_hidden";
+            return;
+        }
+
         const condition = node.getValue('condition');
         try {
             const result = eval(condition);

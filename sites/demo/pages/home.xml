@@ -2,13 +2,16 @@
     #include includes/header.xml
 
     <container name="page-body">
+        <video-player name="test">
+        </video-player>
+
         <align>
             <span>Example of banner below - click on + to add slides</span>
         </align>
 
         <gap height="30px" />
 
-        <banner name="banner" aspect-ratio="3.5">
+        <banner name="banner" aspect-ratio="2.5">
             <image name="slide-image" list-child="true" translate-y="-50%" />
             <pos-middle>
                 <inline name="banner-label-heading" list-child="true">banner label</inline>
@@ -44,7 +47,7 @@
         <gap height="30px" />
 
         <grid name="showcase" columns="2" css-min-height="200px" item-gap="15px">
-            <image name="showcase-images" list-child="true" aspect-ratio="0.75" />
+            <image name="showcase-images" list-child="true" aspect-ratio="1.5" />
         </grid>
 
         <gap height="30px" />

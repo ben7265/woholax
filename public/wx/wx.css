@@ -29,8 +29,8 @@
 .modal .modal-body {
     min-height: 50px;
     padding: 5px;
-    width: 200px;
-    text-align: center;
+    /*width: 200px;*/
+    text-align: right;
 }
 
 .modal .button-panel {
@@ -55,6 +55,7 @@
 .get-value input {
     display: block;
     width: 200px;
+    line-height: 1.2em;
     margin: 10px;
 }
 

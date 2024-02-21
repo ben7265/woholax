@@ -1,9 +1,0 @@
-<page name="_home" max-width="[#max-width]">
-    #include includes/header.xml
-
-    <container name="page-body">
-        My first page in Wohola X
-    </container>
-
-    #include includes/footer.xml
-</page>

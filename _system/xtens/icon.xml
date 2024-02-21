@@ -10,8 +10,8 @@
     <nodeStyle>
         width: [$width||30px];
         height: [$height||30px];
-        border: [$border||1px solid lightgrey];
-        background: [$background-color||#fefefa];
+        border: [$border||1px solid grey];
+        background: [$background-color||#efefef];
         [$icon-style||];
     </nodeStyle>
     <css>

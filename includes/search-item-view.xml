@@ -1,0 +1,26 @@
+<css name="search-results-css">
+    .search-item-view {
+        border: 1px solid lightgrey;
+        padding: 10px;
+    }
+</css>
+
+<div name="search-item-view">
+    <row>
+        <column>
+            Object: [@object-name]
+        </column>
+        <column>
+            Type: [@object-type]
+        </column>
+        <column ratio="2">
+            <div name="urls">
+                [@urls]
+            </div>
+        </column>
+    </row>
+    <gap height="10px"/>
+    <div name="text">
+        [@snippet]
+    </div>
+</div>

@@ -51,7 +51,51 @@
 
         const objConfig = common._tojson(objConfigNode, 'page, view');
 
-        const data = await database.count({type: objType}, objConfig.collection);
+        const searchText = node.getValue('search-text');
+        const parent = node.getValue('parent');
+        const category = node.getValue('category');
+        const _selector = node.getValue('selector');
+        const dbquery = node.getValue('query');
+
+        const selector = {
+            type: objType
+        };
+
+        if (searchText) {
+            selector['$text'] = { $search: searchText };
+        }
+
+        if (parent) {
+            selector.parent = parent;
+        }
+
+        if (category) {
+            selector.category = category;
+        }
+
+        if (_selector) {
+            const list = _selector.split(/\s*\,\s*/);
+            list.forEach(li => {
+                const [field, value] = list.split(/\s*\:\s*/);
+                selector[field] = value;
+            });
+        }
+
+        if (dbquery) {
+            try {
+                const _query = JSON.parse(dbquery);
+                for (var prop in _query) {
+                    selector[prop] = _query[prop];
+                }
+            }
+            catch (e) {
+                node.attribs.error = 'invalide json passed to object-list ' + query;
+                common.error(node.attribs.error);                
+                return;
+            }
+        }
+
+        const data = await database.count(selector, objConfig.collection);
         if (data.rc != 'success') {
             common.nodeerror('System Error', data.rc);
             return;
@@ -247,7 +291,8 @@
     <cssNode>
         #[$id] .wx-view-list-parent:not(tbody) {flex-direction: [$orientation||row]; gap:[$item-gap||0];}
         #[$id] .wx-view-list-parent:not(tbody) .wx-view-list-item {
-            flex-basis: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] ); 
+            flex-basis: 1 0 0px; 
+            width: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] );
             [$list-item-style|| ]
         }
     </cssNode>
@@ -292,10 +337,51 @@
         const plural = node.getValue('plural') || configNode.getValue('plural') || (common.toCamelCase(objType) + 's');
         const orientation = node.getValue('orientation') || vars[objType + '-orientation'] || configNode.getValue('orientation') || 'column';
 
+        const searchText = node.getValue('search-text');
+        const parent = node.getValue('parent');
+        const category = node.getValue('category');
+        const _selector = node.getValue('selector');
+        const query = node.getValue('query');
+
         const collection = configNode.getValue('collection');
+
         const selector = {
             type: objType
         };
+
+        if (searchText) {
+            selector['$text'] = { $search: searchText };
+        }
+
+        if (parent) {
+            selector.parent = parent;
+        }
+
+        if (category) {
+            selector.category = category;
+        }
+
+        if (_selector) {
+            const list = _selector.split(/\s*\,\s*/);
+            list.forEach(li => {
+                const [field, value] = list.split(/\s*\:\s*/);
+                selector[field] = value;
+            });
+        }
+
+        if (query) {
+            try {
+                const _query = JSON.parse(query);
+                for (var prop in _query) {
+                    selector[prop] = _query[prop];
+                }
+            }
+            catch (e) {
+                node.attribs.error = 'invalide json passed to object-list ' + query;
+                common.error(node.attribs.error);                
+                return;
+            }
+        }
 
         const data = await database.getObjectList(selector, pageSize, pageNumber, _sort, collection);
         if (data.rc != 'success') {

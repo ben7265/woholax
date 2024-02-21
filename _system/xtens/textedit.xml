@@ -2,6 +2,9 @@
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
     <style>display: block; width: 100%</style>
+    <nodeStyle>column-count:[$cols||1]</nodeStyle>
+    <nodeTablet>column-count:[$cols-tablet||1]</nodeTablet>
+    <nodePhone>column-count:[$cols-phone||1]</nodePhone>
     <libs>libs/quill.min.js, libs/quill.snow.css</libs>
     <css>
         .wx-xten-textedit { position: relative; }
@@ -76,7 +79,7 @@
             quill.getModule("toolbar").addHandler("image", (value) => {
                 const upload = async () => {
                     const file = await wxfns.selectFile('image/*');
-                    //const result = await wxfns.upload(element, 'save_image', null, file);
+                    /*const result = await wxfns.upload(element, 'save_image', null, file);*/
                     const result = await wxfns.upload(element, 'save-image', null, file);
                     const range = quill.getSelection();
                     quill.insertEmbed(range.index, 'image', result.output);
@@ -93,7 +96,7 @@
                 if (dirty) {
                     dirty = false;
                     const text = quill.root.innerHTML;
-                    //wxfns.transaction(element, 'save_page_data', text.trim());
+                    /*wxfns.transaction(element, 'save_page_data', text.trim());*/
                     wxfns.transaction(element, 'save-page-data', text.trim());
                 }
             }, 2000);

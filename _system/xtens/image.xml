@@ -39,6 +39,23 @@
                     <add-class classes="image-changed" />
                 </event>
             </icon>
+            <icon name="add-link">
+                <tooltip>add hyperlink</tooltip>
+                <event name="click" fname="_imageAddHyperlink">
+                <%
+                    const element = event.target.closest('.wx-xten-image');
+                    const value = await wxfns.getValue('hyperlink', 'hyperlink', 'Hyperlink', {hyperlink: element.getAttribute('href')});
+                    const result = await wxfns.transaction(element, 'add-hyperlink', value);
+                    if (value) {
+                        element.setAttribute('href', value);
+                    }
+                    else
+                    {
+                        element.removeAttribute('href');
+                    }
+                %>
+                </event>
+            </icon>
         </toolbar>
     </view>
 
@@ -65,10 +82,9 @@
         .wx-xten-image.image-changed .wx-xten-toolbar {display: inline-block;}
         .wx-xten-image.image-changed {border: 5px solid red;}
         .wx-xten-image > img {
-            width: 100%; 
-            height: 100%; 
             object-fit: cover; 
             object-position: center;
+            width: 100%;
         }
         .wx-xten-image > .wx-xten-toolbar > .close {display: none;}
         .wx-xten-image > .wx-xten-toolbar > .save {display: none;}
@@ -91,71 +107,33 @@
         }
     </cssNode>
 
-    <initElement>
+    <!--init>
+        common.substituteVars(node, node.attribs);
+    </init-->
+
+    <event name="click">
     <%
-        const ratio = parseFloat(element.getAttribute('aspect-ratio') || 0);
-        if (ratio) {
-            element.style.height = (element.offsetWidth * ratio) + 'px';
+        const element = event.target.closest('.wx-xten-image');
+        const href = element.getAttribute('href');
+        if (href) {
+            window.location.href = href;
         }
-
-        element.setAttribute('src', element.querySelector('img').getAttribute('src'));
-        /*
-        const image = element.querySelector('img');
-
-        var containerWidth = element.offsetWidth;
-        var containerHeight = element.offsetHeight;
-
-        var imageWidth = image.naturalWidth;
-        var imageHeight = image.naturalHeight;
-
-        if (containerHeight && imageHeight) {
-            var containerRatio = containerWidth / containerHeight;
-            var imageRatio = imageWidth / imageHeight;
-        }
-
-        if (ratio) {
-            containerWidth = element.offsetWidth;
-            containerHeight = Math.round(containerWidth * ratio);
-            element.style.height = containerHeight.toString() + 'px';
-
-            var containerWidth = element.offsetWidth;
-            var containerHeight = element.offsetHeight;
-
-            var imageWidth = image.naturalWidth;
-            var imageHeight = image.naturalHeight;
-
-            var containerRatio = containerWidth / containerHeight;
-            var imageRatio = imageWidth / imageHeight;
-
-            if (containerRatio < imageRatio) {
-                image.style.height = 'auto';
-                image.style.width = '100%';
-                image.style.margin = 'auto';
-            }
-            else
-            {
-                image.style.height = '100%';
-                image.style.width = 'auto';
-                image.style.margin = 'auto';
-            }
-
-            const resizeObserver = new ResizeObserver(entries => {
-                const containerWidth = element.offsetWidth;
-                const containerHeight = Math.round(containerWidth * ratio);
-                element.style.height = containerHeight.toString() + 'px';
-            });
-            resizeObserver.observe(element);
-        }
-        */
     %>
-    </initElement>
+    </event>
 
     <load>
+    <%
         const value = await database.inlineValue(node, context, xten);
         if (value) {
             node.attribs.src = value;
             const img = node.findChildren('img')[0];
             img.attribs.src = value;
         }
+
+        const href = await database.hrefValue(node, context, xten);
+        if (href) {
+            node.attribs.href = href;
+        }
+    %>
     </load>
 </xten>
