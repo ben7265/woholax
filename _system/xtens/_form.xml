@@ -46,8 +46,8 @@
 
                 return;
             }
-            const data = wxfns.getFormData(element);
             
+            const data = wxfns.getFormData(element);
             if (data.gotcha) {
                 wxfns.error('No entry', 'Bots are not allowed to click buttons in Wohola X');
                 const captcha = element.querySelector('.wx-xten-check-human');

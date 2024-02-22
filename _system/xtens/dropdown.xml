@@ -1,0 +1,30 @@
+<xten name="dropdown" element="select">
+    <mandatory>name</mandatory>
+
+    <event name="change">
+    <%
+        const element = event.target.closest('.wx-xten-dropdown');
+        wxfns.transaction(element, 'save-page-data', element.value || null);
+    %>
+    </event>
+
+    <load>
+    <%
+        const value = await database.inlineValue(node, context, xten) || null;
+        for (var i = 0; i < node.children.length; i++) {
+            const option = node.children[i];
+            if (!value) {
+                if (!option.attribs.value) {
+                    option.attribs.selected = 'true';
+                    break;
+                }
+            }
+            
+            if (option.attribs.value == value) {
+                option.attribs.selected = 'true';
+                break;
+            }
+        }
+    %>
+    </load>
+</xten>

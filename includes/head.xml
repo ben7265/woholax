@@ -24,7 +24,7 @@
 <title>[$site-title] - [$page-title]</title>
 <_blankline/>
 
-<script src="/socket.io/socket.io.js"></script>
+<script src="/libs/socket.io.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 

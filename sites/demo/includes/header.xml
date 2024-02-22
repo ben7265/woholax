@@ -4,7 +4,7 @@
     <row>
         <column>
             <fitwidth>
-                <image name="site-logo" object-name="all" alt="Site Logo" />
+                <image name="site-logo" object-name="_all" alt="Site Logo" />
             </fitwidth>
         </column>
         <column ratio="8">

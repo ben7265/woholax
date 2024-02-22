@@ -14,6 +14,7 @@
 #include _system/xtens/body.xml
 #include _system/xtens/carousel.xml
 #include _system/xtens/center.xml
+#include _system/xtens/change-password.xml
 #include _system/xtens/check-human.xml
 #include _system/xtens/circle.xml
 #include _system/xtens/click.xml
@@ -26,6 +27,7 @@
 #include _system/xtens/currency.xml
 #include _system/xtens/datetime.xml
 #include _system/xtens/draggable.xml
+#include _system/xtens/dropdown.xml
 #include _system/xtens/dynamic-grid.xml
 #include _system/xtens/email-form.xml
 #include _system/xtens/fitheight.xml
@@ -71,6 +73,7 @@
 #include _system/xtens/value.xml
 #include _system/xtens/video-player.xml
 #include _system/xtens/xbutton.xml
+#include _system/xtens/xform.xml
 #include _system/xtens/xinput.xml
 #include _system/xtens/xstyle.xml
 

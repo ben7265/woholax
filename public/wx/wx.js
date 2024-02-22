@@ -292,7 +292,7 @@ const wxfns = {
     }
   },
 
-  inform: (message, timeout) => {
+  inform: (message, timeout, callback) => {
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
     overlay.style = 'position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);z-index: 9999;';
@@ -310,6 +310,7 @@ const wxfns = {
     closeButton.innerHTML = '<img style="margin: 10px;width:30px" src="icons/close.svg"/>';
     closeButton.addEventListener('click', () => {
       removeModal();
+      callback && callback();
     });
     modal.appendChild(closeButton);
     closeButton.style = 'display: inline-block; position: absolute; top: 0; right: 0;';
@@ -323,6 +324,7 @@ const wxfns = {
 
     setTimeout(() => {
       removeModal();
+      callback && callback();
     }, (timeout || 15) * 1000);
   },
 

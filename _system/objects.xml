@@ -148,7 +148,7 @@
 </xten>
 
 <xten name="object" element="div">
-    <attribs allow="owner, admin"/>
+    <allow>owner, admin</allow>
 
     <style>
         position: relative;
@@ -273,7 +273,7 @@
 </xten>
 
 <xten name="object-list" element="div">
-    <attribs allow="owner, admin"/>
+    <allow>owner, admin</allow>
 
     <style>
         position: relative;

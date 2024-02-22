@@ -94,9 +94,6 @@
         const errorElement = element.querySelector('.xinput-error');
 
         errorElement.innerText = '';
-        if (!validate) {
-            return true;
-        }
 
         var value = null;
         switch (type) {
@@ -119,11 +116,15 @@
             return true;
         }
 
+        if (!validate) {
+            return true;
+        }
+
         var valid = true;
         const checks = validate.split(/\s*\,\s*/);
         for (var i = 0; i < checks.length; i++) {
             const _check = checks[i].trim();
-            const matches = _check.match(/^\s*([a-z]+)\s*(\(\s*(.*)\s*\))?\s*$/);
+            const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
             const _fname = matches[1];
             if (!_fname || !validations[_fname]) {
                 errorElement.innerText = 'validation ' + _fname + ' not defined';

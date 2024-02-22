@@ -1,4 +1,5 @@
 <xten name="icon" element="div">
+    <mandatory>name</mandatory>
     <view>
         <div name="icon-code">
         </div>
@@ -36,6 +37,7 @@
         if (result.rc != 'success') {
             const child = code.newChild('div');
             child.text = '.';
+            return;
         }
         const filepath = 'public/icons/' + name + '.svg';
         const _lines = preprocessor(filepath, context.siteRoot);

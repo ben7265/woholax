@@ -57,6 +57,13 @@
             </field>
         </index>
 
+        <index name="category_index">
+            <field>
+                <name>category</name>
+                <value>1</value>
+            </field>
+        </index>
+
         <index name="text_index">
             <field>
                 <name>$**</name>
