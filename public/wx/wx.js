@@ -628,6 +628,7 @@ const wxfns = {
 
     const response = await fetch('/upload', {
       method: "POST",
+      credentials: 'include',
       body: formData,
     });
     const result = await response.json();

@@ -4,6 +4,6 @@
         display: inline-block;
         left: 50%;
         bottom: [$bottom||0];
-        transform: translate(-50%, -100%);
+        transform: translateX(-50%);
     </style>
 </xten>

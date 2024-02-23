@@ -5,13 +5,18 @@
             display: block;
             width: 100%;
         }
-        .wx-xten-wx-xten-carousel .list-item-toolbar {display: none; position: relative; }
-        .wx-xten-wx-xten-carousel.wx-state-editable .wx-xten-listitem.active .list-item-toolbar {display: flex; right: 0;}
-        .wx-xten-wx-xten-carousel .list-toolbar {display: none;}
-        .wx-xten-wx-xten-carousel.wx-state-editable .list-toolbar {display: flex; }
+        .wx-xten-carousel .list-item-toolbar {display: none; position: relative; }
+        .wx-xten-carousel.wx-state-editable .wx-xten-listitem.active .list-item-toolbar {display: flex; right: 0;}
+        .wx-xten-carousel .list-toolbar {display: none;}
+        .wx-xten-carousel.wx-state-editable .list-toolbar {display: flex; }
 
         .wx-xten-carousel .wx-xten-listitem {
             display: none;
+            width: 100%;
+        }
+
+        .wx-xten-carousel .wx-xten-listitem.active {
+            display: block;
         }
 
         .wx-xten-carousel.wx-state-editable .wx-xten-listitem {
@@ -57,10 +62,23 @@
             transition: all 2s;
         }
 
+        .wx-xten-carousel[item-count="0"] .banner-controls {display: none;}
+        .wx-xten-carousel[item-count="1"] .banner-controls {display: none;}
+
+        .wx-xten-carousel[item-count="0"] .show-button {display: none;}
+        .wx-xten-carousel[item-count="1"] .show-button {display: none;}
+
+        .wx-xten-carousel .change-slide {display: none;}
     </css>
 
     <cssNode>
         #[$id] > .wx-view-datalist {
+            aspect-ratio: [$aspect-ratio||1];
+        }
+
+        #[$id][item-count="0"] .wx-view-datalist {border: 1px solid grey; background-color: #eeeeee;}
+
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
             aspect-ratio: [$aspect-ratio||1];
         }
     </cssNode>
@@ -71,10 +89,7 @@
             return;
         }
 
-        var time = element.getAttribute('interval');
-        if (!time) {
-            return;
-        }
+        var time = element.getAttribute('interval') || '5';
 
         time = parseInt(time) * 1000;
         if (!time) {
@@ -104,12 +119,7 @@
                 <code>
                 <%
                     const element = fntarget;
-                    var time = element.getAttribute('interval');
-                    if (!time) {
-                        wxfns.error('Error running slide show', 'no interval defined in element wxml');
-                        return;
-                    }
-
+                    var time = element.getAttribute('interval') || '5';
                     time = parseInt(time) * 1000;
                     if (!time) {
                         wxfns.error('Error running slide show', 'invalid value in interval');

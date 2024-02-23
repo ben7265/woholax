@@ -23,16 +23,7 @@
         <%
         const name = node.getValue('name');
         const code = node.findNamedChild('div', 'icon-code');
-        /*
-        if (!context.globals.icons) {
-            context.globals.icons = {};
-        }
 
-        if (context.globals.icons[name]) {
-            code.addChild(context.globals.icons[name].clone());
-            return;
-        }
-        */
         const result = files.read('public/icons/' + name + '.svg', context.siteRoot);
         if (result.rc != 'success') {
             const child = code.newChild('div');
@@ -58,12 +49,12 @@
         if (defs) {
             defs.remove();
             const g = svg.findChild('g');
-            delete g.attribs['clip-path'];
+            if (g && g.attribs) {
+                delete g.attribs['clip-path'];
+            }
         }
 
         code.addChild(svg);
-        
-        /* context.globals.icons[name] = svg.clone(); */
         %>
     </init>
 </xten>

@@ -12,22 +12,41 @@
             width: 100%;
         }
 
-        .wx-xten-banner > .wx-view-datalist > .wx-xten-listitem {
+        .wx-xten-banner .wx-xten-listitem {
             display: none;
             width: 100%;
         }
 
-        .wx-xten-banner > .wx-view-datalist > .wx-xten-listitem.active {
+        .wx-xten-banner .wx-xten-listitem.active {
             display: block;
         }
 
-        .wx-xten-banner .banner-controls {display: display-block;}
+        .wx-xten-banner .banner-controls {display: inline-block;}
+        .wx-xten-banner .slide-changer {display: inline-block; height: 20px; width: fit-content;}
 
         .wx-xten-banner[item-count="0"] .banner-controls {display: none;}
         .wx-xten-banner[item-count="1"] .banner-controls {display: none;}
+
+        .wx-xten-banner .change-slide {
+            width: 15px; 
+            height: 15px; 
+            background-color: white; 
+            border: 1px solid grey; 
+            border-radius: 50%; 
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+        }
     </css>
 
     <cssNode>
+        #[$id] > .wx-view-datalist {
+            aspect-ratio: [$aspect-ratio||1];
+        }
+
+        #[$id][item-count="0"] .wx-view-datalist {border: 1px solid grey; background-color: #eeeeee;}
+
         #[$id] > .wx-view-datalist > .wx-xten-listitem {
             aspect-ratio: [$aspect-ratio||1];
         }
@@ -72,8 +91,8 @@
             </icon>
         </pos-right>
 
-        <pos-bottom name="banner-bottom-toolbar" class="banner-controls" bottom="30px">
-            <toolbar name="slide-changer">
+        <pos-bottom name="banner-bottom-toolbar" class="banner-controls">
+            <toolbar name="slide-changer" style="position: relative">
             </toolbar>
         </pos-bottom>
     </view>
@@ -108,12 +127,13 @@
         const changer = bottom.findChild('toolbar') || bottom.findNamedChild('div', 'slide-changer');
         changer.empty();
         for (var i = 0; i < value.length; i++) {
-            const icon = changer.newChild('icon');
-            icon.attribs.name = 'circle';
-            icon.attribs['slide-idx'] = i.toString();
-            icon.addClass('change-slide');
-            const tooltip = icon.newChild('tooltip');
+            const circle = changer.newChild('div');
+            circle.attribs.name = 'circle';
+            circle.attribs['slide-idx'] = i.toString();
+            circle.addClass('change-slide');
+            const tooltip = circle.newChild('tooltip');
             tooltip.text = 'Slide ' + (i + 1).toString();
+            circle.text = (i + 1).toString();
         }
         xtensions.processXtens(bottom, context);
     %>

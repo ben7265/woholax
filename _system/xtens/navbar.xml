@@ -11,8 +11,8 @@
         gap: [$item-gap||0];
     </nodeStyle>
     <css>
-        .wx-xten-navbar .wx-xten-navitem {flex: [$nav-item-flex||1 0 0]; text-align: [$align-navitem||center]; justify-content: center;}
-        .wx-xten-navbar > .wx-xten-navgroup {flex: [$nav-item-flex||1 0 0]; text-align: [$align-navitem||center]; justify-content: center;}
+        .wx-xten-navbar .wx-xten-navitem {flex: [$nav-item-flex||1 0 auto]; text-align: [$align-navitem||center]; justify-content: center;}
+        .wx-xten-navbar > .wx-xten-navgroup {flex: [$nav-item-flex||1 0 auto]; text-align: [$align-navitem||center]; justify-content: center;}
         .wx-xten-navbar .wx-xten-navitem::first {padding-left: 0;}
         .wx-xten-navbar .wx-xten-navitem::last {padding-right: 0;}
     </css>

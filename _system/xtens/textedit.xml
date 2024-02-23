@@ -10,7 +10,6 @@
         .wx-xten-textedit { position: relative; }
         .wx-xten-textedit > .ql-toolbar {
             position: absolute; 
-            top: -67px;
             background-color: white;
         }
         .wx-xten-textedit > .ql-toolbar.hidden {
@@ -18,6 +17,9 @@
         }
         .wx-xten-textedit > .ql-toolbar.visible {
             display: block;
+            background-color: white;
+            z-index: 1;
+            min-width: 500px;
         }
         .wx-xten-textedit > .ql-container {
             border: none !important;
@@ -29,6 +31,13 @@
             line-height: inherit;
         }
     </css>
+
+    <cssNode>
+        #[$id] > .ql-toolbar {
+            left: [$toolbar-left||0];
+            top: [$toolbar-top||-67px];
+        }
+    </cssNode>
 
     <initElement>
     <%
