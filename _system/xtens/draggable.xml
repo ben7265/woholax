@@ -7,6 +7,11 @@
     </style>
 
     <cssNode>
+        .wx-xten-draggable {
+            resize: none;
+            cursor: initial;
+        }
+
         .wx-xten-draggable.wx-state-editable {
             resize: [$resize||both];
             cursor: [$cursor||move];
@@ -25,6 +30,10 @@
 
     <initElement>
         <%
+            const editable = wxfns.hasClass(element, 'wx-state-editable');
+            if (!editable) {
+                return;
+            }
             element.onmousedown = (e) => {
                 const resizeHandleSize = 15;
                 const width = element.offsetWidth;
