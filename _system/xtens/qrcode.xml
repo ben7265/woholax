@@ -1,0 +1,61 @@
+<xten name="qrcode" element="div">
+    <mandatory>name</mandatory>
+    <allow>owner, admin</allow>
+    <libs>libs/qrcode.js</libs>
+
+    <style>
+        position: relative;
+        display: inline-block;
+    </style>
+
+    <css>
+        .wx-xten-qrcode .wx-xten-toolbar {display: none;}
+        .wx-xten-qrcode.wx-state-editable .wx-xten-toolbar {display: initial;}
+    </css>
+
+    <initElement>
+    <%
+        const placeholder = element.querySelector('[name="qrcode-image"]');
+        var typeNumber = 4;
+        var errorCorrectionLevel = 'L';
+        var qr = qrcode(typeNumber, errorCorrectionLevel);
+        qr.addData(element.getAttribute('data') || '');
+        qr.make();
+        placeholder.innerHTML = qr.createImgTag();
+    %>
+    </initElement>
+
+    <view>
+        <div name="qrcode-image"></div>
+    </view>
+
+    <toolbar top="-30px">
+        <icon name="qrcode-add">
+            <tooltip>add qr code</tooltip>
+            <click name="_addQRCode">
+            <%
+                const element = event.target.closest('.wx-xten-qrcode');
+                const value = await wxfns.getValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
+
+                await wxfns.transaction(element, 'save-page-data', value.trim());
+                element.setAttribute('data', value);
+
+                const placeholder = element.querySelector('[name="qrcode-image"]');
+                var typeNumber = 4;
+                var errorCorrectionLevel = 'L';
+                var qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData(value || '');
+                qr.make();
+                placeholder.innerHTML = qr.createImgTag();
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <load>
+        const value = await database.inlineValue(node, context, xten);
+        if (value) {
+            node.attribs.data = value;
+        }
+    </load>
+</xten>

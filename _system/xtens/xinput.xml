@@ -7,6 +7,7 @@
         .wx-xten-xinput input {width: 100%;}
         .wx-xten-xinput input {width: 100%;}
         .wx-xten-xinput .xinput-error {color: red; padding: 3px; font-size: 0.8em;}
+        .wx-xten-xinput[labels="none"] .label-column {display: none;}
     </css>
 
     <cssNode>
@@ -17,7 +18,7 @@
 
     <view>
         <row item-gap="15px">
-            <column>
+            <column name="label-column">
                 <align horizontal="flex-end">
                     <container>
                         <label xten="inline" name="input-label-[$name]">
@@ -29,7 +30,7 @@
                     </container>
                 </align>
             </column>
-            <column ratio="3">
+            <column ratio="3" name="input-column">
                 <switch value="node.closest('.wx-xten-xinput').attribs.type">
                     <case match="textarea">
                         <textarea name="[$name]" required="[$required||false]" class="xinput-control" />

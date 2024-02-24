@@ -6,7 +6,7 @@
 
     <nodeStyle>
         width: [$width||100%];
-        padding: [$padding||20px];
+        padding: [$padding||0];
     </nodeStyle>
 
     <css>

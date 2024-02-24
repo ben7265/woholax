@@ -26,6 +26,7 @@
 #include _system/xtens/currency-icon.xml
 #include _system/xtens/currency.xml
 #include _system/xtens/datetime.xml
+#include _system/xtens/draggable-layout.xml
 #include _system/xtens/draggable.xml
 #include _system/xtens/dropdown.xml
 #include _system/xtens/dynamic-grid.xml
@@ -56,6 +57,8 @@
 #include _system/xtens/pos-top-left.xml
 #include _system/xtens/pos-top-right.xml
 #include _system/xtens/pos-top.xml
+#include _system/xtens/qrcode.xml
+#include _system/xtens/qrscanner.xml
 #include _system/xtens/quickplay.xml
 #include _system/xtens/repeat.xml
 #include _system/xtens/row.xml

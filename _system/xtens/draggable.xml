@@ -1,16 +1,27 @@
 <xten name="draggable" element="div">
+    <mandatory>name</mandatory>
+    <allow>owner, admin</allow>
     <style>
         position: absolute;
-        display: inline-block;
-        height: auto;
-        width: auto;
+        display: block;
     </style>
 
-    <nodeStyle>
-        overflow: [$overflow||hidden];
-        resize: [$resize||both];
-        cursor: [$cursor||move];
-    </nodeStyle>
+    <cssNode>
+        .wx-xten-draggable.wx-state-editable {
+            resize: [$resize||both];
+            cursor: [$cursor||move];
+        }
+    </cssNode>
+
+    <css>
+        .wx-xten-draggable .resize-box {display: none; position: absolute; width: 10px; height: 10px; right: 0; bottom: 0;}
+        .wx-xten-draggable.wx-state-editable:hover .resize-box {display: block;}
+    </css>
+
+    <view>
+        <div class="resize-controls resize-box">
+        </div>
+    </view>
 
     <initElement>
         <%
@@ -21,10 +32,17 @@
 
                 const computedStyle = window.getComputedStyle(element);
                 const cursorStyle = computedStyle.getPropertyValue('cursor');
+                var mode = null;
 
                 if (e.clientX > (element.offsetLeft + width - resizeHandleSize) && e.clientY > (element.offsetTop + height - resizeHandleSize))
                 {
-                    return true;
+                    element.classList.add("resizing");
+                    mode = 'resizing';
+                }
+                else
+                {
+                    element.classList.add("dragging");
+                    mode = 'dragging';
                 }
 
                 var currentX = 0;
@@ -33,21 +51,48 @@
                 currentX = e.clientX;
                 currentY = e.clientY;
 
-                element.classList.add("dragging");
-
                 document.onmouseup = () => {
                     document.onmouseup = null;
                     document.onmousemove = null;
                     element.classList.remove("dragging");
+                    element.classList.remove("resizing");
+                    const style = element.getAttribute('style');
+                    const obj = wxfns.parseStyles(style);
+                    const position = {
+                        left: obj.left,
+                        top: obj.top,
+                        width: obj.width,
+                        height: obj.height
+                    };
+
+                    wxfns.transaction(element, 'save-box-position', wxfns.makeStyles(position));
                 };
 
                 document.onmousemove = (e) => {
-                    element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
-                    element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
-                    currentX = e.clientX;
-                    currentY = e.clientY;
+                    if (mode == 'dragging') {
+                        element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
+                        element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
+                        currentX = e.clientX;
+                        currentY = e.clientY;
+                    }
                 };
             };
         %>
     </initElement>
+
+    <load>
+        const value = await database.inlineValue(node, context, xten, 'position-');
+        if (value) {
+            node.addStyle(value);
+        }
+    </load>
+
+    <txn name="save-box-position">
+    <%
+        if (!attribs.name) {
+            return { rc: 'missing name in txn: ' + txn };
+        }
+        return await database.saveFieldValue(context.objKey, 'position-' + attribs.name, data, attribs, attribs.collection);
+    %>
+    </txn>
 </xten>

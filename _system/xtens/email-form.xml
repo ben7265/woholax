@@ -3,12 +3,14 @@
     <allow>admin</allow>
     
     <css>
-        .wx-xten-email-form .edit-email-text {display: none; background-color: lightgrey; z-index: 9999;}
+        .wx-xten-email-form .edit-email-text {display: none; background-color: lightgrey; z-index: 2;}
         .wx-xten-email-form.show-email .edit-email-text {display: block;}
         .wx-xten-email-form .wx-xten-textedit {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
         .wx-xten-email-form .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
         .wx-xten-email-form .wx-xten-toolbar {display: none;}
         .wx-xten-email-form.wx-state-editable .wx-xten-toolbar {display: initial;}
+        .wx-xten-email-form[labels="none"] .wx-xten-xinput .label-column {display: none;}
+        .wx-xten-email-form[labels="none"] .wx-xten-xinput .input {padding: 0;}
     </css>
 
     <view>

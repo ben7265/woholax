@@ -721,6 +721,28 @@ const wxfns = {
     return str.split(/[\s\_\-\.]/).map((s) => { return s.trim() }).map((s) => { return s.charAt(0).toUpperCase() + s.substring(1) }).join(' ');
   },
 
+  parseStyles: (styles) => {
+    const obj = {};
+    const list = typeof styles === 'string' ? styles.trim().split(/\s*\;\s*/) : [];
+    list.forEach((_s) => {
+        const arr = _s.split(/\s*\:\s*/);
+        if (!arr[0] || !arr[1] || arr.length != 2) {
+            return;
+        }
+        obj[arr[0]] = arr[1];
+    });
+
+    return obj;
+  },
+
+  makeStyles: (obj) => {
+    var output = '';
+    for (var prop in obj) {
+        output += prop + ':' + obj[prop] + ';';
+    }
+    return output;
+  },
+
   getFormData: (form) => {
     const data = {};
     const checkHuman = form.querySelector('.wx-xten-check-human');
