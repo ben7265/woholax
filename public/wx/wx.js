@@ -291,7 +291,7 @@ const wxfns = {
   },
 
   inform: (message, timeout, callback) => {
-    const overlay = document.createElement('div');
+    var overlay = document.createElement('div');
     overlay.classList.add('overlay');
     overlay.style = 'position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);z-index: 9999;';
 
@@ -317,7 +317,8 @@ const wxfns = {
     document.body.appendChild(overlay);
 
     function removeModal() {
-      document.body.removeChild(overlay);
+        overlay && document.body.removeChild(overlay);
+        overlay = null;
     }
 
     setTimeout(() => {

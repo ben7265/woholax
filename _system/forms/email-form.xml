@@ -164,8 +164,8 @@
             return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
         }
 
-        const name = node.attribs.name;
-        const smtpScope = node.attribs['smtp-settings'] || name;
+        const name = attribs.name;
+        const smtpScope = attribs['smtp-settings'] || name;
         const smtp = await database.getConstant('smtp-settings', smtpScope, user, context);
         if (!smtp) {
             return {rc: 'smtp-configuration', output: 'SMTP must be configured for this form'};
