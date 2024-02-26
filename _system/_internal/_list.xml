@@ -1,0 +1,111 @@
+<xten name="_list" element="_hidden">
+    <toolbar name="list-toolbar" class="list-toolbar" right="31px">
+        <icon name="add">
+            <tooltip>add new list item</tooltip>
+            <click>
+                <transaction name="add-list-item" />
+                <reload />
+            </click>
+        </icon>
+    </toolbar>
+
+    <style>
+        position: relative;
+    </style>
+
+    <css>
+        .wx-xten-_list > .wx-view-datalist {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+        .wx-xten-_list .list-item-toolbar {display: none;}
+        .wx-xten-_list.wx-state-editable .list-item-toolbar {display: flex;}
+        .wx-xten-_list .list-toolbar {display: none;}
+        .wx-xten-_list.wx-state-editable .list-toolbar {display: flex; }
+    </css>
+
+    <init>
+    <%
+        const toolbar = node.findChild('toolbar');
+        toolbar.remove();
+        const children = node.children;
+
+        node.empty();
+
+        const template = node.newChild('div');
+        template.attribs.name = 'list-item-view';
+        template.attribs.element = '_hidden';
+        template.insertChildren(0, children);
+
+        const list = node.newChild('div');
+        list.attribs.name = 'wx-view-datalist';
+        list.addClass('wx-view-datalist');
+        node.addChild(toolbar);
+    %>
+    </init>
+
+    <load>
+    <%
+        var startTime = common.startTimer();
+        const list = node.findNamedChild('div', 'wx-view-datalist');
+        list.empty();
+
+        const value = await database.inlineValue(node, context, xten);
+        if (!value || !value.length) {
+            node.attribs['item-count'] = '0';
+            return;
+        }
+
+        node.attribs['item-count'] = value.length.toString();
+
+        const template = node.findNamedChild('div', 'list-item-view');
+        const name = node.getValue('name');
+
+        for (var i = 0; i < value.length; i++) {
+            const listitem = list.newChild('listitem', 'last');
+            listitem.attribs.id = value[i].uid;
+            listitem.attribs['list-idx'] = i.toString();
+            listitem.attribs['serial-number'] = (i + 1).toString();
+            listitem.attribs.name = name;
+            xtensions.processXtens(listitem, context);
+
+            template.children.forEach(child => {
+                const _child = child.clone();
+                _child.iterate(_ch => {
+                    if (_ch.attribs['list-child']) {
+                        _ch.attribs['list-selector'] = name + '.$[list-idx]';
+                        _ch.attribs['list-idx'] = i.toString();
+                    }
+                });
+
+                listitem.addChild(_child);
+            });
+
+            if (i == 0) {
+                listitem.addClass('active');
+            }
+
+            common.substituteVars(listitem, listitem.attribs);
+            common.substituteVars(listitem, node.attribs);
+        }
+        /*common.endTimer(startTime, '=> _list load.');*/
+    %>
+    </load>
+</xten>
+
+<xten name="listitem" element="div">
+    <style>
+        position: relative;
+    </style>
+
+    <toolbar name="list-item-toolbar" index="1">
+        <icon name="remove">
+            <tooltip>delete list item</tooltip>
+            <click fname="_listItemRemove">
+                <transaction name="delete-list-item" />
+                <reload />
+            </click>
+        </icon>
+    </toolbar>
+</xten>

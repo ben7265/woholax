@@ -1,0 +1,9 @@
+<xten name="pos-right" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+        right: [$right||0];
+        top: 50%;
+        transform: translateY(-50%);
+    </style>
+</xten>

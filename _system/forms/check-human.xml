@@ -1,0 +1,101 @@
+<xten name="check-human" element="div">
+    <view>
+        <div name="canvas-parent" style="position: relative">
+            <div style="position: absolute; z-index: -1; top: 0; left: 0; bottom: 0; right: 0">
+                <textalign class="gotcha-parent"><input type="checkbox" name="gotcha" /></textalign>
+            </div>
+        </div>
+
+        <svg name="tick-mark" width="20" height="20" viewBox="0 0 20 20" element="_hidden">
+            <path d="M5,10 L8,14 L15,6" fill="none" stroke="green" stroke-width="2" />
+        </svg>
+    </view>
+
+    <css>
+        .wx-xten-check-human .human-canvas {border: [$border||1px solid grey];}
+    </css>
+
+    <initElement>
+    <%
+        const circleColor = element.getAttribute('circle-color') || 'yellow';
+        const circleBorderColor = element.getAttribute('circle-border-color') || 'grey';
+        const radius = parseInt(element.getAttribute('circle-radius') || '12');
+        const canvasColor = element.getAttribute('canvas-color') || 'white';
+        const tickColor = element.getAttribute('tick-color') || 'green';
+        const tickWidth = element.getAttribute('tick-width') || '3';
+        const label = element.getAttribute('label') || 'Please click in the circle';
+        const width = element.getAttribute('width') || '300';
+        const height = element.getAttribute('height') || '80';
+        const font = element.getAttribute('font') || '16px Arial';
+        const textColor = element.getAttribute('text-color') || 'black';
+
+        const svgMarkup = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">' +
+            '<path d="M5,10 L8,14 L15,6" fill="none" stroke="' + tickColor + '" stroke-width="' + tickWidth + '" />' +
+        '</svg>';
+        var img = new Image();
+        img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgMarkup);
+
+        var parent = element.querySelector(".canvas-parent");
+        var canvas = parent.querySelector('canvas');
+        if (canvas) {
+            canvas.remove();
+            canvas = null;
+        }
+        canvas = document.createElement('canvas');
+        wxfns.addClass(canvas, 'human-canvas');
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        parent.appendChild(canvas);
+
+        var circle = {};
+
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = canvasColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        element._value = false;
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+        ctx.font = font;
+        ctx.fillStyle = textColor;
+        ctx.fillText(label, 60, 17);
+        circle.x = Math.random() * (canvas.width - 2 * radius) + radius;
+        circle.y = Math.random() * (canvas.height - 2 * radius - 17) + radius + 17;
+        ctx.beginPath();
+        ctx.strokeStyle = circle.color;
+        ctx.arc(circle.x, circle.y, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = circleColor;
+        ctx.fill();
+        ctx.closePath();
+
+        canvas.addEventListener('click', function handleEvent (event) {
+            var rect = canvas.getBoundingClientRect();
+            var mouseX = event.clientX - rect.left;
+            var mouseY = event.clientY - rect.top;
+
+            var distance = Math.sqrt((mouseX - circle.x) ** 2 + (mouseY - circle.y) ** 2);
+            if (distance <= radius) {
+                ctx.drawImage(img, circle.x - radius, circle.y - radius, radius * 2, radius * 2);
+                element._value = true;
+                canvas.removeEventListener('click', handleEvent);
+            }
+        });
+    %>
+    </initElement>
+
+    <function name="get-value">
+    <%
+        return element.querySelector('gotcha') != 'true' && element._value == true;
+    %>
+    </function>
+
+    <function name="clear">
+    <%
+        initElement['check-human'](element);
+    %>
+    </function>
+</xten>

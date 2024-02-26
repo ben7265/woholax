@@ -1,6 +1,0 @@
-<xten name="gap" element="div">
-    <mandatory>height</mandatory>
-    <nodeStyle>
-        height: [$height||15px];
-    </nodeStyle>
-</xten>

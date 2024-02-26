@@ -1,0 +1,24 @@
+<xten name="sudo" element="_hidden">
+    <init>
+    <%
+        const sudo = node.attribs.sudo || node.attribs.name;
+        if (!sudo) {
+            common.nodeerror('sudo name is mandatory ' + node.attribs.id, node);
+            return true;
+        }
+
+        var selector = node.getValue('selector');
+        if (selector) {
+            context.style[selector + ':' + sudo] = node.text;
+            return;
+        }
+
+        if (!node.parent.attribs.id) {
+            node.parent.attribs.id = 'x-' + common.uuid();
+        }
+
+        selector = node.parent.attribs.id;
+        context.style['#' + selector + ':' + sudo] = node.text;
+    %>
+    </init>
+</xten>

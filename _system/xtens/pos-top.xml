@@ -1,9 +1,0 @@
-<xten name="pos-top" element="div">
-    <style>
-        position: absolute;
-        display: inline-block;
-        left: 50%;
-        top: [$top||0];
-        transform: translateX(-50%);
-    </style>
-</xten>

@@ -15,16 +15,14 @@ document.addEventListener('changeUser', (event) => {
 window.addEventListener('resize', (event) => {
 });
 
-const setUser = (user) => {
-  user && localStorage.setItem('user', JSON.stringify(user || null));
-};
-
 const clearUser = () => {
   localStorage.removeItem('user');
+  sessionStorage.removeItem('user');
 };
 
 const getUser = () => {
-  return JSON.parse(localStorage.getItem('user') || null);
+  var user = sessionStorage.getItem('user') || localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
 };
 
 server.post = async (url, data) => {
@@ -201,7 +199,7 @@ const wxfns = {
       const messageElement = document.createElement('div');
       messageElement.textContent = message;
       modal.appendChild(messageElement);
-      messageElement.style = 'padding: 15px;'
+      messageElement.style = 'padding: 15px;';
 
       const buttonPanel = document.createElement('div');
       modal.appendChild(buttonPanel);
@@ -214,7 +212,7 @@ const wxfns = {
         resolve(true);
       });
       buttonPanel.appendChild(yesButton);
-      yesButton.style = 'display: inline-block;margin-right: 10px; padding: 5px 10px;'
+      yesButton.style = 'display: inline-block;margin-right: 10px; padding: 5px 10px;';
 
       const noButton = document.createElement('button');
       noButton.textContent = notext || 'No';
@@ -262,7 +260,7 @@ const wxfns = {
     const messageElement = document.createElement('div');
     messageElement.textContent = message;
     modal.appendChild(messageElement);
-    messageElement.style = 'padding: 15px;'
+    messageElement.style = 'padding: 15px;';
 
     const buttonPanel = document.createElement('div');
     modal.appendChild(buttonPanel);
@@ -304,7 +302,7 @@ const wxfns = {
     const messageElement = document.createElement('div');
     messageElement.textContent = message;
     modal.appendChild(messageElement);
-    messageElement.style = 'padding: 15px;'
+    messageElement.style = 'padding: 15px;';
 
     const closeButton = document.createElement('div');
     closeButton.innerHTML = '<img style="margin: 10px;width:30px" src="icons/close.svg"/>';
@@ -434,7 +432,7 @@ const wxfns = {
         }
       });
 
-      label.style = 'margin-right: 2px;'
+      label.style = 'margin-right: 2px;';
       input.style = input.type != 'color' ? 'padding: 5px; margin: 5px;' : 'margin: 5px;';
 
       modalBody.appendChild(label);
@@ -781,5 +779,12 @@ const wxfns = {
       }
     }
     return data;
+  },
+  closestXten: (e, name) => {
+    return e.closest('.wx-xten-' + name);
+  },
+  callXten: async (e, xtenName, name, fn, data) => {
+    const element = e.querySelector('.wx-xten-' + xtenName + (name ? '[name="' + name + '"]' : ''));
+    return element ? await xfns[xtenName][fn](element, data) : null;
   }
-}
+};

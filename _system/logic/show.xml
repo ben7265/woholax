@@ -1,0 +1,26 @@
+<xten name="show" element="div">
+    <mandatory>role</mandatory>
+    <style>
+        display: none;
+    </style>
+
+    <initElement>
+        <%
+        const user = getUser();
+
+        const role = user ? user.role.trim() : 'public';
+        var allow = element.getAttribute('role');
+        if (allow == 'logged_in') {
+            if (role != 'public') {
+                element.style.display = 'initial';
+            }
+            return;
+        }
+
+        allow = allow ? allow.split(/\s*\,\s*/) : [];
+        if (allow.includes(role)) {
+            element.style.display = 'initial';
+        }
+        %>
+    </initElement>
+</xten>

@@ -1,0 +1,60 @@
+<xten name="search" element="div">
+    <mandatory>pagesize, type</mandatory>
+    <css>
+        .wx-xten-search {display: inline-block;}
+        .wx-xten-search > .search-wrapper {position: relative; display: inline-block;}
+        .wx-xten-search > .search-wrapper input.search {padding: 5px;}
+        .wx-xten-search > .search-wrapper .wx-xten-icon.search {text-align: left;}
+    </css>
+
+    <cssNode>
+        .wx-xten-search > .search-wrapper input.search {border: [$border||1px solid lightgrey;]}
+        .wx-xten-search > .search-wrapper .wx-xten-icon.search {border: [$border||1px solid lightgrey;];}
+        .wx-xten-search > .search-wrapper .wx-xten-icon.search .icon-code {background-color: [$icon-background||#efefef];}
+    </cssNode>
+
+    <view>
+        <container name="search-wrapper">
+            <flex>
+                <input name="search" type="text" required="true" class="search">
+                    <event name="keyup" fname="_searchInputEnter">
+                    <%
+                        if (event.key === 'Enter' || event.keyCode === 13) {
+                            event.target.closest('.search-wrapper').querySelector('.wx-xten-icon.search').click();
+                        }
+                    %>
+                    </event>
+                </input>
+                <icon name="search">
+                    <tooltip>Search</tooltip>
+                    <click fname="_searchClick">
+                    <%
+                        const element = event.target;
+                        const value = element.closest('.search-wrapper').querySelector('input.search').value;
+                        
+                        if (!value) {
+                            wxfns.error('[$error-heading||cannot search]', '[$error-message||please type some text to search]');
+                            return;
+                        }
+                        window.location.href = element.closest('.wx-xten-search').getAttribute('url') + value;
+                    %>
+                    </click>
+                </icon>
+            </flex>
+        </container>
+    </view>
+
+    <init>
+    <%
+        const type = node.getValue('type');
+        const pagesize = node.getValue('pagesize');
+
+        node.attribs.url = 'search-results?search-type=' + type + '&search-pagesize=' + pagesize;
+        if (type != 'pages') {
+            const listView = node.getValue('search-view') || 'default';
+            node.attribs.url += '&search-view=' + listView;
+        }
+        node.attribs.url += '&search-text=';
+    %>
+    </init>
+</xten>

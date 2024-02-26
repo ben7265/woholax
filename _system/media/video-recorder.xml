@@ -1,0 +1,105 @@
+<xten name="video-recorder" element="div">
+    <allow>owner, admin</allow>
+    <style>
+        position: relative;
+        aspect-ratio: [$aspect-ratio||auto];
+        width: 100%;
+    </style>
+
+    <css>
+        .wx-xten-video-recorder video {width: 100%; aspect-ratio: [$aspect-ratio||auto];}
+
+        .wx-xten-video-recorder .wx-xten-icon.cross {display: none;}
+        .wx-xten-video-recorder .record-screen {display: initial;}
+        .wx-xten-video-recorder.recording .wx-xten-icon.cross {display: initial;}
+        .wx-xten-video-recorder.recording .record-screen {display: none;}
+
+        .wx-xten-video-recorder [name="screen-play"] {display: initial;}
+        .wx-xten-video-recorder [name="screen-preview"] {display: none;}
+        
+        .wx-xten-video-recorder.recording [name="screen-play"]  {display: none;}
+        .wx-xten-video-recorder.recording [name="screen-preview"] {display: initial;}
+
+        .wx-xten-video-recorder .wx-xten-toolbar {display: none;}
+        .wx-xten-video-recorder.wx-state-editable .wx-xten-toolbar {display: flex;}
+    </css>
+
+    <view>
+        <video name="screen-preview" autoplay="true" />
+        <video name="screen-play" controls="true" />
+    </view>
+
+    <toolbar>
+        <icon name="video-camera">
+            <tooltip>video recording</tooltip>
+            <click fname="_recordScreen">
+            <%
+                const element = event.target.closest('.wx-xten-video-recorder');
+                wxfns.addClass(element, 'recording');
+                const viewer = element.querySelector('[name="screen-preview"]');
+                const player = element.querySelector('[name="screen-play"]');
+                var url = null;
+
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    viewer.srcObject = stream;
+
+                    const mediaRecorder = new MediaRecorder(stream);
+                    const chunks = [];
+
+                    mediaRecorder.ondataavailable = async (event) => {
+                        console.log(event.data);
+                        chunks.push(event.data);
+                        /*
+                        cant figure out how to make chunks append as renaming the file works but appending does not
+                        so for now saving the file at end only for the time being
+                        const options = { ext: 'webm' };
+                        const result = await wxfns.upload(element, 'save-recording', options, event.data);
+                        if (!url && result.rc == 'success') {
+                            url = result.url;
+                        }
+                        */
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        const recordedBlob = new Blob(chunks, { type: 'video/webm' });
+                        wxfns.removeClass(element, 'recording');
+                        const tracks = stream.getTracks();
+                        tracks.forEach(track => track.stop());
+                        const options = { ext: 'webm' };
+                        const result = await wxfns.upload(element, 'save-recording', options, recordedBlob);
+                        if (result.rc == 'success') {
+                            player.src = result.output;
+                        }
+                    };
+
+                    mediaRecorder.start();
+                    element.mediaRecorder = mediaRecorder;
+                })
+                .catch(error => {
+                    console.error('Error accessing screen:', error);
+                });
+            %>
+            </click>
+        </icon>
+        <icon name="cross">
+            <tooltip>stop screen recording</tooltip>
+            <click fname="_stopScreenRecording">
+            <%
+                const element = event.target.closest('.wx-xten-video-recorder');
+                if (element.mediaRecorder) {
+                    element.mediaRecorder.stop();
+                    delete element.mediaRecorder;
+                }
+                wxfns.removeClass(element, 'recording');
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <initElement>
+    <%
+        
+    %>
+    </initElement>
+</xten>

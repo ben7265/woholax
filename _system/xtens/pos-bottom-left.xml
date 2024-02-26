@@ -1,8 +1,0 @@
-<xten name="pos-bottom-left" element="div">
-    <style>
-        position: absolute;
-        display: inline-block;
-        left: [$left||0];
-        bottom: [$bottom||0];
-    </style>
-</xten>

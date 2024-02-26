@@ -1,0 +1,8 @@
+<xten name="circle" element="div">
+    <style>
+        overflow: hidden;
+    </style>
+    <nodeStyle>
+        border-radius: [$radius||50%];
+    </nodeStyle>
+</xten>

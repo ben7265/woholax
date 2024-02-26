@@ -1,9 +1,0 @@
-<xten name="pos-middle" element="div">
-    <style>
-        position: absolute;
-        display: inline-block;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    </style>
-</xten>

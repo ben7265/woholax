@@ -1,7 +1,0 @@
-<xten name="css" element="_hidden">
-    <mandatory>name</mandatory>
-    <init>
-        const name = node.getValue('name');
-        context.css[name] = node.text;
-    </init>
-</xten>

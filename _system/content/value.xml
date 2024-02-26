@@ -1,0 +1,16 @@
+<xten name="value">
+    <mandatory>name</mandatory>
+    <load>
+        <%
+        const value = await database.inlineValue(node, context, xten);
+        var _value = value;
+        if (value) {
+            if (node.attribs.summary) {
+                const chars = parseInt(node.attribs.summary);
+                _value = _value.replace(/<[^>]+>/g, '').substring(0, chars);
+            }
+            node.text = _value;
+        }
+        %>
+    </load>
+</xten>

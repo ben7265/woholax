@@ -1,0 +1,5 @@
+<xten name="textalign" element="div">
+    <nodeStyle>
+        text-align: [$align||center];
+    </nodeStyle>
+</xten>

@@ -1,0 +1,19 @@
+<xten name="fitheight" element="div">
+    <style>
+        display: block;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    </style>
+    <css>
+        .wx-xten-fitheight > .wx-xten-image {
+            height: 100%;
+        }
+        .wx-xten-fitheight > .wx-xten-image > img {
+            display: block; 
+            width: auto;
+            height: 100%;
+        }
+    </css>
+</xten>

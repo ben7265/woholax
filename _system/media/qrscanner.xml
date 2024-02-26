@@ -1,0 +1,33 @@
+<xten name="qrscanner" element="div">
+    <libs>libs/html5-qrcode.min.js</libs>
+    <view>
+        <div id="qrcode-scanner">
+        </div>
+    </view>
+
+    <initElement>
+    <%
+        const onScanSuccess = (decodedText, decodedResult) => {
+            const submit = new CustomEvent('qr-scanned', {
+                bubbles: true,
+                detail: {
+                    name: element.getAttribute('name'),
+                    qrtext: decodedText,
+                    result: decodedResult
+                }
+            });
+            element.dispatchEvent(submit);
+        };
+
+        const onScanFailure = (error) => {
+            /* do nothing */
+        };
+
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "qrcode-scanner",
+            { fps: 10, qrbox: {width: 250, height: 250} },
+            false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    %>
+    </initElement>
+</xten>

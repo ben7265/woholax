@@ -1,0 +1,12 @@
+<xten name="pos-left" element="div">
+    <style>
+        position: absolute;
+        display: inline-block;
+    </style>
+
+    <nodeStyle>
+        left: [$left||0];
+        top: 50%;
+        transform: translateY(-50%);
+    </nodeStyle>
+</xten>

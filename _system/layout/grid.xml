@@ -1,0 +1,23 @@
+<xten name="grid" extend="_list" element="div">
+    <allow>owner, admin</allow>
+    <mandatory>columns</mandatory>
+    <css enhance="append">
+        .wx-xten-grid > .wx-view-datalist {
+            flex-wrap: wrap;
+        }
+    </css>
+    <cssNode>
+        #[$id] > .wx-view-datalist {
+            flex-direction: [$orientation||row];
+            gap: [$item-gap||0];
+        }
+
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
+            flex-grow: [$grow||0];
+            flex-shrink: [$shrink||0];
+            flex-basis: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] ); 
+            width: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] );
+        }
+    </cssNode>
+</xten>
+

@@ -1,0 +1,208 @@
+<xten name="email-form" extend="_form">
+    <mandatory>name, smtp-settings</mandatory>
+    <allow>admin</allow>
+    
+    <css>
+        .wx-xten-email-form .edit-email-text {display: none; background-color: lightgrey; z-index: 2;}
+        .wx-xten-email-form.show-email .edit-email-text {display: block;}
+        .wx-xten-email-form .wx-xten-textedit {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
+        .wx-xten-email-form .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
+        .wx-xten-email-form .wx-xten-toolbar {display: none;}
+        .wx-xten-email-form.wx-state-editable .wx-xten-toolbar {display: flex;}
+        .wx-xten-email-form[labels="none"] .wx-xten-xinput .label-column {display: none;}
+        .wx-xten-email-form[labels="none"] .wx-xten-xinput .input {padding: 0;}
+    </css>
+
+    <view>
+        <screencover class="edit-email-text">
+            <pos-top-right top="20px" right="20px">
+                <icon name="cross">
+                    <click>
+                        const element = event.target.closest('.wx-xten-email-form');
+                        wxfns.removeClass(element, 'show-email');
+                    </click>
+                </icon>
+            </pos-top-right>
+            <pos-top>
+                <div style="padding: 10px; font-weight: bold; background: #efefef; text-align: center; width: 600px;">Email Body email-text-[$name]</div>
+            </pos-top>
+            <center>
+                <container>
+                    <row>
+                        <column><align horizontal="flex-start">To Email</align></column>
+                        <column ratio="3">
+                            <inline class="email-settings" name="to-email-config.email-recipient" object-name="[$name]" collection="constants">
+                                To Email Address
+                            </inline>
+                        </column>
+                    </row>
+                    <row>
+                        <column><align horizontal="flex-start">Email Subject</align></column>
+                        <column ratio="3">
+                            <inline class="email-settings" name="to-email-config.email-subject" object-name="[$name]" collection="constants">
+                                Email subject
+                            </inline>
+                        </column>
+                    </row>
+                    <textedit name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
+                </container>
+            </center>
+        </screencover>
+    </view>
+
+    <toolbar>
+        <icon name="system">
+            <tooltip>SMTP Settings</tooltip>
+            <click>
+                <%
+                    const element = event.currentTarget;
+                    const form = element.closest('.wx-xten-email-form');
+                    const keydata = {
+                        name: 'smtp-settings',
+                        scope: form.getAttribute('smtp-settings') || '_all'
+                    };
+
+                    var result = await wxfns.transaction(element, 'get-constant', keydata);
+                    if (result.rc != 'success') {
+                        return;
+                    }
+
+                    var data = result.data || {};
+                    const list = [
+                    {
+                        name: 'smtp-host',
+                        label: 'SMTP Host',
+                        tag: 'input',
+                        type: 'text',
+                        value: data['smtp-host'],
+                        required:'true'
+                    },
+                    {
+                        name: 'smtp-port',
+                        label: 'SMTP Port',
+                        tag: 'input',
+                        type: 'number',
+                        value: data['smtp-port'],
+                        required:'true'
+                    },
+                    {
+                        name: 'user-name',
+                        label: 'SMTP User Name',
+                        tag: 'input',
+                        type: 'text',
+                        value: data['user-name'],
+                        required:'true'
+                    },
+                    {
+                        name: 'password',
+                        label: 'SMTP Password',
+                        tag: 'input',
+                        type: 'password',
+                        value: data['password']
+                    },
+                    {
+                        name: 'ssl',
+                        label: 'SSL?',
+                        tag: 'input',
+                        type: 'checkbox',
+                        value: data['ssl'],
+                    },
+                    {
+                        name: 'from',
+                        label: 'From Email',
+                        tag: 'input',
+                        type: 'email',
+                        value: data['from'],
+                    }
+                ];
+                const formData = await wxfns.getMultipleValues(list, 'SMTP Settings');
+                if (!formData) {
+                    return;
+                }
+                keydata.data = formData;
+                result = await wxfns.transaction(element, 'save-constant', keydata);
+                if (result.rc != 'success') {
+                    return;
+                }
+                %>
+            </click>
+        </icon>
+        <icon name="at">
+            <tooltip>Email Text</tooltip>
+            <click>
+                const element = event.target.closest('.wx-xten-email-form');
+                wxfns.addClass(element, 'show-email');
+            </click>
+        </icon>
+    </toolbar>
+
+    <initElement enhance="append">
+    <%
+        element.addEventListener('form-submit', async (event) => {
+            const data = event.detail;
+            const result = await wxfns.transaction(element, 'email-form', data);
+            const captcha = element.querySelector('.wx-xten-check-human');
+            if (captcha) {
+                xfns['check-human'].clear(captcha);
+            }
+            if (result.rc != 'success') {
+                return;
+            }
+            wxfns.inform('Email sent successfully');
+            element.reset();
+        });
+    %>
+    </initElement>
+
+    <txn name="email-form">
+    <%
+        if (data.gotcha) {
+            return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
+        }
+
+        if (!data['check-human']) {
+            return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
+        }
+
+        const name = node.attribs.name;
+        const smtpScope = node.attribs['smtp-settings'] || name;
+        const smtp = await database.getConstant('smtp-settings', smtpScope, user, context);
+        if (!smtp) {
+            return {rc: 'smtp-configuration', output: 'SMTP must be configured for this form'};
+        }
+
+        const toconfig = await database.getConstant('to-email-config', name, user, context);
+
+        delete data.gotcha;
+        delete data['check-human'];
+        
+        var html = '<table>';
+        html += '<tbody>';
+
+        for (var prop in data) {
+            html += '<tr>';
+            html += '<td>';
+            html += prop;
+            html += '</td>';
+            html += '<td>';
+            html += data[prop];
+            html += '</td>';
+            html += '</tr>';
+        }
+
+        html += '</tbody>';
+        html += '</table>';
+
+        toconfig['email-text'] = 
+            '<html><body>' +
+            common.substitute(toconfig['email-text'], {'form-data': html}) +
+            '</body></html>';
+
+        const result = await require('./mailer').sendMail(smtp, smtp.from, toconfig);
+        if (result) {
+            return {rc: 'sendmail-error', output: result};
+        }
+        return {rc: 'success'};
+    %>
+    </txn>
+</xten>

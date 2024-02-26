@@ -1,0 +1,153 @@
+<xten name="banner" extend="_list" element="div">
+    <allow>owner, admin</allow>
+    <mandatory>aspect-ratio</mandatory>
+    <style>
+        position: relative;
+    </style>
+
+    <css enhance="append">
+        .wx-xten-banner > .wx-view-datalist {
+            display: flex;
+            position: relative;
+            width: 100%;
+        }
+
+        .wx-xten-banner .wx-xten-listitem {
+            display: none;
+            width: 100%;
+        }
+
+        .wx-xten-banner .wx-xten-listitem.active {
+            display: block;
+        }
+
+        .wx-xten-banner .banner-controls {display: inline-block;}
+        .wx-xten-banner .slide-changer {display: inline-block; height: 20px; width: fit-content;}
+
+        .wx-xten-banner[item-count="0"] .banner-controls {display: none;}
+        .wx-xten-banner[item-count="1"] .banner-controls {display: none;}
+
+        .wx-xten-banner .change-slide {
+            width: 15px; 
+            height: 15px; 
+            background-color: white; 
+            border: 1px solid grey; 
+            border-radius: 50%; 
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+        }
+    </css>
+
+    <cssNode>
+        #[$id] > .wx-view-datalist {
+            aspect-ratio: [$aspect-ratio||1];
+        }
+
+        #[$id][item-count="0"] .wx-view-datalist {border: 1px solid grey; background-color: #eeeeee;}
+
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
+            aspect-ratio: [$aspect-ratio||1];
+        }
+    </cssNode>
+
+    <view>
+        <pos-left name="banner-left-button" class="banner-controls">
+            <icon name="left">
+                <click fname="_fnBannerLeftClick">
+                <%
+                    const element = event.target.closest('.wx-xten-banner');
+                    var active = element.querySelector('.wx-xten-listitem.active');
+                    idx = parseInt(active ? active.getAttribute('list-idx') : '0');
+                    if (active) {
+                        active.classList.remove('active');
+                    }
+                    var total = element.querySelectorAll('.wx-xten-listitem').length;
+                    const next = idx == 0 ? total - 1 : idx - 1;
+                    const target = element.querySelector('.wx-xten-listitem[list-idx="' + next.toString() + '"]');
+                    target && target.classList.add('active');
+                %>
+                </click>
+            </icon>
+        </pos-left>
+
+        <pos-right name="banner-right-button" class="banner-controls">
+            <icon name="right">
+                <click fname="_fnBannerRightClick">
+                <%
+                    const element = event.target.closest('.wx-xten-banner');
+                    var active = element.querySelector('.wx-xten-listitem.active');
+                    const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
+                    if (active) {
+                        active.classList.remove('active');
+                    }
+                    var total = element.querySelectorAll('.wx-xten-listitem').length;
+                    const next = idx == total - 1 ? 0 : idx + 1;
+                    const target = element.querySelector('.wx-xten-listitem[list-idx="' + next.toString() + '"]');
+                    target && target.classList.add('active');
+                %>
+                </click>
+            </icon>
+        </pos-right>
+
+        <pos-bottom name="banner-bottom-toolbar" class="banner-controls">
+            <toolbar name="slide-changer" style="position: relative">
+            </toolbar>
+        </pos-bottom>
+    </view>
+
+    <initElement>
+    <%
+        const item = element.querySelector('.wx-xten-listitem');
+        if (item) {
+            item.classList.add('active');
+        }
+
+        const icons = element.querySelectorAll('.change-slide');
+        icons.forEach(_icon => {
+            _icon.addEventListener('click', (event) => {
+                event.preventDefault();
+                const element = event.target.closest('.wx-xten-banner');
+                var active = element.querySelector('.wx-xten-listitem.active');
+                if (active) {
+                    const idx = active.getAttribute('list-idx');
+                    active.classList.remove('active');
+                }
+                const target = element.querySelector('.wx-xten-listitem[list-idx="' + _icon.getAttribute('slide-idx') + '"]');
+                target && target.classList.add('active');
+            });
+        });
+    %>
+    </initElement>
+
+    <load enhance="append">
+    <%
+        const bottom = node.findChild('pos-bottom') || node.findNamedChild('div', 'banner-bottom-toolbar');
+        const changer = bottom.findChild('toolbar') || bottom.findNamedChild('div', 'slide-changer');
+        changer.empty();
+        for (var i = 0; i < value.length; i++) {
+            const circle = changer.newChild('div');
+            circle.attribs.name = 'circle';
+            circle.attribs['slide-idx'] = i.toString();
+            circle.addClass('change-slide');
+            const tooltip = circle.newChild('tooltip');
+            tooltip.text = 'Slide ' + (i + 1).toString();
+            circle.text = (i + 1).toString();
+        }
+        xtensions.processXtens(bottom, context);
+    %>
+    </load>
+</xten>
+
+<xten name="change-slide" element="div">
+    <view>
+        <div style="background-color: #fefefe">
+            <circle style="background-color: #aaaaaa" css-width="50px" css-height="50px">
+                <align>
+                    {$eval([$list-idx] + 1)}
+                </align>
+            </circle>
+        </div>
+    </view>
+</xten>

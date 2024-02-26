@@ -1,0 +1,3 @@
+<xten name="font" element="_hidden">
+    <link>https://fonts.googleapis.com/css2?family=[$name]:wght@[$weight]&display=swap</link>
+</xten>

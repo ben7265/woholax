@@ -1,0 +1,60 @@
+<xten name="icon" element="div">
+    <mandatory>name</mandatory>
+    <view>
+        <div name="icon-code">
+        </div>
+    </view>
+    <style>
+        position: relative;
+        display: inline-block;
+    </style>
+    <nodeStyle>
+        width: [$width||30px];
+        height: [$height||30px];
+        border: [$border||1px solid grey];
+        background: [$background-color||#efefef];
+        [$icon-style||];
+    </nodeStyle>
+    <css>
+        .wx-xten-icon > .icon-code {width: 100%;height: 100%;}
+    </css>
+
+    <init>
+        <%
+        const name = node.getValue('name');
+        const code = node.findNamedChild('div', 'icon-code');
+
+        const result = files.read('public/icons/' + name + '.svg', context.siteRoot);
+        if (result.rc != 'success') {
+            const child = code.newChild('div');
+            child.text = '.';
+            return;
+        }
+        const filepath = 'public/icons/' + name + '.svg';
+        const _lines = preprocessor(filepath, context.siteRoot);
+        if (!_lines) {
+            common.error('could not parse file : ' + filepath);
+            node.attribs.error('could not parse file : ' + filepath);
+            return;
+        }
+        const root = parser(_lines, filepath, context.siteRoot);
+        const svg = root.findChildren('svg')[0];
+        if (!svg.attribs.viewBox) {
+            svg.attribs.viewBox = '0 0 ' + svg.attribs.width + ' ' + svg.attribs.height;
+        }
+        delete svg.attribs.width;
+        delete svg.attribs.height;
+
+        const defs = svg.findChild('defs');
+        if (defs) {
+            defs.remove();
+            const g = svg.findChild('g');
+            if (g && g.attribs) {
+                delete g.attribs['clip-path'];
+            }
+        }
+
+        code.addChild(svg);
+        %>
+    </init>
+</xten>

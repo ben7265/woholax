@@ -1,0 +1,70 @@
+<xten name="xbutton" element="div">
+    <view>
+        <button type="[$type]">
+            <align>
+                <if defined="icon">
+                    <icon name="[$icon]"/>
+                </if>
+                <span class="button-label">
+                    [$label]
+                </span>
+            </align>
+        </button>
+    </view>
+
+    <style>
+        position: relative;
+        display: inline-block;
+    </style>
+
+    <css>
+        .wx-xten-xbutton button {display: flex;}
+    </css>
+
+    <cssNode>
+        #[$id] > button {
+            padding: [$padding||5px];
+        }
+        #[$id] .wx-xten-icon {
+            margin-right: [$item-gap||10px];
+        }
+    </cssNode>
+
+    <initElement>
+    <%
+        const overlay = document.createElement('div');
+        overlay.style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0;';
+        overlay.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const submit = new CustomEvent('form-submit-clicked', {bubbles: false});
+            const form = element.closest('form');
+            form.dispatchEvent(submit);
+        });
+        element.appendChild(overlay);
+    %>
+    </initElement>
+
+    <event name="click">
+        <%
+            event.preventDefault();
+            event.stopPropagation();
+            element = event.currentTarget;
+            const type = element.getAttribute('type');
+            switch(type) {
+                case 'link':
+                    const href = element.getAttribute('href');
+                    if (href && href != '#') {
+                        window.location.href = href;
+                    }
+                break;
+
+                case 'submit':
+                    event.preventDefault();
+                    wxfns.error('No entry', 'Bots are not allowed to click buttons in Wohola X');
+                    return;
+                break;
+            }
+        %>
+    </event>
+</xten>

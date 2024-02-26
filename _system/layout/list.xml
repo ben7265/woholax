@@ -1,0 +1,15 @@
+<xten name="list" extend="_list" element="div">
+    <allow>owner, admin</allow>
+    <cssNode>
+        #[$id] > .wx-view-datalist {
+            display: flex;
+            flex-direction: [$orientation||column];
+            gap: [$item-gap||0];
+            width: 100%;
+        }
+
+        #[$id] > .wx-view-datalist > .wx-xten-listitem {
+            flex: 1 1 0;
+        }
+    </cssNode>
+</xten>

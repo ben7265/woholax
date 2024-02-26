@@ -1,0 +1,493 @@
+<view name="object-list-toolbar">
+    <toolbar name="object-list-toolbar" class="object-list-toolbar" object-type="[@object-type]" top="[$toolbar-top||0]" right="[$toolbar-right||0]">
+        <icon name="add">
+            <tooltip>add [@object-label]</tooltip>
+            <click fname="_eventObjectAdd">
+                <transaction name="add-object" />
+                <reload/>
+            </click>
+        </icon>
+    </toolbar>
+</view>
+
+<view name="object-item-toolbar">
+    <toolbar name="object-item-toolbar" class="object-item-toolbar">
+        <icon name="remove" object-type="[@object-type]" object-name="[@object-name]">
+            <tooltip>delete [@object-label] </tooltip>
+            <click fname="_eventObjectDelete">
+                <confirm>Do you want to delete object [@object-name]?</confirm>
+                <transaction name="delete-object" target="event-target" />
+                <reload/>
+            </click>
+        </icon>
+    </toolbar>
+</view>
+
+<xten name="paginator" element="div">
+    <style>
+        text-align: center;
+        padding: 5px;
+        [$list-style||' '];
+    </style>
+    <css>
+        .wx-xten-paginator > a {display: inline-block; text-decoration: none; color: inherit; padding: 5px; border: 1px solid lightgray; width: 30px;text-align: center;[$list-item-style||' ']}
+        .wx-xten-paginator > a:hover {text-decoration: none;}
+        .wx-xten-paginator > a:visited {color: inherit;}
+        .wx-xten-paginator > a.active {font-weight: bold; border-width: 3px;}
+    </css>
+    <load>
+    <%
+        const objType = node.getValue('object-type');
+        if (!objType) {
+            common.nodeerror('object-type is missing', node);
+            return;
+        }
+
+        const objConfigNode = common.findNamed(node, 'object-config', objType);
+        if (!objConfigNode) {
+            common.nodeerror('invalid object type: ' + objType, node);
+            return;
+        }
+
+        const objConfig = common._tojson(objConfigNode, 'page, view');
+
+        const searchText = node.getValue('search-text');
+        const parent = node.getValue('parent');
+        const category = node.getValue('category');
+        const _selector = node.getValue('selector');
+        const dbquery = node.getValue('query');
+
+        const selector = {
+            type: objType
+        };
+
+        if (searchText) {
+            selector['$text'] = { $search: searchText };
+        }
+
+        if (parent) {
+            selector.parent = parent;
+        }
+
+        if (category) {
+            selector.category = category;
+        }
+
+        if (_selector) {
+            const list = _selector.split(/\s*\,\s*/);
+            list.forEach(li => {
+                const [field, value] = list.split(/\s*\:\s*/);
+                selector[field] = value;
+            });
+        }
+
+        if (dbquery) {
+            try {
+                const _query = JSON.parse(dbquery);
+                for (var prop in _query) {
+                    selector[prop] = _query[prop];
+                }
+            }
+            catch (e) {
+                node.attribs.error = 'invalide json passed to object-list ' + query;
+                common.error(node.attribs.error);                
+                return;
+            }
+        }
+
+        const data = await database.count(selector, objConfig.collection);
+        if (data.rc != 'success') {
+            common.nodeerror('System Error', data.rc);
+            return;
+        }
+
+        node.empty();
+
+        node.attribs['object-label'] = node.getValue('label') || common.toCamelCase(objType);
+
+        var pageSize = node.getValue('pagesize') || context.vars[objType + '-pagesize'] || configNode.getValue('pagesize');
+        pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
+        if (!pageSize) {
+            return;
+        }
+
+        var pageNumber = node.getValue('pagenum') || context.vars[objType + '-pagenum'];
+        pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
+
+        var url = context.vars.url;
+        const query = context.vars.query || null;
+
+        url += '?';
+
+        if (query) {
+            for (var prop in query) {
+                if (prop == objType + '-pagenum') {
+                    continue;
+                }
+                url += prop + '=' + query[prop] + '&';
+            }
+        }
+
+        const pages = Math.ceil(data.count / pageSize);
+        if (pages > 1) {
+            for (var i = 0; i < pages; i++) {
+                const child = node.newChild('a');
+                const _page = (i + 1).toString();
+                const href = url + (_page == '1' ? '' : (objType + '-pagenum=' + _page));
+                child.attribs.href = href[href.length - 1] == '?' ? href.slice(0, -1) : href;
+                child.text = _page;
+                var className = 'paginator-link';
+                if (_page == pageNumber) {
+                    className += ' active';
+                }
+                child.attribs.class = className;
+            }
+        }
+    %>
+    </load>
+</xten>
+
+<xten name="object" element="div">
+    <allow>owner, admin</allow>
+
+    <style>
+        position: relative;
+    </style>
+
+    <css>
+        .wx-xten-object > .wx-xten-object-data-wrapper {position: relative;}
+        .wx-xten-object > .view {display:none}
+        .wx-xten-object > .wx-xten-object-data-wrapper > .wx-view-object-list-item {position: relative;}
+        .wx-xten-object > .object-list-toolbar {display: none;}
+        .wx-xten-object.wx-state-ediable > .object-list-toolbar {display: inline-block;}
+        .wx-xten-object .wx-xten-object-item-toolbar {display: none;}
+        .wx-xten-object.wx-state-editable .wx-xten-object-item-toolbar {display: none;}
+    </css>
+
+    <load>
+    <%
+        var objKey = node.getValue('object-name');
+        if (!objKey) {
+            common.nodeerror('object-name is missing in xten object', node);
+            return;
+        }
+
+        var output = null;
+        if (objKey.startsWith('[@')) {
+            output = await database.getPageDataFromURL(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find page ' + context.vars.url, node);
+                return;
+            }
+        }
+        else
+        {
+            output = await database.getPageDataFromObjectName(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find object ' + objKey, node);
+                return;
+            }
+        }
+
+        if (!output.doc) {
+            common.nodeerror('empty page data found ' + objKey + '-' + context.vars.url, node);
+            return;
+        }
+
+        objKey = output.doc['object-name'];
+        objType = output.doc.type;
+
+        objConfigNode = common.findNamed(node, 'object-config', objType);
+        if (!objConfigNode) {
+            common.nodeerror('invalid object type: ' + objType, node);
+            return;
+        }
+
+        const objConfig = common._tojson(objConfigNode, 'page, view');
+
+        const data = await database.getObjectData(objKey, node.getValue('collection') || objConfig.collection || 'object_data');
+        if (data.rc != 'success') {
+            common.nodeerror('System Error ' + data.rc, node);
+            return;
+        }
+
+        if (!data.doc) {
+            common.nodeerror('page not found ' + objKey, node);
+            return;
+        }
+
+        const viewName = node.getValue('object-view') || 'default';
+        const view = objConfigNode.findNamedChild('object-view', viewName);
+        if (!view) {
+            common.nodeerror('object-view : ' + viewName + ' not found. object-config: ' + objType, node);
+            return;
+        }
+
+        common.substituteVars(view, node.attribs);
+
+        const toolbarView = common.findNamed(node, 'view', 'object-item-toolbar');
+        var objectItemToolbar = null;
+
+        if (toolbarView) {
+            const toolbarList = toolbarView.findChildren('toolbar');
+            if (toolbarList.length) {
+                objectItemToolbar = toolbarList[0];
+            }
+        }
+
+        node.attribs['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+        const vars = node.attribs;
+        for (var prop in node.attribs) {
+            vars[prop] = node.attribs[prop];
+        }
+        
+        node.empty();
+
+        const rec = data.doc;
+
+        const _vars = rec;
+        _vars['object-type'] = objType;
+        _vars['object-name'] = objKey;
+        _vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+
+        vars['object-name'] = rec['name'];
+        vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+        const _view = view.clone();
+        _view.attribs.element = 'div';
+        _view.addClass('wx-view-object-list-item');
+        _view.attribs.name = 'object-view';
+
+        var _toolbar = null;
+        if (objectItemToolbar) {
+            _toolbar = objectItemToolbar.clone();
+            node.addChild(_toolbar);
+        }
+
+        common.substituteVars(_view, _vars, true, common.recordPattern);
+        common.substituteVars(_view, node.attribs);
+
+        node.addChild(_view);
+        xtensions.processXtens(node, context);
+    %>
+    </load>
+</xten>
+
+<xten name="object-list" element="div">
+    <allow>owner, admin</allow>
+
+    <style>
+        position: relative;
+    </style>
+
+    <css>
+        .wx-xten-object-list .wx-view-list-item {position: relative; width: 100%;}
+        .wx-xten-object-list .wx-view-list-parent {position: relative;}
+        .wx-xten-object-list .wx-view-list-parent:not(tbody) {display: flex; flex-wrap: wrap; width: 100%;}
+        .wx-xten-object-list .object-list-toolbar {display: none;}
+        .wx-xten-object-list .object-item-toolbar {display: none;}
+        .wx-xten-object-list.wx-state-editable .object-list-toolbar {display: inline-block;}
+        .wx-xten-object-list.wx-state-editable .object-item-toolbar {display: inline-block;}
+    </css>
+    <cssNode>
+        #[$id] .wx-view-list-parent:not(tbody) {flex-direction: [$orientation||row]; gap:[$item-gap||0];}
+        #[$id] .wx-view-list-parent:not(tbody) .wx-view-list-item {
+            flex-basis: 1 0 0px; 
+            width: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] );
+            [$list-item-style|| ]
+        }
+    </cssNode>
+
+    <load>
+    <%
+        /*var startTime = common.startTimer();*/
+        const objType = node.getValue('object-type');
+        if (!objType) {
+            node.attribs.error = 'object-type is mandatory';
+            common.error(node.attribs.error);
+            return;
+        }
+
+        const configNode = common.findNamed(node, 'object-config', objType);
+        if (!configNode) {
+            node.attribs.error = 'could not find object-config for object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+
+        const listViewName = node.getValue('list-view') || 'default';
+        listView = configNode.findNamedChild('list-view', listViewName).clone();
+        if (!listView) {
+            node.attribs.error = 'list-view ' + listViewName + ' not found in object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+
+        const vars = node.attribs;
+
+        var pageSize = node.getValue('pagesize') || vars[objType + '-pagesize'] || configNode.getValue('pagesize');
+        pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
+
+        var pageNumber = context.vars[objType + '-pagenum'] || node.getValue('pagenum');
+        pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
+
+        const sort = node.getValue('sort') || vars[objType + '-sort'] || configNode.getValue('sort') || 'created:-1';
+        const _sort = common.nameValueStr2Json(sort);
+
+        const label = node.getValue('label') || configNode.getValue('label') || common.toCamelCase(objType);
+        const plural = node.getValue('plural') || configNode.getValue('plural') || (common.toCamelCase(objType) + 's');
+        const orientation = node.getValue('orientation') || vars[objType + '-orientation'] || configNode.getValue('orientation') || 'column';
+
+        const searchText = node.getValue('search-text');
+        const parent = node.getValue('parent');
+        const category = node.getValue('category');
+        const _selector = node.getValue('selector');
+        const query = node.getValue('query');
+
+        const collection = configNode.getValue('collection');
+
+        const selector = {
+            type: objType
+        };
+
+        if (searchText) {
+            selector['$text'] = { $search: searchText };
+        }
+
+        if (parent) {
+            selector.parent = parent;
+        }
+
+        if (category) {
+            selector.category = category;
+        }
+
+        if (_selector) {
+            const list = _selector.split(/\s*\,\s*/);
+            list.forEach(li => {
+                const [field, value] = list.split(/\s*\:\s*/);
+                selector[field] = value;
+            });
+        }
+
+        if (query) {
+            try {
+                const _query = JSON.parse(query);
+                for (var prop in _query) {
+                    selector[prop] = _query[prop];
+                }
+            }
+            catch (e) {
+                node.attribs.error = 'invalide json passed to object-list ' + query;
+                common.error(node.attribs.error);                
+                return;
+            }
+        }
+
+        const data = await database.getObjectList(selector, pageSize, pageNumber, _sort, collection);
+        if (data.rc != 'success') {
+            common.nodeerror('System Error', data.rc);
+            return;
+        }
+
+        const _vars = {};
+        _vars['object-type'] = objType;
+        _vars['object-label'] = label;
+        _vars['object-plural'] = plural;
+
+        if (!data.docs || !data.docs.length) {
+            const emptyViewName = node.getValue('empty-view') || 'default';
+            var emptyView = listView.findNamedChild('empty-view', emptyViewName);
+            if (!emptyView) {
+                node.attribs.error = 'list-view ' + listViewName + ' does not have empty view ' + emptyViewName + '. object-type' + objType;
+                common.error(node.attribs.error);
+                return;
+            }
+            emptyView = emptyView.clone();
+
+            node.empty();
+            node.insertChildren(0, emptyView.children);
+
+            common.substituteVars(node, _vars, true, common.recordPattern);
+            common.substituteVars(node, node.attribs);
+            xtensions.processXtens(node, context);
+            return;
+        }
+
+        const dataViewName = node.getValue('data-view') || 'default';
+        var dataView = listView.findNamedChild('data-view', dataViewName);
+        if (!dataView) {
+            node.attribs.error = 'list-view ' + listViewName + ' does not have data view ' + dataViewName + '. object-type' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+        dataView = dataView.clone();
+
+        const placeholderList = dataView.find('list-items');
+        if (placeholderList.length != 1) {
+            node.attribs.error = 'list-view ' + listViewName + ' should have 1 placeholder for list-items. object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+        const placeholder = placeholderList[0];
+
+        const listParent = placeholder.parent;
+        if (listParent.children.length != 1) {
+            node.attribs.error = 'in list-view ' + listViewName + ' parent of list-item template should not contain anything other than list-item template. object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+
+        const listItemName = placeholder.attribs.name || 'default';
+        listParent.empty();
+        listParent.addClass('wx-state-orientation-' + orientation);
+        listParent.addClass('wx-view-list-parent');
+
+        const listItemView = listView.findNamedChild('list-item-view', listItemName);
+        if (!listItemView) {
+            node.attribs.error = 'list-view ' + listViewName + ' does not have list-item-view ' + listItemName + '. object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+
+        if (listItemView.children.length != 1) {
+            node.attribs.error = 'list-item-view ' + listItemName + ' in list-view ' + listViewName + '  should hae only one child. object-type ' + objType;
+            common.error(node.attribs.error);
+            return;
+        }
+
+        const pages = data ? data.pages : 1;
+        const list = data && data.docs ? data.docs : [];
+
+        for (var i = 0; i < list.length; i++) {
+            const rec = list[i];
+
+            rec['object-list-idx'] = i.toString();
+            rec['object-serial-number'] = (i + 1).toString();
+            rec['object-name'] = rec.name;
+
+            for (var prop in rec['indexed-urls']) {
+                rec['url-' + prop] = rec['indexed-urls'][prop];
+            }
+            
+            const li = listItemView.clone();
+            li.children[0].addClass('wx-view-list-item');
+            common.substituteVars(li, rec, true, common.recordPattern);
+            common.substituteVars(li, node.attribs);
+            /*xtensions.processXtens(li, context);*/
+
+            listParent.insertChildren('last', li.children);
+        }
+
+        node.empty();
+        node.insertChildren(0, dataView.children);
+
+        common.substituteVars(node, _vars, true, common.recordPattern);
+        common.substituteVars(node, node.attribs);
+        /*common.endTimer(startTime, '=> object-list load before process xtens.');*/
+
+        /*var startTime = common.startTimer();*/
+        xtensions.processXtens(node, context);
+        /*common.endTimer(startTime, '=> object-list load process xtens.');*/
+    %>
+    </load>
+</xten>
