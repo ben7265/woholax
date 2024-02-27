@@ -28,7 +28,7 @@
 
 <function name="upload">
     var formData = null;
-    const result = await wxfns.upload(toolbarParent, '[$name]', null, toolbarParent['[$file]']);
+    const result = await wxfns.upload(toolbarParent, '[$name]', {width: toolbarParent.offsetWidth, height: toolbarParent.offsetHeight}, toolbarParent['[$file]']);
     if (result.rc != 'success') {
         return;
     }

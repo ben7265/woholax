@@ -48,7 +48,6 @@
                     const chunks = [];
 
                     mediaRecorder.ondataavailable = async (event) => {
-                        console.log(event.data);
                         chunks.push(event.data);
                         /*
                         cant figure out how to make chunks append as renaming the file works but appending does not

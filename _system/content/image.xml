@@ -10,7 +10,7 @@
 
     <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
         <icon name="save">
-            <tooltip>upload image</tooltip>
+            <tooltip>save image</tooltip>
             <click fname="_imageSaveImage">
                 <upload name="save-image" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="img">

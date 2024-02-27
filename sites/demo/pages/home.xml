@@ -59,11 +59,9 @@
         <gap height="30px" />
 
         <list name="featured" item-gap="32px" orientation="row" css-min-height="200px">
-            <align>
-                <circle class="featured-image-circle" style="border:5px solid red">
-                    <image name="feature-image" list-child="true" toolbar-top="calc(50% - 15px)" toolbar-left="calc(50% - 15px)" aspect-ratio="1" />
-                </circle>
-            </align>
+            <circle class="featured-image-circle" style="border:5px solid red">
+                <image name="feature-image" list-child="true" toolbar-top="calc(50% - 15px)" toolbar-left="calc(50% - 15px)" aspect-ratio="1" />
+            </circle>
             <align height="fit-content">
                 <inline name="feature-label" list-child="true">feature label</inline>
             </align>

@@ -19,10 +19,11 @@
             display: flex;
             width: 100%;
         }
+
         .wx-xten-_list .list-item-toolbar {display: none;}
         .wx-xten-_list.wx-state-editable .list-item-toolbar {display: flex;}
         .wx-xten-_list .list-toolbar {display: none;}
-        .wx-xten-_list.wx-state-editable .list-toolbar {display: flex; }
+        .wx-xten-_list.wx-state-editable .list-toolbar {display: flex;}
     </css>
 
     <init>

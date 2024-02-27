@@ -8,8 +8,10 @@
             width: 100%;
         }
 
-        #[$id] > .wx-view-datalist > .wx-xten-listitem {
-            flex: 1 1 0;
+        #[$id][orientation="row"] > .wx-view-datalist > .wx-xten-listitem {
+            flex-grow: [$grow||1];
+            flex-shrink: [$shrink||0];
+            flex-basis: 0px;
         }
     </cssNode>
 </xten>
