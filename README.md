@@ -12,13 +12,11 @@ The current release is for internal team only but members of public are welcome 
 There is a quick start guide in docs folder to get you started. If you like what you see we have Wohola Development Partners who are ready to work with you on your project or you could learn WXML and build the project yourself.
 
 ## Getting Started
----------------
 
 1. There is a quick start guide in docs folder and code for a demo system. You can download this on any Windows Server and try out the demo based on the quick start guide. Currently this is a beta internal release only so detailed Developer Guides and Reference Manual would be available when the new release is done.
 2. For any IT services companies or developers who would like to learn WXML or use this in their projects in the meantime can send or post a message. We have free training programs to train companies or developers on Wohola X development.
 
 # Wohola Solution Providers
----------------------------
 
 ## USA
 
