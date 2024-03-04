@@ -10,10 +10,10 @@
         height:[$height||fit-content];
         flex-direction: [$direction||row];
     </nodeStyle>
-    <tablet>
-        flex-direction:[$tablet-direction||row];
-    </tablet>
-    <phone>
-        flex-direction:[$phone-direction||column];
-    </phone>
+    <nodeTablet>
+        flex-direction: [$tablet-direction||row];
+    </nodeTablet>
+    <nodePhone>
+        flex-direction: [$tablet-direction||column];
+    </nodePhone>
 </xten>

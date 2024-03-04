@@ -1,5 +1,6 @@
 <xten name="container" element="div">
     <style>
         display: block;
+        position: relative;
     </style>
 </xten>

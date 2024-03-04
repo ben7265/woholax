@@ -1,14 +1,12 @@
 <xten name="xbutton" element="div">
     <view>
-        <button type="[$type]">
-            <align>
-                <if defined="icon">
-                    <icon name="[$icon]"/>
-                </if>
-                <span class="button-label">
-                    [$label]
-                </span>
-            </align>
+        <button type="[$type||link]">
+            <!--if defined="icon">
+                <icon name="[$icon]"/>
+            </if>
+            <span class="button-label" -->
+                [$label]
+            <!--/span -->
         </button>
     </view>
 
@@ -18,7 +16,8 @@
     </style>
 
     <css>
-        .wx-xten-xbutton button {display: flex;}
+        .wx-xten-xbutton button:focus {outline: none;}
+        .wx-xten-xbutton button:link {outline: none;}
     </css>
 
     <cssNode>
@@ -37,6 +36,19 @@
         overlay.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
+            const href = element.getAttribute('href');
+            if (href) {
+                if (href != '#') {
+                    window.location.href = href;
+                }
+                return;
+            }
+
+            const type = element.getAttribute('type');
+            if (type != 'submit') {
+                return;
+            }
+
             const submit = new CustomEvent('form-submit-clicked', {bubbles: false});
             const form = element.closest('form');
             form.dispatchEvent(submit);
@@ -50,21 +62,7 @@
             event.preventDefault();
             event.stopPropagation();
             element = event.currentTarget;
-            const type = element.getAttribute('type');
-            switch(type) {
-                case 'link':
-                    const href = element.getAttribute('href');
-                    if (href && href != '#') {
-                        window.location.href = href;
-                    }
-                break;
-
-                case 'submit':
-                    event.preventDefault();
-                    wxfns.error('No entry', 'Bots are not allowed to click buttons in Wohola X');
-                    return;
-                break;
-            }
+            wxfns.error('No entry', 'Bots are not allowed to click buttons in Wohola X');
         %>
     </event>
 </xten>

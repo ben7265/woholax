@@ -91,6 +91,7 @@
 #include _system/styles/xstyle.xml
 
 #include _system/user/change-password.xml
+#include _system/user/forgot-password.xml
 
 #include _system/collections.xml
 #include _system/functions.xml

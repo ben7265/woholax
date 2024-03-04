@@ -33,13 +33,13 @@
             <column ratio="3" name="input-column">
                 <switch value="node.closest('.wx-xten-xinput').attribs.type">
                     <case match="textarea">
-                        <textarea name="[$name]" required="[$required||false]" class="xinput-control" />
+                        <textarea name="[$name]" required="[$required||false]" class="xinput-control" placeholder="[$placeholder||]" />
                     </case>
                     <case match="check-human">
                         <check-human class="xinput-control" />
                     </case>
                     <default>
-                        <input name="[$name]" type="[$type]" required="[$required||false]" class="xinput-control" />
+                        <input name="[$name]" type="[$type]" required="[$required||false]" class="xinput-control" placeholder="[$placeholder||]" />
                     </default>
                 </switch>
                 <div class="xinput-error"></div>
@@ -47,6 +47,21 @@
         </row>
         <gap height="5px"/>
     </view>
+
+    <initElement>
+    <%
+        const type = element.getAttribute('type');
+        if (type == 'check-human') {
+            const _input = element.querySelector('.xinput-control');
+            for (var i = 0, atts = element.attributes, n = atts.length, arr = []; i < n; i++){
+                att = atts[i];
+                if (!_input.getAttribute(att.nodeName)) {
+                    _input.setAttribute(att.nodeName, att.nodeValue);
+                }
+            }
+        }
+    %>
+    </initElement>
 
     <function name="clear">
     <%

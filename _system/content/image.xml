@@ -89,6 +89,7 @@
 
     <nodeStyle>
         aspect-ratio: [$aspect-ratio||auto];
+        overflow: [$overflow||hidden];
     </nodeStyle>
 
     <css>

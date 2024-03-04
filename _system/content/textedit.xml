@@ -19,7 +19,6 @@
             display: block;
             background-color: white;
             z-index: 1;
-            min-width: 500px;
         }
         .wx-xten-textedit > .ql-container {
             border: none !important;
@@ -42,8 +41,13 @@
     <initElement>
     <%
         const access = checkAccess(element);
-        if (access) {
-            var toolbarOptions = [
+        if (!access) {
+            wxfns.addClass(element, 'ql-editor');
+            return;
+        }
+
+        var toolbars = {
+            full: [
                 ['bold', 'italic', 'underline', 'strike'],
                 ['blockquote', 'code-block'],
 
@@ -61,74 +65,83 @@
                 ['image', 'video'],
 
                 ['clean']
-            ];
-            var editor = document.createElement('div');
-            editor.className = 'editor';
-            editor.innerHTML = element.innerHTML;
-            element.innerHTML = '';
-            element.appendChild(editor);
+            ],
+            text: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'align': [] }]
+            ]
+        };
+        const toolbarName = element.getAttribute('toolbar') || 'full';
 
-            editor = element.querySelector('.editor');
-            var dirty = false;
+        var editor = document.createElement('div');
+        editor.className = 'editor';
+        editor.innerHTML = element.innerHTML;
+        element.innerHTML = '';
+        element.appendChild(editor);
 
-            if (!xdata.quill) {
-                xdata.quill = {};
-            }
+        editor = element.querySelector('.editor');
+        var dirty = false;
 
-            const quill = new Quill(editor, {
-                modules: {
-                    toolbar: toolbarOptions
-                },
-                theme: 'snow'
-            });
-
-            const toolbar = element.querySelector('.ql-toolbar');
-            wxfns.addClass(toolbar, 'hidden');
-
-            quill.getModule("toolbar").addHandler("image", (value) => {
-                const upload = async () => {
-                    const file = await wxfns.selectFile('image/*');
-                    /*const result = await wxfns.upload(element, 'save_image', null, file);*/
-                    const result = await wxfns.upload(element, 'save-image', null, file);
-                    const range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'image', result.output);
-                    quill.setSelection(range.index + 1);
-                };
-                upload();
-            });
-
-            quill.on('text-change', function (delta, oldDelta, source) {
-                dirty = true;
-            });
-
-            setInterval(function () {
-                if (dirty) {
-                    dirty = false;
-                    const text = quill.root.innerHTML;
-                    /*wxfns.transaction(element, 'save_page_data', text.trim());*/
-                    wxfns.transaction(element, 'save-page-data', text.trim());
-                }
-            }, 2000);
-
-            const ImageBlot = Quill.import('formats/image');
-            const Parchment = Quill.import('parchment');
-
-            element.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const toolbar = element.querySelector('.ql-toolbar');
-                wxfns.addClass(toolbar, 'visible');
-                wxfns.removeClass(toolbar, 'hidden');
-                const img = Parchment.find(e.target);
-                if (img instanceof ImageBlot) {
-                    quill.setSelection(img.offset(quill.scroll) - 1, 1, 'user');
-                }
-            });
-            document.addEventListener('click', () => {
-                const toolbar = element.querySelector('.ql-toolbar');
-                wxfns.removeClass(toolbar, 'visible');
-                wxfns.addClass(toolbar, 'hidden');
-            });
+        if (!xdata.quill) {
+            xdata.quill = {};
         }
+
+        const quill = new Quill(editor, {
+            modules: {
+                toolbar: toolbars[toolbarName]
+            },
+            theme: 'snow'
+        });
+
+        const toolbar = element.querySelector('.ql-toolbar');
+        wxfns.addClass(toolbar, 'hidden');
+
+        quill.getModule("toolbar").addHandler("image", (value) => {
+            const upload = async () => {
+                const file = await wxfns.selectFile('image/*');
+                /*const result = await wxfns.upload(element, 'save_image', null, file);*/
+                const result = await wxfns.upload(element, 'save-image', null, file);
+                const range = quill.getSelection();
+                quill.insertEmbed(range.index, 'image', result.output);
+                quill.setSelection(range.index + 1);
+            };
+            upload();
+        });
+
+        quill.on('text-change', function (delta, oldDelta, source) {
+            dirty = true;
+        });
+
+        setInterval(function () {
+            if (dirty) {
+                dirty = false;
+                const text = quill.root.innerHTML;
+                /*wxfns.transaction(element, 'save_page_data', text.trim());*/
+                wxfns.transaction(element, 'save-page-data', text.trim());
+            }
+        }, 2000);
+
+        const ImageBlot = Quill.import('formats/image');
+        const Parchment = Quill.import('parchment');
+
+        element.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const toolbar = element.querySelector('.ql-toolbar');
+            wxfns.addClass(toolbar, 'visible');
+            wxfns.removeClass(toolbar, 'hidden');
+            const img = Parchment.find(e.target);
+            if (img instanceof ImageBlot) {
+                quill.setSelection(img.offset(quill.scroll) - 1, 1, 'user');
+            }
+        });
+        
+        document.addEventListener('click', () => {
+            const toolbar = element.querySelector('.ql-toolbar');
+            wxfns.removeClass(toolbar, 'visible');
+            wxfns.addClass(toolbar, 'hidden');
+        });
     %>
     </initElement>
 

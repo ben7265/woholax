@@ -138,9 +138,11 @@
 
     <initElement enhance="append">
     <%
+        const txn = element.getAttribute('transaction') || 'email-form';
+        const message = element.getAttribute('message') || 'Email sent successfully';
         element.addEventListener('form-submit', async (event) => {
             const data = event.detail;
-            const result = await wxfns.transaction(element, 'email-form', data);
+            const result = await wxfns.transaction(element, txn, data);
             const captcha = element.querySelector('.wx-xten-check-human');
             if (captcha) {
                 xfns['check-human'].clear(captcha);
@@ -148,7 +150,7 @@
             if (result.rc != 'success') {
                 return;
             }
-            wxfns.inform('Email sent successfully');
+            wxfns.inform(message);
             element.reset();
         });
     %>

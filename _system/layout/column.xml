@@ -3,27 +3,22 @@
         position: relative;
     </style>
     <nodeStyle>
-        flex: [$ratio||1] [$ratio||0] 1px;
+        flex-shrink: [$ratio||0];
+        flex-basis: [$width||1px];
     </nodeStyle>
-    <!--init>
+    <init>
         const width = node.getValue('width');
-        if (width) {
-            node.addStyle('flex: 1 0 ' + width);
-            return;
-        }
-
         const ratio = node.getValue('ratio');
-        if (ratio) {
-            node.addStyle('flex: ' + ratio + ' ' + ratio + ' 1px');
-            return;
+        if (width) {
+            node.addStyle("flex-grow: 0");
         }
-
-        const flex = node.getValue('flex');
-        if (flex) {
-            node.addStyle('flex: ' + flex);
-            return;
+        else if (ratio)
+        {
+            node.addStyle("flex-grow: " + ratio);
         }
-
-        node.addStyle('flex: 1 0 1px');
-    </init-->
+        else
+        {
+            node.addStyle("flex-grow: 1");
+        }
+    </init>
 </xten>

@@ -111,11 +111,12 @@
             return;
         }
 
-        var pageNumber = node.getValue('pagenum') || context.vars[objType + '-pagenum'];
+        const query = context.vars.query || {};
+
+        var pageNumber = node.getValue('pagenum') || context.vars.query[objType + '-pagenum'];
         pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
 
         var url = context.vars.url;
-        const query = context.vars.query || null;
 
         url += '?';
 

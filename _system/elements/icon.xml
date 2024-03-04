@@ -45,6 +45,7 @@
         delete svg.attribs.width;
         delete svg.attribs.height;
 
+        /*
         const defs = svg.findChild('defs');
         if (defs) {
             defs.remove();
@@ -53,7 +54,7 @@
                 delete g.attribs['clip-path'];
             }
         }
-
+        */
         code.addChild(svg);
         %>
     </init>
