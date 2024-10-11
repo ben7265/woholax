@@ -1,0 +1,60 @@
+<xten name="watch" element="div">
+    <view>
+        <video name="viewer" autoplay="true"></video>
+    </view>
+
+    <css>
+        .wx-xten-watch {position: relative; width: 100%; height: 100px; background-color: pink;}
+
+        .wx-xten-watch video {width: 100%;}
+    </css>
+
+    <initElement>
+    <%
+        const viewer = element.querySelector('[name="viewer"]');
+
+        const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+        
+        peerConnection.ontrack = event => {
+            console.log('Got streams:', event.streams);
+            if (event.streams[0]) {
+                viewer.srcObject = event.streams[0];
+            } else {
+                console.warn('No streams available in the event.');
+            }
+        };
+
+        peerConnection.onicecandidate = event => {
+            if (event.candidate) {
+                websocket.emit('ice-candidate', event.candidate);
+            }
+        };
+
+        peerConnection.onconnectionstatechange = () => {
+            console.log('Connection state change:', peerConnection.connectionState);
+        };
+
+        peerConnection.oniceconnectionstatechange = () => {
+            console.log('ICE connection state change:', peerConnection.iceConnectionState);
+        };
+
+        websocket.on('offer', async (offer) => {
+            console.log('offer recieved');
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            websocket.emit('answer', peerConnection.localDescription);
+        });
+
+        websocket.on('answer', async (answer) => {
+            console.log('answer recieved');
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+        });
+
+        websocket.on('ice-candidate', async (iceCandidate) => {
+            console.log('ice recieved');
+            await peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+        });
+    %>
+    </initElement>
+</xten>

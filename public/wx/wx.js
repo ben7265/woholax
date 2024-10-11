@@ -3,6 +3,20 @@ const server = {};
 const socket = io();
 const xdata = {};
 
+
+const websocket = io(serverURL);
+
+const peerConnectionConfig = {
+    iceServers: [
+        { urls: 'stun:127.0.0.1:3478' },
+        { 
+            urls: 'turn:127.0.0.1:3478',
+            username: 'localhost',
+            credential: 'localhost'
+        }
+    ]
+};
+
 window.onbeforeunload = function (event) {
 };
 

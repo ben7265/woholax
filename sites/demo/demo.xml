@@ -6,6 +6,7 @@
 
 <public>asdf, asdf</public>
 
+
 <css name="test">
     .test { color: red; }
 </css>
@@ -19,6 +20,9 @@
 #include pages/blog.xml
 #include pages/contact.xml
 #include pages/login.xml
+#include pages/demo.xml
+#include pages/broadcast.xml
+#include pages/watch.xml
 
 #include pages/layout-example.xml
 

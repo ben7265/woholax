@@ -40,7 +40,7 @@
                 const player = element.querySelector('[name="screen-play"]');
                 var url = null;
 
-                navigator.mediaDevices.getUserMedia({ video: true })
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 .then(stream => {
                     viewer.srcObject = stream;
 

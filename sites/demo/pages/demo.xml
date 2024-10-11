@@ -1,0 +1,15 @@
+<page url="demo" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <image name="demo-image-1" aspect-ratio="2" />
+
+    <gap height="20px" />
+
+    <inline name="demo-heading-1">Placeholder Heading</inline>
+
+    <gap height="20px" />
+
+    <video-player name="demo-video-1" />
+    
+    #include includes/footer.xml
+</page>

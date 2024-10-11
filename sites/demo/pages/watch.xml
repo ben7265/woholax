@@ -1,0 +1,10 @@
+<page url="watch" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+        <!--video-recorder name="test-record" /-->
+        <watch name="test-broadcast" />
+    </container>
+
+    #include includes/footer.xml
+</page>

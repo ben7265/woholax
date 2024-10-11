@@ -4,7 +4,7 @@
 
 An Enterprise Grade solution for developing web based applications
 
-*Release: 1.1.6 beta internal*
+*Release: 1.1.7 beta internal*
 
 ## Target audience: any company or person developing websites or web based solutions
 

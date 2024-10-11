@@ -1,0 +1,120 @@
+<xten name="broadcast" element="div">
+    <view>
+        <video name="preview" autoplay="true"></video>
+    </view>
+
+    <css>
+        .wx-xten-broadcast {position: relative; width: 100%; height: 100px; background-color: pink;}
+
+        .wx-xten-broadcast video {width: 100%;}
+
+        .wx-xten-broadcast .start-broadcast {display: none;}
+        .wx-xten-broadcast .stop-broadcast {display: none;}
+
+        .wx-xten-broadcast.wx-state-ready .start-broadcast {display: initial;} 
+        .wx-xten-broadcast.wx-state-ready .stop-broadcast {display: none;} 
+
+        .wx-xten-broadcast.wx-state-live .start-broadcast {display: none;} 
+        .wx-xten-broadcast.wx-state-live .stop-broadcast {display: initial;} 
+    </css>
+
+    <cssNode>
+        [$id] > video {aspect-ratio: [$aspect-ratio||auto]; }
+    </cssNode>
+
+    <toolbar>
+        <icon name="broadcast" class="start-broadcast">
+            <tooltip>Start Broadcast</tooltip>
+            <event name="click" fname="_fnStartBroadcast">
+            <%
+                const element = event.target.closest('.wx-xten-broadcast');
+                
+                element.peerConnection = new RTCPeerConnection(peerConnectionConfig);
+
+                element.localStream.getTracks().forEach(track => element.peerConnection.addTrack(track, element.localStream));
+
+                element.peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        websocket.emit('ice-candidate', event.candidate);
+                    }
+                };
+
+                const offer = await element.peerConnection.createOffer();
+                await element.peerConnection.setLocalDescription(offer);
+
+                await websocket.emit('offer', element.peerConnection.localDescription);
+        
+                wxfns.removeClass(element, 'wx-state-ready');
+                wxfns.addClass(element, 'wx-state-live');
+
+                websocket.on('offer', async (offer) => {
+                    console.log('offer recieved');
+                    await element.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+                    const answer = await element.peerConnection.createAnswer();
+                    await element.peerConnection.setLocalDescription(answer);
+                    websocket.emit('answer', element.peerConnection.localDescription);
+                });
+
+                websocket.on('answer', async (answer) => {
+                    console.log('answer recieved');
+                    await element.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+                });
+
+                websocket.on('ice-candidate', async (iceCandidate) => {
+                    console.log('ice recieved');
+                    await element.peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+                });
+            %>
+            </event>
+        </icon>
+        <icon name="stop" class="stop-broadcast">
+            <tooltip>Stop Broadcast</tooltip>
+            <click fname="_fn_stopBroadcast">
+            <%
+                const element = event.target.closest('.wx-xten-broadcast');
+
+                if (element.localStream) {
+                    element.localStream.getTracks().forEach(track => track.stop());
+                }
+
+                if (element.peerConnection) {
+                    element.peerConnection.close();
+                }
+
+                delete element.localStream;
+                delete element.peerConnection;
+
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+                const viewer = element.querySelector('[name="preview"]');
+
+                stream.getAudioTracks().forEach(track => track.enabled = false);
+
+                element.localStream = stream;
+                viewer.srcObject = stream;
+
+                wxfns.removeClass(element, 'wx-state-live');
+                wxfns.addClass(element, 'wx-state-ready');
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <initElement>
+    <%
+        const _init = async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+            const viewer = element.querySelector('[name="preview"]');
+
+            stream.getAudioTracks().forEach(track => track.enabled = false);
+
+            element.localStream = stream;
+            viewer.srcObject = stream;
+            wxfns.addClass(element, 'wx-state-ready');
+        };
+
+        _init();
+    %>
+    </initElement>
+</xten>

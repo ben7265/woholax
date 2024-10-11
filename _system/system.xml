@@ -23,6 +23,9 @@
 #include _system/browse/image-list.xml
 #include _system/browse/video-list.xml
 
+#include _system/comms/broadcast.xml
+#include _system/comms/watch.xml
+
 #include _system/content/datetime.xml
 #include _system/content/dropdown.xml
 #include _system/content/image.xml

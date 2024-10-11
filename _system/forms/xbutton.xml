@@ -13,6 +13,7 @@
     <style>
         position: relative;
         display: inline-block;
+        visibility: hidden;
     </style>
 
     <css>
@@ -54,6 +55,7 @@
             form.dispatchEvent(submit);
         });
         element.appendChild(overlay);
+        element.style = 'visibility: visible'
     %>
     </initElement>
 

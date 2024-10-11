@@ -12,8 +12,8 @@
         }
     </css>
 
-    <prepend>
+    <!--prepend>
         <configuration name="page-configuration" />
-        <!--configuration name="page-configuration" object-name="_all" /-->
-    </prepend>
+        <configuration name="page-configuration" object-name="_all" />
+    </prepend-->
 </xten>

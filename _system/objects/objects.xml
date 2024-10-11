@@ -103,7 +103,7 @@
 
         node.empty();
 
-        node.attribs['object-label'] = node.getValue('label') || common.toCamelCase(objType);
+        node.attribs['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
 
         var pageSize = node.getValue('pagesize') || context.vars[objType + '-pagesize'] || configNode.getValue('pagesize');
         pageSize = pageSize ? parseInt(pageSize.toString().trim()) : 0;
@@ -226,6 +226,7 @@
 
         common.substituteVars(view, node.attribs);
 
+        /*
         const toolbarView = common.findNamed(node, 'view', 'object-item-toolbar');
         var objectItemToolbar = null;
 
@@ -235,8 +236,10 @@
                 objectItemToolbar = toolbarList[0];
             }
         }
+        */
 
-        node.attribs['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+        const configLabel = objConfig.label ? objConfig.label._text : '';
+        node.attribs['object-label'] = node.getValue('label') || configLabel || common.toCamelCase(objType);
         const vars = node.attribs;
         for (var prop in node.attribs) {
             vars[prop] = node.attribs[prop];
@@ -248,21 +251,21 @@
 
         const _vars = rec;
         _vars['object-type'] = objType;
-        _vars['object-name'] = objKey;
-        _vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
+        _vars['object-label'] = node.getValue('label') || configLabel || common.toCamelCase(objType);
+        _vars['object-name'] = rec['name'];
 
-        vars['object-name'] = rec['name'];
-        vars['object-label'] = node.getValue('label') || objConfig.label || common.toCamelCase(objType);
         const _view = view.clone();
         _view.attribs.element = 'div';
         _view.addClass('wx-view-object-list-item');
         _view.attribs.name = 'object-view';
 
+        /*
         var _toolbar = null;
         if (objectItemToolbar) {
             _toolbar = objectItemToolbar.clone();
             node.addChild(_toolbar);
         }
+        */
 
         common.substituteVars(_view, _vars, true, common.recordPattern);
         common.substituteVars(_view, node.attribs);

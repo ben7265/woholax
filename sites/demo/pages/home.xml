@@ -2,8 +2,8 @@
     #include includes/header.xml
 
     <container name="page-body">
-        <video-player name="test">
-        </video-player>
+        <screen-recorder name="test">
+        </screen-recorder>
 
         <align>
             <span>Example of banner below - click on + to add slides</span>
