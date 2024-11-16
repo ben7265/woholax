@@ -14,6 +14,6 @@
         flex-direction: [$tablet-direction||row];
     </nodeTablet>
     <nodePhone>
-        flex-direction: [$tablet-direction||column];
+        flex-direction: [$phone-direction||column];
     </nodePhone>
 </xten>

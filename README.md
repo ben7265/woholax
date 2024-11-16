@@ -4,7 +4,14 @@
 
 An Enterprise Grade solution for developing web based applications
 
-*Release: 1.1.7 beta internal*
+*Release: 1.1.9 beta internal*
+
+# Release 1.1.9 notes
+
+- Removed licensing code - now Wohola X would be license free software which anyone can download and use - certain premium features may be added in future
+- Attempted to add ubuntu compile but git branch ended up erroneous due to large file size - removed the ubuntu executables for the time being
+- Added demo mode: any live site running on 1.1.9 or higher would have demo mode enabled. To view the demo any url can be suffixed with ?demo=yes. By doing so many xtens would allow user to edit the site data and play around with the site. This would not affect the actual data on database. Going back to real url without ?demo=yes would bring back the original data
+- Fixed some bugs found during POC development
 
 ## Target audience: any company or person developing websites or web based solutions
 

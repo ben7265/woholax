@@ -67,6 +67,21 @@
         <icon name="upload">
             <tooltip>select video to upload</tooltip>
             <event name="click" fname="_vpUploadVideo">
+                <code>
+                <%
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const demo = urlParams.get('demo') == 'yes';
+
+                    if (demo) {
+                        const file = await wxfns.selectFile('video/*');
+                        const url = URL.createObjectURL(file);
+                        const parent = wxfns.closestXten(event.target, 'video-player');
+                        const img = parent.querySelector('video');
+                        img.setAttribute('src', url);
+                        return;
+                    }
+                %>
+                </code>
                 <selectfile file-type="video/*" file="changed-file" />
                 <set-attrib name="src" child="video">
                     URL.createObjectURL(toolbarParent['changed-file'])
@@ -78,6 +93,14 @@
             <tooltip>select video from server</tooltip>
             <event name="click" fname="_vpSelectServerVideo">
             <%
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo') == 'yes';
+
+                if (demo) {
+                    wxfns.inform('Server images can be browsed by clicking on folder');
+                    return;
+                }
+
                 const element = wxfns.closestXten(event.target, 'video-player');
                 const video = element.querySelector('video');
                 const selected = await element._videoList._open(video.src);
@@ -91,7 +114,18 @@
     </toolbar>
 
     <initElement>
+    <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            wxfns.addClass(element, 'wx-state-editable');
+            return;
+        }
+
+
         element.setAttribute('src', element.querySelector('video').getAttribute('src'));
         element._videoList = element.querySelector('.wx-xten-video-list');
+    %>
     </initElement>
 </xten>

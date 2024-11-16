@@ -2,8 +2,11 @@
     <style>
         position: absolute;
         display: inline-block;
-        right: [$right||0];
         top: 50%;
         transform: translateY(-50%);
     </style>
+
+    <nodeStyle>
+        right: [$right||0];
+    </nodeStyle>
 </xten>

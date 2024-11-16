@@ -40,7 +40,17 @@
 
     <initElement>
     <%
-        const access = checkAccess(element);
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            const _localValue = sessionStorage.getItem('inline:' + element.getAttribute('name'));
+            if (_localValue) {
+                element.innerHTML = _localValue;
+            }
+        }
+
+        const access = checkAccess(element) || demo;
         if (!access) {
             wxfns.addClass(element, 'ql-editor');
             return;
@@ -118,10 +128,16 @@
             if (dirty) {
                 dirty = false;
                 const text = quill.root.innerHTML;
-                /*wxfns.transaction(element, 'save_page_data', text.trim());*/
-                wxfns.transaction(element, 'save-page-data', text.trim());
+                if (demo) {
+                    sessionStorage.setItem('inline:' + element.getAttribute('name'), text);
+                }
+                else
+                {
+                    wxfns.transaction(element, 'save-page-data', text.trim());
+                }
             }
         }, 2000);
+
 
         const ImageBlot = Quill.import('formats/image');
         const Parchment = Quill.import('parchment');

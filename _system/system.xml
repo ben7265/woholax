@@ -51,9 +51,12 @@
 
 #include _system/forms/check-human.xml
 #include _system/forms/email-form.xml
+#include _system/forms/save-form.xml
 #include _system/forms/xbutton.xml
+#include _system/forms/xdropdown.xml
 #include _system/forms/xform.xml
 #include _system/forms/xinput.xml
+#include _system/forms/xradio.xml
 
 #include _system/layout/column.xml
 #include _system/layout/cover.xml
@@ -95,6 +98,8 @@
 
 #include _system/user/change-password.xml
 #include _system/user/forgot-password.xml
+#include _system/user/register.xml
+#include _system/user/reset-password.xml
 
 #include _system/collections.xml
 #include _system/functions.xml

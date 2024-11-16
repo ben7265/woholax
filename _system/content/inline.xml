@@ -24,6 +24,20 @@
 
     <initElement>
     <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            element.setAttribute('contenteditable', true);
+            wxfns.addClass(element, 'editable');
+
+            const _localValue = sessionStorage.getItem('inline:' + element.getAttribute('name'));
+            if (_localValue) {
+                element.innerText = _localValue;
+            }
+            return;
+        }
+
         const access = checkAccess(element);
         if (access) {
             element.setAttribute('contenteditable', true);
@@ -73,6 +87,15 @@
     <%
         const element = event.target;
         const text = element.innerText.trim();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            sessionStorage.setItem('inline:' + element.getAttribute('name'), element.innerText.trim());
+            return;
+        }
+
         const origValue = element.__inlineValue;
         if (text == origValue) {
             return;

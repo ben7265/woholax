@@ -62,6 +62,21 @@
             <icon name="upload">
                 <tooltip>select video</tooltip>
                 <event name="click" fname="_qvUploadVideo">
+                    <code>
+                    <%
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const demo = urlParams.get('demo') == 'yes';
+
+                        if (demo) {
+                            const file = await wxfns.selectFile('video/*');
+                            const url = URL.createObjectURL(file);
+                            const parent = wxfns.closestXten(event.target, 'quickplay');
+                            const img = parent.querySelector('video');
+                            img.setAttribute('src', url);
+                            return;
+                        }
+                    %>
+                    </code>
                     <selectfile file-type="video/*" file="changed-file" />
                     <set-attrib name="src" child="video">
                         URL.createObjectURL(toolbarParent['changed-file'])
@@ -73,6 +88,16 @@
     </view>
 
     <initElement>
+    <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            wxfns.addClass(element, 'wx-state-editable');
+            return;
+        }
+
         element.setAttribute('src', element.querySelector('video').getAttribute('src'));
+    %>
     </initElement>
 </xten>

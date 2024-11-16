@@ -23,6 +23,7 @@
 #include pages/demo.xml
 #include pages/broadcast.xml
 #include pages/watch.xml
+#include pages/user-profile.xml
 
 #include pages/layout-example.xml
 

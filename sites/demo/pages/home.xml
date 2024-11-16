@@ -1,9 +1,19 @@
-<page url="_home" max-width="[#max-width]">
+<page url="_home" max-width="[#max-width]" cache="yes">
     #include includes/header.xml
 
     <container name="page-body">
-        <screen-recorder name="test">
-        </screen-recorder>
+        <container>
+            <video-player name="test" />
+            <pos-top top="30px" style="width: 700px">
+                <textalign>
+                    <inline name="test-text-1" style="color: white; font-size: 60px">Text 1 sadasdf aSDad</inline>
+                </textalign>
+                <gap height="30px"/>
+                <textalign>
+                    <inline name="test-text-1"style="color: white">Text 1 asdf asdfsaf </inline>
+                </textalign>
+            </pos-top>
+        </container>
 
         <align>
             <span>Example of banner below - click on + to add slides</span>

@@ -1,0 +1,137 @@
+<page url="user-profile">
+    #include includes/header.xml
+        <container name="page-body" style="padding:20px 50px 20px 50px">
+        <gap height="30px" />
+
+            <textalign>
+                <inline name="user-profile" element="h1" >
+                    Your Profile
+                </inline>
+            </textalign>
+
+            <gap height="30px" />
+
+            <row item-gap="50px" style="background-color:#F0F0F0; padding:10px 10px 10px 10px">
+                <column ratio="3">
+                <textalign align="left">
+                    <inline name="chat-text" element="h3">
+                    Chat with Astrologer
+                    </inline>
+                </textalign>
+                </column>
+                <column ratio="3">
+                <textalign align="left">
+                    <inline name="wallet" element="h4">
+                    Available balance: ₹ 0
+                    </inline>
+
+                    <inline name="wallet-recharge">
+                    <xbutton name="recharge" type="submit" label="Recharge" />
+                    </inline>
+                </textalign>
+                </column>
+            </row>
+
+            <gap height="30px" />
+
+            <row item-gap="30px">
+                <column>
+                    <textalign align="left">
+                        <inline name="my-horoscope" element="h2">
+                            My Horoscope
+                        </inline>
+                        <gap height="30px" />
+                        <inline name="horoscope-detail">
+                            Horoscope will display here...
+                        </inline>
+                    </textalign>
+                </column>
+
+                <column>
+                    <textalign align="left">
+                        <inline name="appointment" element="h2">
+                            Notification/ Appointment
+                        </inline>
+                        <gap height="30px" />
+                        <inline name="appointment-history">
+                            Appointment history will display here..
+                        </inline>
+                    </textalign>
+                </column>
+            </row>
+
+            <gap height="30px" />
+
+            <row>
+                <column>
+                    <textalign>
+                        <inline name="order-history" element="h2">
+                            Order History
+                        </inline>
+                    </textalign>
+                </column>
+            </row>
+
+            <gap height="30px" />
+
+                <row item-gap="30px">
+                    <column>
+                        <textalign>
+                            <inline name="call-history">
+                                Call History
+                            </inline>
+                        </textalign>
+                    </column>
+
+                    <column>
+                        <textalign>
+                            <inline name="chat-history">
+                                Chat History
+                            </inline>
+                        </textalign>
+                    </column>
+
+                    <column>
+                        <textalign>
+                            <inline name="prescription">
+                                Prescription Docs
+                            </inline>
+                        </textalign>
+                    </column>
+                </row>
+            <!--
+                <grid name="appointment-history" columns="3" css-min-height="auto" item-gap="15px">
+                    <row item-gap="30px">
+                        <column>
+                            <textalign>
+                                <inline name="call-date">
+                                   
+                                 </inline>
+                            </textalign>
+                        </column>
+
+                        <column>
+                            <textalign>
+                                <inline name="chat-date">
+                                    
+                                </inline>
+                            </textalign>
+                        </column>
+
+                        <column>
+                            <textalign>
+                                <inline name="prescription-docs">
+                                    
+                                </inline>
+                            </textalign>
+                        </column>
+                    </row>
+
+                </grid>
+            -->
+            <gap height="50px" />
+        </container>
+
+    #include includes/footer.xml
+
+</page>

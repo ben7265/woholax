@@ -2,7 +2,10 @@
     <style>
         position: absolute;
         display: inline-block;
+    </style>
+
+    <nodeStyle>
         left: [$left||0];
         top: [$top||0];
-    </style>
+    </nodeStyle>
 </xten>

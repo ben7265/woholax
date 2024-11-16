@@ -5,7 +5,7 @@
         <row >
             <column css-background-color="lightgrey">
                 <center>
-                    Section 1
+                    <inline name="sectio-1-text">Section 1</inline>
                 </center>
             </column>
 

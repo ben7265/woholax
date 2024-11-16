@@ -3,7 +3,10 @@
         position: absolute;
         display: inline-block;
         left: 50%;
-        top: [$top||0];
         transform: translateX(-50%);
     </style>
+
+    <nodeStyle>
+        top: [$top||0];
+    </nodeStyle>
 </xten>

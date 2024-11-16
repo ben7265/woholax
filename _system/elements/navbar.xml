@@ -19,15 +19,16 @@
     </view>
     <style>
         display:flex;
-        text-transform: [$transform||none];
         position: relative;
     </style>
     <nodeStyle>
+        text-transform: [$transform||none];
         gap: [$item-gap||0];
     </nodeStyle>
     <css>
         .wx-xten-navbar .wx-xten-navitem {justify-content: center;}
-        .wx-xten-navbar > .wx-xten-navgroup {display: none; justify-content: center;}
+        .wx-xten-navbar > .wx-xten-navgroup {justify-content: center;}
+        .wx-xten-navbar > .wx-xten-navgroup > .wx-xten-navbar {display:none;}
         .wx-xten-navbar > .wx-xten-navitem::first {padding-left: 0;}
         .wx-xten-navbar > .wx-xten-navitem::last {padding-right: 0;}
         .wx-xten-navbar > .wx-xten-navgroup:hover > .wx-xten-navbar {display:flex; position:absolute;}
@@ -84,6 +85,14 @@
         var collapseWidth = element.getAttribute('collapase-width');
         if (collapseWidth) {
             collapseWidth = parseInt(collapseWidth.replace(/px$/, ''));
+            if (window.innerWidth < collapseWidth) {
+                wxfns.addClass(element, 'collapse');
+            }
+            else
+            {
+                wxfns.removeClass(element, 'collapse');
+            }
+            
             window.addEventListener('resize', (event) => {
                 if (window.innerWidth < collapseWidth) {
                     wxfns.addClass(element, 'collapse');

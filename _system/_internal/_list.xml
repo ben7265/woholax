@@ -3,6 +3,17 @@
         <icon name="add">
             <tooltip>add new list item</tooltip>
             <click>
+                <code>
+                <%
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const demo = urlParams.get('demo') == 'yes';
+
+                    if (demo) {
+                        wxfns.inform('New items can be added by simply clicking plus');
+                        return;
+                    }
+                %>
+                </code>
                 <transaction name="add-list-item" />
                 <reload />
             </click>
@@ -25,6 +36,18 @@
         .wx-xten-_list .list-toolbar {display: none;}
         .wx-xten-_list.wx-state-editable .list-toolbar {display: flex;}
     </css>
+
+    <initElement>
+    <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            wxfns.addClass(element, 'wx-state-editable');
+            return;
+        }
+    %>
+    </initElement>
 
     <init>
     <%
@@ -104,9 +127,32 @@
         <icon name="remove">
             <tooltip>delete list item</tooltip>
             <click fname="_listItemRemove">
+                <code>
+                <%
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const demo = urlParams.get('demo') == 'yes';
+
+                    if (demo) {
+                        wxfns.inform('Items can be deleted by simply clicking trashcan');
+                        return;
+                    }
+                %>
+                </code>
                 <transaction name="delete-list-item" />
                 <reload />
             </click>
         </icon>
     </toolbar>
+
+    <initElement>
+    <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            wxfns.addClass(element, 'wx-state-editable');
+            return;
+        }
+    %>
+    </initElement>
 </xten>

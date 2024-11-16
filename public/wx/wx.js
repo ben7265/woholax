@@ -311,15 +311,15 @@ const wxfns = {
 
     const modal = document.createElement('div');
     modal.classList.add('modal');
-    modal.style = 'position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: #ffffff;border-radius: 5px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);border: 1px solid darkgrey';
+    modal.style = 'position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: #ffffff;border-radius: 5px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);border: 1px solid darkgrey; width: fit-content';
 
     const messageElement = document.createElement('div');
     messageElement.textContent = message;
     modal.appendChild(messageElement);
-    messageElement.style = 'padding: 15px;';
+    messageElement.style = 'padding: 20px; width: fit-content';
 
     const closeButton = document.createElement('div');
-    closeButton.innerHTML = '<img style="margin: 10px;width:30px" src="icons/close.svg"/>';
+    closeButton.innerHTML = '<img style="margin: 3px;width:20px" src="icons/close.svg"/>';
     closeButton.addEventListener('click', () => {
       removeModal();
       callback && callback();

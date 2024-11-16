@@ -37,6 +37,21 @@
         <icon name="upload">
             <tooltip>select image</tooltip>
             <event name="click" fname="_imageUploadImage">
+                <code>
+                <%
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const demo = urlParams.get('demo') == 'yes';
+
+                    if (demo) {
+                        const file = await wxfns.selectFile('image/*');
+                        const url = URL.createObjectURL(file);
+                        const parent = wxfns.closestXten(event.target, 'image');
+                        const img = parent.querySelector('img');
+                        img.setAttribute('src', url);
+                        return;
+                    }
+                %>
+                </code>
                 <selectfile file-type="image/*" file="changed-file" />
                 <set-attrib name="src" child="img">
                     URL.createObjectURL(toolbarParent['changed-file'])
@@ -48,6 +63,14 @@
             <tooltip>add hyperlink</tooltip>
             <event name="click" fname="_imageAddHyperlink">
             <%
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo') == 'yes';
+
+                if (demo) {
+                    wxfns.inform('Hyperlinks can be added by simply clicking on chail link');
+                    return;
+                }
+
                 const element = event.target.closest('.wx-xten-image');
                 const value = await wxfns.getValue('hyperlink', 'hyperlink', 'Hyperlink', {hyperlink: element.getAttribute('href')});
                 const result = await wxfns.transaction(element, 'add-hyperlink', value);
@@ -65,6 +88,14 @@
             <tooltip>select image from server</tooltip>
             <event name="click" fname="_imageSelectServerImage">
             <%
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo') == 'yes';
+
+                if (demo) {
+                    wxfns.inform('Server images can be browsed by clicking on folder');
+                    return;
+                }
+
                 const element = wxfns.closestXten(event.target, 'image');
                 const image = element.querySelector('img');
                 const selected = await element._imageList._open(image.getAttribute('src'));
@@ -129,7 +160,17 @@
     </cssNode>
 
     <initElement>
+    <%
+        const urlParams = new URLSearchParams(window.location.search);
+        const demo = urlParams.get('demo') == 'yes';
+
+        if (demo) {
+            wxfns.addClass(element, 'wx-state-editable');
+            return;
+        }
+
         element._imageList = element.querySelector('.wx-xten-image-list');
+    %>
     </initElement>
 
     <event name="click">

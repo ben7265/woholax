@@ -63,7 +63,7 @@
             delete g.attribs['clip-path'];
         }
 
-        code.addChild(svg);        
+        code.addChild(svg);
         %>
     </init>
 </xten>

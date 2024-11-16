@@ -21,7 +21,6 @@
         .wx-xten-currency-icon > div {
             position: relative;
             display: flex;
-            height: [$height||30px];
             width: auto;
             align-items: center;
             justify-content: center;
@@ -30,12 +29,21 @@
         .wx-xten-currency-icon > div span {
             display: inline-block;
             font-size: 28px;
-            height: [$height||30px];
             width: fit-content;
-            min-width: [$height||30px];
             text-align: center;
         }
     </css>
+
+    <cssNode>
+        .wx-xten-currency-icon > div {
+            height: [$height||30px];
+        }
+
+        .wx-xten-currency-icon > div span {
+            height: [$height||30px];
+            min-width: [$height||30px];
+        }
+    </cssNode>
 
     <init>
     <%

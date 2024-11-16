@@ -95,10 +95,4 @@
             </click>
         </icon>
     </toolbar>
-
-    <initElement>
-    <%
-        
-    %>
-    </initElement>
 </xten>

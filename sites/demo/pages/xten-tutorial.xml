@@ -1,0 +1,78 @@
+<xten name="hello-world" element="div">
+    <style>
+        display: inline-block;
+        background-color: yellow;
+    </style>
+
+    <nodeStyle>
+        
+    </nodeStyle>
+    
+    <css>
+        .wx-xten-hello-world {
+            border: 3px solid red;
+        }
+    </css>
+
+    <cssNode>
+        #[$id] { color: [$color||black]; }
+    </cssNode>
+
+    <init>
+        node.text = "hello world";
+    </init>
+
+    <load>
+        node.text = node.attribs.text;
+    </load>
+</xten>
+
+<xten name="hello-image" element="img">
+    <load>
+        node.attribs.src = node.attribs.path;
+    </load>
+</xten>
+
+<xten name="hello-image-with-view" element="div">
+    <view>
+        <div>image title</div>
+        <img class="first-image" />
+        <img class="second-image" />
+        <div>image footer</div>
+    </view>
+
+    <load>
+        const imgNode1 = node.findChild('.first-image');
+        imgNode1.attribs.src = node.attribs['first-path'];
+
+        const imgNode2 = node.findChild('.second-image');
+        imgNode2.attribs.src = node.attribs['second-path'];
+    </load>
+</xten>
+
+<page url="xten-tutorial" max-width="[#max-width]">
+    #include includes/header.xml
+
+    <container name="page-body">
+
+    <div>
+        Xten Tutorial
+    </div>
+
+    <hello-world text="Xten Demo" element="h1" />
+
+    <hello-world text="image 1" element="h1" color="blue" />
+
+    <hello-image path="images/test-image-1.jpg" />
+
+    <hello-world text="image 2" element="h1" color="green" />
+
+    <hello-image path="images/test-image-2.jpg" />
+
+    <hello-image-with-view first-path="images/test-image-1.jpg" second-path="images/test-image-2.jpg" />
+
+    </container>
+
+
+    #include includes/footer.xml
+</page>
