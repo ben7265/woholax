@@ -4,7 +4,14 @@
 
 An Enterprise Grade solution for developing web based applications
 
-*Release: 1.1.9 beta internal*
+*Release: 1.2.0 beta *
+
+# Release 1.2.0 notes
+
+- Additional features required for POC development
+- Created a release v1.2.0-beta to allow larget exe files to be accommodated
+- download Wohola X from releases page now instead of the code below
+- latest release: https://github.com/ben7265/woholax/releases/tag/v1.2.0-beta
 
 # Release 1.1.9 notes
 
