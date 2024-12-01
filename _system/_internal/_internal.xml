@@ -34,7 +34,7 @@
     </event>
 </xten>
 
-<xten name="parentclass" element="_hidden">
+<xten name="parentClass" element="_hidden">
     <init>
         node.parent.addClass(node.text.trim());
     </init>

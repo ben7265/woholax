@@ -2,10 +2,17 @@
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
     <view>
-        <img src="[$src||images/blank.svg]" alt="[$alt||$name]" onerror="this.onerror=null; this.src='images/error.svg';" />
-        <modal name="image-list">
-            <image-list />
-        </modal>
+        <img src="[$src||images/blank.svg]" alt="[$alt||$name]" onerror="this.onerror=null; this.src='images/error.svg';" >
+            <click fname="_imageLinkClick">
+            <%
+                const element = event.target.closest('.wx-xten-image');
+                const href = element.getAttribute('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            %>
+            </click>
+        </img>
     </view>
 
     <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
@@ -72,7 +79,7 @@
                 }
 
                 const element = event.target.closest('.wx-xten-image');
-                const value = await wxfns.getValue('hyperlink', 'hyperlink', 'Hyperlink', {hyperlink: element.getAttribute('href')});
+                const value = await wxfns.getUserValue('hyperlink', 'hyperlink', 'Hyperlink', {value: element.getAttribute('href')});
                 const result = await wxfns.transaction(element, 'add-hyperlink', value);
                 if (value) {
                     element.setAttribute('href', value);
@@ -96,9 +103,18 @@
                     return;
                 }
 
-                const element = wxfns.closestXten(event.target, 'image');
+                const element = event.target.closest('.wx-xten-image');
                 const image = element.querySelector('img');
-                const selected = await element._imageList._open(image.getAttribute('src'));
+                const url = image.getAttribute('src');
+
+                element.notify('open-modal', {name: 'image-list', message: 'image-list-opened', url});
+
+                const modal = document.querySelector('[name="image-list-dialog"]');
+                const result = await modal.open(url);
+                if (result.action == 'cancel') {
+                    return;
+                }
+                const selected = result.data;
                 if (selected) {
                     image.setAttribute('src', selected);
                     wxfns.transaction(element, 'save-page-data', selected);
@@ -168,20 +184,8 @@
             wxfns.addClass(element, 'wx-state-editable');
             return;
         }
-
-        element._imageList = element.querySelector('.wx-xten-image-list');
     %>
     </initElement>
-
-    <event name="click">
-    <%
-        const element = event.target.closest('.wx-xten-image');
-        const href = element.getAttribute('href');
-        if (href) {
-            window.location.href = href;
-        }
-    %>
-    </event>
 
     <load>
     <%

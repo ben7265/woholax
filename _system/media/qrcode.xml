@@ -35,7 +35,7 @@
             <click fname="_addQRCode">
             <%
                 const element = event.target.closest('.wx-xten-qrcode');
-                const value = await wxfns.getValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
+                const value = await wxfns.getUserValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
 
                 await wxfns.transaction(element, 'save-page-data', value.trim());
                 element.setAttribute('data', value);

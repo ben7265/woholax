@@ -1,5 +1,5 @@
 <xten name="tooltip" element="div">
-    <parentclass>tooltip-parent</parentclass>
+    <parentClass>tooltip-parent</parentClass>
     <style>
         position: absolute;
         display: none;
@@ -22,15 +22,51 @@
         const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
         const parentElement = element.parentElement;
+        const toolbar = element.closest('.wx-xten-toolbar');
+
         parentElement.addEventListener('mouseenter', () => {
             element.style.display = 'block';
+            const toolbarRect = toolbar ? toolbar.getBoundingClientRect() : null;
+            const parentRect = element.parentElement.getBoundingClientRect();
             const tooltipRect = element.getBoundingClientRect();
-            if ((tooltipRect.left + tooltipRect.width) > screenWidth) {
-                element.style.right = 0;
-                element.style.left = 'auto';
+
+            if (toolbar) {
+                const orientation = toolbarRect.width < toolbarRect.height ? 'column' : 'row';
+                const position = toolbarRect.left < screenWidth / 2 ? 'left' : 'right';
+                if (orientation == 'column') {
+                    if ((tooltipRect.left + tooltipRect.width) > screenWidth) {
+                        element.style.left = '-' + tooltipRect.width + 'px';
+                        element.style.top = 0;
+                    }
+                    else
+                    {
+                        element.style.left = parentRect.width + 'px';
+                        element.style.top = 0;
+                    }
+                }
+                else
+                {
+                    if ((tooltipRect.left + tooltipRect.height) > screenHeight) {
+                        element.style.top = '-' + parentRect.height + 'px';
+                        element.style.left = 0;
+                    }
+                    else
+                    {
+                        element.style.top = parentRect.height + 'px';
+                        element.style.left = 0;
+                    }
+                }
             }
-            if ((tooltipRect.top + tooltipRect.height) > screenHeight) {
-                element.style.top = '-' + tooltipRect.height + 'px';
+            else
+            {
+                if ((tooltipRect.left + tooltipRect.width) > screenWidth) {
+                    element.style.right = 0;
+                    element.style.left = 'auto';
+                }
+
+                if ((tooltipRect.top + tooltipRect.height) > screenHeight) {
+                    element.style.top = '-' + (parentRect.height + tooltipRect.height) + 'px';
+                }
             }
         });
 

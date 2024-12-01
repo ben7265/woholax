@@ -1,0 +1,129 @@
+<xten name="modal" element="div">
+    <mandatory>name</mandatory>
+
+    <style>
+        display: none;
+    </style>
+
+    <nodeStyle>
+        z-index: [$z-index||2];
+    </nodeStyle>
+
+    <css>
+        .wx-xten-modal {
+            display: none;
+            position: fixed;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+        }
+
+        .wx-xten-modal.open {
+            display: flex;
+        }
+
+        .wx-xten-modal .modal-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: lightgrey;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .wx-xten-modal .modal-wrapper {
+            border: 1px solid gray;
+            width: auto;
+            min-height: 300px;
+            min-width: 500px;
+            max-width: 100%;
+            background-color: white;
+        }
+
+        .wx-xten-modal .modal-wrapper {
+            border: 1px solid gray;
+            width: auto;
+            min-height: 300px;
+            min-width: 500px;
+            max-width: 100%;
+            background-color: white;
+        }
+
+        .wx-xten-modal .modal-header {
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid grey;
+        }
+
+        .wx-xten-modal .modal-header-text {
+            text-align: left;
+        }
+
+        .wx-xten-modal .modal-close-icon {
+            text-align: right;
+        }
+
+        .wx-xten-modal .modal-content {
+            padding: 10px;
+        }
+    </css>
+
+    <view>
+        <div class="modal-background">
+        </div>
+        <div class="modal-wrapper">
+            <div class="modal-header">
+                <div name="modal-header-text">[$heading||Modal]</div>
+                <div name="modal-close">
+                    <icon name="cross" class="modal-close-icon">
+                        <tooltip>close modal</tooltip>
+                        <click fname="_modalClose">
+                        <%
+                            const element = event.target.closest('.wx-xten-modal');
+                            element.cancel();
+                        %>
+                        </click>
+                    </icon>
+                </div>
+            </div>
+            <div class="modal-content">
+                <view-content />
+            </div>
+        </div>
+    </view>
+
+    <initElement>
+    <%
+        const name = element.getName();
+
+        element.open = function (data) {
+            const output = new Promise((resolve) => {
+                element.addClass('open');
+                element.notify('modal-' + name + '-opened', data);
+                element.cancel = () => {
+                    element.removeClass('open');
+                    resolve({action: 'cancel'});
+                };
+                element.save = (data) => {
+                    element.removeClass('open');
+                    resolve({action: 'save', data: data});
+                };
+            });
+            return output;
+        };
+
+        element.addEventListener('open-modal', async (event) => {
+            if (data.name == element.getName()) {
+                output = await element.open(data.data);
+                return output;
+            }
+        });
+    %>
+    </initElement>
+</xten>

@@ -304,6 +304,8 @@
     <load>
     <%
         /*var startTime = common.startTimer();*/
+        /* const styles = node.findChild('style'); */
+
         const objType = node.getValue('object-type');
         if (!objType) {
             node.attribs.error = 'object-type is mandatory';
@@ -491,6 +493,8 @@
 
         /*var startTime = common.startTimer();*/
         xtensions.processXtens(node, context);
+
+        /* node.insertChild(0, styles); */
         /*common.endTimer(startTime, '=> object-list load process xtens.');*/
     %>
     </load>

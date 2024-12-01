@@ -1,0 +1,52 @@
+<xten name="toggle-view" element="div">
+    <initElement>
+    <%
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        const parent = element.parentElement;
+
+        parent.addEventListener('click', (event) => {
+            wxfns.toggleClass(element, 'wx-visible');
+            
+            const parentRect = parent.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
+            
+            let left = parentRect.left + parentRect.width;
+            if (left + rect.width > screenWidth) {
+                left = parentRect.left - rect.width;
+            }
+            if (left < 0) {
+                left = 0;
+            }
+            
+            let top = parentRect.top;
+            if (top + rect.height > screenHeight) {
+                top = screenHeight - rect.height;
+            }
+            if (top < 0) {
+                top = 0;
+            }
+            
+            element.style.left = `${left}px`;
+            element.style.top = `${top}px`;
+        });
+    %>
+    </initElement>
+
+    <style>
+        display: none;
+        left: 0;
+        right: auto;
+        top: 0;
+        position: fixed;
+        width: fit-content;
+        height: auto;
+    </style>
+
+    <css>
+        .wx-xten-toggle-view.wx-visible { 
+            display: initial;
+        }
+    </css>
+</xten>

@@ -19,7 +19,7 @@
     </css>
 
     <cssNode>
-        [$id] > video {aspect-ratio: [$aspect-ratio||auto]; }
+        #[$id] > video {aspect-ratio: [$aspect-ratio||auto]; }
     </cssNode>
 
     <toolbar>
@@ -48,7 +48,7 @@
                 wxfns.addClass(element, 'wx-state-live');
 
                 websocket.on('offer', async (offer) => {
-                    console.log('offer recieved');
+                    console.debug('offer recieved');
                     await element.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
                     const answer = await element.peerConnection.createAnswer();
                     await element.peerConnection.setLocalDescription(answer);
@@ -56,12 +56,12 @@
                 });
 
                 websocket.on('answer', async (answer) => {
-                    console.log('answer recieved');
+                    console.debug('answer recieved');
                     await element.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
                 });
 
                 websocket.on('ice-candidate', async (iceCandidate) => {
-                    console.log('ice recieved');
+                    console.debug('ice recieved');
                     await element.peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
                 });
             %>

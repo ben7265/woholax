@@ -4,7 +4,7 @@
     <%
         const name = node.getValue('name');
         if (!name) {
-            _common.error('name is missing in xten: ' + xten, node);
+            common.nodeerror('name is missing in xten: ' + xten.name, node);
             return null;
         }
 

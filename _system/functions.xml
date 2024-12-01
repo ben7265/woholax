@@ -78,7 +78,7 @@
 <function name="get-value">
     const fargs = [$_fargs];
     fargs.value = toolbarParent[fargs.value];
-    const value = await wxfns.getValue('[$name]', '[$type]', '[$title]', fargs);
+    const value = await wxfns.getUserValue('[$name]', '[$type]', '[$title]', fargs);
     if (value == null) {
         return;
     }

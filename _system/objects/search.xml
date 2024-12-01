@@ -8,9 +8,9 @@
     </css>
 
     <cssNode>
-        .wx-xten-search > .search-wrapper input.search {border: [$border||1px solid lightgrey;]}
-        .wx-xten-search > .search-wrapper .wx-xten-icon.search {border: [$border||1px solid lightgrey;];}
-        .wx-xten-search > .search-wrapper .wx-xten-icon.search .icon-code {background-color: [$icon-background||#efefef];}
+        #[$id] > .search-wrapper input.search {border: [$border||1px solid lightgrey;]}
+        #[$id] > .search-wrapper .wx-xten-icon.search {border: [$border||1px solid lightgrey;];}
+        #[$id] > .search-wrapper .wx-xten-icon.search .icon-code {background-color: [$icon-background||#efefef];}
     </cssNode>
 
     <view>

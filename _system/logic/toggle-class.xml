@@ -1,0 +1,22 @@
+<xten name="toggle-class" element="_hidden">
+    <init>
+    <%
+        const className = node.text.trim();
+        node.attribs['class-name'] = className;
+        const target = node.parent;
+
+        if (node.attribs._processed != 'yes') {
+            const fnName = 'event_click_toggle_class';
+            if (!context.code[fnName]) {
+                const fnstr = `(event) => {
+                    const parent = event.target.parentElement;
+                    const className = event.target.getAttribute('class-name');
+                    wxfns.toggleClass(parent, '${className}'); 
+                }`;
+                context.code[fnName] = 'const ' + fnName + ' = ' + fnstr + ';';
+            }
+            target.attribs['onclick'] = fnName + '(event)';
+        }
+    %>
+    </init>
+</xten>

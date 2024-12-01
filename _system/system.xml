@@ -2,7 +2,13 @@
 #include _system/_internal/_internal.xml
 #include _system/_internal/_list.xml
 #include _system/_internal/body.xml
-#include _system/_internal/configuration.xml
+#include _system/_internal/image-list.xml
+#include _system/_internal/page-config.xml
+#include _system/_internal/video-list.xml
+
+#include _system/aichat/aichatbot.xml
+#include _system/aichat/vector-docs.xml
+#include _system/aichat/vector-urls.xml
 
 #include _system/align/align.xml
 #include _system/align/center.xml
@@ -20,9 +26,6 @@
 #include _system/align/pos-top.xml
 #include _system/align/textalign.xml
 
-#include _system/browse/image-list.xml
-#include _system/browse/video-list.xml
-
 #include _system/comms/broadcast.xml
 #include _system/comms/watch.xml
 
@@ -31,6 +34,7 @@
 #include _system/content/image.xml
 #include _system/content/inline.xml
 #include _system/content/textedit.xml
+#include _system/content/uploaded-docs.xml
 #include _system/content/value.xml
 
 #include _system/elements/banner.xml
@@ -46,11 +50,13 @@
 #include _system/elements/line.xml
 #include _system/elements/navbar.xml
 #include _system/elements/space.xml
+#include _system/elements/toggle-view.xml
 #include _system/elements/toolbar.xml
 #include _system/elements/tooltip.xml
 
 #include _system/forms/check-human.xml
 #include _system/forms/email-form.xml
+#include _system/forms/modal.xml
 #include _system/forms/save-form.xml
 #include _system/forms/xbutton.xml
 #include _system/forms/xdropdown.xml
@@ -63,6 +69,7 @@
 #include _system/layout/draggable-layout.xml
 #include _system/layout/draggable.xml
 #include _system/layout/dynamic-grid.xml
+#include _system/layout/flex-column.xml
 #include _system/layout/fullscreen.xml
 #include _system/layout/grid.xml
 #include _system/layout/layers.xml
@@ -76,6 +83,7 @@
 #include _system/logic/repeat.xml
 #include _system/logic/show.xml
 #include _system/logic/switch.xml
+#include _system/logic/toggle-class.xml
 
 #include _system/media/qrcode.xml
 #include _system/media/qrscanner.xml
@@ -83,8 +91,6 @@
 #include _system/media/screen-recorder.xml
 #include _system/media/video-player.xml
 #include _system/media/video-recorder.xml
-
-#include _system/modals/modal.xml
 
 #include _system/objects/objects.xml
 #include _system/objects/search-results.xml
@@ -98,6 +104,8 @@
 
 #include _system/user/change-password.xml
 #include _system/user/forgot-password.xml
+#include _system/user/loginform.xml
+#include _system/user/logout.xml
 #include _system/user/register.xml
 #include _system/user/reset-password.xml
 
@@ -110,7 +118,7 @@
 #define default-tooltip-height  20px
 #define default-tooltip-style   background-color: #fefefe;border:1px solid grey; margin-top: 2px; padding: 3px;max-width:250px;overflow-wrap: break-word;
 
-<template name="t.default">
+<xtemplate name="t.default">
     <html>
         <v.head/>
         <body>
@@ -121,4 +129,4 @@
             <v.footer/>
         </body>
     </html>
-</template>
+</xtemplate>

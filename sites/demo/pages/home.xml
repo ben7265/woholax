@@ -1,4 +1,4 @@
-<page url="_home" max-width="[#max-width]" cache="yes">
+<page url="_home" max-width="[#max-width]">
     #include includes/header.xml
 
     <container name="page-body">

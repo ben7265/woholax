@@ -1,9 +1,6 @@
 <xten name="banner" extend="_list" element="div">
     <allow>owner, admin</allow>
     <mandatory>aspect-ratio</mandatory>
-    <style>
-        position: relative;
-    </style>
 
     <css enhance="append">
         .wx-xten-banner > .wx-view-datalist {
@@ -92,8 +89,7 @@
         </pos-right>
 
         <pos-bottom name="banner-bottom-toolbar" class="banner-controls">
-            <toolbar name="slide-changer" style="position: relative">
-            </toolbar>
+            <div name="slide-changer" style="position: relative"></div>
         </pos-bottom>
     </view>
 
@@ -121,10 +117,45 @@
     %>
     </initElement>
 
+    <init>
+    <%
+        var toolbar = node.findChild('toolbar');
+        if (toolbar) {
+            toolbar.remove();
+        }
+
+        const pleft = node.findChild('pos-left');
+        pleft.remove();
+
+        const pright = node.findChild('pos-right');
+        pright.remove();
+
+        const pbottom = node.findChild('pos-bottom');
+        pbottom.remove();
+
+        const children = node.children;
+
+        node.empty();
+
+        const template = node.newChild('div');
+        template.attribs.name = 'list-item-view';
+        template.attribs.element = '_hidden';
+        template.insertChildren(0, children);
+
+        const list = node.newChild('div');
+        list.attribs.name = 'wx-view-datalist';
+        list.addClass('wx-view-datalist');
+
+        toolbar && node.addChild(toolbar);
+        node.addChild(pleft);
+        node.addChild(pright);
+        node.addChild(pbottom);
+    %>
+    </init>
+
     <load enhance="append">
     <%
-        const bottom = node.findChild('pos-bottom') || node.findNamedChild('div', 'banner-bottom-toolbar');
-        const changer = bottom.findChild('toolbar') || bottom.findNamedChild('div', 'slide-changer');
+        const changer = node.findOne('[name="slide-changer"]');
         changer.empty();
         for (var i = 0; i < value.length; i++) {
             const circle = changer.newChild('div');
@@ -135,7 +166,8 @@
             tooltip.text = 'Slide ' + (i + 1).toString();
             circle.text = (i + 1).toString();
         }
-        xtensions.processXtens(bottom, context);
+
+        xtensions.processXtens(changer, context);
     %>
     </load>
 </xten>

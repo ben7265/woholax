@@ -1,19 +1,7 @@
 <xten name="body">
-    <nodeStyle>
-        background-color: [$dynamic-background-color||#ffffff];
-    </nodeStyle>
-
-    <css>
-        [show] {display: none;}
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 0;
-            margin: 0;
-        }
-    </css>
-
-    <!--prepend>
-        <configuration name="page-configuration" />
-        <configuration name="page-configuration" object-name="_all" />
-    </prepend-->
+    <append>
+        <page-config class="fixed-left" />
+        <image-list/>
+        <video-list/>
+    </append>
 </xten>

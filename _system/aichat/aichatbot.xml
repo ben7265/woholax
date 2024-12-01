@@ -1,0 +1,78 @@
+<xten name="aichatbot" element="div">
+    <view>
+        <flex-column>
+            <occupy-column name="chat-body" />
+            <line line-style="1px dotted grey" />
+            <container style="padding: 10px">
+                <row item-gap="10px">
+                    <column>
+                        <textarea type="text" class="chat-input" name="chat-input" placeholder="Type a message...">
+                        </textarea>
+                    </column>
+                    <column width="fit-content">
+                        <align>
+                            <button class="chat-send" name="send-message">-></button>
+                        </align>
+                    </column>
+                </row>
+            </container>
+        </flex-column>
+    </view>
+
+    <css>
+        .wx-xten-aichatbot {
+            position: relative;
+            height: 100%;
+        }
+        .wx-xten-aichatbot .chat-body {
+            overflow-y: auto;
+        }
+        .wx-xten-aichatbot .message {
+            max-width: 80%;
+        }
+        .wx-xten-aichatbot .message.bot {
+            margin-left: auto;
+        }
+        .wx-xten-aichatbot .chat-send {
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+        }
+        .wx-xten-aichatbot .chat-input {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+        }
+    </css>
+
+    <initElement>
+    <%
+        const chatInput = element.querySelector('[name="chat-input"]');
+        const chatBody = element.querySelector('[name="chat-body"]');
+        const sendMessageButton = element.querySelector('[name="send-message"]');
+
+        sendMessageButton.addEventListener("click", async () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                chatInput.value = "";
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("message");
+                messageElement.classList.add("user");
+                messageElement.textContent = message;
+                chatBody.appendChild(messageElement);
+                chatBody.scrollTop = chatBody.scrollHeight;
+                const result = await wxfns.transaction(element, 'vector-query', {query: message});
+                if (result.rc != 'success') {
+                    return;
+                }
+                const answer = document.createElement("div");
+                answer.classList.add("message");
+                answer.classList.add("bot");
+                answer.textContent = result.output;
+                chatBody.appendChild(answer);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        });
+    %>
+    </initElement>
+</xten>

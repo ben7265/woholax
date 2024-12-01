@@ -2,3 +2,4 @@ uploads/
 _tmp/
 _cache/
 cache/
+*.exe

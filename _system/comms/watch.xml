@@ -16,7 +16,6 @@
         const peerConnection = new RTCPeerConnection(peerConnectionConfig);
         
         peerConnection.ontrack = event => {
-            console.log('Got streams:', event.streams);
             if (event.streams[0]) {
                 viewer.srcObject = event.streams[0];
             } else {
@@ -31,15 +30,14 @@
         };
 
         peerConnection.onconnectionstatechange = () => {
-            console.log('Connection state change:', peerConnection.connectionState);
+            console.debug('Connection state change:', peerConnection.connectionState);
         };
 
         peerConnection.oniceconnectionstatechange = () => {
-            console.log('ICE connection state change:', peerConnection.iceConnectionState);
+            console.debug('ICE connection state change:', peerConnection.iceConnectionState);
         };
 
         websocket.on('offer', async (offer) => {
-            console.log('offer recieved');
             await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
             const answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
@@ -47,12 +45,10 @@
         });
 
         websocket.on('answer', async (answer) => {
-            console.log('answer recieved');
             await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
         });
 
         websocket.on('ice-candidate', async (iceCandidate) => {
-            console.log('ice recieved');
             await peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
         });
     %>

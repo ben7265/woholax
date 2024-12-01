@@ -1,12 +1,14 @@
 <xten name="xstyle" element="_hidden">
     <init>
     <%
-        const selector = node.getValue('selector') || '#' + node.attribs.id;
-        if (!selector) {
-            common.nodeerror('selector or element id is mandatory', node);
-            return false;
+        const style = node.parent.attribs.style ? common.parseStyles(node.parent.attribs.style) : {};
+        const override = node.text ? common.parseStyles(node.text) : {};
+
+        for (var prop in overrides) {
+            style[prop] = overrides[prop];
         }
-        context.style[selector] = node.text;
+
+        node.attribs.style = common.makeStyles(style);
     %>
     </init>
 </xten>

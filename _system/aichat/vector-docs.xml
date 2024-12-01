@@ -1,0 +1,109 @@
+<xten name="vector-docs" element="div">
+    <mandatory>name</mandatory>
+    
+    <css>
+        .wx-xten-vector-docs tr { height: 30px; }
+    </css>
+
+    <view>
+        <table style="width: 100%">
+            <thead style="height: fit-content">
+                <tr class="heading">
+                    <th>
+                        &#35;
+                    </th>
+                    <th>
+                        Document Name
+                    </th>
+                    <th class="row" style="position: relative">
+                        <toolbar>
+                            <icon name="add">
+                                <tooltip>Add document</tooltip>
+                                <click fname="_eventAddDocumentToVector">
+                                <%
+                                    const selectedFile = await wxfns.selectFile('.doc,.docx,.pptx,.pdf,.txt');
+                                    const filename = selectedFile.name;
+                                    const element = event.target.closest('.wx-xten-vector-docs');
+                                    const result = await wxfns.upload(element, 'vectorise-document', {name: filename}, selectedFile);
+                                    if (result.rc != 'success') {
+                                        return;
+                                    }
+                                    
+                                    await wxfns.refresh(element);
+                                %>
+                                </click>
+                            </icon>
+                        </toolbar>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr name="row-template" docname="[$docname]" style="display: none">
+                    <td>
+                        <align name="sno">
+                            [$sno]
+                        </align>
+                    </td>
+                    <td>
+                        <align name="doc-name" horizontal="flex-start">
+                            [$docname]
+                        </align>
+                    </td>
+                    <td style="position: relative">
+                        <toolbar>
+                            <icon name="cross">
+                                <tooltip>Delete document</tooltip>
+                                <click fname="_eventDeleteDocumentFromVector">
+                                <%
+                                    const element = event.target.closest('.wx-xten-vector-docs');
+                                    const row = event.target.closest('tr');
+                                    const docname = row.getAttribute('docname');
+                                    const result = await wxfns.transaction(element, 'delete-vector-document', {filename: docname});
+                                    if (result.rc != 'success') {
+                                        return;
+                                    }
+                                    
+                                    await wxfns.refresh(element);
+                                %>
+                                </click>
+                            </icon>
+                        </toolbar>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </view>
+
+    <load>
+    <%
+        const body = node.findOne('tbody');
+        const template = node.findOne('[name="row-template"]');
+        body.empty();
+
+        body.addChild(template);
+
+        var value = await database.inlineValue(node, context, xten);
+        var sno = 1;
+
+        if (!value) {
+            return;
+        }
+
+        const mode = node.attribs || 'private';
+
+        for (var i = 0; i < value.length; i++) {
+            const tr = template.clone();
+            delete tr.attribs.style;
+            delete tr.attribs.name;
+            tr.attribs.docname = value[i];
+            const snode = tr.findOne('[name="sno"]');
+            snode.text = sno.toString();
+            sno++;
+            const dnode = tr.findOne('[name="doc-name"]');
+            dnode.text = value[i];
+            body.addChild(tr);
+        }
+    %>
+    </load>
+</xten>
+

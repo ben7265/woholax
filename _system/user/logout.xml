@@ -1,0 +1,15 @@
+<xten name="logout" element="span">
+    <style>display: inline-block; cursor: pointer</style>
+    <event name="click">
+    <%
+        clearUser();
+        const element = event.target;
+
+        const _event = new CustomEvent('changeUser', { bubbles: true, detail: null });
+        element.dispatchEvent(_event);
+
+        await wxfns.transaction(element, 'logout', null);
+        window.location.reload();
+    %>
+    </event>
+</xten>

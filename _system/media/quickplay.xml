@@ -23,12 +23,14 @@
     </css>
 
     <load>
+    <%
         const value = await database.inlineValue(node, context, xten);
         if (value) {
             node.src = value;
             const video = node.findChildren('video')[0];
             video.attribs.src = 'stream/' + value;
         }
+    %>
     </load>
 
     <view>

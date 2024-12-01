@@ -1,0 +1,309 @@
+<xten name="page-config" element="div">
+    <allow>admin</allow>
+    <attribs>
+        <name>page-styles</name>
+    </attribs>
+    <view>
+        <div name="page-toolbar">
+            <icon name="landscape" background-color="#dedede">
+                <tooltip>page background toolbar</tooltip>
+                <toggle-class>wx-mode-background</toggle-class>
+            </icon>
+
+            <icon name="upload" class="show-mode-background">
+                <tooltip>select image</tooltip>
+                <click fname="_backgroundUploadImage">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const selectedFile = await wxfns.selectFile('image/*');
+                    element['changed-file'] = selectedFile;
+                    const body = document.querySelector('body');
+                    body.style['background-image'] = 'url(' + URL.createObjectURL(selectedFile) + ')';
+                    wxfns.addClass(element, 'background-changed');
+                %>
+                </click>
+            </icon>
+            <icon name="save" class="show-mode-background show-image-changed">
+                <tooltip>save image</tooltip>
+                <click fname="_backgroundSaveImage">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+
+                    const target = document.createElement('div');
+                    target.setAttribute('name', 'page-styles');
+                    target.setAttribute('data-selector', 'page-styles.page-background-image');
+                    target.setAttribute('xten', 'page-config');
+
+                    const result = await wxfns.upload(target, 'save-image', null, element['changed-file']);
+                    if (result.rc != 'success') {
+                        return;
+                    }
+                    const url = result.output;
+                    const body = document.querySelector('body');
+                    element.setAttribute('page-background-image', url);
+                    body.style['background-image'] = 'url(' + url + ')';
+                    delete element['changed-file'];
+                    wxfns.removeClass(element, 'background-changed');
+                %>
+                </click>
+            </icon>
+            <icon name="close" class="show-mode-background show-image-changed">
+                <tooltip>cancel</tooltip>
+                <click fname="_backgroundCancelImage">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const body = document.querySelector('body');
+                    const url = element.getAttribute('page-background-image');
+                    body.style['background-image'] = 'url(' + url + ')';
+                    delete element['changed-file'];
+                    wxfns.removeClass(element, 'background-changed');
+                %>
+                </click>
+            </icon>
+            <icon name="colors" class="show-mode-background">
+                <tooltip>background color</tooltip>
+                <click fname="_backgroundColor">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const body = document.querySelector('body');
+                    const prev = element.getAttribute('page-background-color');
+
+                    const value = await wxfns.getUserValue('color', 'color', 'Page Background Color', {value: prev},
+                        (_value) => {
+                            body.style.setProperty('--page-background-color', _value);
+                        }
+                    );
+
+                    if (!value) {
+                        prev && body.style.setProperty('--page-background-color', prev);
+                        return;
+                    }
+
+                    const target = document.createElement('div');
+                    target.setAttribute('name', 'page-styles');
+                    target.setAttribute('data-selector', 'page-styles.page-background-color');
+                    target.setAttribute('xten', 'page-config');
+
+                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    if (result.rc != 'success') {
+                        return;
+                    }
+
+                    element.setAttribute('page-background-color', value);
+                    body.style.setProperty('--page-background-color', value);
+                %>
+                </click>
+            </icon>
+            <icon name="filter" class="show-mode-background">
+                <tooltip>filter color</tooltip>
+                <click fname="_backgroundFilterColor">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const body = document.querySelector('body');
+                    const prev = element.getAttribute('page-filter-color');
+
+                    const value = await wxfns.getUserValue('color', 'color', 'Page Filter Color', {value: prev}, 
+                        (_value) => {
+                            body.style.setProperty('--page-filter-color', _value);
+                        }
+                    );
+
+                    if (!value) {
+                        prev && body.style.setProperty('--page-filter-color', prev);
+                        return;
+                    }
+
+                    const target = document.createElement('div');
+                    target.setAttribute('name', 'page-styles');
+                    target.setAttribute('data-selector', 'page-styles.page-filter-color');
+                    target.setAttribute('xten', 'page-config');
+
+                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    if (result.rc != 'success') {
+                        return;
+                    }
+
+                    element.setAttribute('page-filter-color', value);
+                    body.style.setProperty('--page-filter-color', value);
+                %>
+                </click>
+            </icon>
+            <icon name="glasses" class="show-mode-background">
+                <tooltip>filter opacity</tooltip>
+                <click fname="_backgroundFilterOpacity">
+                <%
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const body = document.querySelector('body');
+                    const prev = element.getAttribute('page-filter-opacity');
+
+                    const value = await wxfns.getUserValue('color', 'number', 'Page Filter Opacity', {min: 0, max: 1, step: '0.05', value: prev},
+                        (_value) => {
+                            body.style.setProperty('--page-filter-opacity', _value);
+                        }
+                    );
+
+                    if (!value) {
+                        prev && body.style.setProperty('--page-filter-opacity', prev);
+                        return;
+                    }
+
+                    const target = document.createElement('div');
+                    target.setAttribute('name', 'page-styles');
+                    target.setAttribute('data-selector', 'page-styles.page-filter-opacity');
+                    target.setAttribute('xten', 'page-config');
+
+                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    if (result.rc != 'success') {
+                        return;
+                    }
+
+                    element.setAttribute('page-filter-opacity', value);
+                    body.style.setProperty('--page-filter-opacity', value);
+                %>
+                </click>
+            </icon>
+            <icon name="delete-landscape" class="show-mode-background">
+                <tooltip>delete landscape</tooltip>
+                <click fname="_deletePageBackground">
+                <%
+                    const confirm = await wxfns.confirm('Delete background?');
+                    if (!confirm) {
+                        return;
+                    }
+
+                    const element = event.target.closest('.wx-xten-page-config');
+                    const result = await wxfns.transaction(element, 'delete-background');
+                    if (result.rc != 'success') {
+                        return;
+                    }
+
+                    window.location.reload();
+                    /*
+                    const body = document.querySelector('body');
+
+                    element.removeAttribute('page-background-image');
+                    delete body.style['background-image'];
+
+                    element.removeAttribute('page-background-color');
+                    body.style.removeProperty('--page-background-color');
+
+                    element.removeAttribute('page-filter-color');
+                    body.style.removeProperty('--page-filter-color');
+
+                    element.removeAttribute('page-filter-opacity');
+                    body.style.removeProperty('--page-filter-opacity');
+
+                    wxfns.inform('Deleted the page background');
+                    */
+                %>
+                </click>
+            </icon>
+        </div>
+    </view>
+
+    <style>
+        display: none;
+        z-index: 1;
+    </style>
+
+    <css>
+        .wx-xten-page-config.wx-state-editable { display: inline-block; }
+
+        .wx-xten-page-config.fixed-top {
+            position: fixed;
+            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: fit-content;
+            height: 30px;
+        }
+
+        .wx-xten-page-config.fixed-bottom {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: fit-content;
+            height: 30px;
+        }
+
+        .wx-xten-page-config.fixed-left {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: fit-content;
+            width: 30px;
+        }
+
+        .wx-xten-page-config.fixed-right {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: fit-content;
+            width: 30px;
+        }
+
+        .wx-xten-page-config div[name="page-toolbar"] > .show-mode-background {display: none; }
+        .wx-xten-page-config:has(.wx-mode-background) div[name="page-toolbar"] > .show-mode-background:not(.show-image-changed) {display: inline-block;}
+
+        .wx-xten-page-config div[name="page-toolbar"] > .show-image-changed {display: none;}
+        .wx-xten-page-config.background-changed div[name="page-toolbar"] > .show-image-changed {display: inline-block;}
+
+        .wx-xten-page-config div[name="page-toolbar"] { display: flex; }
+        .wx-xten-page-config.fixed-top div[name="page-toolbar"] { flex-direction: row; }
+        .wx-xten-page-config.fixed-bottom div[name="page-toolbar"] { flex-direction: row; }
+        .wx-xten-page-config.fixed-left div[name="page-toolbar"] { flex-direction: column; }
+        .wx-xten-page-config.fixed-right div[name="page-toolbar"] { flex-direction: column; }
+    </css>
+
+    <load>
+    <%
+        const body = node.closest('body');
+        var styles = common.parseStyles(body.attribs.style);
+
+        const defaults = await database.getFieldValue('_all', 'page-styles');
+        styles = common.extend(styles, defaults);
+
+        const pageStyles = await database.getFieldValue(context['object-name'], 'page-styles');
+        styles = common.extend(styles, pageStyles);
+
+        var _style = '';
+        for (var prop in styles) {
+            node.attribs[prop] = styles[prop];
+            if (prop == 'page-background-image') {
+                _style += 'background-image: url(' + styles[prop] + ');';
+            }
+            else
+            {
+                _style += '--' + prop + ': ' + styles[prop] + ';';
+            }
+        }
+
+        body.attribs.style = _style;
+    %>
+    </load>
+
+    <txn name="delete-background">
+    <%
+        const objKey = attribs['object-name'] || context['object-name'];
+
+        const value = await database.getFieldValue(objKey, attribs.name, attribs);
+        const prevFileURL = value ? value['background-image'] : null;
+        if (prevFileURL) {
+            const prevFilePath = context.siteRoot + '/public/uploads/' + prevFileURL;
+            files.remove(prevFilePath);
+        }
+
+        const result = await database.removeFieldValue(objKey, attribs.name, attribs);
+        if (result.rc != 'success') {
+            return result;
+        }
+
+        context.forceRefresh();
+        return {rc: 'success'};
+    %>
+    </txn>
+</xten>

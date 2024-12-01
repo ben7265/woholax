@@ -3,19 +3,19 @@
         <icon name="add">
             <tooltip>add new list item</tooltip>
             <click>
-                <code>
-                <%
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const demo = urlParams.get('demo') == 'yes';
+            <%
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo') == 'yes';
 
-                    if (demo) {
-                        wxfns.inform('New items can be added by simply clicking plus');
-                        return;
-                    }
-                %>
-                </code>
-                <transaction name="add-list-item" />
-                <reload />
+                if (demo) {
+                    wxfns.inform('New items can be added by simply clicking plus');
+                    return;
+                }
+                const element = event.target.closest('.wx-xten-_list');
+                const result = await wxfns.transaction(element, 'add-list-item');
+                wxfns.refresh(element.closest('.wx-xten-_list'));
+                /* window.location.reload(); */
+            %>
             </click>
         </icon>
     </toolbar>
@@ -51,6 +51,10 @@
 
     <init>
     <%
+        if (node.listInitialized) {
+            return;
+        }
+
         const toolbar = node.findChild('toolbar');
         toolbar.remove();
         const children = node.children;
@@ -75,6 +79,15 @@
         const list = node.findNamedChild('div', 'wx-view-datalist');
         list.empty();
 
+        const name = node.getValue('name');
+
+        if (!node.reload) {
+            const parent = node.closest('listitem');
+            const parentSelector = parent ? (parent.attribs['data-selector'] + '.') : '';
+            
+            node.attribs['data-selector'] = parentSelector + name;
+        }
+
         const value = await database.inlineValue(node, context, xten);
         if (!value || !value.length) {
             node.attribs['item-count'] = '0';
@@ -84,23 +97,37 @@
         node.attribs['item-count'] = value.length.toString();
 
         const template = node.findNamedChild('div', 'list-item-view');
-        const name = node.getValue('name');
 
         for (var i = 0; i < value.length; i++) {
             const listitem = list.newChild('listitem', 'last');
-            listitem.attribs.id = value[i].uid;
             listitem.attribs['list-idx'] = i.toString();
             listitem.attribs['serial-number'] = (i + 1).toString();
             listitem.attribs.name = name;
+            listitem.attribs['list-name'] = name;
             xtensions.processXtens(listitem, context);
+
+            listitem.attribs['data-selector'] = node.attribs['data-selector'] + '.' + i.toString();
 
             template.children.forEach(child => {
                 const _child = child.clone();
                 _child.iterate(_ch => {
-                    if (_ch.attribs['list-child']) {
-                        _ch.attribs['list-selector'] = name + '.$[list-idx]';
-                        _ch.attribs['list-idx'] = i.toString();
+                    const listChild = _ch.attribs['list-child'];
+                    if (!listChild) {
+                        return;
                     }
+
+                    if (listChild === 'true' || listChild == name) {
+                        _ch.attribs['data-selector'] = listitem.attribs['data-selector'] + '.' + _ch.attribs.name;
+                        _ch.attribs['list-idx'] = i.toString();
+                        return;
+                    }
+
+                    const parent = node.closest('[list-name="' + listChild + '"]');
+                    if (!parent) {
+                        return;
+                    }
+
+                    _ch.attribs['data-selector'] = parent.attribs['data-selector'] + '.' + _ch.attribs.name;
                 });
 
                 listitem.addChild(_child);
@@ -127,19 +154,18 @@
         <icon name="remove">
             <tooltip>delete list item</tooltip>
             <click fname="_listItemRemove">
-                <code>
-                <%
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const demo = urlParams.get('demo') == 'yes';
+            <%
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo') == 'yes';
 
-                    if (demo) {
-                        wxfns.inform('Items can be deleted by simply clicking trashcan');
-                        return;
-                    }
-                %>
-                </code>
-                <transaction name="delete-list-item" />
-                <reload />
+                if (demo) {
+                    wxfns.inform('Items can be deleted by simply clicking trashcan');
+                    return;
+                }
+                const element = event.target.closest('.wx-xten-listitem');
+                const result = await wxfns.transaction(element, 'delete-list-item');
+                element.remove();
+            %>
             </click>
         </icon>
     </toolbar>

@@ -5,6 +5,7 @@
     </style>
 
     <nodeStyle>
+        flex-direction: [$orientation||row];
         top: [$top||0];
         right: [$right||0];
         left: [$left||auto];

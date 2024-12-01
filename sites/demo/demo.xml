@@ -1,22 +1,12 @@
 #include _system/system.xml
 
-#define max-width   1000px
+#define max-width 1000px
 
 <db name="wx_demo" />
-
-<public>asdf, asdf</public>
-
-
-<css name="test">
-    .test { color: red; }
-</css>
 
 #include includes/blog-post.xml
 
 #include pages/home.xml
-
-
-
 #include pages/blog.xml
 #include pages/contact.xml
 #include pages/login.xml
@@ -26,4 +16,3 @@
 #include pages/user-profile.xml
 
 #include pages/layout-example.xml
-

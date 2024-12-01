@@ -1,0 +1,137 @@
+<xten name="video-list" element="div">
+    <style>
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        background-color: #f3f3f3;
+        border: 1px solid lightgrey;
+    </style>
+
+    <css>
+        .wx-xten-video-list ._heading {background-color: lightgrey; padding: 5px; text-align: center; font-weight: bold; border: 1px solid black}
+        .wx-xten-video-list .list-container {display: flex; align-items: center; gap: 10px; align-items: stretch;}
+        .wx-xten-video-list .list-item {flex: 200px 200px auto; width: 200px; border: 1px solid lightgrey; text-align: center; position: relative;}
+        .wx-xten-video-list .list-item video {width: 100%; aspect-ratio: calc(16/9);}
+        .wx-xten-video-list .list-item .file-name {display: block; background-color: white; border: 1px solid lightgrey; padding: 5px;}
+        .wx-xten-video-list .list-item.selected {background-color: grey; border: 2px solid blue;}
+        .wx-xten-video-list .button-panel {border: 1px solid lightgrey; padding: 10px; text-align: center;}
+        .wx-xten-video-list .button-panel button {padding: 10px; text-align: center; background-color: lightblue; font-size: 20px;}
+    </css>
+
+    <view>
+        <modal name="video-list-dialog" heading="Video List">
+            <div name="list-container"></div>
+            <div name="button-panel">
+                <button name="select-video">
+                    <span>Select</span>
+                    <click fname="_vlbSelectFile">
+                    <%
+                        const element = event.target.closest('.wx-xten-video-list');
+                        element.modal.save(element._selected);
+                        const container = element.querySelector('.list-container');
+                        container.innerHTML = '';
+                    %>
+                    </click>
+                </button>
+                <button name="cancel">
+                    <span>Cancel</span>
+                    <click fname="_vlbCancel">
+                    <%
+                        const element = event.target.closest('.wx-xten-video-list');
+                        const modal = event.target.closest('.wx-xten-modal');
+                        element.modal.cancel();
+                        const container = element.querySelector('.list-container');
+                        container.innerHTML = '';
+                    %>
+                    </click>
+                </button>
+            </div>
+        </modal>
+    </view>
+
+    <initElement>
+    <%
+        element.modal = element.querySelector('.wx-xten-modal');
+
+        element.addEventListener('modal-video-list-dialog-opened', async (event) => {
+            const selectedFile = event.detail ? event.detail.split('/').pop() : null;
+            const result = await wxfns.transaction(element, 'get-uploaded-files', {folder: 'videos', exts: 'webm, mp4'});
+            if (result.rc != 'success') {
+                wxfns.error('Error getting files', result.rc);
+                return null;
+            }
+            const container = element.querySelector('.list-container');
+            container.innerHTML = '';
+            result.output.files.forEach(_file => {
+                const li = document.createElement('div');
+                li.addClass('list-item');
+                const video = document.createElement('video');
+                video.src = 'uploads/videos/' + _file;
+                video.setAttribute('controls', 'true');
+                video.setAttribute('controlsList', 'nodownload');
+
+                const title = document.createElement('div');
+                wxfns.addClass(title, 'file-name');
+                title.innerText = _file;
+                if (_file == selectedFile) {
+                    li.addClass('selected');
+                }
+                
+                li.appendChild(video);
+                li.appendChild(title);
+                
+                li.addEventListener('click', (event) => {
+                    const list = container.querySelectorAll('.selected');
+                    list.forEach(active => {
+                        wxfns.removeClass(active, 'selected');
+                    });
+                    const current = event.target.closest('.list-item');
+                    wxfns.addClass(current, 'selected');
+                    element._selected = 'uploads/videos/' + _file;
+                });
+
+                li.addEventListener('dblclick', () => {
+                    element._selected = 'uploads/videos/' + _file;
+                    element.modal.save(element._selected);
+                });
+
+                li.addEventListener('touchend', (event) => {
+                    const currentTime = new Date().getTime();
+                    const tapTime = currentTime - lastTapTime;
+
+                    if (tapTime < 300 && tapTime > 0) {
+                        element._selected = 'uploads/videos/' + _file;
+                        element._modal._close(element._selected);                        
+                        event.preventDefault();
+                        return;
+                    }
+
+                    lastTapTime = currentTime;
+
+                    const list = container.querySelectorAll('.selected');
+                    list.forEach(active => {
+                        wxfns.removeClass(active, 'selected');
+                    });
+                    
+                    const current = event.target.closest('.list-item');
+                    wxfns.addClass(current, 'selected');
+                    element._selected = 'uploads/videos/' + _file;
+                });
+
+                container.appendChild(li);
+            });
+
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.addEventListener('play', () => {
+                    videos.forEach(otherVideo => {
+                        if (otherVideo !== video && !otherVideo.paused) {
+                            otherVideo.pause();
+                        }
+                    });
+                });
+            });
+        });
+    %>
+    </initElement>
+</xten>

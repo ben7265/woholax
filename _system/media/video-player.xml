@@ -33,9 +33,6 @@
 
     <view>
         <video src="stream/[$src||videos/blank.mp4]" width="100%" height="100%" controls="true" controlsList="nodownload" aspect-ratio="[$aspect-ratio]" width="100%"></video>
-        <modal name="video-list">
-            <video-list />
-        </modal>
     </view>
 
     <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
@@ -103,7 +100,13 @@
 
                 const element = wxfns.closestXten(event.target, 'video-player');
                 const video = element.querySelector('video');
-                const selected = await element._videoList._open(video.src);
+
+                const modal = document.querySelector('[name="video-list-dialog"]');
+                const result = await modal.open(video.src);
+                if (result.action == 'cancel') {
+                    return;
+                }
+                const selected = result.data;
                 if (selected) {
                     video.src = selected;
                     wxfns.transaction(element, 'save-page-data', selected);
@@ -123,9 +126,7 @@
             return;
         }
 
-
         element.setAttribute('src', element.querySelector('video').getAttribute('src'));
-        element._videoList = element.querySelector('.wx-xten-video-list');
     %>
     </initElement>
 </xten>

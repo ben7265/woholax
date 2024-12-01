@@ -1,0 +1,13 @@
+<xten name="flex-column" element="div">
+    <style>
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    </style>
+</xten>
+
+<xten name="occupy-column" element="div">
+    <style>
+        flex: 1;
+    </style>
+</xten>

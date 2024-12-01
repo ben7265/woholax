@@ -1,5 +1,7 @@
 <xten name="click" element="_hidden">
     <init>
-        addEvent(node, 'click', context, prop);
+        if (node.attribs._processed != 'yes') {
+            addEvent(node, 'click', context, prop);
+        }
     </init>
 </xten>

@@ -1,0 +1,42 @@
+<xten name="loginform" element="form">
+    <useView>v.loginform</useView>
+    <event name='submit'>
+    <%
+        event.preventDefault();
+        const element = event.target;
+
+        if (!validateForm(element)) {
+            return;
+        }
+
+        const data = wxfns.getFormData(element);
+        const result = await wxfns.transaction(element, 'login', data, true);
+        if (result.rc != 'success') {
+            element.getElementsByClassName('form_error')[0].innerText = result.rc;
+            return;
+        }
+
+        const user = result.output;
+        if (!user) {
+            element.getElementsByClassName('form_error')[0].innerText = 'Invalid user name of password';
+            return;
+        }
+
+        sessionStorage.setItem('user', JSON.stringify(user));
+
+        const _event = new CustomEvent('changeUser', { bubbles: true, detail: user });
+        element.dispatchEvent(_event);
+
+        const [action, args] = element.getAttribute('action').trim().split(/\s*\:\s*/);
+        if (action == 'reload') {
+            location.reload();
+            return;
+        }
+
+        if (action == 'redirect') {
+            location.href = args;
+            return;
+        }
+    %>
+    </event>
+</xten>

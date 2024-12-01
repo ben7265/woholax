@@ -1,4 +1,5 @@
 <xten name="sudo" element="_hidden">
+    <!-- ### need to test again - may not be working -->
     <init>
     <%
         const sudo = node.attribs.sudo || node.attribs.name;

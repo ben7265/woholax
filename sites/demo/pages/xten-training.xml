@@ -1,0 +1,24 @@
+
+<xten name="hello-world" element="div">
+    <view>
+        Hello World
+    </view>
+
+    <cssNode>
+        #[$id] .somechild {
+            color: [$color||black];
+        }
+    </cssNode>
+
+    <init>
+        node.text = 'Hello World';
+    </init>
+</xten>
+
+<page url="xten-training">
+    <hello-world />
+</page>
+
+<div>
+    Hello World
+</div>

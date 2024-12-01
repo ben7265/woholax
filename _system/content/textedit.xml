@@ -1,3 +1,33 @@
+<!--
+sample code for replacing quill
+
+document.addEventListener('DOMContentLoaded', () => {
+  const editableDiv = document.getElementById('editableDiv');
+
+  editableDiv.addEventListener('mouseup', () => {
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    const selectedText = range.extractContents();
+
+    const boldButton   
+ = document.getElementById('boldButton');
+    const italicButton = document.getElementById('italicButton');
+
+    boldButton.addEventListener('click', () => {
+      const boldSpan = document.createElement('b');
+      boldSpan.appendChild(selectedText);
+      range.insertNode(boldSpan);
+    });
+
+    italicButton.addEventListener('click', () => {
+      const italicSpan = document.createElement('i');
+      italicSpan.appendChild(selectedText);
+      range.insertNode(italicSpan);
+    });
+  });
+});
+-->
+
 <xten name="textedit" element="div">
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
@@ -50,7 +80,7 @@
             }
         }
 
-        const access = checkAccess(element) || demo;
+        const access = element.checkAccess() || demo;
         if (!access) {
             wxfns.addClass(element, 'ql-editor');
             return;

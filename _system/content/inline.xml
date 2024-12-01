@@ -38,7 +38,7 @@
             return;
         }
 
-        const access = checkAccess(element);
+        const access = element.checkAccess();
         if (access) {
             element.setAttribute('contenteditable', true);
             wxfns.addClass(element, 'editable');
