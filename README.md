@@ -4,7 +4,19 @@
 
 An Enterprise Grade solution for developing web based applications
 
-*Release: 1.2.0 beta *
+*Release: 1.2.1 beta *
+
+# Release 1.2.1 notes
+
+- Fixed the error during login in release 1.2.0
+- download Wohola X from releases page now instead of the code below
+- added the license file
+- Xtens are now licenses as open source under GNU 3.0 license
+- the executable files are free to use for educational institutes, students and for learning purposes
+- the executable files are free to use for commercial purposes for companies with less than 100 employees
+- the executable files require a commercial license to be used by companies with more than 100 employees
+- as such the code that validated the license has been removed from the executables so now the executables do not check the license validity when use with live domains
+- latest release: https://github.com/ben7265/woholax/releases/tag/v1.2.1-beta
 
 # Release 1.2.0 notes
 
