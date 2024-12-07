@@ -3,8 +3,8 @@
 
     <event name="change">
     <%
-        const element = event.target.closest('.wx-xten-dropdown');
-        wxfns.transaction(element, 'save-page-data', element.value || null);
+        
+        element.transaction('save-page-data', element.value || null);
     %>
     </event>
 

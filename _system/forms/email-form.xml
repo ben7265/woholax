@@ -1,160 +1,25 @@
-<xten name="email-form" extend="_form">
-    <mandatory>name, smtp-settings</mandatory>
-    <allow>admin</allow>
-    
-    <css>
-        .wx-xten-email-form .edit-email-text {display: none; background-color: lightgrey; z-index: 2;}
-        .wx-xten-email-form.show-email .edit-email-text {display: block;}
-        .wx-xten-email-form .wx-xten-textedit {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
-        .wx-xten-email-form .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
-        .wx-xten-email-form .wx-xten-toolbar {display: none;}
-        .wx-xten-email-form.wx-state-editable .wx-xten-toolbar {display: flex;}
-        .wx-xten-email-form[labels="none"] .wx-xten-xinput .label-column {display: none;}
-        .wx-xten-email-form[labels="none"] .wx-xten-xinput .input {padding: 0;}
-    </css>
-
-    <view>
-        <screencover class="edit-email-text">
-            <pos-top-right top="20px" right="20px">
-                <icon name="cross">
-                    <click>
-                        const element = event.target.closest('.wx-xten-email-form');
-                        wxfns.removeClass(element, 'show-email');
-                    </click>
-                </icon>
-            </pos-top-right>
-            <pos-top>
-                <div style="padding: 10px; font-weight: bold; background: #efefef; text-align: center; width: 600px;">Email Body email-text-[$name]</div>
-            </pos-top>
-            <center>
-                <container>
-                    <row>
-                        <column><align horizontal="flex-start">To Email</align></column>
-                        <column ratio="3">
-                            <inline class="email-settings" name="to-email-config.email-recipient" object-name="[$name]" collection="constants">
-                                To Email Address
-                            </inline>
-                        </column>
-                    </row>
-                    <row>
-                        <column><align horizontal="flex-start">Email Subject</align></column>
-                        <column ratio="3">
-                            <inline class="email-settings" name="to-email-config.email-subject" object-name="[$name]" collection="constants">
-                                Email subject
-                            </inline>
-                        </column>
-                    </row>
-                    <textedit name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
-                </container>
-            </center>
-        </screencover>
+<xten name="email-form" extend="smtp-config" element="form" public="true">
+    <view enhance="append">
+        <node-content />
     </view>
 
-    <toolbar>
-        <icon name="system">
-            <tooltip>SMTP Settings</tooltip>
-            <click>
-                <%
-                    const element = event.currentTarget;
-                    const form = element.closest('.wx-xten-email-form');
-                    const keydata = {
-                        name: 'smtp-settings',
-                        scope: form.getAttribute('smtp-settings') || '_all'
-                    };
-
-                    var result = await wxfns.transaction(element, 'get-constant', keydata);
-                    if (result.rc != 'success') {
-                        return;
-                    }
-
-                    var data = result.data || {};
-                    const list = [
-                    {
-                        name: 'smtp-host',
-                        label: 'SMTP Host',
-                        tag: 'input',
-                        type: 'text',
-                        value: data['smtp-host'],
-                        required:'true'
-                    },
-                    {
-                        name: 'smtp-port',
-                        label: 'SMTP Port',
-                        tag: 'input',
-                        type: 'number',
-                        value: data['smtp-port'],
-                        required:'true'
-                    },
-                    {
-                        name: 'user-name',
-                        label: 'SMTP User Name',
-                        tag: 'input',
-                        type: 'text',
-                        value: data['user-name'],
-                        required:'true'
-                    },
-                    {
-                        name: 'password',
-                        label: 'SMTP Password',
-                        tag: 'input',
-                        type: 'password',
-                        value: data['password']
-                    },
-                    {
-                        name: 'ssl',
-                        label: 'SSL?',
-                        tag: 'input',
-                        type: 'checkbox',
-                        value: data['ssl'],
-                    },
-                    {
-                        name: 'from',
-                        label: 'From Email',
-                        tag: 'input',
-                        type: 'email',
-                        value: data['from'],
-                    }
-                ];
-                const formData = await wxfns.getMultipleValues(list, 'SMTP Settings');
-                if (!formData) {
-                    return;
-                }
-                keydata.data = formData;
-                result = await wxfns.transaction(element, 'save-constant', keydata);
-                if (result.rc != 'success') {
-                    return;
-                }
-                %>
-            </click>
-        </icon>
-        <icon name="at">
-            <tooltip>Email Text</tooltip>
-            <click>
-                const element = event.target.closest('.wx-xten-email-form');
-                wxfns.addClass(element, 'show-email');
-            </click>
-        </icon>
-    </toolbar>
-
-    <initElement enhance="append">
+    <submit>
     <%
-        const txn = element.getAttribute('transaction') || 'email-form';
+        const data = element.validatedFormData();
+        if (!data) {
+            return;
+        }
+
+        const result = await element.transaction('email-form', data);
+        if (result.rc != 'success') {
+            return;
+        }
+
+        element.clearForm();
         const message = element.getAttribute('message') || 'Email sent successfully';
-        element.addEventListener('form-submit', async (event) => {
-            const data = event.detail;
-            const result = await wxfns.transaction(element, txn, data);
-            const captcha = element.querySelector('.wx-xten-check-human');
-            if (captcha) {
-                xfns['check-human'].clear(captcha);
-            }
-            if (result.rc != 'success') {
-                return;
-            }
-            wxfns.inform(message);
-            element.reset();
-        });
+        message && wxfns.inform(message);
     %>
-    </initElement>
+    </submit>
 
     <txn name="email-form">
     <%
@@ -167,7 +32,7 @@
         }
 
         const name = attribs.name;
-        const smtpScope = attribs['smtp-settings'] || name;
+        const smtpScope = attribs['smtp-settings'] || '_all';
         const smtp = await database.getConstant('smtp-settings', smtpScope, user, context);
         if (!smtp) {
             return {rc: 'smtp-configuration', output: 'SMTP must be configured for this form'};

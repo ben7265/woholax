@@ -54,7 +54,7 @@
             <icon name="left">
                 <click fname="_fnBannerLeftClick">
                 <%
-                    const element = event.target.closest('.wx-xten-banner');
+                    
                     var active = element.querySelector('.wx-xten-listitem.active');
                     idx = parseInt(active ? active.getAttribute('list-idx') : '0');
                     if (active) {
@@ -73,7 +73,7 @@
             <icon name="right">
                 <click fname="_fnBannerRightClick">
                 <%
-                    const element = event.target.closest('.wx-xten-banner');
+                    
                     var active = element.querySelector('.wx-xten-listitem.active');
                     const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
                     if (active) {
@@ -104,7 +104,7 @@
         icons.forEach(_icon => {
             _icon.addEventListener('click', (event) => {
                 event.preventDefault();
-                const element = event.target.closest('.wx-xten-banner');
+                
                 var active = element.querySelector('.wx-xten-listitem.active');
                 if (active) {
                     const idx = active.getAttribute('list-idx');

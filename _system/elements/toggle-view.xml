@@ -7,7 +7,7 @@
         const parent = element.parentElement;
 
         parent.addEventListener('click', (event) => {
-            wxfns.toggleClass(element, 'wx-visible');
+            element.toggleClass('wx-visible');
             
             const parentRect = parent.getBoundingClientRect();
             const rect = element.getBoundingClientRect();

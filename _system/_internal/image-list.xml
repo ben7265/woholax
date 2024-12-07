@@ -26,7 +26,7 @@
                     <span>Select</span>
                     <click fname="_ilbSelectFile">
                     <%
-                        const element = event.target.closest('.wx-xten-image-list');
+                        
                         element.modal.save(element._selected);
                         const container = element.querySelector('.list-container');
                         container.innerHTML = '';
@@ -37,7 +37,7 @@
                     <span>Cancel</span>
                     <click fname="_ilbCancel">
                     <%
-                        const element = event.target.closest('.wx-xten-image-list');
+                        
                         element.modal.cancel();
                         const container = element.querySelector('.list-container');
                         container.innerHTML = '';
@@ -54,7 +54,7 @@
 
         element.addEventListener('modal-image-list-dialog-opened', async (event) => {
             const selectedFile = event.detail ? event.detail.split('/').pop() : null;
-            const result = await wxfns.transaction(element, 'get-uploaded-files', {folder: 'images', exts: 'svg, png, jpg, tiff, jpeg, bmp, gif, ico, webp'});
+            const result = await element.transaction('get-uploaded-files', {folder: 'images', exts: 'svg, png, jpg, tiff, jpeg, bmp, gif, ico, webp'});
             if (result.rc != 'success') {
                 wxfns.error('Error getting files', result.rc);
                 return null;

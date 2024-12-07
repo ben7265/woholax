@@ -1,4 +1,4 @@
-<xten name="xform" extend="_form">
+<xten name="xform" element="form">
     <mandatory>action</mandatory>
 
     <initElement enhance="append">
@@ -7,10 +7,10 @@
             const data = event.detail;
             const action = element.getAttribute('action');
             const inform = element.getAttribute('inform');
-            const result = await wxfns.transaction(element, action, data);
+            const result = await element.transaction(action, data);
             const captcha = element.querySelector('.wx-xten-check-human');
             if (captcha) {
-                xfns['check-human'].clear(captcha);
+                captcha.invoke('clear', captcha);
             }
             if (result.rc != 'success') {
                 return;

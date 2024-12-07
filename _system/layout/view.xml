@@ -1,0 +1,51 @@
+<xten name="view">
+    <init>
+    <%
+        const viewNode = value[0].node.clone();
+
+        const contentPlaceholder = viewNode.find('node-content');
+        if (contentPlaceholder && contentPlaceholder.length == 1) {
+            const placeholder = contentPlaceholder[0];
+            const parent = placeholder.parent;
+            const children = node.children;
+            node.empty();
+            parent.replaceChild(placeholder.idx, children);
+        }
+        else if (contentPlaceholder && contentPlaceholder.length > 1) {
+            for (var i = 0; i < contentPlaceholder.length; i++) {
+                const placeholder = contentPlaceholder[i];
+                const name = placeholder.attribs.name;
+                if (!name) {
+                    common.nodeerror('name is required for multiple node-content placeholders in xten ' + xten.name, node);
+                    return false;
+                }
+
+                const parent = placeholder.parent;
+                const required = placeholder.attribs.required;
+                const content = node.findChild(name);
+
+                if (required && !content) {
+                    common.nodeerror('node-content ' + name + ' is required by xten ' + xten.name, node);
+                    return false;
+                }
+
+                if (content) {
+                    parent.replaceChild(placeholder.idx, content.children);
+                }
+                
+            }
+            node.empty();
+        }
+
+        if (viewNode.text) {
+            node.text = viewNode.text;
+        }
+        else {
+            node.insertChildren('last', viewNode.children);
+        }
+
+        common.initVars(node, context);
+        common.substituteVars(node, node.attribs);
+    %>
+    </init>
+</xten>

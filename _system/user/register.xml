@@ -1,5 +1,5 @@
-<xten name="register">
-    <mandatory>name, smtp-settings</mandatory>
+<!--xten name="register" element="form">
+    <mandatory>smtp-settings</mandatory>
     <allow>admin</allow>
     
     <css>
@@ -18,8 +18,8 @@
             <pos-top-right top="20px" right="20px">
                 <icon name="cross">
                     <click>
-                        const element = event.target.closest('.wx-xten-register');
-                        wxfns.removeClass(element, 'show-email');
+                        
+                        element.removeClass('show-email');
                     </click>
                 </icon>
             </pos-top-right>
@@ -48,6 +48,15 @@
                 </container>
             </center>
         </screencover>
+        <div class="_register-form-panel">
+            <node-content name="register-fields" required="true" />
+        </div>
+        <div class="_register-button-panel">
+            <textalign>
+                <xbutton type="submit" name="register" label="[$button-label]" />
+                <node-content name="register-buttons" />
+            </textalign>
+        </div>
     </view>
 
     <toolbar>
@@ -62,7 +71,7 @@
                         scope: form.getAttribute('smtp-settings') || '_all'
                     };
 
-                    var result = await wxfns.transaction(element, 'get-constant', keydata);
+                    var result = await element.transaction('get-constant', keydata);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -120,7 +129,7 @@
                     return;
                 }
                 keydata.data = formData;
-                result = await wxfns.transaction(element, 'save-constant', keydata);
+                result = await element.transaction('save-constant', keydata);
                 if (result.rc != 'success') {
                     return;
                 }
@@ -130,8 +139,8 @@
         <icon name="at">
             <tooltip>Email Text</tooltip>
             <click>
-                const element = event.target.closest('.wx-xten-register');
-                wxfns.addClass(element, 'show-email');
+                
+                element.addClass('show-email');
             </click>
         </icon>
     </toolbar>
@@ -142,10 +151,10 @@
         const message = element.getAttribute('message') || 'Email sent successfully';
         element.addEventListener('form-submit', async (event) => {
             const data = event.detail;
-            const result = await wxfns.transaction(element, txn, data);
+            const result = await element.transaction(txn, data);
             const captcha = element.querySelector('.wx-xten-check-human');
             if (captcha) {
-                xfns['check-human'].clear(captcha);
+                captcha.invoke('clear', captcha);
             }
             if (result.rc != 'success') {
                 return;
@@ -158,6 +167,7 @@
 
     <txn name="register">
     <%
+        console.log('called register txn');
         if (data.gotcha) {
             return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
         }
@@ -165,6 +175,10 @@
         if (!data['check-human']) {
             return {rc: 'bots-not-allowed', output: 'Bots are not allowed to make calls to server'};
         }
+
+        console.log('passed bot test');
+
+        /*
 
         const name = attribs.name;
         const smtpScope = attribs['smtp-settings'] || name;
@@ -204,7 +218,8 @@
         if (result) {
             return {rc: 'sendmail-error', output: result};
         }
+        */
         return {rc: 'success'};
     %>
     </txn>
-</xten>
+</xten  -->

@@ -14,12 +14,12 @@
                 <tooltip>select image</tooltip>
                 <click fname="_backgroundUploadImage">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
                     const selectedFile = await wxfns.selectFile('image/*');
                     element['changed-file'] = selectedFile;
                     const body = document.querySelector('body');
                     body.style['background-image'] = 'url(' + URL.createObjectURL(selectedFile) + ')';
-                    wxfns.addClass(element, 'background-changed');
+                    element.addClass('background-changed');
                 %>
                 </click>
             </icon>
@@ -27,14 +27,14 @@
                 <tooltip>save image</tooltip>
                 <click fname="_backgroundSaveImage">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
 
                     const target = document.createElement('div');
                     target.setAttribute('name', 'page-styles');
                     target.setAttribute('data-selector', 'page-styles.page-background-image');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await wxfns.upload(target, 'save-image', null, element['changed-file']);
+                    const result = await target.upload('save-image', null, element['changed-file']);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -43,7 +43,7 @@
                     element.setAttribute('page-background-image', url);
                     body.style['background-image'] = 'url(' + url + ')';
                     delete element['changed-file'];
-                    wxfns.removeClass(element, 'background-changed');
+                    element.removeClass('background-changed');
                 %>
                 </click>
             </icon>
@@ -51,12 +51,12 @@
                 <tooltip>cancel</tooltip>
                 <click fname="_backgroundCancelImage">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
                     const body = document.querySelector('body');
                     const url = element.getAttribute('page-background-image');
                     body.style['background-image'] = 'url(' + url + ')';
                     delete element['changed-file'];
-                    wxfns.removeClass(element, 'background-changed');
+                    element.removeClass('background-changed');
                 %>
                 </click>
             </icon>
@@ -64,7 +64,7 @@
                 <tooltip>background color</tooltip>
                 <click fname="_backgroundColor">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-background-color');
 
@@ -84,7 +84,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-background-color');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    const result = await target.transaction('save-page-data', value);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -98,7 +98,7 @@
                 <tooltip>filter color</tooltip>
                 <click fname="_backgroundFilterColor">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-filter-color');
 
@@ -118,7 +118,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-filter-color');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    const result = await target.transaction('save-page-data', value);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -132,7 +132,7 @@
                 <tooltip>filter opacity</tooltip>
                 <click fname="_backgroundFilterOpacity">
                 <%
-                    const element = event.target.closest('.wx-xten-page-config');
+                    
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-filter-opacity');
 
@@ -152,7 +152,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-filter-opacity');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await wxfns.transaction(target, 'save-page-data', value);
+                    const result = await target.transaction('save-page-data', value);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -171,8 +171,8 @@
                         return;
                     }
 
-                    const element = event.target.closest('.wx-xten-page-config');
-                    const result = await wxfns.transaction(element, 'delete-background');
+                    
+                    const result = await element.transaction('delete-background');
                     if (result.rc != 'success') {
                         return;
                     }

@@ -29,7 +29,6 @@
                     <tooltip>Search</tooltip>
                     <click fname="_searchClick">
                     <%
-                        const element = event.target;
                         const value = element.closest('.search-wrapper').querySelector('input.search').value;
                         
                         if (!value) {

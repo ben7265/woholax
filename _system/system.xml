@@ -1,9 +1,10 @@
-#include _system/_internal/_form.xml
 #include _system/_internal/_internal.xml
 #include _system/_internal/_list.xml
 #include _system/_internal/body.xml
+#include _system/_internal/define.xml
 #include _system/_internal/image-list.xml
 #include _system/_internal/page-config.xml
+#include _system/_internal/smtp-config.xml
 #include _system/_internal/video-list.xml
 
 #include _system/aichat/aichatbot.xml
@@ -58,7 +59,6 @@
 #include _system/forms/email-form.xml
 #include _system/forms/modal.xml
 #include _system/forms/save-form.xml
-#include _system/forms/xbutton.xml
 #include _system/forms/xdropdown.xml
 #include _system/forms/xform.xml
 #include _system/forms/xinput.xml
@@ -71,6 +71,7 @@
 #include _system/layout/dynamic-grid.xml
 #include _system/layout/flex-column.xml
 #include _system/layout/fullscreen.xml
+#include _system/layout/grid-layout.xml
 #include _system/layout/grid.xml
 #include _system/layout/layers.xml
 #include _system/layout/list.xml

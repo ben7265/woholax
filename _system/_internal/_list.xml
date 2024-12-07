@@ -11,10 +11,9 @@
                     wxfns.inform('New items can be added by simply clicking plus');
                     return;
                 }
-                const element = event.target.closest('.wx-xten-_list');
-                const result = await wxfns.transaction(element, 'add-list-item');
-                wxfns.refresh(element.closest('.wx-xten-_list'));
-                /* window.location.reload(); */
+                
+                const result = await element.transaction('add-list-item');
+                element.refresh();
             %>
             </click>
         </icon>
@@ -43,7 +42,7 @@
         const demo = urlParams.get('demo') == 'yes';
 
         if (demo) {
-            wxfns.addClass(element, 'wx-state-editable');
+            element.addClass('wx-state-editable');
             return;
         }
     %>
@@ -162,9 +161,10 @@
                     wxfns.inform('Items can be deleted by simply clicking trashcan');
                     return;
                 }
-                const element = event.target.closest('.wx-xten-listitem');
-                const result = await wxfns.transaction(element, 'delete-list-item');
-                element.remove();
+                
+                const result = await element.transaction('delete-list-item');
+                const list = element.closest('.wx-xten-_list');
+                list.refresh();
             %>
             </click>
         </icon>
@@ -176,7 +176,7 @@
         const demo = urlParams.get('demo') == 'yes';
 
         if (demo) {
-            wxfns.addClass(element, 'wx-state-editable');
+            element.addClass('wx-state-editable');
             return;
         }
     %>

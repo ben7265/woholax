@@ -1,0 +1,10 @@
+<xten name="define" element="_hidden">
+    <mandatory>name</mandatory>
+    <init>
+    <%
+        const name = node.attribs.name;
+        const value = node.text.trim();
+        context.vars[name] = value;
+    %>
+    </init>
+</xten>

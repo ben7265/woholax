@@ -41,10 +41,10 @@
             <click fname="_vpSaveShortVideo">
                 <upload name="save-video" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="video">
-                    toolbarParent['uploaded-url']
+                    element['uploaded-url']
                 </set-attrib>
                 <set-attrib name="src">
-                    toolbarParent['uploaded-url']
+                    element['uploaded-url']
                 </set-attrib>
                 <unset-var name="uploaded-url" />
                 <unset-var name="changed-file" />
@@ -55,7 +55,7 @@
             <tooltip>cancel</tooltip>
             <click fname="_vpCancelShortVideoSave">
                 <set-attrib name="src" child="video">
-                    toolbarParent.getAttribute('src')
+                    element.getAttribute('src')
                 </set-attrib>
                 <unset-var name="changed-file" />
                 <remove-class classes="quickplay-changed" />
@@ -81,12 +81,13 @@
                 </code>
                 <selectfile file-type="video/*" file="changed-file" />
                 <set-attrib name="src" child="video">
-                    URL.createObjectURL(toolbarParent['changed-file'])
+                    URL.createObjectURL(element['changed-file'])
                 </set-attrib>
                 <add-class classes="quickplay-changed" />
             </event>
         </icon>
-        <icon name="folder-open">
+        <!-- ### to be fixed video-list modal view is not evaluated properly -->
+        <!--icon name="folder-open">
             <tooltip>select video from server</tooltip>
             <event name="click" fname="_vpSelectServerVideo">
             <%
@@ -98,9 +99,7 @@
                     return;
                 }
 
-                const element = wxfns.closestXten(event.target, 'video-player');
                 const video = element.querySelector('video');
-
                 const modal = document.querySelector('[name="video-list-dialog"]');
                 const result = await modal.open(video.src);
                 if (result.action == 'cancel') {
@@ -109,11 +108,11 @@
                 const selected = result.data;
                 if (selected) {
                     video.src = selected;
-                    wxfns.transaction(element, 'save-page-data', selected);
+                    element.transaction('save-page-data', selected);
                 }
             %>
             </event>
-        </icon>
+        </icon -->
     </toolbar>
 
     <initElement>
@@ -122,7 +121,7 @@
         const demo = urlParams.get('demo') == 'yes';
 
         if (demo) {
-            wxfns.addClass(element, 'wx-state-editable');
+            element.addClass('wx-state-editable');
             return;
         }
 

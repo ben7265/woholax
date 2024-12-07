@@ -29,7 +29,7 @@
 
         if (demo) {
             element.setAttribute('contenteditable', true);
-            wxfns.addClass(element, 'editable');
+            element.addClass('editable');
 
             const _localValue = sessionStorage.getItem('inline:' + element.getAttribute('name'));
             if (_localValue) {
@@ -41,7 +41,7 @@
         const access = element.checkAccess();
         if (access) {
             element.setAttribute('contenteditable', true);
-            wxfns.addClass(element, 'editable');
+            element.addClass('editable');
             const prevText = element.innerText.trim();
             if (!prevText.length) {
                 element.classList.add('_empty_inline');
@@ -55,14 +55,13 @@
         else
         {
             element.removeAttribute('contenteditable');
-            wxfns.removeClass(element, 'editable');
+            element.removeClass('editable');
         }
     %>
     </initElement>
 
     <event name="keyup" fname="_inlineEventKeyUp">
     <%
-        const element = event.target;
         const text = element.innerText.trim();
         const origValue = element.__inlineValue;
         if (!text) {
@@ -85,7 +84,6 @@
 
     <event name="blur" fname="_inlineEventBlur">
     <%
-        const element = event.target;
         const text = element.innerText.trim();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -107,7 +105,7 @@
             element.classList.remove('_empty_inline');
         }
         if (text) {
-            wxfns.transaction(element, 'save-page-data', element.innerText.trim());
+            element.transaction('save-page-data', element.innerText.trim());
             element.classList.remove('_unsaved_inline');
             element.classList.remove('_empty_inline');
             element.__inlineValue = text;

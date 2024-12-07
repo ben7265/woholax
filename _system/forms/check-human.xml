@@ -42,7 +42,7 @@
             canvas = null;
         }
         canvas = document.createElement('canvas');
-        wxfns.addClass(canvas, 'human-canvas');
+        canvas.addClass('human-canvas');
         canvas.setAttribute('width', width);
         canvas.setAttribute('height', height);
         parent.appendChild(canvas);
@@ -87,11 +87,11 @@
     %>
     </initElement>
 
-    <function name="get-value">
+    <!--function name="get-value">
     <%
         return element.querySelector('gotcha') != 'true' && element._value == true;
     %>
-    </function>
+    </function -->
 
     <function name="clear">
     <%

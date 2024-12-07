@@ -1,8 +1,11 @@
 <xten name="vector-docs" element="div">
     <mandatory>name</mandatory>
+    <allow>admin</allow>
     
     <css>
+        .wx-xten-vector-docs {display: none; }
         .wx-xten-vector-docs tr { height: 30px; }
+        .wx-xten-vector-docs.wx-state-editable { display: block; }
     </css>
 
     <view>
@@ -23,13 +26,13 @@
                                 <%
                                     const selectedFile = await wxfns.selectFile('.doc,.docx,.pptx,.pdf,.txt');
                                     const filename = selectedFile.name;
-                                    const element = event.target.closest('.wx-xten-vector-docs');
-                                    const result = await wxfns.upload(element, 'vectorise-document', {name: filename}, selectedFile);
+                                    
+                                    const result = await element.upload('vectorise-document', {name: filename}, selectedFile);
                                     if (result.rc != 'success') {
                                         return;
                                     }
                                     
-                                    await wxfns.refresh(element);
+                                    await element.refresh();
                                 %>
                                 </click>
                             </icon>
@@ -55,15 +58,15 @@
                                 <tooltip>Delete document</tooltip>
                                 <click fname="_eventDeleteDocumentFromVector">
                                 <%
-                                    const element = event.target.closest('.wx-xten-vector-docs');
+                                    
                                     const row = event.target.closest('tr');
                                     const docname = row.getAttribute('docname');
-                                    const result = await wxfns.transaction(element, 'delete-vector-document', {filename: docname});
+                                    const result = await element.transaction('delete-vector-document', {filename: docname});
                                     if (result.rc != 'success') {
                                         return;
                                     }
                                     
-                                    await wxfns.refresh(element);
+                                    await element.refresh();
                                 %>
                                 </click>
                             </icon>

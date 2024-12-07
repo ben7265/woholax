@@ -1,22 +1,22 @@
 <xten name="navbar">
     <element>div</element>
     <_class>navclass-[$orientation||row]</_class>
-    <view>
+    <append>
         <icon name="menu">
             <tooltip>open navbar</tooltip>
             <click name="_nbOpenNavbar">
-                const element = event.target.closest('.wx-xten-navbar');
-                wxfns.addClass(element, 'open');
+                
+                element.addClass('open');
             </click>
         </icon>
         <icon name="menu-close">
             <tooltip>open navbar</tooltip>
             <click name="_nbCloseNavbar">
-                const element = event.target.closest('.wx-xten-navbar');
-                wxfns.removeClass(element, 'open');
+                
+                element.removeClass('open');
             </click>
         </icon>
-    </view>
+    </append>
     <style>
         display:flex;
         position: relative;
@@ -86,20 +86,20 @@
         if (collapseWidth) {
             collapseWidth = parseInt(collapseWidth.replace(/px$/, ''));
             if (window.innerWidth < collapseWidth) {
-                wxfns.addClass(element, 'collapse');
+                element.addClass('collapse');
             }
             else
             {
-                wxfns.removeClass(element, 'collapse');
+                element.removeClass('collapse');
             }
             
             window.addEventListener('resize', (event) => {
                 if (window.innerWidth < collapseWidth) {
-                    wxfns.addClass(element, 'collapse');
+                    element.addClass('collapse');
                 }
                 else
                 {
-                    wxfns.removeClass(element, 'collapse');
+                    element.removeClass('collapse');
                 }
             });
         }
@@ -120,16 +120,12 @@
         .wx-xten-navitem a {text-decoration: none; color: inherit;}
     </css>
     <event name="click">
-        <code>
-            <%
-                event.preventDefault();
-                element = event.target;
-                const href = element.getAttribute('href');
-                if (href && href != '#') {
-                    window.location.href = href;
-                }
-            %>
-        </code>
+    <%
+        const href = element.getAttribute('href');
+        if (href && href != '#') {
+            window.location.href = href;
+        }
+    %>
     </event>
 </xten>
 

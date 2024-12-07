@@ -61,7 +61,7 @@
                 messageElement.textContent = message;
                 chatBody.appendChild(messageElement);
                 chatBody.scrollTop = chatBody.scrollHeight;
-                const result = await wxfns.transaction(element, 'vector-query', {query: message});
+                const result = await element.transaction('vector-query', {query: message});
                 if (result.rc != 'success') {
                     return;
                 }

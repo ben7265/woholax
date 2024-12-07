@@ -75,8 +75,7 @@
     </css>
 
     <view>
-        <div class="modal-background">
-        </div>
+        <div class="modal-background"></div>
         <div class="modal-wrapper">
             <div class="modal-header">
                 <div name="modal-header-text">[$heading||Modal]</div>
@@ -85,7 +84,7 @@
                         <tooltip>close modal</tooltip>
                         <click fname="_modalClose">
                         <%
-                            const element = event.target.closest('.wx-xten-modal');
+                            
                             element.cancel();
                         %>
                         </click>
@@ -93,7 +92,7 @@
                 </div>
             </div>
             <div class="modal-content">
-                <view-content />
+                <node-content />
             </div>
         </div>
     </view>

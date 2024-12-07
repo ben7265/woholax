@@ -34,8 +34,8 @@
             <tooltip>video recording</tooltip>
             <click fname="_recordScreen">
             <%
-                const element = event.target.closest('.wx-xten-video-recorder');
-                wxfns.addClass(element, 'recording');
+                
+                element.addClass('recording');
                 const viewer = element.querySelector('[name="screen-preview"]');
                 const player = element.querySelector('[name="screen-play"]');
                 var url = null;
@@ -53,7 +53,7 @@
                         cant figure out how to make chunks append as renaming the file works but appending does not
                         so for now saving the file at end only for the time being
                         const options = { ext: 'webm' };
-                        const result = await wxfns.upload(element, 'save-recording', options, event.data);
+                        const result = await element.upload('save-recording', options, event.data);
                         if (!url && result.rc == 'success') {
                             url = result.url;
                         }
@@ -62,11 +62,11 @@
 
                     mediaRecorder.onstop = async () => {
                         const recordedBlob = new Blob(chunks, { type: 'video/webm' });
-                        wxfns.removeClass(element, 'recording');
+                        element.removeClass('recording');
                         const tracks = stream.getTracks();
                         tracks.forEach(track => track.stop());
                         const options = { ext: 'webm' };
-                        const result = await wxfns.upload(element, 'save-recording', options, recordedBlob);
+                        const result = await element.upload('save-recording', options, recordedBlob);
                         if (result.rc == 'success') {
                             player.src = result.output;
                         }
@@ -85,12 +85,12 @@
             <tooltip>stop screen recording</tooltip>
             <click fname="_stopScreenRecording">
             <%
-                const element = event.target.closest('.wx-xten-video-recorder');
+                
                 if (element.mediaRecorder) {
                     element.mediaRecorder.stop();
                     delete element.mediaRecorder;
                 }
-                wxfns.removeClass(element, 'recording');
+                element.removeClass('recording');
             %>
             </click>
         </icon>

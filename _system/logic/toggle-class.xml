@@ -11,7 +11,7 @@
                 const fnstr = `(event) => {
                     const parent = event.target.parentElement;
                     const className = event.target.getAttribute('class-name');
-                    wxfns.toggleClass(parent, '${className}'); 
+                    parent.toggleClass('${className}'); 
                 }`;
                 context.code[fnName] = 'const ' + fnName + ' = ' + fnstr + ';';
             }

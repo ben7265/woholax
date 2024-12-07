@@ -5,7 +5,6 @@
         <img src="[$src||images/blank.svg]" alt="[$alt||$name]" onerror="this.onerror=null; this.src='images/error.svg';" >
             <click fname="_imageLinkClick">
             <%
-                const element = event.target.closest('.wx-xten-image');
                 const href = element.getAttribute('href');
                 if (href) {
                     window.location.href = href;
@@ -21,10 +20,10 @@
             <click fname="_imageSaveImage">
                 <upload name="save-image" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="img">
-                    toolbarParent['uploaded-url']
+                    element['uploaded-url']
                 </set-attrib>
                 <set-attrib name="src">
-                    toolbarParent['uploaded-url']
+                    element['uploaded-url']
                 </set-attrib>
                 <unset-var name="uploaded-url" />
                 <unset-var name="changed-file" />
@@ -35,7 +34,7 @@
             <tooltip>cancel</tooltip>
             <click fname="_imageCancelImageSave">
                 <set-attrib name="src" child="img">
-                    toolbarParent.getAttribute('src')
+                    element.getAttribute('src')
                 </set-attrib>
                 <unset-var name="changed-file" />
                 <remove-class classes="image-changed" />
@@ -61,7 +60,7 @@
                 </code>
                 <selectfile file-type="image/*" file="changed-file" />
                 <set-attrib name="src" child="img">
-                    URL.createObjectURL(toolbarParent['changed-file'])
+                    URL.createObjectURL(element['changed-file'])
                 </set-attrib>
                 <add-class classes="image-changed" />
             </event>
@@ -78,9 +77,9 @@
                     return;
                 }
 
-                const element = event.target.closest('.wx-xten-image');
+                
                 const value = await wxfns.getUserValue('hyperlink', 'hyperlink', 'Hyperlink', {value: element.getAttribute('href')});
-                const result = await wxfns.transaction(element, 'add-hyperlink', value);
+                const result = await element.transaction('add-hyperlink', value);
                 if (value) {
                     element.setAttribute('href', value);
                 }
@@ -91,7 +90,8 @@
             %>
             </event>
         </icon>
-        <icon name="folder-open">
+        <!-- ### to be fixed image-list modal view is not evaluated properly -->
+        <!--icon name="folder-open">
             <tooltip>select image from server</tooltip>
             <event name="click" fname="_imageSelectServerImage">
             <%
@@ -103,7 +103,6 @@
                     return;
                 }
 
-                const element = event.target.closest('.wx-xten-image');
                 const image = element.querySelector('img');
                 const url = image.getAttribute('src');
 
@@ -117,11 +116,11 @@
                 const selected = result.data;
                 if (selected) {
                     image.setAttribute('src', selected);
-                    wxfns.transaction(element, 'save-page-data', selected);
+                    element.transaction('save-page-data', selected);
                 }
             %>
             </event>
-        </icon>
+        </icon -->
     </toolbar>
 
     <style>
@@ -181,7 +180,7 @@
         const demo = urlParams.get('demo') == 'yes';
 
         if (demo) {
-            wxfns.addClass(element, 'wx-state-editable');
+            element.addClass('wx-state-editable');
             return;
         }
     %>
@@ -189,11 +188,16 @@
 
     <load>
     <%
+        const img = node.findChildren('img')[0];
         const value = await database.inlineValue(node, context, xten);
         if (value) {
             node.attribs.src = value;
-            const img = node.findChildren('img')[0];
             img.attribs.src = value;
+        }
+        else
+        {
+            node.attribs.src = 'images/blank.svg';
+            img.attribs.src = 'images/blank.svg';
         }
 
         const href = await database.hrefValue(node, context, xten);

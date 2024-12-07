@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const access = element.checkAccess() || demo;
         if (!access) {
-            wxfns.addClass(element, 'ql-editor');
+            element.addClass('ql-editor');
             return;
         }
 
@@ -136,13 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const toolbar = element.querySelector('.ql-toolbar');
-        wxfns.addClass(toolbar, 'hidden');
+        toolbar.addClass('hidden');
 
         quill.getModule("toolbar").addHandler("image", (value) => {
             const upload = async () => {
                 const file = await wxfns.selectFile('image/*');
-                /*const result = await wxfns.upload(element, 'save_image', null, file);*/
-                const result = await wxfns.upload(element, 'save-image', null, file);
+                /*const result = await element.upload('save_image', null, file);*/
+                const result = await element.upload('save-image', null, file);
                 const range = quill.getSelection();
                 quill.insertEmbed(range.index, 'image', result.output);
                 quill.setSelection(range.index + 1);
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 else
                 {
-                    wxfns.transaction(element, 'save-page-data', text.trim());
+                    element.transaction('save-page-data', text.trim());
                 }
             }
         }, 2000);
@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         element.addEventListener('click', (e) => {
             e.stopPropagation();
             const toolbar = element.querySelector('.ql-toolbar');
-            wxfns.addClass(toolbar, 'visible');
-            wxfns.removeClass(toolbar, 'hidden');
+            toolbar.addClass('visible');
+            toolbar.removeClass('hidden');
             const img = Parchment.find(e.target);
             if (img instanceof ImageBlot) {
                 quill.setSelection(img.offset(quill.scroll) - 1, 1, 'user');
@@ -185,8 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.addEventListener('click', () => {
             const toolbar = element.querySelector('.ql-toolbar');
-            wxfns.removeClass(toolbar, 'visible');
-            wxfns.addClass(toolbar, 'hidden');
+            toolbar.removeClass('visible');
+            toolbar.addClass('hidden');
         });
     %>
     </initElement>

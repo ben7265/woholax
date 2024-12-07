@@ -27,7 +27,7 @@
             <tooltip>Start Broadcast</tooltip>
             <event name="click" fname="_fnStartBroadcast">
             <%
-                const element = event.target.closest('.wx-xten-broadcast');
+                
                 
                 element.peerConnection = new RTCPeerConnection(peerConnectionConfig);
 
@@ -44,8 +44,8 @@
 
                 await websocket.emit('offer', element.peerConnection.localDescription);
         
-                wxfns.removeClass(element, 'wx-state-ready');
-                wxfns.addClass(element, 'wx-state-live');
+                element.removeClass('wx-state-ready');
+                element.addClass('wx-state-live');
 
                 websocket.on('offer', async (offer) => {
                     console.debug('offer recieved');
@@ -71,7 +71,7 @@
             <tooltip>Stop Broadcast</tooltip>
             <click fname="_fn_stopBroadcast">
             <%
-                const element = event.target.closest('.wx-xten-broadcast');
+                
 
                 if (element.localStream) {
                     element.localStream.getTracks().forEach(track => track.stop());
@@ -93,8 +93,8 @@
                 element.localStream = stream;
                 viewer.srcObject = stream;
 
-                wxfns.removeClass(element, 'wx-state-live');
-                wxfns.addClass(element, 'wx-state-ready');
+                element.removeClass('wx-state-live');
+                element.addClass('wx-state-ready');
             %>
             </click>
         </icon>
@@ -111,7 +111,7 @@
 
             element.localStream = stream;
             viewer.srcObject = stream;
-            wxfns.addClass(element, 'wx-state-ready');
+            element.addClass('wx-state-ready');
         };
 
         _init();

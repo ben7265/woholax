@@ -226,18 +226,6 @@
 
         common.substituteVars(view, node.attribs);
 
-        /*
-        const toolbarView = common.findNamed(node, 'view', 'object-item-toolbar');
-        var objectItemToolbar = null;
-
-        if (toolbarView) {
-            const toolbarList = toolbarView.findChildren('toolbar');
-            if (toolbarList.length) {
-                objectItemToolbar = toolbarList[0];
-            }
-        }
-        */
-
         const configLabel = objConfig.label ? objConfig.label._text : '';
         node.attribs['object-label'] = node.getValue('label') || configLabel || common.toCamelCase(objType);
         const vars = node.attribs;

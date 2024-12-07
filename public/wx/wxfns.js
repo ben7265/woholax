@@ -366,7 +366,7 @@ const wxfns = {
             modal.appendChild(buttonPanel);
 
             wxfns.addButton(buttonPanel, 'Save', () => {
-                const data = wxfns.getFormData(form);
+                const data = form.validatedFormData();
                 for (var i = 0; i < list.length; i++) {
                     const _input = list[i];
                     if (_input.required && !data[_input.name]) {
@@ -466,52 +466,10 @@ const wxfns = {
         return output;
     },
 
-    getFormData: (form) => {
-        const data = {};
-        const checkHuman = form.querySelector('.wx-xten-check-human');
-        data['check-human'] = checkHuman ? checkHuman._value : true;
-
-        for (var i = 0; i < form.elements.length; i++) {
-            const element = form.elements[i];
-            if (!element.name) {
-                continue;
-            }
-            const name = element.name;
-            const type = element.type;
-            if (!name) {
-                continue;
-            }
-            switch (type) {
-                case 'file':
-                    data[name] = element.files;
-                    break;
-                case 'radio':
-                    if (!data[name]) {
-                        data[name] = null;
-                    }
-                    if (element.checked) {
-                        data[name] = element.value;
-                    }
-                    break;
-                case 'checkbox':
-                    if (!data[name]) {
-                        data[name] = null;
-                    }
-                    data[name] = element.checked;
-                    break;
-                default:
-                    data[name] = element.value;
-            }
-        }
-        return data;
-    },
     closestXten: (e, name) => {
         return e.closest('.wx-xten-' + name);
     },
-    callXten: async (e, xtenName, name, fn, data) => {
-        const element = e.querySelector('.wx-xten-' + xtenName + (name ? '[name="' + name + '"]' : ''));
-        return element ? await xfns[xtenName][fn](element, data) : null;
-    },
+
     curl: async (url, method = 'GET', data = null, contentType = 'application/json') => {
         const options = {
             method: method,
@@ -542,158 +500,4 @@ const wxfns = {
             };
         }
     },
-};
-
-/* deprecated */
-wxfns.getValue = wxfns.getUserValue;
-wxfns.addClass = (element, className) => {
-    const str = className.trim();
-    if (!str) {
-        return;
-    }
-    const list = str.split(/[\s\t\,]+/);
-    list.forEach((_cls) => {
-        if (element.classList) {
-            element.classList.add(_cls);
-        } else {
-            element.className += ' ' + _cls;
-            element.className = element.className.trim().replace(/[\w]+/g, ' ');
-        }
-    });
-};
-
-wxfns.removeClass = (element, className) => {
-    const str = className.trim();
-    if (!str) {
-        return;
-    }
-    const list = str.split(/[\s\t\,]+/);
-    list.forEach((_cls) => {
-        if (element.classList) {
-            element.classList.remove(_cls);
-        } else {
-            element.className = element.className.replace(_cls, '').trim().replace(/[\w]+/g, ' ');
-        }
-    });
-};
-
-wxfns.hasClass = (element, className) => {
-    var list = element.getAttribute('class');
-    list = list ? list.split(/ +/) : [];
-    return list.indexOf(className.trim()) != -1;
-};
-
-wxfns.toggleClass = (element, className) => {
-    if (wxfns.hasClass(element, className)) {
-        wxfns.removeClass(element, className);
-    }
-    else {
-        wxfns.addClass(element, className);
-    }
-};
-
-wxfns.upload = async (element, txn, data, file, dontShowError) => {
-    const attribs = [...element.attributes].reduce((attrs, attribute) => {
-        attrs[attribute.name] = attribute.value;
-        return attrs;
-    }, {});
-
-    attribs['_text'] = element.innerText;
-
-    const serverData = {
-        user: getUser(),
-        attribs: attribs,
-        txn: txn,
-        'calling-url': window.location.href,
-        data: data
-    };
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("serverData", JSON.stringify(serverData));
-
-    const response = await fetch('/upload', {
-        method: "POST",
-        credentials: 'include',
-        body: formData,
-    });
-    const result = await response.json();
-    if (!result) {
-        !dontShowError && wxfns.error('No result', 'Server did not send any data for ' + txn);
-        return null;
-    }
-    if (result && result.rc != 'success') {
-        !dontShowError && wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error in txn ' + txn);
-    }
-    return result;
-};
-
-wxfns.refresh = async (element) => {
-    const result = await wxfns.transaction(element, 'refresh', null, false);
-    if (result && result.rc != 'success') {
-        wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error refreshing element');
-        return;
-    }
-
-    if (result.reload) {
-        window.location.reload();
-    }
-
-    if (result.html) {
-        element.innerHTML = result.html;
-    }
-
-    if (result.attribs) {
-        for (var prop in result.attribs) {
-            element.setAttribute(prop, result.attribs[prop])
-        }
-    }
-
-    const initialize = (_element) => {
-        const xname = _element.getAttribute('xten');
-        if (xname) {
-            const access = _element.checkAccess();
-            if (access) {
-                _element.addClass('wx-state-editable');
-            } else {
-                _element.removeClass('wx-state-editable');
-            }
-
-            const fn = initElement[xname];
-            fn && fn(_element);
-        }
-
-        for (var i = 0; i < _element.children.length; i++) {
-            initialize(_element.children[i]);
-        }
-    };
-
-    initialize(element);
-};
-
-wxfns.transaction = async (element, txn, data, dontShowError) => {
-    const attribs = [...element.attributes].reduce((attrs, attribute) => {
-        attrs[attribute.name] = attribute.value;
-        return attrs;
-    }, {});
-
-    attribs['_text'] = element.innerText;
-
-    const serverData = {
-        user: getUser(),
-        attribs: attribs,
-        'calling-url': window.location.href,
-        txn: txn,
-        data: data
-    };
-
-    const result = await server.post('/transaction', serverData);
-    if (!result) {
-        !dontShowError && wxfns.error('No result', 'Server did not send any data for ' + txn);
-        return null;
-    }
-    if (result && result.rc != 'success') {
-        !dontShowError && wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error in txn ' + txn);
-    }
-    return result;
 };

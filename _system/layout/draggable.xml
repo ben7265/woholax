@@ -19,7 +19,7 @@
 
     <initElement>
         <%
-            const editable = wxfns.hasClass(element, 'wx-state-editable');
+            const editable = element.hasClass('wx-state-editable');
             if (!editable) {
                 return;
             }
@@ -98,7 +98,7 @@
                         height: obj.height
                     };
 
-                    wxfns.transaction(element, 'save-box-position', wxfns.makeStyles(position));
+                    element.transaction('save-box-position', wxfns.makeStyles(position));
                 };
 
                 document.onmousemove = (e) => {

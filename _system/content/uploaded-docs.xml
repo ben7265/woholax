@@ -23,14 +23,14 @@
                                 <%
                                     const selectedFile = await wxfns.selectFile('.doc,.docx,.pptx,.pdf,.txt');
                                     const filename = selectedFile.name;
-                                    const element = event.target.closest('.wx-xten-uploaded-docs');
+                                    
                                     const mode = element.getAttribute('mode') || 'public';
-                                    const result = await wxfns.upload(element, 'save-document', {name: filename, mode: mode}, selectedFile);
+                                    const result = await element.upload('save-document', {name: filename, mode: mode}, selectedFile);
                                     if (result.rc != 'success') {
                                         return;
                                     }
                                     
-                                    await wxfns.refresh(element);
+                                    await element.refresh();
                                 %>
                                 </click>
                             </icon>
@@ -56,16 +56,16 @@
                                 <tooltip>Delete document</tooltip>
                                 <click fname="_eventDeleteDocumentFromUploadList">
                                 <%
-                                    const element = event.target.closest('.wx-xten-uploaded-docs');
+                                    
                                     const row = event.target.closest('tr');
                                     const mode = element.getAttribute('mode') || 'public';
                                     const docname = row.getAttribute('docname');
-                                    const result = await wxfns.transaction(element, 'delete-document', {name: docname});
+                                    const result = await element.transaction('delete-document', {name: docname});
                                     if (result.rc != 'success') {
                                         return;
                                     }
                                     
-                                    await wxfns.refresh(element);
+                                    await element.refresh();
                                 %>
                                 </click>
                             </icon>

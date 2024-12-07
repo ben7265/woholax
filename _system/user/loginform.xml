@@ -2,15 +2,12 @@
     <useView>v.loginform</useView>
     <event name='submit'>
     <%
-        event.preventDefault();
-        const element = event.target;
-
         if (!validateForm(element)) {
             return;
         }
 
-        const data = wxfns.getFormData(element);
-        const result = await wxfns.transaction(element, 'login', data, true);
+        const data = element.validatedFormData();
+        const result = await element.transaction('login', data, true);
         if (result.rc != 'success') {
             element.getElementsByClassName('form_error')[0].innerText = result.rc;
             return;

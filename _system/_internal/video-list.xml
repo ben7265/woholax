@@ -26,7 +26,7 @@
                     <span>Select</span>
                     <click fname="_vlbSelectFile">
                     <%
-                        const element = event.target.closest('.wx-xten-video-list');
+                        
                         element.modal.save(element._selected);
                         const container = element.querySelector('.list-container');
                         container.innerHTML = '';
@@ -37,7 +37,7 @@
                     <span>Cancel</span>
                     <click fname="_vlbCancel">
                     <%
-                        const element = event.target.closest('.wx-xten-video-list');
+                        
                         const modal = event.target.closest('.wx-xten-modal');
                         element.modal.cancel();
                         const container = element.querySelector('.list-container');
@@ -55,7 +55,7 @@
 
         element.addEventListener('modal-video-list-dialog-opened', async (event) => {
             const selectedFile = event.detail ? event.detail.split('/').pop() : null;
-            const result = await wxfns.transaction(element, 'get-uploaded-files', {folder: 'videos', exts: 'webm, mp4'});
+            const result = await element.transaction('get-uploaded-files', {folder: 'videos', exts: 'webm, mp4'});
             if (result.rc != 'success') {
                 wxfns.error('Error getting files', result.rc);
                 return null;
@@ -71,7 +71,7 @@
                 video.setAttribute('controlsList', 'nodownload');
 
                 const title = document.createElement('div');
-                wxfns.addClass(title, 'file-name');
+                title.addClass('file-name');
                 title.innerText = _file;
                 if (_file == selectedFile) {
                     li.addClass('selected');
@@ -83,10 +83,10 @@
                 li.addEventListener('click', (event) => {
                     const list = container.querySelectorAll('.selected');
                     list.forEach(active => {
-                        wxfns.removeClass(active, 'selected');
+                        active.removeClass('selected');
                     });
                     const current = event.target.closest('.list-item');
-                    wxfns.addClass(current, 'selected');
+                    current.addClass('selected');
                     element._selected = 'uploads/videos/' + _file;
                 });
 
@@ -110,11 +110,11 @@
 
                     const list = container.querySelectorAll('.selected');
                     list.forEach(active => {
-                        wxfns.removeClass(active, 'selected');
+                        active.removeClass('selected');
                     });
                     
                     const current = event.target.closest('.list-item');
-                    wxfns.addClass(current, 'selected');
+                    current.addClass('selected');
                     element._selected = 'uploads/videos/' + _file;
                 });
 

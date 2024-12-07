@@ -85,7 +85,7 @@
 
     <initElement>
     <%
-        if (wxfns.hasClass(element, 'wx-state-editable')) {
+        if (element.hasClass('wx-state-editable')) {
             return;
         }
 
@@ -118,7 +118,6 @@
                 <add-class classes="start-show" />
                 <code>
                 <%
-                    const element = fntarget;
                     var time = element.getAttribute('interval') || '5';
                     time = parseInt(time) * 1000;
                     if (!time) {
@@ -146,7 +145,6 @@
             <click>
                 <remove-class classes="start-show" />
                 <code>
-                    const element = fntarget;
                     clearInterval(element.interval);
                     delete element.interval;
                 </code>

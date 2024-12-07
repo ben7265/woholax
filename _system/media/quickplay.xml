@@ -41,10 +41,10 @@
                 <click fname="_qvSaveShortVideo">
                     <upload name="save-video" file="changed-file" file-url="uploaded-url" />
                     <set-attrib name="src" child="video">
-                        toolbarParent['uploaded-url']
+                        element['uploaded-url']
                     </set-attrib>
                     <set-attrib name="src">
-                        toolbarParent['uploaded-url']
+                        element['uploaded-url']
                     </set-attrib>
                     <unset-var name="uploaded-url" />
                     <unset-var name="changed-file" />
@@ -55,7 +55,7 @@
                 <tooltip>cancel</tooltip>
                 <click fname="_qvCancelShortVideoSave">
                     <set-attrib name="src" child="video">
-                        toolbarParent.getAttribute('src')
+                        element.getAttribute('src')
                     </set-attrib>
                     <unset-var name="changed-file" />
                     <remove-class classes="quickplay-changed" />
@@ -81,7 +81,7 @@
                     </code>
                     <selectfile file-type="video/*" file="changed-file" />
                     <set-attrib name="src" child="video">
-                        URL.createObjectURL(toolbarParent['changed-file'])
+                        URL.createObjectURL(element['changed-file'])
                     </set-attrib>
                     <add-class classes="quickplay-changed" />
                 </event>
@@ -95,7 +95,7 @@
         const demo = urlParams.get('demo') == 'yes';
 
         if (demo) {
-            wxfns.addClass(element, 'wx-state-editable');
+            element.addClass('wx-state-editable');
             return;
         }
 

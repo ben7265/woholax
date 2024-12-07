@@ -6,33 +6,24 @@
     window.location.reload();
 </function>
 
-<!--function name="xxxtransaction-parent">
-    const result = await wxfns.transaction(toolbarParent, '[$name]', [$data||null]);
-    if (result.rc != 'success') {
-        return;
-    }
-    toolbarParent['[$output]'] = result.output;
-</function -->
-
 <function name="transaction">
-    var target = toolbarParent;
     if ('[$target]' == 'event-target') {
-        target = eventCurrentTarget;
+        element = eventCurrentTarget;
     }
-    const result = await wxfns.transaction(target, '[$name]', [$data||null]);
+    const result = await element.transaction('[$name]', [$data||null]);
     if (result.rc != 'success') {
         return;
     }
-    toolbarParent['[$output]'] = result.output;
+    element['[$output]'] = result.output;
 </function>
 
 <function name="upload">
     var formData = null;
-    const result = await wxfns.upload(toolbarParent, '[$name]', {width: toolbarParent.offsetWidth, height: toolbarParent.offsetHeight}, toolbarParent['[$file]']);
+    const result = await element.upload('[$name]', {width: element.offsetWidth, height: element.offsetHeight}, element['[$file]']);
     if (result.rc != 'success') {
         return;
     }
-    toolbarParent['[$file-url]'] = result.output;
+    element['[$file-url]'] = result.output;
 </function>
 
 <function name="confirm">
@@ -50,15 +41,15 @@
 </function>
 
 <function name="selectfile">
-    toolbarParent['[$file]'] = await wxfns.selectFile('[$file-type]');
+    element['[$file]'] = await wxfns.selectFile('[$file-type]');
 </function>
 
 <function name="remove-class">
-    wxfns.removeClass(fntarget, '[$classes]');
+    fntarget.removeClass('[$classes]');
 </function>
 
 <function name="add-class">
-    wxfns.addClass(fntarget, '[$classes]');
+    fntarget.addClass('[$classes]');
 </function>
 
 <function name="unset-var">
@@ -77,7 +68,7 @@
 
 <function name="get-value">
     const fargs = [$_fargs];
-    fargs.value = toolbarParent[fargs.value];
+    fargs.value = element[fargs.value];
     const value = await wxfns.getUserValue('[$name]', '[$type]', '[$title]', fargs);
     if (value == null) {
         return;
@@ -145,11 +136,11 @@
     <%
     var result = null;
     if ('[$value||null]' != 'null') {
-        result = await wxfns.transaction(eventCurrentTarget, 'save-page-data', '[$value]');
+        result = await eventCurrentTarget.transaction('save-page-data', '[$value]');
     }
     else
     {
-        result = await wxfns.transaction(eventCurrentTarget, 'save-page-data', [$_text]);
+        result = await eventCurrentTarget.transaction('save-page-data', [$_text]);
     }
     if (result && result.rc != 'success') {
         return;
