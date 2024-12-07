@@ -1,0 +1,65 @@
+### License Agreement for Wohola X  
+
+#### 1. **Introduction**  
+This License Agreement ("Agreement") is a legal agreement between the end user ("You") and the owner of Wohola X, **Pankaj Goel** ("Licensor"). By downloading, installing, or using the Wohola X software and its components, You agree to be bound by the terms of this Agreement.  
+
+---
+
+#### 2. **Definitions**  
+- **Wohola X**: Refers to the software package, including all components and executables.  
+- **Xtens**: Open-source components of Wohola X, governed by specific open-source licenses, as outlined in this Agreement.  
+- **Executable Files**: Non-open-source components of Wohola X provided in executable form.  
+
+---
+
+#### 3. **License Grant**  
+1. **Xtens (Open-Source Components)**:  
+   - The Xtens components are licensed under the **GNU General Public License Version 3.0 (GPL-3.0)**. A full copy of the GPL-3.0 terms is included in the distribution and is also available online.  
+   - You are free to use, modify, and redistribute the open-source components, provided you comply with the terms of the GPL-3.0 license.  
+   - Modifications or redistributions of Xtens must include proper attribution to the original source and maintain the same licensing terms.  
+
+2. **Executable Files**:  
+   - **Educational Use**: Free to use for educational institutions, students, and individual users for learning purposes.  
+   - **Small Businesses**: Free to use for companies with fewer than 100 employees.  
+   - **Commercial Use by Larger Companies**: Companies with 100 or more employees must purchase a commercial license from an **Authorised Wohola X Solution Provider**.  
+
+---
+
+#### 4. **Additional Terms for Open-Source Components**  
+- The open-source components of Wohola X may depend on or interact with other open-source libraries. These dependencies retain their respective licenses.  
+- You must not integrate Xtens into proprietary software in a manner that violates GPL-3.0 terms.  
+
+---
+
+#### 5. **Restrictions**  
+- You may not reverse-engineer, decompile, or disassemble the Executable Files.  
+- Redistribution of the Executable Files, in whole or in part, is prohibited without prior written consent from Pankaj Goel.  
+- Unauthorized commercial use by larger companies (100 or more employees) is strictly prohibited.  
+
+---
+
+#### 6. **Liability Disclaimer**  
+- **As-Is Provision**: The software is provided "as-is," without any express or implied warranties, including but not limited to warranties of merchantability or fitness for a particular purpose.  
+- **No Liability**: Pankaj Goel shall not be liable for any damages, including but not limited to direct, indirect, incidental, or consequential damages, arising out of the use or inability to use the software.  
+- **Indemnification**: You agree to indemnify and hold harmless Pankaj Goel from any claims, liabilities, or damages arising from your use of the software.  
+
+---
+
+#### 7. **Governing Law**  
+This Agreement shall be governed by and construed in accordance with the laws of England and Wales. Any disputes arising under or in connection with this Agreement shall be subject to the exclusive jurisdiction of the courts of England and Wales.  
+
+---
+
+#### 8. **Termination**  
+- Pankaj Goel reserves the right to terminate this Agreement if You fail to comply with its terms. Upon termination, You must cease all use of the software and delete all copies in your possession.  
+
+---
+
+#### 9. **Amendments**  
+Pankaj Goel reserves the right to amend these terms at any time, with such amendments taking effect upon notice or publication.  
+
+---
+
+#### 10. **Acceptance**  
+By downloading, installing, or using Wohola X, You acknowledge that You have read and understood this Agreement and agree to be bound by its terms.  
+
