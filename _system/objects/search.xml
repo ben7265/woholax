@@ -29,6 +29,7 @@
                     <tooltip>Search</tooltip>
                     <click fname="_searchClick">
                     <%
+                        var element = wxfns.getToolbarParent(event);
                         const value = element.closest('.search-wrapper').querySelector('input.search').value;
                         
                         if (!value) {

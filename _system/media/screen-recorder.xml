@@ -34,7 +34,7 @@
             <tooltip>record screen</tooltip>
             <click fname="_recordScreen">
             <%
-                
+                var element = wxfns.getToolbarParent(event);
                 element.addClass('recording');
                 const viewer = element.querySelector('[name="screen-preview"]');
                 const player = element.querySelector('[name="screen-play"]');
@@ -84,7 +84,7 @@
             <tooltip>stop screen recording</tooltip>
             <click fname="_stopScreenRecording">
             <%
-                
+                var element = wxfns.getToolbarParent(event);
                 if (element.mediaRecorder) {
                     element.mediaRecorder.stop();
                     delete element.mediaRecorder;

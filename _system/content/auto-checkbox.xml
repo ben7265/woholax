@@ -1,0 +1,76 @@
+<xten name="auto-checkbox" element="div">
+    <allow>admin</allow>
+    <mandatory>name</mandatory>
+
+    <event name="input" fname="_autoSaveCheckboxEventInput">
+    <%
+        const target = event.currentTarget;
+        const input = event.target;
+
+        const checkboxValues = [];
+        const checkboxes = target.querySelectorAll('input');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                checkboxValues.push(checkbox.value);
+            }
+        });
+
+        const result = await target.transaction('save-page-data', checkboxValues);
+        if (result.rc != 'success') {
+            return;
+        }
+    %>
+    </event>
+
+    <init>
+    <%
+        const options = {};
+        if (node.text) {
+            const list = node.text.trim().split(/\s*\,\s*/);
+            list.forEach(_item => {
+                var key = _item.toLowerCase();
+                key = key.replace(/[^a-z0-9\-]+/g, '-');
+                options[key] = _item;
+            });
+            node.text = '';
+        }
+        else {
+            node.children.forEach(_child => {
+                options[_child.tag] = _child.text ? _child.text.trim() : _child.tag;
+            });
+        }
+        node.empty();
+
+        for (let key in options) {
+            const id = common.uuid();
+
+            const checkbox = new DomNode('input');
+            checkbox.attribs.id = id;
+            checkbox.attribs.value = key;
+            checkbox.attribs.type = 'checkbox';
+            checkbox.attribs.name = node.attribs.name;
+            node.addChild(checkbox);
+
+            const label = new DomNode('label');
+            label.text = options[key];
+            label.attribs.for = id;
+            node.addChild(label);
+        }
+    %>
+    </init>
+
+    <load>
+    <%
+        const values = await database.inlineValue(node, context, xten);
+        const checkboxes = node.findChildren('[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (values.indexOf(checkbox.attribs.value) == -1) {
+                delete checkbox.attribs.checked;
+            }
+            else {
+                checkbox.attribs.checked = 'true';
+            }
+        });
+    %>
+    </load>
+</xten>

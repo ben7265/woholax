@@ -24,6 +24,7 @@
                                 <tooltip>Add document</tooltip>
                                 <click fname="_eventAddDocumentToVector">
                                 <%
+                                    var element = event.target.closest('.wx-xten-vector-docs');
                                     const selectedFile = await wxfns.selectFile('.doc,.docx,.pptx,.pdf,.txt');
                                     const filename = selectedFile.name;
                                     
@@ -41,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr name="row-template" docname="[$docname]" style="display: none">
+                <tr name="row-template" style="display: none">
                     <td>
                         <align name="sno">
                             [$sno]
@@ -58,10 +59,10 @@
                                 <tooltip>Delete document</tooltip>
                                 <click fname="_eventDeleteDocumentFromVector">
                                 <%
-                                    
+                                    var element = event.target.closest('.wx-xten-vector-docs');
                                     const row = event.target.closest('tr');
-                                    const docname = row.getAttribute('docname');
-                                    const result = await element.transaction('delete-vector-document', {filename: docname});
+                                    const name = row.getAttribute('docname');
+                                    const result = await element.transaction('delete-vector', {type: 'file', name: name});
                                     if (result.rc != 'success') {
                                         return;
                                     }
@@ -80,7 +81,7 @@
     <load>
     <%
         const body = node.findOne('tbody');
-        const template = node.findOne('[name="row-template"]');
+        const template = node.findOne('[name="row-template"]').clone();
         body.empty();
 
         body.addChild(template);
@@ -99,6 +100,7 @@
             delete tr.attribs.style;
             delete tr.attribs.name;
             tr.attribs.docname = value[i];
+            tr.attribs.type = 'file';
             const snode = tr.findOne('[name="sno"]');
             snode.text = sno.toString();
             sno++;

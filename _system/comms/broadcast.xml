@@ -27,14 +27,14 @@
             <tooltip>Start Broadcast</tooltip>
             <event name="click" fname="_fnStartBroadcast">
             <%
-                
-                
+                var element = wxfns.getToolbarParent(event);
                 element.peerConnection = new RTCPeerConnection(peerConnectionConfig);
 
                 element.localStream.getTracks().forEach(track => element.peerConnection.addTrack(track, element.localStream));
 
                 element.peerConnection.onicecandidate = event => {
                     if (event.candidate) {
+                        console.debug('Sending ICE candidate:', event.candidate);
                         websocket.emit('ice-candidate', event.candidate);
                     }
                 };
@@ -71,14 +71,13 @@
             <tooltip>Stop Broadcast</tooltip>
             <click fname="_fn_stopBroadcast">
             <%
-                
-
+                var element = wxfns.getToolbarParent(event);
                 if (element.localStream) {
                     element.localStream.getTracks().forEach(track => track.stop());
                 }
 
                 if (element.peerConnection) {
-                    element.peerConnection.close();
+                    await element.peerConnection.close();
                 }
 
                 delete element.localStream;
@@ -105,7 +104,7 @@
         const _init = async () => {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
-            const viewer = element.querySelector('[name="preview"]');
+            const viewer = element.querySelector('video[name="preview"]');
 
             stream.getAudioTracks().forEach(track => track.enabled = false);
 

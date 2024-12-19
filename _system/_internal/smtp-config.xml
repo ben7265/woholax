@@ -21,8 +21,8 @@
         <screencover class="edit-email-text">
             <pos-top-right right="20px" style="z-index: 1">
                 <icon name="cross">
-                    <click>
-                        
+                    <click fname="_smtpSettingsClose">
+                        var element = wxfns.getToolbarParent(event);
                         element.removeClass('show-email');
                     </click>
                 </icon>
@@ -55,15 +55,16 @@
     <toolbar>
         <icon name="at">
             <tooltip>email configuration</tooltip>
-            <click>
-                
+            <click fname="_smtpSettingsAt">
+                var element = wxfns.getToolbarParent(event);
                 element.addClass('show-email');
             </click>
         </icon>
-                <icon name="system">
+        <icon name="system">
             <tooltip>SMTP Settings</tooltip>
-            <click>
+            <click fname="_smtpSettingsSystem">
                 <%
+                    var element = wxfns.getToolbarParent(event);
                     const form = element.closest('.wx-xten-smtp-config');
                     const keydata = {
                         name: 'smtp-settings',

@@ -2,6 +2,14 @@
     [$_text]
 </function>
 
+<function name="toolbar-element">
+    var element = wxfns.getToolbarParent(event);
+</function>
+
+<function name="closest-element">
+    var element = event.target.closest('[$selector]');
+</function>
+
 <function name="reload">
     window.location.reload();
 </function>

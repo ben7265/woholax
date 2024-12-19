@@ -3,8 +3,8 @@
 
     <container name="page-body">
         <!--video-recorder name="test-record" /-->
-        <watch name="test-broadcast" />
+        <watch name="test-broadcast"  style="width: 500px; margin: auto;" />
     </container>
 
-    #include includes/footer.xml
+    <!-- #include includes/footer.xml -->
 </page>

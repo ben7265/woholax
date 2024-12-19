@@ -4,23 +4,58 @@
         position: relative;
         display: inline-block;
     </style>
+
     <nodeStyle>
         width: [$width||30px];
         height: [$height||30px];
         border: [$border||1px solid grey];
-        background: [$background-color||#efefef];
+        background-color: [$background-color||#efefef];
         [$icon-style||];
     </nodeStyle>
 
     <init>
     <%
         const name = node.getValue('name');
+        const inline = node.getValue('inline');
 
-        const url = 'icons/' + name + '.svg';
-        const img = new DomNode('img');
-        img.attribs.src = url;
-        img.attribs.style = 'width: 100%; height: 100%';
-        node.addChild(img);
+        if (inline == 'true') {
+            const result = files.read('public/icons/' + name + '.svg', context.siteRoot);
+            if (result.rc != 'success') {
+                const child = code.newChild('div');
+                child.text = '.';
+            }
+            const filepath = 'public/icons/' + name + '.svg';
+            const _lines = preprocessor(filepath, context.siteRoot);
+            if (!_lines) {
+                common.error('could not parse file : ' + filepath);
+                node.attribs.error('could not parse file : ' + filepath);
+                return;
+            }
+            const root = parser(_lines, filepath, context.siteRoot);
+            const svg = root.findChildren('svg')[0];
+            if (!svg.attribs.viewBox) {
+                svg.attribs.viewBox = '0 0 ' + svg.attribs.width + ' ' + svg.attribs.height;
+            }
+            delete svg.attribs.width;
+            delete svg.attribs.height;
+
+            const defs = svg.findChild('defs');
+            if (defs) {
+                defs.remove();
+                const g = svg.findChild('g');
+                delete g.attribs['clip-path'];
+            }
+
+            node.addChild(svg);
+        }
+        else
+        {
+            const url = 'icons/' + name + '.svg';
+            const img = new DomNode('img');
+            img.attribs.src = url;
+            img.attribs.style = 'width: 100%; height: 100%';
+            node.addChild(img);
+        }
     %>
     </init>
 </xten>

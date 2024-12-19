@@ -21,6 +21,7 @@
                                 <tooltip>Add document</tooltip>
                                 <click fname="_eventAddDocumentToUploadList">
                                 <%
+                                    var element = wxfns.getToolbarParent(event);
                                     const selectedFile = await wxfns.selectFile('.doc,.docx,.pptx,.pdf,.txt');
                                     const filename = selectedFile.name;
                                     
@@ -56,7 +57,7 @@
                                 <tooltip>Delete document</tooltip>
                                 <click fname="_eventDeleteDocumentFromUploadList">
                                 <%
-                                    
+                                    var element = wxfns.getToolbarParent(event);
                                     const row = event.target.closest('tr');
                                     const mode = element.getAttribute('mode') || 'public';
                                     const docname = row.getAttribute('docname');

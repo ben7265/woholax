@@ -114,10 +114,11 @@
     <toolbar enhance="append">
         <icon name="show" class="show-button">
             <tooltip>Start Slide Show</tooltip>
-            <click>
+            <click fname="_carouselStartShow">
                 <add-class classes="start-show" />
                 <code>
                 <%
+                    var element = wxfns.getToolbarParent(event);
                     var time = element.getAttribute('interval') || '5';
                     time = parseInt(time) * 1000;
                     if (!time) {
@@ -142,9 +143,10 @@
         </icon>
         <icon name="stop" class="stop-button">
             <tooltip>Stop Slide Show</tooltip>
-            <click>
+            <click fname="_carounselStopShow">
                 <remove-class classes="start-show" />
                 <code>
+                    const element = wxfns.getToolbarParent(event);
                     clearInterval(element.interval);
                     delete element.interval;
                 </code>

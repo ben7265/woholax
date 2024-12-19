@@ -39,6 +39,7 @@
         <icon name="save">
             <tooltip>upload video</tooltip>
             <click fname="_vpSaveShortVideo">
+                <toolbar-element/>
                 <upload name="save-video" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="video">
                     element['uploaded-url']
@@ -54,6 +55,7 @@
         <icon name="close">
             <tooltip>cancel</tooltip>
             <click fname="_vpCancelShortVideoSave">
+                <toolbar-element/>
                 <set-attrib name="src" child="video">
                     element.getAttribute('src')
                 </set-attrib>
@@ -66,6 +68,7 @@
             <event name="click" fname="_vpUploadVideo">
                 <code>
                 <%
+                    var element = wxfns.getToolbarParent(event);
                     const urlParams = new URLSearchParams(window.location.search);
                     const demo = urlParams.get('demo') == 'yes';
 
@@ -87,10 +90,11 @@
             </event>
         </icon>
         <!-- ### to be fixed video-list modal view is not evaluated properly -->
-        <!--icon name="folder-open">
+        <icon name="folder-open">
             <tooltip>select video from server</tooltip>
             <event name="click" fname="_vpSelectServerVideo">
             <%
+                var element = wxfns.getToolbarParent(event);
                 const urlParams = new URLSearchParams(window.location.search);
                 const demo = urlParams.get('demo') == 'yes';
 
@@ -112,7 +116,7 @@
                 }
             %>
             </event>
-        </icon -->
+        </icon>
     </toolbar>
 
     <initElement>

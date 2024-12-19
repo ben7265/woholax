@@ -15,6 +15,7 @@
         <icon name="remove" object-type="[@object-type]" object-name="[@object-name]">
             <tooltip>delete [@object-label] </tooltip>
             <click fname="_eventObjectDelete">
+                <toolbar-element/>
                 <confirm>Do you want to delete object [@object-name]?</confirm>
                 <transaction name="delete-object" target="event-target" />
                 <reload/>

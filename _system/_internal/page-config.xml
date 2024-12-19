@@ -14,7 +14,7 @@
                 <tooltip>select image</tooltip>
                 <click fname="_backgroundUploadImage">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const selectedFile = await wxfns.selectFile('image/*');
                     element['changed-file'] = selectedFile;
                     const body = document.querySelector('body');
@@ -27,8 +27,7 @@
                 <tooltip>save image</tooltip>
                 <click fname="_backgroundSaveImage">
                 <%
-                    
-
+                    var element = wxfns.getToolbarParent(event);
                     const target = document.createElement('div');
                     target.setAttribute('name', 'page-styles');
                     target.setAttribute('data-selector', 'page-styles.page-background-image');
@@ -51,7 +50,7 @@
                 <tooltip>cancel</tooltip>
                 <click fname="_backgroundCancelImage">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const body = document.querySelector('body');
                     const url = element.getAttribute('page-background-image');
                     body.style['background-image'] = 'url(' + url + ')';
@@ -64,7 +63,7 @@
                 <tooltip>background color</tooltip>
                 <click fname="_backgroundColor">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-background-color');
 
@@ -98,7 +97,7 @@
                 <tooltip>filter color</tooltip>
                 <click fname="_backgroundFilterColor">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-filter-color');
 
@@ -132,7 +131,7 @@
                 <tooltip>filter opacity</tooltip>
                 <click fname="_backgroundFilterOpacity">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const body = document.querySelector('body');
                     const prev = element.getAttribute('page-filter-opacity');
 
@@ -171,7 +170,7 @@
                         return;
                     }
 
-                    
+                    var element = wxfns.getToolbarParent(event);
                     const result = await element.transaction('delete-background');
                     if (result.rc != 'success') {
                         return;

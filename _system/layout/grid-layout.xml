@@ -19,7 +19,7 @@
             <tooltip>add layer</tooltip>
             <click>
             <%
-                
+                var element = wxfns.getToolbarParent(event);
             %>
             </click>
         </icon>

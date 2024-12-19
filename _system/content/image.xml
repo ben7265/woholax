@@ -5,6 +5,7 @@
         <img src="[$src||images/blank.svg]" alt="[$alt||$name]" onerror="this.onerror=null; this.src='images/error.svg';" >
             <click fname="_imageLinkClick">
             <%
+                const element = event.target.closest('.wx-xten-image');
                 const href = element.getAttribute('href');
                 if (href) {
                     window.location.href = href;
@@ -18,6 +19,7 @@
         <icon name="save">
             <tooltip>save image</tooltip>
             <click fname="_imageSaveImage">
+                <toolbar-element/>
                 <upload name="save-image" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="img">
                     element['uploaded-url']
@@ -33,6 +35,7 @@
         <icon name="close">
             <tooltip>cancel</tooltip>
             <click fname="_imageCancelImageSave">
+                <toolbar-element/>
                 <set-attrib name="src" child="img">
                     element.getAttribute('src')
                 </set-attrib>
@@ -45,6 +48,7 @@
             <event name="click" fname="_imageUploadImage">
                 <code>
                 <%
+                    var element = wxfns.getToolbarParent(event);
                     const urlParams = new URLSearchParams(window.location.search);
                     const demo = urlParams.get('demo') == 'yes';
 
@@ -77,7 +81,7 @@
                     return;
                 }
 
-                
+                var element = wxfns.getToolbarParent(event);
                 const value = await wxfns.getUserValue('hyperlink', 'hyperlink', 'Hyperlink', {value: element.getAttribute('href')});
                 const result = await element.transaction('add-hyperlink', value);
                 if (value) {
@@ -90,8 +94,7 @@
             %>
             </event>
         </icon>
-        <!-- ### to be fixed image-list modal view is not evaluated properly -->
-        <!--icon name="folder-open">
+        <icon name="folder-open">
             <tooltip>select image from server</tooltip>
             <event name="click" fname="_imageSelectServerImage">
             <%
@@ -103,6 +106,7 @@
                     return;
                 }
 
+                var element = wxfns.getToolbarParent(event);
                 const image = element.querySelector('img');
                 const url = image.getAttribute('src');
 
@@ -120,7 +124,7 @@
                 }
             %>
             </event>
-        </icon -->
+        </icon>
     </toolbar>
 
     <style>

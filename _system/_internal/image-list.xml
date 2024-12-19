@@ -1,21 +1,68 @@
 <xten name="image-list" element="div">
     <style>
-        width: 100%;
-        height: 100%;
+        width: 90%;
+        height: 90%;
         overflow-y: scroll;
         background-color: #f3f3f3;
         border: 1px solid lightgrey;
     </style>
 
     <css>
-        .wx-xten-image-list ._heading {background-color: lightgrey; padding: 5px; text-align: center; font-weight: bold; border: 1px solid black}
-        .wx-xten-image-list .list-container {display: flex; align-items: center; gap: 10px; align-items: stretch; flex-wrap: wrap;}
-        .wx-xten-image-list .list-item {flex: 200px 200px 0; width: 200px; border: 1px solid lightgrey; text-align: center; position: relative;}
-        .wx-xten-image-list .list-item img {object-fit: cover; object-position: center; width: 100%; aspect-ratio: calc(16/9);}
-        .wx-xten-image-list .list-item .file-name {display: block; background-color: white; border: 1px solid lightgrey; padding: 5px;}
-        .wx-xten-image-list .list-item.selected {background-color: grey; border: 2px solid blue;}
-        .wx-xten-image-list .button-panel {padding-top: 10px; text-align: center;}
-        .wx-xten-image-list .button-panel button {padding: 10px; text-align: center; background-color: lightblue; font-size: 20px;}
+        .wx-xten-image-list ._heading {
+            background-color: lightgrey; 
+            padding: 5px; 
+            text-align: center; 
+            font-weight: bold; 
+            border: 1px solid black
+        }
+        
+        .wx-xten-image-list .list-container {
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            flex-wrap: wrap;
+            max-height: 500px;
+            overflow-y: scroll;
+        }
+
+        .wx-xten-image-list .list-item {
+            flex: 200px 200px 0; 
+            width: 200px; 
+            border: 1px solid lightgrey; 
+            text-align: center; 
+            position: relative;
+        }
+
+        .wx-xten-image-list .list-item img {
+            object-fit: cover; 
+            object-position: center; 
+            width: 100%; 
+            aspect-ratio: calc(16/9);
+        }
+
+        .wx-xten-image-list .list-item .file-name {
+            display: block; 
+            background-color: white; 
+            border: 1px solid lightgrey; 
+            padding: 5px;
+        }
+
+        .wx-xten-image-list .list-item.selected {
+            background-color: grey; 
+            border: 2px solid blue;
+        }
+
+        .wx-xten-image-list .button-panel {
+            padding-top: 10px; 
+            text-align: center;
+        }
+
+        .wx-xten-image-list .button-panel button {
+            padding: 10px; 
+            text-align: center; 
+            background-color: lightblue; 
+            font-size: 20px;
+        }
     </css>
 
     <view>
@@ -26,8 +73,8 @@
                     <span>Select</span>
                     <click fname="_ilbSelectFile">
                     <%
-                        
-                        element.modal.save(element._selected);
+                        const element = event.target.closest('.wx-xten-image-list');
+                        element._modal.save(element._selected);
                         const container = element.querySelector('.list-container');
                         container.innerHTML = '';
                     %>
@@ -37,8 +84,8 @@
                     <span>Cancel</span>
                     <click fname="_ilbCancel">
                     <%
-                        
-                        element.modal.cancel();
+                        const element = event.target.closest('.wx-xten-image-list');
+                        element._modal.cancel();
                         const container = element.querySelector('.list-container');
                         container.innerHTML = '';
                     %>
@@ -50,7 +97,7 @@
 
     <initElement>
     <%
-        element.modal = element.querySelector('.wx-xten-modal');
+        element._modal = element.querySelector('.wx-xten-modal');
 
         element.addEventListener('modal-image-list-dialog-opened', async (event) => {
             const selectedFile = event.detail ? event.detail.split('/').pop() : null;
@@ -88,7 +135,7 @@
 
                 li.addEventListener('dblclick', () => {
                     element._selected = 'uploads/images/' + _file;
-                    element.modal.save(element._selected);
+                    element._modal.save(element._selected);
                 });
 
                 li.addEventListener('touchend', (event) => {
@@ -97,7 +144,7 @@
 
                     if (tapTime < 300 && tapTime > 0) {
                         element._selected = 'uploads/images/' + _file;
-                        element.modal.save(element._selected);                        
+                        element._modal.save(element._selected);                        
                         event.preventDefault();
                         return;
                     }

@@ -5,14 +5,14 @@
         <icon name="menu">
             <tooltip>open navbar</tooltip>
             <click name="_nbOpenNavbar">
-                
+                var element = wxfns.getToolbarParent(event);
                 element.addClass('open');
             </click>
         </icon>
         <icon name="menu-close">
             <tooltip>open navbar</tooltip>
             <click name="_nbCloseNavbar">
-                
+                var element = wxfns.getToolbarParent(event);
                 element.removeClass('open');
             </click>
         </icon>

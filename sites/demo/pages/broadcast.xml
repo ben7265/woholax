@@ -3,8 +3,9 @@
 
     <container name="page-body">
         <!--video-recorder name="test-record" /-->
-        <broadcast name="test-broadcast" />
+        <broadcast name="test-broadcast" style="width: 500px; margin: auto;" />
     </container>
+    <gap height="30px"/>
 
-    #include includes/footer.xml
+    <!-- #include includes/footer.xml -->
 </page>

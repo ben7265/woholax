@@ -1,0 +1,75 @@
+<xten name="rating" element="div">    
+    <allow>admin</allow>
+    <mandatory>name</mandatory>
+
+    <css>
+        .wx-xten-rating .wx-xten-icon {
+            border: initial;
+            background-color: initial;
+        }
+
+        .wx-xten-rating .checked svg { 
+            fill: orange;
+        };
+    </css>
+
+    <init>
+    <%
+        node.empty();
+        for (let i = 1; i <= 5; i++) {
+            const star = new DomNode('icon');
+            star.attribs.class = "star";
+            star.attribs.name = 'star';
+            star.attribs.inline = 'true';
+            star.attribs.idx = i.toString();
+            star.attribs.border = 'none';
+            star.attribs['background-color'] = 'initial';
+            node.addChild(star);
+        }
+    %>
+    </init>
+
+    <load>
+    <%
+        const rating = await database.inlineValue(node, context, xten);
+        node.attribs['star-value'] = rating;
+
+        if (rating) {
+            for (let i = 1; i <= 5; i++) {
+                const star = node.findChild(`[idx="${i}"]`);
+
+                if (i <= rating) {
+                    star.addClass('checked');
+                }
+                else {
+                    star.removeClass('checked');
+                }
+            }
+        }
+    %>
+    </load>
+
+    <event name="click" fname="_ratingEventClick">
+    <%
+        const target = event.currentTarget;
+        const star = event.target.closest('.star');
+        const num = parseInt(star.getAttribute('idx') || 0);
+
+        const stars = target.querySelectorAll('.star');
+
+        stars.forEach(_star => {
+            const idx = parseInt(_star.getAttribute('idx') || 0);
+            _star.removeClass('checked');
+            if (idx <= num) {
+                _star.addClass('checked');
+            }
+        });
+
+        const result = await target.transaction('save-page-data', num);
+        if (result.rc != 'success') {
+            return;
+        }
+    %>
+    </event>
+
+</xten>

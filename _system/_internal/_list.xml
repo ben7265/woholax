@@ -2,7 +2,7 @@
     <toolbar name="list-toolbar" class="list-toolbar" right="31px">
         <icon name="add">
             <tooltip>add new list item</tooltip>
-            <click>
+            <click fname="_lstAddNewChild">
             <%
                 const urlParams = new URLSearchParams(window.location.search);
                 const demo = urlParams.get('demo') == 'yes';
@@ -12,6 +12,7 @@
                     return;
                 }
                 
+                var element = wxfns.getToolbarParent(event);
                 const result = await element.transaction('add-list-item');
                 element.refresh();
             %>
@@ -162,6 +163,7 @@
                     return;
                 }
                 
+                var element = wxfns.getToolbarParent(event);
                 const result = await element.transaction('delete-list-item');
                 const list = element.closest('.wx-xten-_list');
                 list.refresh();

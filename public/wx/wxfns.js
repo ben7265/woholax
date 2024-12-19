@@ -437,6 +437,11 @@ const wxfns = {
             return toolbar.parentElement;
         }
 
+        var target = element.closest('[target]');
+        if (target) {
+            return element.closest(target.getAttribute('target'));
+        }
+
         return element;
     },
 

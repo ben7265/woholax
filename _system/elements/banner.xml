@@ -54,7 +54,7 @@
             <icon name="left">
                 <click fname="_fnBannerLeftClick">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     var active = element.querySelector('.wx-xten-listitem.active');
                     idx = parseInt(active ? active.getAttribute('list-idx') : '0');
                     if (active) {
@@ -73,7 +73,7 @@
             <icon name="right">
                 <click fname="_fnBannerRightClick">
                 <%
-                    
+                    var element = wxfns.getToolbarParent(event);
                     var active = element.querySelector('.wx-xten-listitem.active');
                     const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
                     if (active) {

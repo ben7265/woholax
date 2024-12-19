@@ -3,7 +3,7 @@
 
     <event name="change">
     <%
-        
+        const element = event.target;
         element.transaction('save-page-data', element.value || null);
     %>
     </event>

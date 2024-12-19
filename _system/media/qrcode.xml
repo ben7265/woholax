@@ -34,7 +34,7 @@
             <tooltip>add qr code</tooltip>
             <click fname="_addQRCode">
             <%
-                
+                var element = wxfns.getToolbarParent(event);
                 const value = await wxfns.getUserValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
 
                 await element.transaction('save-page-data', value.trim());
