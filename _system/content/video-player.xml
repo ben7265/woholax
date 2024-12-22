@@ -40,7 +40,7 @@
             <tooltip>upload video</tooltip>
             <click fname="_vpSaveShortVideo">
                 <toolbar-element/>
-                <upload name="save-video" file="changed-file" file-url="uploaded-url" />
+                <upload name="save-media" file="changed-file" file-url="uploaded-url" />
                 <set-attrib name="src" child="video">
                     element['uploaded-url']
                 </set-attrib>
@@ -69,9 +69,7 @@
                 <code>
                 <%
                     var element = wxfns.getToolbarParent(event);
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const demo = urlParams.get('demo') == 'yes';
-
+                    const demo = query.demo == 'yes';
                     if (demo) {
                         const file = await wxfns.selectFile('video/*');
                         const url = URL.createObjectURL(file);
@@ -89,15 +87,31 @@
                 <add-class classes="quickplay-changed" />
             </event>
         </icon>
-        <!-- ### to be fixed video-list modal view is not evaluated properly -->
-        <icon name="folder-open">
+        <icon name="remove-media">
+            <tooltip>delete video</tooltip>
+            <click fname="_vpDelete">
+            <%
+                if (query.demo == 'yes') {
+                    wxfns.error('Demo Mode', 'Cannot remove file in demo mode');
+                    return;
+                }
+
+                const element = wxfns.getToolbarParent(event);
+                const result = await element.transaction('remove-media');
+                if (result.rc != 'success') {
+                    return;
+                }
+
+                element.refresh();
+            %>
+            </click>
+        </icon>
+        <!--icon name="folder-open">
             <tooltip>select video from server</tooltip>
             <event name="click" fname="_vpSelectServerVideo">
             <%
                 var element = wxfns.getToolbarParent(event);
-                const urlParams = new URLSearchParams(window.location.search);
-                const demo = urlParams.get('demo') == 'yes';
-
+                const demo = query.demo == 'yes';
                 if (demo) {
                     wxfns.inform('Server images can be browsed by clicking on folder');
                     return;
@@ -116,14 +130,12 @@
                 }
             %>
             </event>
-        </icon>
+        </icon-->
     </toolbar>
 
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
-
+        const demo = query.demo == 'yes';
         if (demo) {
             element.addClass('wx-state-editable');
             return;

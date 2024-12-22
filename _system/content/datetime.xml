@@ -28,10 +28,10 @@
         const _day = (new Date(value)).getDay();
 
         const subs = {
-            DD: day,
-            MM: month,
-            YY: year.slice(2),
-            YYYY: year,
+            dd: day,
+            mm: month,
+            yy: year.slice(2),
+            yyyy: year,
             hh: hr,
             mm: min,
             ss: sec,

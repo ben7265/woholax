@@ -24,8 +24,7 @@
 
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
+        const demo = query.demo == 'yes';
 
         if (demo) {
             element.setAttribute('contenteditable', true);
@@ -86,8 +85,7 @@
     <%
         const text = element.innerText.trim();
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
+        const demo = query.demo == 'yes';
 
         if (demo) {
             sessionStorage.setItem('inline:' + element.getAttribute('name'), element.innerText.trim());

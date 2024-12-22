@@ -1,5 +1,5 @@
-<xten name="repeat" element="div">
-    <load>
+<xten name="repeat" element="_children">
+    <init>
         <%
         const output = new DomNode('div');
         const children = node.children;
@@ -21,5 +21,5 @@
         node.empty();
         node.insertChildren(0, wrapper.children);
         %>
-    </load>
+    </init>
 </xten>

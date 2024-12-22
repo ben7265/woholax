@@ -301,7 +301,7 @@
             return result;
         }
 
-        context.forceRefresh();
+        await context.forceRefresh();
         return {rc: 'success'};
     %>
     </txn>

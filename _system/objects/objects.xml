@@ -58,7 +58,7 @@
         const _selector = node.getValue('selector');
         const dbquery = node.getValue('query');
 
-        const selector = {
+        var selector = {
             type: objType
         };
 
@@ -75,11 +75,8 @@
         }
 
         if (_selector) {
-            const list = _selector.split(/\s*\,\s*/);
-            list.forEach(li => {
-                const [field, value] = list.split(/\s*\:\s*/);
-                selector[field] = value;
-            });
+            const list = common.nameValueStr2Json(_selector);
+            selector = common.extend(selector, list);
         }
 
         if (dbquery) {
@@ -96,7 +93,9 @@
             }
         }
 
-        const data = await database.count(selector, objConfig.collection);
+        const collection = node.getValue('collection') || objConfig.collection || 'object_data';
+
+        const data = await database.count(selector, collection);
         if (data.rc != 'success') {
             common.nodeerror('System Error', data.rc);
             return;
@@ -112,9 +111,9 @@
             return;
         }
 
-        const query = context.vars.query || {};
+        const query = context.query || {};
 
-        var pageNumber = node.getValue('pagenum') || context.vars.query[objType + '-pagenum'];
+        var pageNumber = node.getValue('pagenum') || context.query[objType + '-pagenum'];
         pageNumber = pageNumber ? parseInt(pageNumber.toString().trim()) : 1;
 
         var url = context.vars.url;
@@ -340,7 +339,7 @@
 
         const collection = configNode.getValue('collection');
 
-        const selector = {
+        var selector = {
             type: objType
         };
 
@@ -357,11 +356,8 @@
         }
 
         if (_selector) {
-            const list = _selector.split(/\s*\,\s*/);
-            list.forEach(li => {
-                const [field, value] = list.split(/\s*\:\s*/);
-                selector[field] = value;
-            });
+            const list = common.nameValueStr2Json(_selector);
+            selector = common.extend(selector, list);
         }
 
         if (query) {

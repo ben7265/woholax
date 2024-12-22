@@ -49,8 +49,7 @@
                 <code>
                 <%
                     var element = wxfns.getToolbarParent(event);
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const demo = urlParams.get('demo') == 'yes';
+                    const demo = query.demo == 'yes';
 
                     if (demo) {
                         const file = await wxfns.selectFile('image/*');
@@ -73,8 +72,7 @@
             <tooltip>add hyperlink</tooltip>
             <event name="click" fname="_imageAddHyperlink">
             <%
-                const urlParams = new URLSearchParams(window.location.search);
-                const demo = urlParams.get('demo') == 'yes';
+                const demo = query.demo == 'yes';
 
                 if (demo) {
                     wxfns.inform('Hyperlinks can be added by simply clicking on chail link');
@@ -94,12 +92,30 @@
             %>
             </event>
         </icon>
-        <icon name="folder-open">
+        <icon name="remove-media">
+            <tooltip>delete image</tooltip>
+            <click fname="_imageDelete">
+            <%
+                if (query.demo == 'yes') {
+                    wxfns.error('Demo Mode', 'Cannot remove file in demo mode');
+                    return;
+                }
+
+                const element = wxfns.getToolbarParent(event);
+                const result = await element.transaction('remove-media');
+                if (result.rc != 'success') {
+                    return;
+                }
+
+                element.refresh();
+            %>
+            </click>
+        </icon>
+        <!--icon name="folder-open">
             <tooltip>select image from server</tooltip>
             <event name="click" fname="_imageSelectServerImage">
             <%
-                const urlParams = new URLSearchParams(window.location.search);
-                const demo = urlParams.get('demo') == 'yes';
+                const demo = query.demo == 'yes';
 
                 if (demo) {
                     wxfns.inform('Server images can be browsed by clicking on folder');
@@ -124,7 +140,7 @@
                 }
             %>
             </event>
-        </icon>
+        </icon-->
     </toolbar>
 
     <style>
@@ -180,8 +196,7 @@
 
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
+        const demo = query.demo == 'yes';
 
         if (demo) {
             element.addClass('wx-state-editable');

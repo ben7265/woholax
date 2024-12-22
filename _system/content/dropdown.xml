@@ -3,8 +3,8 @@
 
     <event name="change">
     <%
-        const element = event.target;
         element.transaction('save-page-data', element.value || null);
+        element.notify('dropdown-changed', {value: element.value});
     %>
     </event>
 

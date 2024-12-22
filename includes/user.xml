@@ -1,0 +1,62 @@
+<object-config name="user">
+    <collection>users</collection>
+    <label>User</label>
+
+    <page name="default" max-width="[#max-width]" redirect="/">
+        #include includes/header.xml
+
+        <div class="page-content" style="[$page-style]">
+            <object object-name="[@object-name]" />
+        </div>
+
+        #include includes/footer.xml
+    </page>
+
+    <object-view name="default">
+        <image name="profile-image" object-name="[@object-name]">
+            User Name
+        </image>
+        <gap height="20px"/>
+        <inline name="name" object-name="[@object-name]">
+            User Name
+        </inline>
+        <gap height="20px"/>
+        <inline name="email" object-name="[@object-name]">
+            User Email
+        </inline>
+        <gap height="20px"/>
+        <span>[@role]</span>
+        <object-item-toolbar />
+    </object-view>
+
+    <list-view name="default">
+        <data-view name="default">
+            <div>User List</div>
+            <div>
+                <list-items />
+            </div>
+            <object-list-toolbar />
+            <paginator object-type="user" pagesize="[$pagesize]" list-style="padding: 10px;" />
+        </data-view>
+
+        <list-item-view name="default">
+            <div name="list-item">
+                <img src="[@profile-image]" />
+                <gap height="20px"/>
+                <a class="continue-link" href="[@url-default]">
+                    <span>[@name]</span>
+                </a>
+                <gap height="20px"/>
+                <span>[@email]</value>
+                <object-item-toolbar />
+            </div>
+        </list-item-view>
+
+        <empty-view name="default">
+            <container style="height:100px; background: yellow;">
+                <align>list is empty</align>
+            </container>
+            <object-list-toolbar />
+        </empty-view>
+    </list-view>
+</object-config>

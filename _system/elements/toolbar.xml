@@ -11,6 +11,6 @@
         left: [$left||auto];
         bottom: [$bottom||auto];
         position: [$position||absolute];
-        z-index: [$index||inherit];
+        z-index: [$index||1];
     </nodeStyle>
 </xten>

@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <libs>libs/quill.min.js, libs/quill.snow.css</libs>
     <css>
         .wx-xten-textedit { position: relative; }
+        /*
         .wx-xten-textedit > .ql-toolbar {
             position: absolute; 
             background-color: white;
         }
+        */
         .wx-xten-textedit > .ql-toolbar.hidden {
             display: none;
         }
@@ -61,18 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     </css>
 
-    <cssNode>
-        #[$id] > .ql-toolbar {
-            left: [$toolbar-left||0];
-            top: [$toolbar-top||-67px];
-        }
-    </cssNode>
-
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
-
+        const demo = query.demo == 'yes';
         if (demo) {
             const _localValue = sessionStorage.getItem('inline:' + element.getAttribute('name'));
             if (_localValue) {

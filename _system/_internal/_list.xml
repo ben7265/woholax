@@ -4,9 +4,7 @@
             <tooltip>add new list item</tooltip>
             <click fname="_lstAddNewChild">
             <%
-                const urlParams = new URLSearchParams(window.location.search);
-                const demo = urlParams.get('demo') == 'yes';
-
+                const demo = query.demo == 'yes';
                 if (demo) {
                     wxfns.inform('New items can be added by simply clicking plus');
                     return;
@@ -39,9 +37,7 @@
 
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
-
+        const demo = query.demo == 'yes';
         if (demo) {
             element.addClass('wx-state-editable');
             return;
@@ -155,9 +151,7 @@
             <tooltip>delete list item</tooltip>
             <click fname="_listItemRemove">
             <%
-                const urlParams = new URLSearchParams(window.location.search);
-                const demo = urlParams.get('demo') == 'yes';
-
+                const demo = query.demo == 'yes';
                 if (demo) {
                     wxfns.inform('Items can be deleted by simply clicking trashcan');
                     return;
@@ -174,9 +168,7 @@
 
     <initElement>
     <%
-        const urlParams = new URLSearchParams(window.location.search);
-        const demo = urlParams.get('demo') == 'yes';
-
+        const demo = query.demo == 'yes';
         if (demo) {
             element.addClass('wx-state-editable');
             return;

@@ -83,9 +83,11 @@ Element.prototype.toggleClass = function (className) {
 const listeners = {};
 
 Element.prototype.notify = function (message, data, target) {
+    const _data = data || {};
+    _data.name = this.getName() || null;
     const event = new CustomEvent(message, {
         bubbles: true,
-        detail: data
+        detail: _data
     });
     this.dispatchEvent(event);
 };
@@ -222,9 +224,10 @@ Element.prototype.attach = function (name, fn) {
 };
 
 Element.prototype.invoke = function (name, ...args) {
-    const fn = this.xfns ? this.xfns[name] : null;
+    const xten = this.getAttribute('xten');
+    const fn = xfns[xten] ? xfns[xten][name] : null;
     if (!fn) {
-        console.error('function ' + name + ' not found in xten ' + xtname);
+        console.error('function ' + name + ' not found in xten ' + xten);
         return;
     }
     return fn(this, ...args);
@@ -263,6 +266,13 @@ Element.prototype.validate = function () {
 
         const validate = this.getAttribute('validate');
         if (validate) {
+            const value = this.value;
+            const required = this.getAttribute('required');
+            if (!value) {
+                if (required != 'true') {
+                    return true;
+                }
+            }
             const checks = validate.split(/\s*\,\s*/);
             for (var i = 0; i < checks.length; i++) {
                 const _check = checks[i].trim();
@@ -297,7 +307,7 @@ Element.prototype.validate = function () {
     if (!errorElement || !errorElement.hasClass('input-error-message')) {
         errorElement = document.createElement('div');
         errorElement.addClass('input-error-message');
-        this.parentNode.insertAfter(errorElement, this);
+        this.parentNode.insertBefore(errorElement, this.nextSibling);
         errorElement.textContent = this.validationMessage;
         errorElement.style.display = 'block';
     }
@@ -308,14 +318,15 @@ Element.prototype.validateForm = function () {
         return false;
     }
 
-    const valid = true;
+    var valid = true;
     for (var i = 0; i < this.elements.length; i++) {
         const element = this.elements[i];
-        const _valid = element.validate();
-        if (!_valid) {
+        if (!element.validate()) {
             valid = false;
+            break;
         }
     }
+
     return valid;
 };
 
@@ -347,20 +358,6 @@ Element.prototype.validatedFormData = function () {
     }
 
     const captcha = this.querySelector('.wx-xten-check-human');
-    if (captcha) {
-        if (data.gotcha) {
-            console.error('Suspected BOT click');
-            captcha.invoke('clear', captcha);
-            return null;
-        }
-
-        if (!data['check-human']) {
-            captcha.invoke('clear', captcha);
-            wxfns.error('Cannot Send Message', 'Bot check failed');
-            return null;
-        }
-    }
-
     const valid = this.validateForm();
     if (!valid) {
         captcha && captcha.invoke('clear', captcha);
@@ -370,40 +367,23 @@ Element.prototype.validatedFormData = function () {
         return null;
     }
 
-    return this.getFormData();
-};
-
-Element.prototype.validatedFormData = function () {
-    if (this.tagName.toLowerCase() != 'form') {
-        console.error('validatedFormData called on a non form element', this.tagName, this.getId());
-        return null;
-    }
-
-    const captcha = this.querySelector('.wx-xten-check-human');
+    const data = this.getFormData();
     if (captcha) {
+        data['check-human'] = captcha.value;
         if (data.gotcha) {
             console.error('Suspected BOT click');
             captcha.invoke('clear', captcha);
             return null;
         }
 
-        if (!data['check-human']) {
+        if (!captcha.value) {
+            wxfns.error('Cannot Send Message', 'Please verify you are human');
             captcha.invoke('clear', captcha);
-            wxfns.error('Cannot Send Message', 'Bot check failed');
             return null;
         }
     }
 
-    const valid = this.validateForm();
-    if (!valid) {
-        captcha && captcha.invoke('clear', captcha);
-
-        /* ### show errors and other error processing */
-
-        return null;
-    }
-
-    return this.getFormData();
+    return data;
 };
 
 Element.prototype.clearForm = function () {
@@ -412,6 +392,9 @@ Element.prototype.clearForm = function () {
         return null;
     }
 
+    const captcha = this.querySelector('.wx-xten-check-human');
+    captcha && captcha.invoke('clear', captcha);
+    
     Array.from(this.elements).forEach((element) => {
         switch (element.type) {
             case "checkbox":

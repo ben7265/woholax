@@ -1,0 +1,208 @@
+<xten name="media" element="div">
+    <mandatory>name</mandatory>
+    <allow>owner, admin</allow>
+    <style>
+        position: relative;
+    </style>
+
+    <nodeStyle>
+        aspect-ratio: [$aspect-ratio||auto];
+    </nodeStyle>
+
+    <css>
+        .wx-xten-media .wx-xten-toolbar {display: none;}
+        .wx-xten-media.wx-state-editable .wx-xten-toolbar {display: flex;}
+        .wx-xten-media.media-changed .wx-xten-toolbar {display: flex;}
+        .wx-xten-media.media-changed {border: 5px solid red;}
+        .wx-xten-media img {width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .wx-xten-media .wx-xten-toolbar > .close {display: none;}
+        .wx-xten-media .wx-xten-toolbar > .save {display: none;}
+        .wx-xten-media.media-changed .wx-xten-toolbar > .close {display: inline-block;}
+        .wx-xten-media.media-changed .wx-xten-toolbar > .save {display: inline-block;}
+    </css>
+
+    <init>
+    <%
+        node.attribs['image-extensions'] = common.imageExtensions;
+        node.attribs['video-extensions'] = common.videoExtensions;
+        node.attribs['audio-extensions'] = common.audioExtensions;
+    %>
+    </init>
+
+    <load>
+    <%
+        const value = await database.inlineValue(node, context, xten);
+        if (value) {
+            node.attribs.src = value;
+        }
+    %>
+    </load>
+
+    <initElement>
+    <%
+        const alt = element.getAttribute('alt') || element.getName();
+        const aspectRatio = element.getAttribute('aspect-ratio') || 'auto';
+
+        const imageExtsArray = element.getAttribute('image-extensions').split(/\s*\,\s*/);
+        const videoExtsArray = element.getAttribute('video-extensions').split(/\s*\,\s*/);
+        const audioExtsArray = element.getAttribute('audio-extensions').split(/\s*\,\s*/);
+
+        const playerType = element.getAttribute('player') || 'autoplay';
+
+        element.updateMedia = (src, url) => {
+            const _src = src || 'images/blank.svg';
+            const ext = _src.split('.').pop().toLowerCase();
+
+            var success = true;
+            var _url = url || _src;
+
+            const toolbar = element.querySelector('[xten="toolbar"]');
+            switch (true) {
+                case imageExtsArray.includes(ext):
+                    element.innerHTML = `
+                        <img src="${_url}" alt="${alt}" style="aspect-ratio: ${aspectRatio}; width: 100%;" onerror="this.onerror=null; this.src='images/error.svg';" />
+                    `;
+                break;
+
+                case videoExtsArray.includes(ext):
+                    _url = url ? url : 'stream/' + _url;
+                    if (playerType == 'full') {
+                        element.innerHTML = `
+                            <video controls="true" style="aspect-ratio: ${aspectRatio}; width: 100%;">
+                                <source src="${_url}" type="video/${ext}">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                    }
+                    else
+                    {
+                        element.innerHTML = `
+                            <video autoplay="true" muted="true" loop="true" style="aspect-ratio: ${aspectRatio}; width: 100%;">
+                                <source src="${_url}" type="video/${ext}">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                    }
+                break;
+
+                case audioExtsArray.includes(ext):
+                    _url = url ? url : 'stream/' + _url;
+                    element.innerHTML = `
+                        <audio controls="true" style="width: 100%;">
+                            <source src="${_url}" type="audio/${ext}">
+                            Your browser does not support the audio tag.
+                        </audio>
+                    `;
+                break;
+
+                default:
+                    element.setAttribute('wxerror', 'Unsupported File Type');
+                    element.innerHTML = '<img src="images/error.svg" style="aspect-ratio: ${aspectRatio}; width: 100%;" />';
+                    success = false;
+            }
+
+            toolbar && element.append(toolbar);
+            return success;
+        };
+
+        element.updateMedia(element.getAttribute('src'));
+
+        if (query.demo == 'yes') {
+            element.addClass('wx-state-editable');
+        }
+    %>
+    </initElement>
+
+    <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
+        <icon name="upload">
+            <tooltip>select video to upload</tooltip>
+            <event name="click" fname="_mediaUpload">
+                <%
+                    var element = wxfns.getToolbarParent(event);
+
+                    const imageExtensions = element.getAttribute('image-extensions');
+                    const videoExtensions = element.getAttribute('video-extensions');
+                    const supportedExtensions = (imageExtensions + ', ' + videoExtensions).split(/\s*\,\s*/).map(e => ('.' + e)).join(',');
+
+                    const selectedFile = await wxfns.selectFile(supportedExtensions);
+
+                    const url = URL.createObjectURL(selectedFile);
+
+                    const success = element.updateMedia(selectedFile.name, url);
+                    if (!success) {
+                        wxfns.error('File Upload Error', 'Unsupported file type.');
+                        return;
+                    }
+
+                    if (query.demo == 'yes') {
+                        return;
+                    }
+
+                    element.addClass('media-changed');
+                    element._selectedFile = selectedFile;
+                %>
+            </event>
+        </icon>
+        <icon name="save">
+            <tooltip>save video or image</tooltip>
+            <click fname="_mediaSave">
+            <%
+                if (query.demo == 'yes') {
+                    wxfns.error('Demo Mode', 'Cannot save file in demo mode');
+                    return;
+                }
+
+                const element = wxfns.getToolbarParent(event);
+
+                element.removeAttribute('wxerror');
+
+                const result = await element.upload('save-media', null, element._selectedFile);
+                if (result.rc != 'success') {
+                    return;
+                }
+                
+                const src = result.output;
+                element.updateMedia(src);
+
+                element.setAttribute('src', src);
+                delete element._selectedFile;
+                element.removeClass('media-changed');
+            %>
+            </click>
+        </icon>
+        <icon name="close">
+            <tooltip>cancel</tooltip>
+            <click fname="_mediaCancel">
+            <%
+                const element = wxfns.getToolbarParent(event);
+                const src = element.getAttribute('src');
+
+                element.removeAttribute('wxerror');
+                element.updateMedia(src);
+                delete element._selectedFile;
+                element.removeClass('media-changed');
+            %>
+            </click>
+        </icon>
+        <icon name="remove-media">
+            <tooltip>delete media</tooltip>
+            <click fname="_mediaDelete">
+            <%
+                if (query.demo == 'yes') {
+                    wxfns.error('Demo Mode', 'Cannot remove file in demo mode');
+                    return;
+                }
+
+                const element = wxfns.getToolbarParent(event);
+                const result = await element.transaction('remove-media');
+                if (result.rc != 'success') {
+                    return;
+                }
+
+                element.setAttribute('src', 'images/blank.svg');
+                element.updateMedia('images/blank.svg');
+            %>
+            </click>
+        </icon>
+    </toolbar>
+</xten>

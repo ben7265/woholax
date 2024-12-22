@@ -1,0 +1,23 @@
+<xten name="static-grid" element="div">
+    <allow>owner, admin</allow>
+    <mandatory>columns</mandatory>
+    <style>
+        display: flex;
+        flex-wrap: wrap;
+    </style>
+
+    <cssNode>
+        #[$id] {
+            flex-direction: [$orientation||row];
+            gap: [$item-gap||0];
+        }
+
+        #[$id] > * {
+            flex-grow: [$grow||0];
+            flex-shrink: [$shrink||0];
+            flex-basis: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] ); 
+            width: calc((100% / [$columns||1]) - [$item-gap||0px] * ([$columns||1] - 1) / [$columns||1] );
+        }
+    </cssNode>
+</xten>
+

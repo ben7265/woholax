@@ -1,0 +1,84 @@
+<!-- 
+    stat type - sum, avg, min, max
+-->
+<xten name="stat" element="span">
+    <mandatory>name, stat-type</mandatory>
+    <load>
+    <%
+        const name = node.getValue('name');
+        const objType = node.getValue('object-type');
+        const objConfigNode = objType ? common.findNamed(node, 'object-config', objType) : null;
+        const objConfig = objConfigNode ? common._tojson(objConfigNode, 'page, view') : {};
+        const collection = node.getValue('collection') || objConfig.collection || 'object_data';
+
+        const searchText = node.getValue('search-text');
+        const parent = node.getValue('parent');
+        const category = node.getValue('category');
+        const _selector = node.getValue('selector');
+        const dbquery = node.getValue('query');
+        const type = node.getValue('stat-type');
+        const label = node.getValue('label');
+        const plural = node.getValue('plural');
+
+        var selector = {};
+
+        if (objType) {
+            selector.type = objType;
+        }
+
+        if (searchText) {
+            selector['$text'] = { $search: searchText };
+        }
+
+        if (parent) {
+            selector.parent = parent;
+        }
+
+        if (category) {
+            selector.category = category;
+        }
+
+        if (_selector) {
+            const list = common.nameValueStr2Json(_selector);
+            selector = common.extend(selector, list);
+        }
+
+        if (dbquery) {
+            try {
+                const _query = JSON.parse(dbquery);
+                for (var prop in _query) {
+                    selector[prop] = _query[prop];
+                }
+            }
+            catch (e) {
+                node.attribs.error = 'invalide json passed to object-list ' + query;
+                common.error(node.attribs.error);                
+                return;
+            }
+        }
+
+        const group = {};
+        group[type] = name;
+        
+        const result = await database.stats(selector, group, collection);
+        if (!result.rc) {
+            node.attribs.wxerror = result.message;
+            return;
+        }
+
+        const value = result.output;
+
+        if (!node.text && !node.children.length) {
+            node.text = value.toString();
+            return;
+        }
+
+        const vars = {
+            value: value ? value.toString() : 'No',
+            text: value == 1 ? label : (plural ? plural : (label + 's'))
+        };
+
+        common.substituteVars(node, vars);
+    %>
+    </load>
+</xten>

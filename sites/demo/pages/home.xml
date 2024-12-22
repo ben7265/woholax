@@ -21,14 +21,14 @@
 
         <gap height="30px" />
 
-        <banner name="banner" aspect-ratio="2.5">
+        <!--banner name="banner" aspect-ratio="2.5">
             <image name="slide-image" list-child="true" translate-y="-50%" />
             <pos-middle>
                 <inline name="banner-label-heading" list-child="true">banner label</inline>
                 <gap height="10px"/>
                 <inline name="banner-label-text" list-child="true">banner text</inline>
             </pos-middle>
-        </banner>
+        </banner -->
 
         <gap height="30px" />
 

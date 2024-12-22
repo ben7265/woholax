@@ -11,9 +11,16 @@
         </svg>
     </view>
 
-    <css>
-        .wx-xten-check-human .human-canvas {border: [$border||1px solid grey];}
-    </css>
+    <nodeStyle>
+        border: [$border||1px solid grey];
+        display: flex;
+        align-items: [$vertical||center];
+        justify-content: [$horizontal||center];
+    </nodeStyle>
+
+    <!--cssNode>
+        .wx-xten-check-human .human-canvas {  }
+    </cssNode -->
 
     <initElement>
     <%
@@ -55,7 +62,8 @@
         ctx.fillStyle = canvasColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        element._value = false;
+        element.value = false;
+        element.setAttribute('value', 'false');
         ctx.lineWidth = 3;
 
         ctx.beginPath();
@@ -80,7 +88,8 @@
             var distance = Math.sqrt((mouseX - circle.x) ** 2 + (mouseY - circle.y) ** 2);
             if (distance <= radius) {
                 ctx.drawImage(img, circle.x - radius, circle.y - radius, radius * 2, radius * 2);
-                element._value = true;
+                element.value = true;
+                element.setAttribute('value', 'true');
                 canvas.removeEventListener('click', handleEvent);
             }
         });

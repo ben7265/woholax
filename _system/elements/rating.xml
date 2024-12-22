@@ -13,6 +13,18 @@
         };
     </css>
 
+    <initElement>
+    <%
+        const access = element.checkAccess();
+        if (!access) {
+            const stars = element.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.removeClass('checked');
+            });
+        }
+    %>
+    </initElement>
+
     <init>
     <%
         node.empty();
@@ -51,11 +63,16 @@
 
     <event name="click" fname="_ratingEventClick">
     <%
-        const target = event.currentTarget;
+        const element = event.currentTarget;
+        const access = element.checkAccess();
+        if (!access) {
+            return;
+        }
+
         const star = event.target.closest('.star');
         const num = parseInt(star.getAttribute('idx') || 0);
 
-        const stars = target.querySelectorAll('.star');
+        const stars = element.querySelectorAll('.star');
 
         stars.forEach(_star => {
             const idx = parseInt(_star.getAttribute('idx') || 0);
@@ -65,7 +82,7 @@
             }
         });
 
-        const result = await target.transaction('save-page-data', num);
+        const result = await element.transaction('save-page-data', num);
         if (result.rc != 'success') {
             return;
         }

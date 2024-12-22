@@ -22,6 +22,19 @@
     %>
     </event>
 
+    <initElement>
+    <%
+        const access = element.checkAccess();
+        console.log(access);
+        if (!access) {
+            const checkboxes = element.querySelectorAll('input');
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = true;
+            });
+        }
+    %>
+    </initElement>
+
     <init>
     <%
         const options = {};
@@ -64,11 +77,11 @@
         const values = await database.inlineValue(node, context, xten);
         const checkboxes = node.findChildren('[type="checkbox"]');
         checkboxes.forEach(checkbox => {
-            if (values.indexOf(checkbox.attribs.value) == -1) {
-                delete checkbox.attribs.checked;
+            if (values && values.indexOf(checkbox.attribs.value) != -1) {
+                checkbox.attribs.checked = 'true';
             }
             else {
-                checkbox.attribs.checked = 'true';
+                delete checkbox.attribs.checked;
             }
         });
     %>

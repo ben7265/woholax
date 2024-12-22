@@ -16,6 +16,7 @@
 #include _system/align/fitheight.xml
 #include _system/align/fitwidth.xml
 #include _system/align/gap.xml
+#include _system/align/left.xml
 #include _system/align/pos-bottom-left.xml
 #include _system/align/pos-bottom-right.xml
 #include _system/align/pos-bottom.xml
@@ -25,19 +26,28 @@
 #include _system/align/pos-top-left.xml
 #include _system/align/pos-top-right.xml
 #include _system/align/pos-top.xml
+#include _system/align/right.xml
 #include _system/align/textalign.xml
 
 #include _system/comms/broadcast.xml
 #include _system/comms/watch.xml
 
 #include _system/content/auto-checkbox.xml
+#include _system/content/auto-input.xml
 #include _system/content/datetime.xml
 #include _system/content/dropdown.xml
 #include _system/content/image.xml
 #include _system/content/inline.xml
+#include _system/content/media.xml
+#include _system/content/quickplay.xml
+#include _system/content/social-icon.xml
 #include _system/content/textedit.xml
 #include _system/content/uploaded-docs.xml
 #include _system/content/value.xml
+#include _system/content/video-player.xml
+
+#include _system/data/count.xml
+#include _system/data/stat.xml
 
 #include _system/elements/banner.xml
 #include _system/elements/carousel.xml
@@ -73,12 +83,12 @@
 #include _system/layout/dynamic-grid.xml
 #include _system/layout/flex-column.xml
 #include _system/layout/fullscreen.xml
-#include _system/layout/grid-layout.xml
 #include _system/layout/grid.xml
 #include _system/layout/layers.xml
 #include _system/layout/list.xml
 #include _system/layout/row.xml
 #include _system/layout/screencover.xml
+#include _system/layout/static-grid.xml
 
 #include _system/logic/click.xml
 #include _system/logic/event.xml
@@ -90,9 +100,7 @@
 
 #include _system/media/qrcode.xml
 #include _system/media/qrscanner.xml
-#include _system/media/quickplay.xml
 #include _system/media/screen-recorder.xml
-#include _system/media/video-player.xml
 #include _system/media/video-recorder.xml
 
 #include _system/objects/objects.xml
@@ -111,6 +119,7 @@
 #include _system/user/logout.xml
 #include _system/user/register.xml
 #include _system/user/reset-password.xml
+#include _system/user/user.xml
 
 #include _system/collections.xml
 #include _system/functions.xml
