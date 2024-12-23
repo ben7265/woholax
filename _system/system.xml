@@ -39,12 +39,10 @@
 #include _system/content/image.xml
 #include _system/content/inline.xml
 #include _system/content/media.xml
-#include _system/content/quickplay.xml
 #include _system/content/social-icon.xml
-#include _system/content/textedit.xml
+#include _system/content/text-block.xml
 #include _system/content/uploaded-docs.xml
 #include _system/content/value.xml
-#include _system/content/video-player.xml
 
 #include _system/data/count.xml
 #include _system/data/stat.xml

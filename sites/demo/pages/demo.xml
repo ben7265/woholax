@@ -9,7 +9,7 @@
 
     <gap height="20px" />
 
-    <video-player name="demo-video-1" />
+    <media player="full" name="demo-video-1" />
     
     #include includes/footer.xml
 </page>

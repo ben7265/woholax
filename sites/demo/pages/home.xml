@@ -3,7 +3,7 @@
 
     <container name="page-body">
         <container>
-            <video-player name="test" />
+            <media player="full" name="test" />
             <pos-top top="30px" style="width: 700px">
                 <textalign>
                     <inline name="test-text-1" style="color: white; font-size: 60px">Text 1 sadasdf aSDad</inline>
@@ -43,9 +43,9 @@
         <gap height="30px" />
 
         <align>
-            <textedit name="company-description" css-min-height="100px">
+            <text-block name="company-description" css-min-height="100px">
                 Example company description. Click to edit this.
-            </textedit>
+            </text>
         </align>                        
 
         <gap height="30px" />
@@ -91,9 +91,9 @@
                 <image name="example-image-1" aspect-ratio="1.5" />
             </column>
             <column ratio="6">
-                <textedit name="example-text-1">
+                <text-block name="example-text-1">
                     example text 1 Click to edit this text block
-                </textedit>
+                </text>
             </column>
         </row>
 
@@ -102,9 +102,9 @@
         <row>
             <!-- 2 columns with image on left and text on right -->
             <column ratio="6">
-                <textedit name="example-text-2">
+                <text-block name="example-text-2">
                     example text 2 Click to edit this text block
-                </textedit>
+                </text>
             </column>
             <column>
                 <image name="example-image-2" aspect-ratio="1.5" />

@@ -1,118 +1,128 @@
-<xten name="inline" element="span">
+<xten name="inline" element="div">
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
-    <style>
-        display: inline-block;
-    </style>
+
+    <view>
+        <span class="inline-value"></span>
+    </view>
+
+    <nodeStyle>
+        text-align: [$align||center];
+    </nodeStyle>
+
     <css>
-        .inline._unsaved_inline {
-            border: 1px solid yellow;
-        } 
-        .inline._empty_inline {
+        .wx-xten-inline .inline-value {
+            
+        }
+        .wx-xten-inline._unsaved_inline {
+            border: 1px solid blue;
+        }
+
+        .wx-xten-inline._empty_inline {
             border: 1px solid red;
-            width: 100%; 
-            min-width: 50px;
+            width: 100%;
+            min-height: 20px;
         }
     </css>
 
     <load>
+    <%
         const value = await database.inlineValue(node, context, xten);
-        if (value) {
-            node.text = value;
-        }
+        const span = node.findChild('.inline-value');
+        span.text = value ? value : (node.text && node.text.trim() ? node.text : 'inline ' + node.attribs.name);
+    %>
     </load>
 
     <initElement>
     <%
         const demo = query.demo == 'yes';
+        const span = element.querySelector('.inline-value');
+        var origValue = span.innerText.trim();
 
         if (demo) {
             element.setAttribute('contenteditable', true);
-            element.addClass('editable');
-
-            const _localValue = sessionStorage.getItem('inline:' + element.getAttribute('name'));
-            if (_localValue) {
-                element.innerText = _localValue;
-            }
+            span.innerText = sessionStorage.getItem('inline:' + element.getAttribute('name')) || '';
             return;
         }
 
-        const access = element.checkAccess();
-        if (access) {
-            element.setAttribute('contenteditable', true);
-            element.addClass('editable');
-            const prevText = element.innerText.trim();
-            if (!prevText.length) {
-                element.classList.add('_empty_inline');
+        const saveData = async () => {
+            const text = span.innerText.trim();
+            if (demo) {
+                sessionStorage.setValue(element.getName() + '-demo', text);
+                return;
+            }
+
+            if (text != origValue) {
+                await element.transaction('save-page-data', text);
+                origValue = text;
+            }
+
+            element.removeClass('_unsaved_inline');
+
+            if (element.timeout) {
+                clearTimeout(element.timeout);
+                delete element.timeout;
+            }
+        };
+
+        const changed = () => {
+            const text = span.innerText.trim();
+            if (!text.length) {
+                element.addClass('_empty_inline');
             }
             else
             {
-                element.classList.remove('_empty_inline');
+                element.removeClass('_empty_inline');
             }
-            element.__inlineValue = prevText;
+        };
+
+        const access = element.checkAccess();
+        if (access) {
+            span.setAttribute('contenteditable', true);
+            changed();
         }
         else
         {
-            element.removeAttribute('contenteditable');
-            element.removeClass('editable');
+            span.removeAttribute('contenteditable');
         }
+
+        span.addEventListener('keyup', event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            changed();
+
+            const text = span.innerText.trim();
+
+            if (text != origValue) {
+                element.addClass('_unsaved_inline');
+                if (!element.timeout) {
+                    element.timeout = setTimeout(saveData, 2000);
+                }
+            }
+            else {
+                if (element.timeout) {
+                    clearTimeout(element.timeout);
+                    delete element.timeout;
+                }
+                element.removeClass('_unsaved_inline');
+            }
+        });
+
+        span.addEventListener('blur', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            changed();
+            await saveData();
+        });
     %>
     </initElement>
 
-    <event name="keyup" fname="_inlineEventKeyUp">
+    <event name="click" fname="_inlineEventBlur">
     <%
-        const text = element.innerText.trim();
-        const origValue = element.__inlineValue;
-        if (!text) {
-            element.classList.add('_empty_inline');
-        }
-        else {
-            element.classList.remove('_empty_inline');
-        }
-        if (text != origValue) {
-            element.classList.add('_unsaved_inline');
-            const timout = setTimeout(((_element) => {
-
-            })(event.target), 3000);
-        }
-        else {
-            element.classList.remove('_unsaved_inline');
-        }
-    %>
-    </event>
-
-    <event name="blur" fname="_inlineEventBlur">
-    <%
-        const text = element.innerText.trim();
-
-        const demo = query.demo == 'yes';
-
-        if (demo) {
-            sessionStorage.setItem('inline:' + element.getAttribute('name'), element.innerText.trim());
-            return;
-        }
-
-        const origValue = element.__inlineValue;
-        if (text == origValue) {
-            return;
-        }
-        if (!text) {
-            element.classList.add('_empty_inline');
-        }
-        else {
-            element.classList.remove('_empty_inline');
-        }
-        if (text) {
-            element.transaction('save-page-data', element.innerText.trim());
-            element.classList.remove('_unsaved_inline');
-            element.classList.remove('_empty_inline');
-            element.__inlineValue = text;
-        }
-        else {
-            element.innerText = element.__inlineValue;
-            element.classList.remove('_unsaved_inline');
-            element.classList.remove('_empty_inline');
-        }
+        const span = element.querySelector('.inline-value');
+        span.focus();
     %>
     </event>
 </xten>

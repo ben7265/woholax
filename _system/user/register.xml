@@ -5,7 +5,7 @@
     <css>
         .wx-xten-register .edit-email-text {display: none; background-color: lightgrey; z-index: 2;}
         .wx-xten-register.show-email .edit-email-text {display: block;}
-        .wx-xten-register .wx-xten-textedit {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
+        .wx-xten-register .wx-xten-text {height: 500px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
         .wx-xten-register .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
         .wx-xten-register .wx-xten-toolbar {display: none;}
         .wx-xten-register.wx-state-editable .wx-xten-toolbar {display: flex;}
@@ -44,7 +44,7 @@
                             </inline>
                         </column>
                     </row>
-                    <textedit name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
+                    <text-block name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
                 </container>
             </center>
         </screencover>

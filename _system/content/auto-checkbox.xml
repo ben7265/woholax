@@ -25,7 +25,6 @@
     <initElement>
     <%
         const access = element.checkAccess();
-        console.log(access);
         if (!access) {
             const checkboxes = element.querySelectorAll('input');
             checkboxes.forEach(checkbox => {

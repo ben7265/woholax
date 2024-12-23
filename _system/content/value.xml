@@ -1,4 +1,4 @@
-<xten name="value">
+<xten name="value" element="div">
     <mandatory>name</mandatory>
     <load>
         <%

@@ -63,7 +63,6 @@
 
     <event name="click" fname="_ratingEventClick">
     <%
-        const element = event.currentTarget;
         const access = element.checkAccess();
         if (!access) {
             return;

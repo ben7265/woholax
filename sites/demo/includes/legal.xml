@@ -3,7 +3,7 @@
 <container name="page-body" style="max-width: [#max-width]">
     <inline name="legal-heading">Heading</inline>
     <gap height="20px" />
-    <textedit name="legal-text">Legal Text</textedit>
+    <text-block name="legal-text">Legal Text</text>
 </container>
 
 #include includes/footer.xml

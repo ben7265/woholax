@@ -28,36 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 -->
 
-<xten name="textedit" element="div">
+<xten name="text-block" element="div">
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
+
     <style>display: block; width: 100%</style>
     <nodeStyle>column-count:[$cols||1]</nodeStyle>
     <nodeTablet>column-count:[$cols-tablet||1]</nodeTablet>
     <nodePhone>column-count:[$cols-phone||1]</nodePhone>
     <libs>libs/quill.min.js, libs/quill.snow.css</libs>
+
     <css>
-        .wx-xten-textedit { position: relative; }
+        .wx-xten-text-block { position: relative; }
         /*
-        .wx-xten-textedit > .ql-toolbar {
+        .wx-xten-text-block > .ql-toolbar {
             position: absolute; 
             background-color: white;
         }
         */
-        .wx-xten-textedit > .ql-toolbar.hidden {
+        
+        .wx-xten-text-block.unsaved {
+            border: 1px solid blue;
+        }
+
+        .wx-xten-text-block.empty {
+            border: 1px solid red;
+            min-height: 20px;
+        }
+
+        .wx-xten-text-block .ql-toolbar {
             display: none;
         }
-        .wx-xten-textedit > .ql-toolbar.visible {
+        .wx-xten-text-block .ql-toolbar.visible {
             display: block;
             background-color: white;
             z-index: 1;
         }
-        .wx-xten-textedit > .ql-container {
+        .wx-xten-text-block > .ql-container {
             border: none !important;
             font-family: inherit;
             font-size: inherit;
         }
-        .wx-xten-textedit .ql-editor {
+        .wx-xten-text-block .ql-editor {
             padding: 0;
             line-height: inherit;
         }
@@ -104,9 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 [{ 'indent': '-1' }, { 'indent': '+1' }],
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 [{ 'align': [] }]
-            ]
+            ],
+            none: false
         };
-        const toolbarName = element.getAttribute('toolbar') || 'full';
+        const toolbarName = element.getAttribute('toolbar') || 'none';
+        var prevText = element.innerText;
 
         var editor = document.createElement('div');
         editor.className = 'editor';
@@ -115,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         element.appendChild(editor);
 
         editor = element.querySelector('.editor');
-        var dirty = false;
 
         if (!xdata.quill) {
             xdata.quill = {};
@@ -128,13 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
             theme: 'snow'
         });
 
+        const qle = element.querySelector('.ql-editor');
         const toolbar = element.querySelector('.ql-toolbar');
         toolbar.addClass('hidden');
 
         quill.getModule("toolbar").addHandler("image", (value) => {
             const upload = async () => {
                 const file = await wxfns.selectFile('image/*');
-                /*const result = await element.upload('save_image', null, file);*/
                 const result = await element.upload('save-image', null, file);
                 const range = quill.getSelection();
                 quill.insertEmbed(range.index, 'image', result.output);
@@ -143,51 +156,77 @@ document.addEventListener('DOMContentLoaded', () => {
             upload();
         });
 
-        quill.on('text-change', function (delta, oldDelta, source) {
-            dirty = true;
-        });
-
-        setInterval(function () {
-            if (dirty) {
-                dirty = false;
-                const text = quill.root.innerHTML;
-                if (demo) {
-                    sessionStorage.setItem('inline:' + element.getAttribute('name'), text);
-                }
-                else
-                {
-                    element.transaction('save-page-data', text.trim());
-                }
+        const changed = () => {
+            const text = editor.innerText.trim();
+            if (!text.length) {
+                element.addClass('empty');
             }
-        }, 2000);
+            else
+            {
+                element.removeClass('empty');
+            }
+        };
 
+        changed();
+
+        const saveData = async () => {
+            const text = quill.root.innerHTML.trim();
+            if (demo) {
+                sessionStorage.setItem('inline:' + element.getAttribute('name') + '-demo', text);
+                return;
+            }
+
+            if (element.timeout) {
+                clearTimeout(element.timeout);
+                delete element.timeout;
+            }
+
+            element.removeClass('unsaved');
+            changed();
+
+            await element.transaction('save-page-data', text.trim());
+        };
+
+        quill.on('text-change', function (delta, oldDelta, source) {
+            const text = quill.root.innerHTML;
+            if (!element.timeout) {
+                element.timeout = setTimeout(saveData, 2000);
+            }
+            element.addClass('unsaved');
+            changed();
+        });
 
         const ImageBlot = Quill.import('formats/image');
         const Parchment = Quill.import('parchment');
 
-        element.addEventListener('click', (e) => {
-            e.stopPropagation();
+        qle.addEventListener('focus', event => {
+            event.preventDefault();
+            event.stopPropagation();
+
             const toolbar = element.querySelector('.ql-toolbar');
             toolbar.addClass('visible');
-            toolbar.removeClass('hidden');
-            const img = Parchment.find(e.target);
+            const img = Parchment.find(event.target);
             if (img instanceof ImageBlot) {
                 quill.setSelection(img.offset(quill.scroll) - 1, 1, 'user');
             }
         });
         
-        document.addEventListener('click', () => {
+        qle.addEventListener('blur', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const text = quill.root.innerHTML;
             const toolbar = element.querySelector('.ql-toolbar');
             toolbar.removeClass('visible');
-            toolbar.addClass('hidden');
+            await saveData();
         });
     %>
     </initElement>
 
     <load>
+    <%
         const value = await database.inlineValue(node, context, xten);
-        if (value) {
-            node.text = value;
-        }
+        node.text = value ? value : (node.text && node.text.trim() ? node.text : ('text ' + node.attribs.name));
+    %>
     </load>
 </xten>

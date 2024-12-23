@@ -9,7 +9,7 @@
     <css>
         .wx-xten-smtp-config .edit-email-text {display: none; background-color: lightgrey; z-index: 2;}
         .wx-xten-smtp-config.show-email .edit-email-text {display: block;}
-        .wx-xten-smtp-config .wx-xten-textedit {height: 400px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
+        .wx-xten-smtp-config .wx-xten-text {height: 400px; width: 600px; background-color: white; border: 1px solid grey; overflowY: scroll; padding: 10px;}
         .wx-xten-smtp-config .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
         .wx-xten-smtp-config .wx-xten-toolbar {display: none;}
         .wx-xten-smtp-config.wx-state-editable .wx-xten-toolbar {display: flex;}
@@ -46,7 +46,7 @@
                             </inline>
                         </column>
                     </row>
-                    <textedit name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
+                    <text-block name="to-email-config.email-text" object-name="[$name]" collection="constants"/>
                 </container>
             </align>
         </screencover>

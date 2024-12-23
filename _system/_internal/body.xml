@@ -1,7 +1,5 @@
 <xten name="body">
     <append>
         <page-config class="fixed-left" />
-        <image-list/>
-        <video-list/>
     </append>
 </xten>
