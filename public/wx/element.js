@@ -172,6 +172,15 @@ Element.prototype.transaction = async function (txn, data, dontShowError) {
     return result;
 };
 
+Element.prototype.save = async function (data, dontShowError) {
+    return await this.transaction('save-object-data', data, dontShowError);
+};
+
+Element.prototype.openModal = async function (name, heading, setter, getter) {
+    const modal = document.querySelector('[xten="modal"][name="' + name + '"]');
+    return await modal.open(heading, setter, getter);
+};
+
 Element.prototype.refresh = async function () {
     const result = await this.transaction('refresh', null, false);
     if (result && result.rc != 'success') {
@@ -250,68 +259,71 @@ Element.prototype.getValue = function () {
 };
 
 Element.prototype.validate = function () {
-    this.removeClass('invalid-value');
-    var errorElement = this.nextElementSibling;
-    if (errorElement && errorElement.hasClass('input-error-message')) {
-        errorElement.style.display = 'none';
-    }
-
+    const required = this.getAttribute('required') == 'true';
+    const value = this.value.trim();
     var valid = this.checkValidity();
-    if (!valid) {
-        this.validationError = this.validationMessage;
-    }
-    else 
-    {
-        delete this.validateError;
+    var error = null;
 
-        const validate = this.getAttribute('validate');
-        if (validate) {
-            const value = this.value;
-            const required = this.getAttribute('required');
-            if (!value) {
-                if (required != 'true') {
-                    return true;
+    switch (true) {
+        case !value && !required:
+            return true;
+        case !value && required:
+            error = 'required value';
+            valid = false;
+            break;
+        case !valid:
+            error = this.validationMessage;
+            break;
+        default:
+            error = null;
+
+            const validate = this.getAttribute('validate');
+            if (validate) {
+                const checks = validate.split(/\s*\,\s*/);
+                for (var i = 0; i < checks.length; i++) {
+                    const _check = checks[i].trim();
+                    const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
+                    const _fname = matches[1];
+                    if (!_fname || !validations[_fname]) {
+                        error = 'validation ' + _fname + ' not defined';
+                        valid = false;
+                        break;
+                    }
+                    const _args = matches[3];
+                    error = validations[_fname](value, _args);
+                    if (error) {
+                        valid = false;
+                        break;
+                    }
                 }
             }
-            const checks = validate.split(/\s*\,\s*/);
-            for (var i = 0; i < checks.length; i++) {
-                const _check = checks[i].trim();
-                const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
-                const _fname = matches[1];
-                if (!_fname || !validations[_fname]) {
-                    this.validationError = 'validation ' + _fname + ' not defined';
-                    this.addClass('invalid-value');
-                    valid = false;
-                    break;
-                }
-                const _args = matches[3];
-                const error = validations[_fname](value, _args);
-                if (error) {
-                    this.validationError = error;
-                    this.addClass('invalid-value');
-                    valid = false;
-                    break;
-                }
-            }
-        }
     }
 
     if (valid) {
         return true;
     }
 
-    this.addClass('invalid-value');
+    this.reportError(error);
 
-    errorElement = this.nextElementSibling;
-
-    if (!errorElement || !errorElement.hasClass('input-error-message')) {
-        errorElement = document.createElement('div');
-        errorElement.addClass('input-error-message');
-        this.parentNode.insertBefore(errorElement, this.nextSibling);
-        errorElement.textContent = this.validationMessage;
-        errorElement.style.display = 'block';
-    }
+    return false;
 }
+
+Element.prototype.reportError = function (error) {
+    console.log('reporting', error);
+    this.addClass('invalid-value');
+    this.setCustomValidity(error);
+    this.reportValidity();
+
+    const handleInput = (event) => {
+        event.target.removeClass('invalid-value');
+        event.target.setCustomValidity('');
+        event.target.reportValidity();
+        
+        event.target.removeEventListener('input', handleInput);
+    };
+      
+    this.addEventListener('input', handleInput);
+};
 
 Element.prototype.validateForm = function () {
     if (this.tagName.toLowerCase() != 'form') {
@@ -394,7 +406,7 @@ Element.prototype.clearForm = function () {
 
     const captcha = this.querySelector('.wx-xten-check-human');
     captcha && captcha.invoke('clear', captcha);
-    
+
     Array.from(this.elements).forEach((element) => {
         switch (element.type) {
             case "checkbox":
@@ -410,48 +422,4 @@ Element.prototype.clearForm = function () {
                 break;
         }
     });
-};
-
-Element.prototype.__validate_not_used = function () {
-    const value = this.getValue();
-    if (!this.checkValidity()) {
-        this.validationError = 'field is required';
-    }
-
-    const validate = this.getAttribute('validate');
-    const required = this.getAttribute('required') === 'true' || this.getAttribute('required') == 'required';
-
-    delete this.validationError;
-    this.removeClass('invalid-value');
-
-    if (!value && required) {
-        this.validationError = 'field is required';
-        this.addClass('invalid-value');
-        return false;
-    }
-
-    if (!validate) {
-        return true;
-    }
-
-    const checks = validate.split(/\s*\,\s*/);
-    for (var i = 0; i < checks.length; i++) {
-        const _check = checks[i].trim();
-        const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
-        const _fname = matches[1];
-        if (!_fname || !validations[_fname]) {
-            this.validationError = 'validation ' + _fname + ' not defined';
-            this.addClass('invalid-value');
-            return false;
-        }
-        const _args = matches[3];
-        const error = validations[_fname](value, _args);
-        if (error) {
-            this.validationError = error;
-            this.addClass('invalid-value');
-            return false;
-        }
-    }
-
-    return true;
 };

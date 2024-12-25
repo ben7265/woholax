@@ -67,11 +67,11 @@
 
 #include _system/forms/check-human.xml
 #include _system/forms/email-form.xml
+#include _system/forms/input-group.xml
 #include _system/forms/modal.xml
 #include _system/forms/save-form.xml
 #include _system/forms/xdropdown.xml
 #include _system/forms/xform.xml
-#include _system/forms/xinput.xml
 #include _system/forms/xradio.xml
 
 #include _system/layout/column.xml
@@ -83,6 +83,7 @@
 #include _system/layout/fullscreen.xml
 #include _system/layout/grid.xml
 #include _system/layout/layers.xml
+#include _system/layout/layout.xml
 #include _system/layout/list.xml
 #include _system/layout/row.xml
 #include _system/layout/screencover.xml
@@ -108,6 +109,7 @@
 #include _system/styles/add-libs.xml
 #include _system/styles/css.xml
 #include _system/styles/font.xml
+#include _system/styles/styled.xml
 #include _system/styles/sudo.xml
 #include _system/styles/xstyle.xml
 

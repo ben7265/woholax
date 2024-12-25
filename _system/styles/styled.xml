@@ -1,0 +1,77 @@
+<xten name="styled" element="_hidden">
+    <allow>admin, designer</allow>
+    <toolbar left="0">
+        <icon name="styles">
+            <tooltip>change styles</tooltip>
+            <click fname="_styledChangeStyles">
+            <%
+                const element = wxfns.getToolbarParent(event);
+                const original = element.getAttribute('style');
+                const styles = wxfns.parseStyles(original);
+                const data = await element.openModal('styles-dialog', 'Change Styles ' + element.getName(), styles);
+                if (!data) {
+                    return;
+                }
+                /* save data */
+                console.log(data);
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <modal name="styles-dialog">
+        <form class="styles">
+            <input-group name="padding" type="text" value="[$padding||]" label="Padding" required="true" />
+            <input-group name="border" type="text" value="[$border||]" label="Border Radius" />
+            <input-group name="border-radius" type="number" min="0" validations="integer" value="[$border-radius||0]" label="Border">
+                <suffix>px</suffix>
+            </input-group>
+        </form>
+        <align class="button-panel" vertical="flex-end">
+            <button type="submit">Save</button>
+            <button type="cancel">Cancel</button>
+        </align>
+    </modal>
+
+    <init>
+    <%
+        var target = node.parent;
+        while (target.attribs.element == '_hidden') {
+            target = target.parent;
+        }
+
+        if (!target.attribs.name) {
+            common.nodeerror('name is mandatory in styled targets', target);
+            return;
+        }
+
+        const toolbar = node.findChild('toolbar');
+        fns.processXtens(toolbar, context);
+
+        const targetToolbar = target.findChild('toolbar');
+        if (!targetToolbar) {
+            target.addChild(toolbar);
+            return;
+        }
+
+        targetToolbar.insertChildren(0, toolbar.children);
+    %>
+    </init>
+
+    <load>
+    <%
+        var target = node.parent;
+        while (target.attribs.element == '_hidden') {
+            target = target.parent;
+        }
+
+        const name = target.attribs.name;
+        if (!name) {
+            return;
+        }
+
+        const styles = await database.objectValue(target, context, xten, 'styles-');
+        target.addStyle(styles);
+    %>
+    </load>
+</xten>

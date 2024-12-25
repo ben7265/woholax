@@ -139,7 +139,7 @@
     </initElement>
 
     <load>
-        const value = await database.inlineValue(node, context, xten, 'position-');
+        const value = await database.objectValue(node, context, xten, 'position-');
         if (value) {
             node.addStyle(value);
         }

@@ -81,12 +81,18 @@
     <load>
     <%
         const body = node.findOne('tbody');
-        const template = node.findOne('[name="row-template"]').clone();
+        const templateNode = node.findOne('[name="row-template"]');
+        if (!templateNode) {
+            node.attribs.error = 'row-template not found in object-type vector-docs ' + node.attribs.name;
+            common.error(node.attribs.error);
+            return;
+        }
+        const template = templateNode.clone();
         body.empty();
 
         body.addChild(template);
 
-        var value = await database.inlineValue(node, context, xten);
+        var value = await database.objectValue(node, context, xten);
         var sno = 1;
 
         if (!value) {

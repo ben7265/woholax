@@ -1,4 +1,4 @@
-<xten name="if" element="_hidden">
+<xten name="if" element="_children">
     <load>
     <%
         const defined = node.getValue('defined');

@@ -1,4 +1,4 @@
-<xten name="space" element="span">
+<xten name="space" element="_children">
     <init>
         <%
         const n = parseInt(node.getValue(node.attribs.n) || 1);

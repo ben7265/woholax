@@ -1,4 +1,5 @@
-<xten name="image-list" element="div">
+<!-- need to be fixed with final modal structure -->
+<!--xten name="image-list" element="div">
     <style>
         width: 90%;
         height: 90%;
@@ -166,4 +167,4 @@
         });
     %>
     </initElement>
-</xten>
+</xten -->

@@ -31,19 +31,17 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: lightgrey;
-            opacity: 0.5;
             z-index: -1;
         }
 
+        .wx-xten-modal.open .modal-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
         .wx-xten-modal .modal-wrapper {
-            border: 1px solid gray;
-            width: auto;
-            min-height: 300px;
-            min-width: 500px;
             max-width: 90%;
             max-height: 90%;
-            background-color: white;
         }
 
         .wx-xten-modal .modal-header {
@@ -63,15 +61,33 @@
         }
 
         .wx-xten-modal .modal-content {
+            
             padding: 10px;
+            height: 100%;
         }
     </css>
+
+    <cssNode>
+        .wx-xten-modal .modal-background {
+            background-color: [$overlay-color||lightgrey];
+            opacity: [$opacity||0.5];
+        }
+
+        .wx-xten-modal .modal-wrapper {
+            border: [$border||1px solid gray];
+            min-height: [$min-height||300px];
+            min-width: [$min-width||500px];
+            height: [$height||fit-content];
+            width: [$width||fit-content];
+            background-color: [$background-color||white];
+        }
+    </cssNode>
 
     <view>
         <div class="modal-background"></div>
         <div class="modal-wrapper">
             <div class="modal-header">
-                <div name="modal-header-text">[$heading||Modal]</div>
+                <div name="modal-header-text"></div>
                 <div name="modal-close">
                     <icon name="cross" class="modal-close-icon">
                         <tooltip>close modal</tooltip>
@@ -87,6 +103,7 @@
             <div class="modal-content">
                 <node-content />
             </div>
+            <div class="modal-error" style="text-align: center; color: red; padding: 5px"></div>
         </div>
     </view>
 
@@ -94,18 +111,109 @@
     <%
         const name = element.getName();
 
-        element.open = function (data) {
+        const saveListener = event => {
+            event.preventDefault();
+            event.stopPropagation();
+            element.save();
+        };
+
+        const cancelListener = event => {
+            event.preventDefault();
+            event.stopPropagation();
+            element.cancel();
+        };
+
+        const wrapper = element.querySelector('.modal-wrapper');
+        const originalHTML = wrapper.innerHTML;
+
+        const saveButton = element.querySelector('button[type="submit"]');
+        saveButton.addEventListener('click', saveListener);
+
+        const cancelButton = element.querySelector('button[type="cancel"]');
+        cancelButton.addEventListener('click', cancelListener);
+
+        const updateElement = (data) => {
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = originalHTML;
+
+            for (const [key, value] of Object.entries(data)) {
+                tempElement.innerHTML = tempElement.innerHTML.replace(key, value);
+            }
+
+            tempElement.innerHTML = tempElement.innerHTML.replace(/\[\$([^\]]+)\]/g, '');
+
+            wrapper.innerHTML = tempElement.innerHTML;
+
+            const saveButton = element.querySelector('button[type="submit"]');
+            saveButton.addEventListener('click', saveListener);
+
+            const cancelButton = element.querySelector('button[type="cancel"]');
+            cancelButton.addEventListener('click', cancelListener);
+        };
+
+        element.open = function (heading, setter, getter) {
             const output = new Promise((resolve) => {
                 element.addClass('open');
+
+                const vars = {};
+                switch (true) {
+                    case typeof setter == 'function':
+                        setter(wrapper);
+                    break;
+                    case typeof setter == 'string':
+                        vars['[$data]'] = setter;
+                        updateElement(vars);
+                    break;
+                    case typeof setter == 'object':
+                        if (typeof setter == 'string') {
+                            vars['[$data]'] = setter;
+                        }
+                        else
+                        {
+                            for (var prop in setter) {
+                                vars['[$' + prop + ']'] = setter[prop];
+                            }
+                        }
+
+                        updateElement(vars);
+                    break;
+                    case !setter: break;
+                    default:
+                        wxfns.error('Modal Error', 'invalid setter provided');
+                        return;
+                }
+
+                const header = wrapper.querySelector('.modal-header-text');
+                header.innerHTML = heading;
+
                 element.cancel = () => {
                     element.removeClass('open');
-                    resolve({action: 'cancel'});
+                    resolve(null);
                 };
+
                 element.save = (data) => {
+                    var outputData = null;
+                    switch (true) {
+                        case data:
+                            outputData = data;
+                        break;
+                        case !!getter:
+                            outputData = getter(wrapper);
+                        break;
+                        default:
+                            const form = wrapper.querySelector('form');
+                            if (form) {
+                                const formData = form.validatedFormData();
+                                if (!formData) {
+                                    return;
+                                }
+                                delete formData['check-human'];
+                                outputData = formData;
+                            }
+                    }
                     element.removeClass('open');
-                    resolve({action: 'save', data: data});
+                    resolve(outputData);
                 };
-                element.notify('modal-' + name + '-opened', data);
             });
             return output;
         };

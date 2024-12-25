@@ -84,7 +84,7 @@
             node.attribs['data-selector'] = parentSelector + name;
         }
 
-        const value = await database.inlineValue(node, context, xten);
+        const value = await database.objectValue(node, context, xten);
         if (!value || !value.length) {
             node.attribs['item-count'] = '0';
             return;

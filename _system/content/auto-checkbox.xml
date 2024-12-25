@@ -15,7 +15,7 @@
             }
         });
 
-        const result = await target.transaction('save-page-data', checkboxValues);
+        const result = await target.transaction('save-object-data', checkboxValues);
         if (result.rc != 'success') {
             return;
         }
@@ -73,7 +73,7 @@
 
     <load>
     <%
-        const values = await database.inlineValue(node, context, xten);
+        const values = await database.objectValue(node, context, xten);
         const checkboxes = node.findChildren('[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             if (values && values.indexOf(checkbox.attribs.value) != -1) {

@@ -2,15 +2,17 @@
 <xten name="default" element="_hidden" />
 
 <xten name="switch" element="_children">
-    <view>
+    <!--view>
         <div name="switch-output">
         </div>
-    </view>
+    </view -->
 
     <init>
     <%
+        /*
         const container = node.findNamedChild('div', 'switch-output');
         container.empty();
+        */
 
         const value = node.getValue('value');
         var _default = null;
@@ -28,7 +30,11 @@
                 const match = child.getValue('match');
                 if (match == result) {
                     const _case = child.clone();
+                    node.empty();
+                    node.insertChildren(0, _case.children);
+                    /*            
                     container.insertChildren(0, _case.children);
+                    */
                     return;
                 }
             }
@@ -38,7 +44,11 @@
             }
 
             const _case = _default.clone();
+            node.empty();
+            node.insertChildren(0, _case.children);
+            /*            
             container.insertChildren(0, _case.children);
+            */
         }
         catch (e) {
             common.nodeerror('error in switch value: ' + e.message, node);

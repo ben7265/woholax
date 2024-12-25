@@ -136,7 +136,7 @@
                 const selected = result.data;
                 if (selected) {
                     image.setAttribute('src', selected);
-                    element.transaction('save-page-data', selected);
+                    element.transaction('save-object-data', selected);
                 }
             %>
             </event>
@@ -208,7 +208,7 @@
     <load>
     <%
         const img = node.findChildren('img')[0];
-        const value = await database.inlineValue(node, context, xten);
+        const value = await database.objectValue(node, context, xten);
         if (value) {
             node.attribs.src = value;
             img.attribs.src = value;

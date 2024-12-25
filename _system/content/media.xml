@@ -31,7 +31,7 @@
 
     <load>
     <%
-        const value = await database.inlineValue(node, context, xten);
+        const value = await database.objectValue(node, context, xten);
         if (value) {
             node.attribs.src = value;
         }

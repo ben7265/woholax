@@ -1,0 +1,112 @@
+<xten name="layout" element="div">
+    <allow>admin, designer</allow>
+    <style>
+        position: relative;
+        background-color: blue;
+    </style>
+
+    <nodeStyle>
+        display: grid;
+        grid-gap: [$item-gap||10px];
+        padding: [$padding||0];
+    </nodeStyle>
+
+    <css>
+        .wx-xten-layout > [place] {
+            background-color: yellow;
+        }
+    </css>
+
+    <modal name="layout-dialog">
+        <form class="layout-map" style="display: flex; min-height: 200px; align-items: center; justify-content: center; padding: 10px">
+            <textarea name="map" required="true" style="min-height: 150px; min-width: 300px; width: 100%; border: none">[$data]</textarea>
+        </form>
+
+        <align class="button-panel">
+            <button type="submit">Save</button>
+            <button type="cancel">Cancel</button>
+        </align>
+    </modal>
+
+    <toolbar>
+        <icon name="edit">
+            <tooltip>edit layout</tooltip>
+            <click fname="_layoutEditLayout">
+            <%
+                const element = wxfns.getToolbarParent(event);
+
+                const children = element.querySelectorAll('[place]');
+                var areas = element.getAttribute('areas');
+                if (!areas) {
+                    areas = '';
+                    children.forEach(child => {
+                        areas += child.getAttribute('place') + '+';
+                    });
+                }
+                
+                const output = await element.openModal('layout-dialog', 'Change Layout', areas);
+                if (!output) {
+                    return;
+                }
+
+                var updatedAreas = output.map.trim();
+                
+                element.setAttribute('areas', updatedAreas);
+                const result = await element.save(updatedAreas);
+                if (result.rc != 'success') {
+                    return;
+                }
+
+                const styleArea = updatedAreas.split(/\s*\+\s*/).map(row => "'" + row.trim() + "'").join(' ');
+                element.style.gridTemplateAreas = styleArea;
+                children.forEach(child => {
+                    child.style.gridArea = child.getAttribute('place');
+                });
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <init>
+    <%
+        const children = node.find('[place]');
+        for (var i = 0; i < children.length; i++) {
+            const child = children[i];
+            child.addClass('layout-child');
+            child.attribs['layout-idx'] = i.toString();
+        }
+
+        const areasNode = node.findChild('areas');
+        if (areasNode) {
+            const areasText = areasNode.text;
+            areasNode.remove();
+            node.attribs.areas = areasText;
+        }
+    %>
+    </init>
+
+    <load>
+    <%
+        const content = await database.objectValue(node, context, xten);
+        const areasText = content ? content : node.attribs.areas;
+        if (!areasText) {
+            return;
+        }
+
+        node.attribs.areas = areasText;
+
+        const rows = areasText.split('+').map(row => (row.trim().split('\s+')));
+        const maxCols = Math.max(...rows.map(row => row.length));
+        const paddedRows = rows.map(row => row.concat(Array(maxCols - row.length).fill('')));
+        const areas = paddedRows.map(row => 
+            row.map(value => value.trim() ? value.trim() : '.').join(' ')
+        ).map(row => "'" + row + "'").join(' ');
+
+        node.addStyle('grid-template-areas:' + areas);
+        const children = node.find('[place]');
+        children.forEach(child => {
+            child.addStyle('grid-area:' + child.attribs.place);
+        });
+    %>
+    </load>
+</xten>

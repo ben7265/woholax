@@ -1,4 +1,5 @@
-<xten name="video-list" element="div">
+<!-- need to be fixed with final modal structure -->
+<!--xten name="video-list" element="div">
     <style>
         max-width: 90%;
         max-height: 90%;
@@ -176,9 +177,4 @@
         });
     %>
     </initElement>
-
-    <!--event name="modal-video-list-dialog-opened" fname="_fvlDialogOpened">
-    <%
-    %>
-    </event -->
-</xten>
+</xten-->

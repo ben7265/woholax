@@ -309,12 +309,14 @@
         }
 
         const listViewName = node.getValue('list-view') || 'default';
-        listView = configNode.findNamedChild('list-view', listViewName).clone();
-        if (!listView) {
+        const listViewNode = configNode.findNamedChild('list-view', listViewName);
+        if (!listViewNode) {
             node.attribs.error = 'list-view ' + listViewName + ' not found in object-type ' + objType;
             common.error(node.attribs.error);
             return;
         }
+
+        const listView = listViewNode.clone();
 
         const vars = node.attribs;
 

@@ -85,7 +85,7 @@
 
         body.addChild(template);
 
-        var value = await database.inlineValue(node, context, xten);
+        var value = await database.objectValue(node, context, xten);
         var sno = 1;
 
         if (!value) {

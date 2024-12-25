@@ -3,14 +3,14 @@
 
     <event name="change">
     <%
-        element.transaction('save-page-data', element.value || null);
+        element.transaction('save-object-data', element.value || null);
         element.notify('dropdown-changed', {value: element.value});
     %>
     </event>
 
     <load>
     <%
-        const value = await database.inlineValue(node, context, xten) || null;
+        const value = await database.objectValue(node, context, xten) || null;
         for (var i = 0; i < node.children.length; i++) {
             const option = node.children[i];
             if (!value) {

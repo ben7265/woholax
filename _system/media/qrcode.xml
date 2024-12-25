@@ -37,7 +37,7 @@
                 var element = wxfns.getToolbarParent(event);
                 const value = await wxfns.getUserValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
 
-                await element.transaction('save-page-data', value.trim());
+                await element.transaction('save-object-data', value.trim());
                 element.setAttribute('data', value);
 
                 const placeholder = element.querySelector('[name="qrcode-image"]');
@@ -53,7 +53,7 @@
     </toolbar>
 
     <load>
-        const value = await database.inlineValue(node, context, xten);
+        const value = await database.objectValue(node, context, xten);
         if (value) {
             node.attribs.data = value;
         }

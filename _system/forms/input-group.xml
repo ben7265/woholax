@@ -1,0 +1,131 @@
+<xten name="input-group" element="div">
+    <mandatory>name, type</mandatory>
+    <style>
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex; 
+        align-items: center;
+    </style>
+
+    <nodeStyle>
+        padding: [$margin||2px 0];
+        gap: [$item-gap||10px];
+    </nodeStyle>
+
+    <css>
+        .wx-xten-input-group .input-label {
+            flex: 1; 
+            min-width: 150px; 
+            text-align: right;
+        }
+
+        .wx-xten-input-group .composite-input {
+            flex: 2; 
+            width: 100%;
+        }
+
+        .wx-xten-input-group[type="textarea"] label {
+            display: inline-block;
+        }
+
+        .wx-xten-input-group textarea {
+            width: 100%; 
+            min-height: 100px;
+        }
+
+        .wx-xten-input-group .input-error {
+            color: red; 
+            padding: 3px; 
+            font-size: 0.8em;
+        }
+
+        .wx-xten-input-group .composite-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .wx-xten-input-group .composite-input input {
+            border: none;
+            flex: 1;
+            padding: 8px 10px;
+            width: 100%;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .wx-xten-input-group .composite-input:has(.invalid-value) {
+            border: 1px solid red !important;
+        }
+    </css>
+
+    <cssNode>
+        #[$id] .composite-input {
+            border: [$group-border||1px solid #ccc];
+            border-radius: [$group-radius||5px];
+        }
+
+        #[$id] .composite-input .prefix,
+        #[$id] .composite-input .suffix {
+            background-color: [$button-color||lightgrey];
+        }
+
+        #[$id] .composite-input .prefix {
+            border-right: 1px solid #ccc;
+            padding: [$padding||5px]; 
+        }
+
+        #[$id] .composite-input .suffix {
+            border-left: 1px solid #ccc;
+            padding: [$padding||5px]; 
+        }
+
+        #[$id] .composite-input input {
+            padding: [$padding||5px]; 
+        }
+    </cssNode>
+
+    <view>
+        <if var-value="label">
+            <label class="input-label">
+                [$label]
+                <if var-value="required">
+                    <space n="1"/>*
+                </if>
+            </label>
+        </if>
+        <div class="composite-input">
+            <node-content name="prefix" element="span" />
+            <switch value="node.closest('.wx-xten-input-group').attribs.type">
+                <case match="textarea">
+                    <textarea name="[$name]" required="[$required||false]" class="input-group-control" placeholder="[$placeholder||]" />
+                </case>
+                <case match="check-human">
+                    <check-human class="input-group-control" />
+                </case>
+                <default>
+                    <input name="[$name]" type="[$type]" required="[$required||false]" class="input-group-control" placeholder="[$placeholder||]" />
+                </default>
+            </switch>
+            <node-content name="suffix" element="span" />
+        </div>
+    </view>
+
+    <initElement>
+    <%
+        const type = element.getAttribute('type');
+        if (type == 'check-human') {
+            const _input = element.querySelector('.input-group-control');
+            for (var i = 0, atts = element.attributes, n = atts.length, arr = []; i < n; i++){
+                att = atts[i];
+                if (!_input.getAttribute(att.nodeName)) {
+                    _input.setAttribute(att.nodeName, att.nodeValue);
+                }
+            }
+        }
+    %>
+    </initElement>
+</xten>

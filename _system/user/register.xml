@@ -9,8 +9,8 @@
         .wx-xten-register .email-settings {padding: 5px; margin: 5px; background-color: white; width: 100%; border: 1px solid grey;}
         .wx-xten-register .wx-xten-toolbar {display: none;}
         .wx-xten-register.wx-state-editable .wx-xten-toolbar {display: flex;}
-        .wx-xten-register[labels="none"] .wx-xten-xinput .label-column {display: none;}
-        .wx-xten-register[labels="none"] .wx-xten-xinput .input {padding: 0;}
+        .wx-xten-register[labels="none"] .wx-xten-input-group .label-column {display: none;}
+        .wx-xten-register[labels="none"] .wx-xten-input-group .input {padding: 0;}
     </css>
 
     <view>

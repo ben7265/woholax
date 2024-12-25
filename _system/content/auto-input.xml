@@ -25,7 +25,7 @@
 
     <load>
     <%
-        const value = await database.inlineValue(node, context, xten);
+        const value = await database.objectValue(node, context, xten);
         const input = node.findChild('input');
         input.attribs.value = value;
     %>
@@ -36,7 +36,7 @@
         const valid = element.invoke('validate', event.currentTarget);
 
         if (valid) {
-            const result = await element.transaction('save-page-data', element.value);
+            const result = await element.transaction('save-object-data', element.value);
         }
     %>
     </event>
