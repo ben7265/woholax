@@ -1,77 +1,158 @@
-<xten name="styled" element="_hidden">
+<xten name="styled" element="div">
     <allow>admin, designer</allow>
-    <toolbar left="0">
+
+    <style>
+        position: relative;
+        overflow: hidden;
+    </style>
+
+    <css>
+        .wx-xten-styled .styled-underlay,
+        .wx-xten-styled .styled-background,
+        .wx-xten-styled .styled-content
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .wx-xten-styled > .wx-xten-toolbar {
+            display: none;
+        }
+
+        .wx-xten-styled.wx-state-editable > .wx-xten-toolbar {
+            display: initial;
+        }
+    </css>
+
+    <view>
+        <div class="styled-background">
+            <media name="[$name]-background-image" blank="images/transparent.svg" style="height:100%;width:100%" />
+        </div>
+        <div class="styled-underlay"></div>
+        <div class="styled-content">
+            <node-content />
+        </div>
+    </view>
+
+    <toolbar name="edit-style-toolbar">
         <icon name="styles">
             <tooltip>change styles</tooltip>
             <click fname="_styledChangeStyles">
             <%
                 const element = wxfns.getToolbarParent(event);
-                const original = element.getAttribute('style');
-                const styles = wxfns.parseStyles(original);
-                const data = await element.openModal('styles-dialog', 'Change Styles ' + element.getName(), styles);
-                if (!data) {
+                const original = element.getAttribute('allstyles');
+                const input = wxfns.parseStyles(original);
+
+                const output = await element.openModal('styles-dialog', 'Change Styles ' + element.getName(), input);
+                if (!output) {
                     return;
                 }
-                /* save data */
-                console.log(data);
+                
+                await element.saveData(output, '-styles');
+
+                element.setAttribute('allstyles', wxfns.makeStyles(output));
+
+                const nodeStyles = {};
+                const underlayStyles = {};
+                const contentStyles = {};
+
+                for (var prop in output) {
+                    switch (prop) {
+                        case 'background-color':
+                        case 'opacity':
+                            underlayStyles[prop] = output[prop];
+                        break;
+
+                        case 'padding':
+                            contentStyles[prop] = output[prop];
+                        break;
+
+                        default:
+                            nodeStyles[prop] = output[prop];
+                    }
+                }
+
+                element.addStyle(nodeStyles);
+
+                const underlay = element.querySelector('.styled-underlay');
+                const content = element.querySelector('.styled-content');
+
+                underlay.addStyle(underlayStyles);
+                content.addStyle(contentStyles);
             %>
             </click>
         </icon>
     </toolbar>
 
     <modal name="styles-dialog">
-        <form class="styles">
-            <input-group name="padding" type="text" value="[$padding||]" label="Padding" required="true" />
-            <input-group name="border" type="text" value="[$border||]" label="Border Radius" />
-            <input-group name="border-radius" type="number" min="0" validations="integer" value="[$border-radius||0]" label="Border">
-                <suffix>px</suffix>
-            </input-group>
-        </form>
-        <align class="button-panel" vertical="flex-end">
+        <content>
+            <form class="styles">
+                <input-group name="padding" type="text" value="[$padding]" />
+                <input-group name="border" type="text" value="[$border]" />
+                <input-group name="border-radius" type="text" value="[$border-radius]" />
+                <input-group name="color" type="color" value="[$color]" label="Text Color" />
+                <input-group name="background-color" type="color" value="[$background-color]" />
+                <input-group name="opacity" type="number" value="[$opacity]" min="0.0" max="1.0" step="0.01" label="Background Opacity" />
+                <!--input-group name="background-size" type="text" value="[$background-size]" />
+                <input-group name="background-position" type="text" value="[$background-position]" />
+                <input-group name="background-repeat" type="text" value="[$background-repeat]" />
+                <input-group name="background-attachment" type="text" value="[$background-attachment]" />
+                <input-group name="background-blend-mode" type="text" value="[$background-blend-mode]" / -->            
+            </form>
+        </content>
+
+        <buttons>
             <button type="submit">Save</button>
             <button type="cancel">Cancel</button>
-        </align>
+        </buttons>
     </modal>
 
     <init>
     <%
-        var target = node.parent;
-        while (target.attribs.element == '_hidden') {
-            target = target.parent;
+        const backgroundType = node.attribs['background-type'] || 'cover';
+        if (backgroundType == 'cover') {
+            const background = node.findChild('.styled-background');
+            const media = background.findChild('media');
+            media.attribs['background-cover'] = 'yes';
         }
-
-        if (!target.attribs.name) {
-            common.nodeerror('name is mandatory in styled targets', target);
-            return;
-        }
-
-        const toolbar = node.findChild('toolbar');
-        fns.processXtens(toolbar, context);
-
-        const targetToolbar = target.findChild('toolbar');
-        if (!targetToolbar) {
-            target.addChild(toolbar);
-            return;
-        }
-
-        targetToolbar.insertChildren(0, toolbar.children);
     %>
     </init>
 
     <load>
     <%
-        var target = node.parent;
-        while (target.attribs.element == '_hidden') {
-            target = target.parent;
+        const styles = await database.objectValue(node, context, xten, '-styles');
+
+        node.attribs.allstyles = node.makeStyles(styles);
+
+        const nodeStyles = {};
+        const underlayStyles = {};
+        const contentStyles = {};
+
+        for (var prop in styles) {
+            switch (prop) {
+                case 'background-color':
+                case 'opacity':
+                    underlayStyles[prop] = styles[prop];
+                break;
+
+                case 'padding':
+                    contentStyles[prop] = styles[prop];
+                break;
+
+                default:
+                    nodeStyles[prop] = styles[prop];
+            }
         }
 
-        const name = target.attribs.name;
-        if (!name) {
-            return;
-        }
+        node.addStyle(nodeStyles);
 
-        const styles = await database.objectValue(target, context, xten, 'styles-');
-        target.addStyle(styles);
+        const underlay = node.findChild('.styled-underlay');
+        underlay.addStyle(underlayStyles);
+
+        const content = node.findChild('.styled-content');
+        content.addStyle(contentStyles);
     %>
     </load>
 </xten>

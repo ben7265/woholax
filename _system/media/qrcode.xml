@@ -37,7 +37,7 @@
                 var element = wxfns.getToolbarParent(event);
                 const value = await wxfns.getUserValue('qrcode', 'text', 'QR Code', {qrcode: element.getAttribute('data')});
 
-                await element.transaction('save-object-data', value.trim());
+                await element.saveData(value.trim());
                 element.setAttribute('data', value);
 
                 const placeholder = element.querySelector('[name="qrcode-image"]');

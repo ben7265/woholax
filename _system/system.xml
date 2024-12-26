@@ -66,6 +66,7 @@
 #include _system/elements/tooltip.xml
 
 #include _system/forms/check-human.xml
+#include _system/forms/color-picker.xml
 #include _system/forms/email-form.xml
 #include _system/forms/input-group.xml
 #include _system/forms/modal.xml

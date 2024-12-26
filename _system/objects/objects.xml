@@ -3,6 +3,7 @@
         <icon name="add">
             <tooltip>add [@object-label]</tooltip>
             <click fname="_eventObjectAdd">
+                <toolbar-element/>
                 <transaction name="add-object" />
                 <reload/>
             </click>

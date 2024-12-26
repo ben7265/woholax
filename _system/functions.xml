@@ -144,11 +144,11 @@
     <%
     var result = null;
     if ('[$value||null]' != 'null') {
-        result = await eventCurrentTarget.transaction('save-object-data', '[$value]');
+        result = await eventCurrentTarget.saveData('[$value]');
     }
     else
     {
-        result = await eventCurrentTarget.transaction('save-object-data', [$_text]);
+        result = await eventCurrentTarget.saveData([$_text]);
     }
     if (result && result.rc != 'success') {
         return;

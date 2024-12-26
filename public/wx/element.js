@@ -79,6 +79,21 @@ Element.prototype.toggleClass = function (className) {
     }
 };
 
+Element.prototype.addStyle = function(styles) {
+    const obj = typeof styles == 'object' ? styles : wxfns.parseStyles(styles);
+    const current = wxfns.parseStyles(this.getAttribute('style'));
+    for (var prop in obj) {
+        current[prop] = obj[prop];
+    }
+
+    const output = wxfns.makeStyles(current);
+    this.setAttribute('style', output);
+};
+
+Element.prototype.removeStyle = function(styles) {
+    // ### tbd
+};
+
 // local events related functions
 const listeners = {};
 
@@ -145,7 +160,7 @@ Element.prototype.upload = async function (txn, data, file, dontShowError) {
     return result;
 };
 
-Element.prototype.transaction = async function (txn, data, dontShowError) {
+Element.prototype.transaction = async function (txn, data, suffix, dontShowError) {
     const attribs = [...this.attributes].reduce((attrs, attribute) => {
         attrs[attribute.name] = attribute.value;
         return attrs;
@@ -158,6 +173,7 @@ Element.prototype.transaction = async function (txn, data, dontShowError) {
         attribs: attribs,
         'calling-url': window.location.href,
         txn: txn,
+        suffix: suffix,
         data: data
     };
 
@@ -172,8 +188,8 @@ Element.prototype.transaction = async function (txn, data, dontShowError) {
     return result;
 };
 
-Element.prototype.save = async function (data, dontShowError) {
-    return await this.transaction('save-object-data', data, dontShowError);
+Element.prototype.saveData = async function (data, suffix, dontShowError) {
+    return await this.transaction('save-object-data', data, suffix, dontShowError);
 };
 
 Element.prototype.openModal = async function (name, heading, setter, getter) {
@@ -182,7 +198,7 @@ Element.prototype.openModal = async function (name, heading, setter, getter) {
 };
 
 Element.prototype.refresh = async function () {
-    const result = await this.transaction('refresh', null, false);
+    const result = await this.transaction('refresh');
     if (result && result.rc != 'success') {
         wxfns.error(wxfns.toCamelCase(result.rc), result.message || result.output || 'Error refreshing element');
         return;
@@ -253,76 +269,70 @@ Element.prototype.getValue = function () {
             return this.checked;
         case "select-multiple":
             return Array.from(this.selectedOptions).map(opt => opt.value);
+        default: 
+            return this.value;
     }
 
     return this.value;
 };
 
-Element.prototype.validate = function () {
+Element.prototype.validate = function (_value) {
     const required = this.getAttribute('required') == 'true';
-    const value = this.value.trim();
-    var valid = this.checkValidity();
-    var error = null;
+    const value = _value || this.value.trim();
 
-    switch (true) {
-        case !value && !required:
-            return true;
-        case !value && required:
-            error = 'required value';
-            valid = false;
-            break;
-        case !valid:
-            error = this.validationMessage;
-            break;
-        default:
-            error = null;
+    this.reportError(null);
 
-            const validate = this.getAttribute('validate');
-            if (validate) {
-                const checks = validate.split(/\s*\,\s*/);
-                for (var i = 0; i < checks.length; i++) {
-                    const _check = checks[i].trim();
-                    const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
-                    const _fname = matches[1];
-                    if (!_fname || !validations[_fname]) {
-                        error = 'validation ' + _fname + ' not defined';
-                        valid = false;
-                        break;
-                    }
-                    const _args = matches[3];
-                    error = validations[_fname](value, _args);
-                    if (error) {
-                        valid = false;
-                        break;
-                    }
-                }
-            }
+    if (!this.checkValidity()) {
+        return false;
     }
 
-    if (valid) {
+    if (!value && !required) {
         return true;
     }
 
-    this.reportError(error);
+    if (!value && required) {
+        this.reportError('required value');
+        return false;
+    }
 
-    return false;
+    const validate = this.getAttribute('validate');
+    if (!validate) {
+        return true;
+    }
+
+    const checks = validate.split(/\s*\:\s*/);
+    for (var i = 0; i < checks.length; i++) {
+        const _check = checks[i].trim();
+        const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
+
+        const _fname = matches[1];
+        if (!_fname || !validations[_fname]) {
+            this.reportError('validation ' + _fname + ' not defined');
+            return false;
+        }
+
+        const _args = matches[3] ? matches[3].split(/\s*\,\s*/) : [];
+        const error = validations[_fname](value, _args);
+        if (error) {
+            this.reportError(error);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 Element.prototype.reportError = function (error) {
-    console.log('reporting', error);
-    this.addClass('invalid-value');
-    this.setCustomValidity(error);
+    if (error) {
+        this.addClass('invalid-value');
+        this.setCustomValidity(error);    
+    }
+    else
+    {
+        this.removeClass('invalid-value');
+        this.setCustomValidity('');
+    }
     this.reportValidity();
-
-    const handleInput = (event) => {
-        event.target.removeClass('invalid-value');
-        event.target.setCustomValidity('');
-        event.target.reportValidity();
-        
-        event.target.removeEventListener('input', handleInput);
-    };
-      
-    this.addEventListener('input', handleInput);
 };
 
 Element.prototype.validateForm = function () {

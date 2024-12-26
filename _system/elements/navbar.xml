@@ -117,16 +117,28 @@
     <css>
         .navclass-column > .wx-xten-navitem {text-align: left;}
         .collapse > .wx-xten-navitem {text-align: left;}
-        .wx-xten-navitem a {text-decoration: none; color: inherit;}
+        .wx-xten-navitem, .wx-xten-navitem a {text-decoration: none; color: inherit;}
     </css>
-    <event name="click">
+
+    <init>
     <%
-        const href = element.getAttribute('href');
-        if (href && href != '#') {
-            window.location.href = href;
+        const href = node.attribs.href;
+        if (href) {
+            node.attribs.element = 'a';
+        }
+
+        if (context['page-name'] == href) {
+            node.addClass('active');
+        }
+        else
+        {
+            const link = node.findOne('a');
+            if (link && link.attribs.href == context['page-name']) {
+                node.addClass('active');
+            }
         }
     %>
-    </event>
+    </init>
 </xten>
 
 <xten name="navgroup">

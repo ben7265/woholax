@@ -1,0 +1,71 @@
+<xten name="color-picker" element="span">
+    <style>
+        display: flex; 
+        align-items: center; 
+        justify-content: 
+        space-between; 
+        width: 100%
+    </style>
+
+    <css>
+        .wx-xten-color-picker:has(.invalid-value) {
+            border: 1px solid red;
+        }
+    </css>
+
+    <view>
+        <input type="text" name="[$name]" value="[$value]" class="picker-target" validate="regex(^#[a-f0-9]{6}$, invalid color hex code)" placeholder="[$placeholder||]" style="flex-grow: 1">
+            <event name="input" fname="_cpEditColor">
+            <%
+                const current = event.target;
+                const value = current.value;
+
+                const valid = current.validate();
+                if (!valid) {
+                    return;
+                }
+
+                const element = current.closest('[xten="color-picker"]');
+                const input = element.querySelector('.color-picker');
+                if (value) {
+                    input.setAttribute('value', value);
+                }
+                else
+                {
+                    input.removeAttribute('value');
+                }
+                element.value = value;
+            %>
+            </event>
+        </input>
+        <input name="[$name]" value="[$value]" class="color-picker" type="color" style="flex-grow: 0; padding: 0; align-self: stretch">
+            <event name="input" fname="_cpInputColor">
+            <%
+                const current = event.target;
+                const value = current.value;
+
+                const element = current.closest('[xten="color-picker"]');
+                const input = element.querySelector('.picker-target');
+
+                input.value = value;
+                element.value = value;
+            %>
+            </event>
+        </input>
+    </view>
+
+    <initElement>
+    <%
+        const value = element.getAttribute('value');
+        const picker = element.querySelector('.color-picker');
+
+        if (value) {
+            picker.setAttribute('value', value);
+        }
+        else
+        {
+            picker.removeAttribute('value');
+        }
+    %>
+    </initElement>
+</xten>

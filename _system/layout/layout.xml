@@ -2,7 +2,6 @@
     <allow>admin, designer</allow>
     <style>
         position: relative;
-        background-color: blue;
     </style>
 
     <nodeStyle>
@@ -12,20 +11,26 @@
     </nodeStyle>
 
     <css>
-        .wx-xten-layout > [place] {
-            background-color: yellow;
+        .wx-xten-layout > .wx-xten-toolbar {
+            display: none;
+        }
+
+        .wx-xten-layout.wx-state-editable > .wx-xten-toolbar {
+            display: inline-block;
         }
     </css>
 
     <modal name="layout-dialog">
-        <form class="layout-map" style="display: flex; min-height: 200px; align-items: center; justify-content: center; padding: 10px">
-            <textarea name="map" required="true" style="min-height: 150px; min-width: 300px; width: 100%; border: none">[$data]</textarea>
-        </form>
+        <content>
+            <form class="layout-map" style="display: flex; min-height: 200px; align-items: center; justify-content: center; padding: 10px">
+                <textarea name="map" required="true" style="min-height: 150px; min-width: 300px; width: 100%; border: none">[$data]</textarea>
+            </form>
+        </content>
 
-        <align class="button-panel">
+        <buttons>
             <button type="submit">Save</button>
             <button type="cancel">Cancel</button>
-        </align>
+        </buttons>
     </modal>
 
     <toolbar>
@@ -52,7 +57,7 @@
                 var updatedAreas = output.map.trim();
                 
                 element.setAttribute('areas', updatedAreas);
-                const result = await element.save(updatedAreas);
+                const result = await element.saveData(updatedAreas);
                 if (result.rc != 'success') {
                     return;
                 }

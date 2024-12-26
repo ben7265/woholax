@@ -1,4 +1,16 @@
 <validations>
+    <regex>
+    <%
+        if (!args.length) {
+            return 'invalid validation syntax';
+        }
+
+        const message = args.length > 1 ? args[1] : 'input does not confirm to pattern';
+        const regex = new RegExp(args[0]);
+
+        return regex.test(value) ? null : message;
+    %>
+    </regex>
     <integer>
         return /^[0-9]+$/.test(value) ? null : 'not a valid integer';
     </integer>

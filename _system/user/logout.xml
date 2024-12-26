@@ -7,7 +7,7 @@
         const _event = new CustomEvent('changeUser', { bubbles: true, detail: null });
         element.dispatchEvent(_event);
 
-        await element.transaction('logout', null);
+        await element.transaction('logout');
         window.location.reload();
     %>
     </event>

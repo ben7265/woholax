@@ -142,19 +142,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const qle = element.querySelector('.ql-editor');
-        const toolbar = element.querySelector('.ql-toolbar');
-        toolbar.addClass('hidden');
+        const toolbar = qle ? element.querySelector('.ql-toolbar') : null;
+        toolbar && toolbar.addClass('hidden');
 
-        quill.getModule("toolbar").addHandler("image", (value) => {
-            const upload = async () => {
-                const file = await wxfns.selectFile('image/*');
-                const result = await element.upload('save-image', null, file);
-                const range = quill.getSelection();
-                quill.insertEmbed(range.index, 'image', result.output);
-                quill.setSelection(range.index + 1);
-            };
-            upload();
-        });
+        if (toolbar) {
+            quill.getModule("toolbar").addHandler("image", (value) => {
+                const upload = async () => {
+                    const file = await wxfns.selectFile('image/*');
+                    const result = await element.upload('save-image', null, file);
+                    const range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', result.output);
+                    quill.setSelection(range.index + 1);
+                };
+                upload();
+            });
+        }
 
         const changed = () => {
             const text = editor.innerText.trim();
@@ -184,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             element.removeClass('unsaved');
             changed();
 
-            await element.transaction('save-object-data', text.trim());
+            await element.saveData(text.trim());
         };
 
         quill.on('text-change', function (delta, oldDelta, source) {
@@ -204,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
 
             const toolbar = element.querySelector('.ql-toolbar');
-            toolbar.addClass('visible');
+            toolbar && toolbar.addClass('visible');
             const img = Parchment.find(event.target);
             if (img instanceof ImageBlot) {
                 quill.setSelection(img.offset(quill.scroll) - 1, 1, 'user');
@@ -217,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const text = quill.root.innerHTML;
             const toolbar = element.querySelector('.ql-toolbar');
-            toolbar.removeClass('visible');
+            toolbar && toolbar.removeClass('visible');
             await saveData();
         });
     %>

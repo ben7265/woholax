@@ -7,6 +7,7 @@
         flex-basis: [$width||1px];
     </nodeStyle>
     <init>
+    <%
         const width = node.getValue('width');
         const ratio = node.getValue('ratio');
         if (width) {
@@ -20,5 +21,6 @@
         {
             node.addStyle("flex-grow: 1");
         }
+    %>
     </init>
 </xten>

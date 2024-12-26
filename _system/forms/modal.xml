@@ -19,6 +19,7 @@
             height: 100vh;
             justify-content: center;
             align-items: center;
+            font-size: small;
         }
 
         .wx-xten-modal.open {
@@ -53,7 +54,8 @@
         }
 
         .wx-xten-modal .modal-header-text {
-            text-align: left;
+            text-align: center;
+            font-weight: bold;
         }
 
         .wx-xten-modal .modal-close-icon {
@@ -61,7 +63,7 @@
         }
 
         .wx-xten-modal .modal-content {
-            
+            overflow-y: scroll;
             padding: 10px;
             height: 100%;
         }
@@ -101,7 +103,10 @@
                 </div>
             </div>
             <div class="modal-content">
-                <node-content />
+                <node-content name="content" />
+            </div>
+            <div class="button-panel">
+                <node-content name="buttons" />
             </div>
             <div class="modal-error" style="text-align: center; color: red; padding: 5px"></div>
         </div>
@@ -124,7 +129,6 @@
         };
 
         const wrapper = element.querySelector('.modal-wrapper');
-        const originalHTML = wrapper.innerHTML;
 
         const saveButton = element.querySelector('button[type="submit"]');
         saveButton.addEventListener('click', saveListener);
@@ -132,17 +136,23 @@
         const cancelButton = element.querySelector('button[type="cancel"]');
         cancelButton.addEventListener('click', cancelListener);
 
+        var html = null;
+
         const updateElement = (data) => {
             const tempElement = document.createElement('div');
-            tempElement.innerHTML = originalHTML;
-
-            for (const [key, value] of Object.entries(data)) {
-                tempElement.innerHTML = tempElement.innerHTML.replace(key, value);
+            if (!html) {
+                html = wrapper.innerHTML;
             }
 
-            tempElement.innerHTML = tempElement.innerHTML.replace(/\[\$([^\]]+)\]/g, '');
+            var updated = html;
 
-            wrapper.innerHTML = tempElement.innerHTML;
+            updated = updated.replace(/\[\$([^\]]+)\]/g, (match, varName) => {
+                console.log('found', match, varName);
+                var [_varName, _defaultValue] = varName.split('||');
+                return data[_varName] || _defaultValue || '';
+            });
+
+            wrapper.innerHTML = updated;
 
             const saveButton = element.querySelector('button[type="submit"]');
             saveButton.addEventListener('click', saveListener);
@@ -153,6 +163,7 @@
 
         element.open = function (heading, setter, getter) {
             const output = new Promise((resolve) => {
+                console.log('open');
                 element.addClass('open');
 
                 const vars = {};
@@ -161,18 +172,13 @@
                         setter(wrapper);
                     break;
                     case typeof setter == 'string':
-                        vars['[$data]'] = setter;
+                        vars['data'] = setter;
                         updateElement(vars);
                     break;
                     case typeof setter == 'object':
-                        if (typeof setter == 'string') {
-                            vars['[$data]'] = setter;
-                        }
-                        else
-                        {
-                            for (var prop in setter) {
-                                vars['[$' + prop + ']'] = setter[prop];
-                            }
+                        console.log('setter', setter);
+                        for (var prop in setter) {
+                            vars[prop] = setter[prop];
                         }
 
                         updateElement(vars);
@@ -182,6 +188,8 @@
                         wxfns.error('Modal Error', 'invalid setter provided');
                         return;
                 }
+
+                element.notify('show-modal', name);
 
                 const header = wrapper.querySelector('.modal-header-text');
                 header.innerHTML = heading;

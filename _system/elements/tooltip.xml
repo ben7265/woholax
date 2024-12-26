@@ -1,5 +1,6 @@
 <xten name="tooltip" element="div">
     <parentClass>tooltip-parent</parentClass>
+
     <style>
         position: absolute;
         display: none;

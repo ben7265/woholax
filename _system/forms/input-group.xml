@@ -34,12 +34,6 @@
             min-height: 100px;
         }
 
-        .wx-xten-input-group .input-error {
-            color: red; 
-            padding: 3px; 
-            font-size: 0.8em;
-        }
-
         .wx-xten-input-group .composite-input {
             display: flex;
             align-items: center;
@@ -50,11 +44,13 @@
 
         .wx-xten-input-group .composite-input input {
             border: none;
-            flex: 1;
-            padding: 8px 10px;
-            width: 100%;
+        }
+
+        .wx-xten-input-group .composite-input .input-group-control {
+            border: none;
             box-sizing: border-box;
             outline: none;
+            flex-grow: 1;
         }
 
         .wx-xten-input-group .composite-input:has(.invalid-value) {
@@ -99,32 +95,65 @@
         </if>
         <div class="composite-input">
             <node-content name="prefix" element="span" />
-            <switch value="node.closest('.wx-xten-input-group').attribs.type">
+            <switch switch-value="node.closest('.wx-xten-input-group').attribs.type">
                 <case match="textarea">
-                    <textarea name="[$name]" required="[$required||false]" class="input-group-control" placeholder="[$placeholder||]" />
+                    <textarea name="[$name]" class="input-group-control" placeholder="[$placeholder||]" >
+                        [$value]
+                    </textarea>
                 </case>
                 <case match="check-human">
                     <check-human class="input-group-control" />
                 </case>
+                <case match="color">
+                    <color-picker name="[$name]" value="[$value]" class="input-group-control" placeholder="[$placeholder||]" />
+                </case>
                 <default>
-                    <input name="[$name]" type="[$type]" required="[$required||false]" class="input-group-control" placeholder="[$placeholder||]" />
+                    <input name="[$name]" value="[$value]" type="[$type]" class="input-group-control" placeholder="[$placeholder||]" />
                 </default>
             </switch>
             <node-content name="suffix" element="span" />
         </div>
     </view>
 
+    <init>
+    <%
+        const label = node.attribs.label;
+
+        switch (true) {
+            case 'none': 
+                delete node.attribs.label; 
+                break;
+            case !label: 
+                node.attribs.label = node.attribs.name.split('-').map(v => v[0].toUpperCase() + v.slice(1)).join(' '); 
+                break;
+            default: 
+        }
+    %>
+    </init>
+
     <initElement>
     <%
         const type = element.getAttribute('type');
-        if (type == 'check-human') {
-            const _input = element.querySelector('.input-group-control');
-            for (var i = 0, atts = element.attributes, n = atts.length, arr = []; i < n; i++){
-                att = atts[i];
-                if (!_input.getAttribute(att.nodeName)) {
-                    _input.setAttribute(att.nodeName, att.nodeValue);
-                }
+
+        var input = element.querySelector('.input-group-control');
+        if (!input) {
+            return;
+        }
+
+        for (const attr of element.attributes) {
+            const prop = attr.name;
+
+            const ignore = ['name', 'type', 'value', 'placeholder', 'id', 'label', 'txnkey', 'class', 'element', 'xten'];
+            if (ignore.includes(prop)) {
+                continue;
             }
+
+            if (prop === 'required' && attr.value === 'true') {
+                input.setAttribute('required', 'required');
+                continue;
+            }
+
+            input.setAttribute(prop, attr.value);
         }
     %>
     </initElement>

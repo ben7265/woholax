@@ -3,7 +3,7 @@
 
     <event name="change">
     <%
-        element.transaction('save-object-data', element.value || null);
+        element.saveData(element.value || null);
         element.notify('dropdown-changed', {value: element.value});
     %>
     </event>

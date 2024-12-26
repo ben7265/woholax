@@ -3,6 +3,7 @@
     <allow>owner, admin</allow>
     <style>
         position: relative;
+        width: 100%;
     </style>
 
     <nodeStyle>
@@ -19,6 +20,18 @@
         .wx-xten-media .wx-xten-toolbar > .save {display: none;}
         .wx-xten-media.media-changed .wx-xten-toolbar > .close {display: inline-block;}
         .wx-xten-media.media-changed .wx-xten-toolbar > .save {display: inline-block;}
+
+        .wx-xten-media.cover video,
+        .wx-xten-media.cover img
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </css>
 
     <init>
@@ -26,15 +39,20 @@
         node.attribs['image-extensions'] = common.imageExtensions;
         node.attribs['video-extensions'] = common.videoExtensions;
         node.attribs['audio-extensions'] = common.audioExtensions;
+        const cover = node.attribs['background-cover'] == 'yes';
+        console.log(cover);
+        if (cover) {
+            node.addClass('cover');
+        }
     %>
     </init>
 
     <load>
     <%
+        const blank = node.attribs.blank;
+        const src = node.attribs.src;
         const value = await database.objectValue(node, context, xten);
-        if (value) {
-            node.attribs.src = value;
-        }
+        node.attribs.src = value || src || blank || 'images/blank.svg';
     %>
     </load>
 
@@ -48,9 +66,10 @@
         const audioExtsArray = element.getAttribute('audio-extensions').split(/\s*\,\s*/);
 
         const playerType = element.getAttribute('player') || 'autoplay';
+        const blank = element.getAttribute('blank');
 
         element.updateMedia = (src, url) => {
-            const _src = src || 'images/blank.svg';
+            const _src = src || src || 'images/blank.svg';
             const ext = _src.split('.').pop().toLowerCase();
 
             var success = true;
@@ -199,8 +218,9 @@
                     return;
                 }
 
-                element.setAttribute('src', 'images/blank.svg');
-                element.updateMedia('images/blank.svg');
+                const blank = element.getAttribute('blank');
+                element.setAttribute('src', blank || 'images/blank.svg');
+                element.updateMedia(blank || 'images/blank.svg');
             %>
             </click>
         </icon>

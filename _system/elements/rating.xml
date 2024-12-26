@@ -81,7 +81,7 @@
             }
         });
 
-        const result = await element.transaction('save-object-data', num);
+        const result = await element.saveData(num);
         if (result.rc != 'success') {
             return;
         }

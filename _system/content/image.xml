@@ -136,7 +136,7 @@
                 const selected = result.data;
                 if (selected) {
                     image.setAttribute('src', selected);
-                    element.transaction('save-object-data', selected);
+                    element.saveData(selected);
                 }
             %>
             </event>

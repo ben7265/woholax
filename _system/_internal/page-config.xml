@@ -83,7 +83,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-background-color');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await target.transaction('save-object-data', value);
+                    const result = await target.saveData(value);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -117,7 +117,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-filter-color');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await target.transaction('save-object-data', value);
+                    const result = await target.saveData(value);
                     if (result.rc != 'success') {
                         return;
                     }
@@ -151,7 +151,7 @@
                     target.setAttribute('data-selector', 'page-styles.page-filter-opacity');
                     target.setAttribute('xten', 'page-config');
 
-                    const result = await target.transaction('save-object-data', value);
+                    const result = await target.saveData(value);
                     if (result.rc != 'success') {
                         return;
                     }

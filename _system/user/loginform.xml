@@ -7,9 +7,9 @@
         }
 
         const data = element.validatedFormData();
-        const result = await element.transaction('login', data, true);
+        const result = await element.transaction('login', data, null, true);
         if (result.rc != 'success') {
-            element.getElementsByClassName('form_error')[0].innerText = result.rc;
+            element.getElementsByClassName('form_error')[0].innerText = result.message;
             return;
         }
 

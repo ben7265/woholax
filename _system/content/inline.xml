@@ -53,7 +53,7 @@
             }
 
             if (text != origValue) {
-                await element.transaction('save-object-data', text);
+                await element.saveData(text);
                 origValue = text;
             }
 
