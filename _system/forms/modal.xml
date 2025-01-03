@@ -70,12 +70,12 @@
     </css>
 
     <cssNode>
-        .wx-xten-modal .modal-background {
+        #[$id] .modal-background {
             background-color: [$overlay-color||lightgrey];
             opacity: [$opacity||0.5];
         }
 
-        .wx-xten-modal .modal-wrapper {
+        #[$id] .modal-wrapper {
             border: [$border||1px solid gray];
             min-height: [$min-height||300px];
             min-width: [$min-width||500px];
@@ -112,6 +112,14 @@
         </div>
     </view>
 
+    <init>
+    <%
+        const name = node.attribs.name;
+        context.bodyEnd[name] = node;
+        node.remove();
+    %>
+    </init>
+
     <initElement>
     <%
         const name = element.getName();
@@ -147,7 +155,6 @@
             var updated = html;
 
             updated = updated.replace(/\[\$([^\]]+)\]/g, (match, varName) => {
-                console.log('found', match, varName);
                 var [_varName, _defaultValue] = varName.split('||');
                 return data[_varName] || _defaultValue || '';
             });
@@ -163,7 +170,6 @@
 
         element.open = function (heading, setter, getter) {
             const output = new Promise((resolve) => {
-                console.log('open');
                 element.addClass('open');
 
                 const vars = {};
@@ -176,7 +182,6 @@
                         updateElement(vars);
                     break;
                     case typeof setter == 'object':
-                        console.log('setter', setter);
                         for (var prop in setter) {
                             vars[prop] = setter[prop];
                         }

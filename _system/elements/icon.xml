@@ -1,29 +1,44 @@
 <xten name="icon" element="div">
-    <mandatory>name</mandatory>
     <style>
         position: relative;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     </style>
 
     <nodeStyle>
-        width: [$width||30px];
-        height: [$height||30px];
-        border: [$border||1px solid grey];
+        width: [$width||1.8vw];
+        height: [$height||1.8vw];
+        border: [$border||0.1vw solid grey];
         background-color: [$background-color||#efefef];
         [$icon-style||];
     </nodeStyle>
 
+    <css>
+        .wx-xten-icon .icon-text {
+            font-size: 1.5vw;
+            font-weight: 1.5;
+        }
+    </css>
+
     <init>
     <%
+        const ch = node.getValue('ch');
+        if (ch) {
+            node.text = '<span class="icon-text">' + ch.slice(0, 1) + '</span>';
+            return;
+        }
+
         const name = node.getValue('name');
         const inline = node.getValue('inline');
 
         if (inline == 'true') {
             const result = files.read('public/icons/' + name + '.svg', context.siteRoot);
             if (result.rc != 'success') {
-                const child = code.newChild('div');
-                child.text = '.';
+                node.text = '.';
+                return;
             }
+
             const filepath = 'public/icons/' + name + '.svg';
             const _lines = preprocessor(filepath, context.siteRoot);
             if (!_lines) {

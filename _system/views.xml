@@ -12,7 +12,7 @@
     <div class="form_body">
         <row>
             <column><span class="input_label">Email</span></column>
-            <column ratio="4"><input name="email" type="email" placeholder="Email"/></column>
+            <column ratio="4"><input name="email" type="email" validate="email" placeholder="Email"/></column>
         </row>
         <span class="input_error email"></span>
 

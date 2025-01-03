@@ -1,0 +1,6 @@
+<xten name="category-list" extend="_list">
+    <madatory>object-type</mandatory>
+
+    <load>
+    </load>
+</xten>

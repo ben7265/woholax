@@ -14,7 +14,7 @@
     </css>
 
     <view>
-        <input type="text" name="[$name]" value="[$value]" class="picker-target" validate="regex(^#[a-f0-9]{6}$, invalid color hex code)" placeholder="[$placeholder||]" style="flex-grow: 1">
+        <input type="text" name="[$name]" value="[$value]" class="picker-target" validate="regex(^(#[a-f0-9]{6}|initial|none)$, invalid color hex code)" placeholder="[$placeholder||]" style="flex-grow: 1">
             <event name="input" fname="_cpEditColor">
             <%
                 const current = event.target;
@@ -29,16 +29,16 @@
                 const input = element.querySelector('.color-picker');
                 if (value) {
                     input.setAttribute('value', value);
+                    element.value = value;
                 }
                 else
                 {
-                    input.removeAttribute('value');
+                    element.value = null;
                 }
-                element.value = value;
             %>
             </event>
         </input>
-        <input name="[$name]" value="[$value]" class="color-picker" type="color" style="flex-grow: 0; padding: 0; align-self: stretch">
+        <input value="[$value]" class="color-picker" type="color" style="flex-grow: 0; padding: 0; align-self: stretch">
             <event name="input" fname="_cpInputColor">
             <%
                 const current = event.target;

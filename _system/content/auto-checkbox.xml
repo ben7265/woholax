@@ -73,7 +73,7 @@
 
     <load>
     <%
-        const values = await database.objectValue(node, context, xten);
+        const values = await database.nodeValue(node, context, xten);
         const checkboxes = node.findChildren('[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             if (values && values.indexOf(checkbox.attribs.value) != -1) {

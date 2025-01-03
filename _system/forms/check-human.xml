@@ -104,7 +104,7 @@
 
     <function name="clear">
     <%
-        initElement['check-human'](element);
+        initElement['check-human'](this);
     %>
     </function>
 </xten>

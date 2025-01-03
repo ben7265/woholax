@@ -2,11 +2,12 @@
     <useView>v.loginform</useView>
     <event name='submit'>
     <%
-        if (!validateForm(element)) {
+        const data = element.validatedFormData();
+        if (!data) {
+            element.getElementsByClassName('form_error')[0].innerText = 'invalid form data';
             return;
         }
 
-        const data = element.validatedFormData();
         const result = await element.transaction('login', data, null, true);
         if (result.rc != 'success') {
             element.getElementsByClassName('form_error')[0].innerText = result.message;

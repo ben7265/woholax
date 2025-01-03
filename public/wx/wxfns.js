@@ -145,8 +145,10 @@ const wxfns = {
         }, (timeout || 15) * 1000);
     },
 
-    draggable: (element) => {
-        element.onmousedown = (e) => {
+    draggable: (element, target) => {
+        const dragElement = target || element;
+
+        dragElement.onmousedown = (e) => {
             const resizeHandleSize = 15;
             const width = element.offsetWidth;
             const height = element.offsetHeight;
@@ -277,7 +279,7 @@ const wxfns = {
                 resolve(null);
             });
 
-            wxfns.draggable(modal);
+            wxfns.draggable(modal, titlebar);
 
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
@@ -346,7 +348,6 @@ const wxfns = {
                     }
                 });
                 const group = document.createElement('div');
-                group.style = 'padding: 5px';
                 group.appendChild(label);
                 group.appendChild(field);
                 form.appendChild(group);
@@ -367,23 +368,8 @@ const wxfns = {
 
             wxfns.addButton(buttonPanel, 'Save', () => {
                 const data = form.validatedFormData();
-                for (var i = 0; i < list.length; i++) {
-                    const _input = list[i];
-                    if (_input.required && !data[_input.name]) {
-                        showError.innerText = _input.label + ' is mandatory';
-                        showError.style = 'display: block; color: red; padding: 10px 0;';
-                        return;
-                    }
-
-                    if (_input.validation) {
-                        if (typeof _input.validation == 'function') {
-                            const error = _input.validation(data[_input.name]);
-                            if (error) {
-                                showError.innerText = error;
-                                showError.style = 'display: block; color: red; padding: 10px 0;';
-                            }
-                        }
-                    }
+                if (!data) {
+                    return;
                 }
                 showError.style = 'display: none';
                 removeModal();
@@ -410,6 +396,57 @@ const wxfns = {
         });
 
         return await confirmation;
+    },
+
+    stylesDialog: async (data, heading) => {
+        const list = [
+            {
+                name: 'padding',
+                label: 'Padding',
+                tag: 'input',
+                type: 'text',
+                value: data['padding']
+            },
+            {
+                name: 'border',
+                label: 'Border',
+                tag: 'input',
+                type: 'text',
+                value: data['border']
+            },
+            {
+                name: 'border-radius',
+                label: 'Border Radius',
+                tag: 'input',
+                type: 'text',
+                value: data['border-radius']
+            },
+            {
+                name: 'color',
+                label: 'Text Color',
+                tag: 'input',
+                type: 'color',
+                value: data['color']
+            },
+            {
+                name: 'background-color',
+                label: 'Background Color',
+                tag: 'input',
+                type: 'color',
+                value: data['background-color'],
+            },
+            {
+                name: 'opacity',
+                label: 'Opacity',
+                tag: 'input',
+                type: 'number',
+                step: '0.1',
+                min: '0',
+                max: '1',
+                value: data['opacity'],
+            }
+        ];
+        return await wxfns.getMultipleValues(list, heading || 'Styles Dialog');
     },
 
     selectFile: async (fileType) => {
@@ -504,5 +541,9 @@ const wxfns = {
                 error: error.message
             };
         }
+    },
+
+    zoomLevel: () => {
+        return Math.round(window.devicePixelRatio * 100);
     },
 };

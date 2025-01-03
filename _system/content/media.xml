@@ -40,7 +40,6 @@
         node.attribs['video-extensions'] = common.videoExtensions;
         node.attribs['audio-extensions'] = common.audioExtensions;
         const cover = node.attribs['background-cover'] == 'yes';
-        console.log(cover);
         if (cover) {
             node.addClass('cover');
         }
@@ -51,7 +50,7 @@
     <%
         const blank = node.attribs.blank;
         const src = node.attribs.src;
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         node.attribs.src = value || src || blank || 'images/blank.svg';
     %>
     </load>
@@ -132,7 +131,7 @@
     %>
     </initElement>
 
-    <toolbar top="[$toolbar-top||0]" left="[$toolbar-left||0]" right="[$toolbar-right||auto]" bottom="[$toolbar-bottom||auto]">
+    <toolbar placement="top-left">
         <icon name="upload">
             <tooltip>select video to upload</tooltip>
             <event name="click" fname="_mediaUpload">

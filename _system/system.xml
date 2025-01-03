@@ -1,3 +1,10 @@
+#define image-extensions     jpg, jpeg, png, gif, bmp, svg, webp, ico, avif
+#define video-extensions     mp4, webm, ogg, m4v
+#define audio-extensions     mp3, wav, ogg, aac, flac
+#define default-icon-size       30px
+#define default-tooltip-height  20px
+#define default-tooltip-style   background-color: #fefefe;border:1px solid grey; margin-top: 2px; padding: 3px;max-width:250px;overflow-wrap: break-word;
+
 #include _system/_internal/_internal.xml
 #include _system/_internal/_list.xml
 #include _system/_internal/body.xml
@@ -77,6 +84,7 @@
 
 #include _system/layout/column.xml
 #include _system/layout/cover.xml
+#include _system/layout/design.xml
 #include _system/layout/draggable-layout.xml
 #include _system/layout/draggable.xml
 #include _system/layout/dynamic-grid.xml
@@ -103,7 +111,11 @@
 #include _system/media/screen-recorder.xml
 #include _system/media/video-recorder.xml
 
-#include _system/objects/objects.xml
+#include _system/objects/object-toolbars.xml
+
+#include _system/objects/object-list.xml
+#include _system/objects/object.xml
+#include _system/objects/paginator.xml
 #include _system/objects/search-results.xml
 #include _system/objects/search.xml
 
@@ -126,10 +138,6 @@
 #include _system/functions.xml
 #include _system/validations.xml
 #include _system/views.xml
-
-#define default-icon-size       30px
-#define default-tooltip-height  20px
-#define default-tooltip-style   background-color: #fefefe;border:1px solid grey; margin-top: 2px; padding: 3px;max-width:250px;overflow-wrap: break-word;
 
 <xtemplate name="t.default">
     <html>

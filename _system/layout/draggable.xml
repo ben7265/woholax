@@ -7,7 +7,10 @@
     </style>
 
     <css>
-        .wx-xten-draggable {resize: none;cursor: initial;}
+        .wx-xten-draggable {
+            resize: none;
+            cursor: initial;
+        }
     </css>
 
     <cssNode>
@@ -18,128 +21,128 @@
     </cssNode>
 
     <initElement>
-        <%
-            const editable = element.hasClass('wx-state-editable');
-            if (!editable) {
-                return;
+    <%
+        const editable = element.hasClass('wx-state-editable');
+        if (!editable) {
+            return;
+        }
+
+        const resizeHandleSize = 15;
+
+        element.onmousemove = (e) => {
+            const rect = element.getBoundingClientRect();
+            const width = element.offsetWidth;
+            const height = element.offsetHeight;
+
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            if (mouseX > width - resizeHandleSize && mouseY > height - resizeHandleSize) {
+                element.style.cursor = 'se-resize';
+            }
+            else if (mouseX > width - resizeHandleSize) {
+                element.style.cursor = 'w-resize';
+            }
+            else if (mouseY > height - resizeHandleSize) {
+                element.style.cursor = 's-resize';
+            }
+            else
+            {
+                element.style.cursor = 'move';
+            }
+        };
+
+        element.onmousedown = (e) => {
+            var width = element.offsetWidth;
+            var height = element.offsetHeight;
+
+            const rect = element.getBoundingClientRect();
+
+            const computedStyle = window.getComputedStyle(element);
+            const cursorStyle = computedStyle.getPropertyValue('cursor');
+            var mode = null;
+
+            if (e.clientX > (rect.left + width - resizeHandleSize) && e.clientY > (rect.top + height - resizeHandleSize))
+            {
+                element.classList.add("resizing");
+                mode = 'resizing';
+            }
+            else if (e.clientX > (rect.left + width - resizeHandleSize)) {
+                element.classList.add("resizing");
+                mode = 'w-resizing';
+            }
+            else if (e.clientY > (rect.top + height - resizeHandleSize)) {
+                element.classList.add("resizing");
+                mode = 'h-resizing';                    
+            }
+            else
+            {
+                element.classList.add("dragging");
+                mode = 'dragging';
             }
 
-            const resizeHandleSize = 15;
+            var currentX = 0;
+            var currentY = 0;
 
-            element.onmousemove = (e) => {
-                const rect = element.getBoundingClientRect();
-                const width = element.offsetWidth;
-                const height = element.offsetHeight;
+            currentX = e.clientX;
+            currentY = e.clientY;
 
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-
-                if (mouseX > width - resizeHandleSize && mouseY > height - resizeHandleSize) {
-                    element.style.cursor = 'se-resize';
-                }
-                else if (mouseX > width - resizeHandleSize) {
-                    element.style.cursor = 'w-resize';
-                }
-                else if (mouseY > height - resizeHandleSize) {
-                    element.style.cursor = 's-resize';
-                }
-                else
-                {
-                    element.style.cursor = 'move';
-                }
-            };
-
-            element.onmousedown = (e) => {
-                var width = element.offsetWidth;
-                var height = element.offsetHeight;
-
-                const rect = element.getBoundingClientRect();
-
-                const computedStyle = window.getComputedStyle(element);
-                const cursorStyle = computedStyle.getPropertyValue('cursor');
-                var mode = null;
-
-                if (e.clientX > (rect.left + width - resizeHandleSize) && e.clientY > (rect.top + height - resizeHandleSize))
-                {
-                    element.classList.add("resizing");
-                    mode = 'resizing';
-                }
-                else if (e.clientX > (rect.left + width - resizeHandleSize)) {
-                    element.classList.add("resizing");
-                    mode = 'w-resizing';
-                }
-                else if (e.clientY > (rect.top + height - resizeHandleSize)) {
-                    element.classList.add("resizing");
-                    mode = 'h-resizing';                    
-                }
-                else
-                {
-                    element.classList.add("dragging");
-                    mode = 'dragging';
-                }
-
-                var currentX = 0;
-                var currentY = 0;
-
-                currentX = e.clientX;
-                currentY = e.clientY;
-
-                document.onmouseup = () => {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
-                    element.classList.remove("dragging");
-                    element.classList.remove("resizing");
-                    const style = element.getAttribute('style');
-                    const obj = wxfns.parseStyles(style);
-                    const position = {
-                        left: obj.left,
-                        top: obj.top,
-                        width: obj.width,
-                        height: obj.height
-                    };
-
-                    element.transaction('save-box-position', wxfns.makeStyles(position));
+            document.onmouseup = () => {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                element.classList.remove("dragging");
+                element.classList.remove("resizing");
+                const style = element.getAttribute('style');
+                const obj = wxfns.parseStyles(style);
+                const position = {
+                    left: obj.left,
+                    top: obj.top,
+                    width: obj.width,
+                    height: obj.height
                 };
 
-                document.onmousemove = (e) => {
-                    switch (mode) {
-                        case 'dragging':
-                            element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
-                            element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
-                            currentX = e.clientX;
-                            currentY = e.clientY;
-                        break;
-
-                        case 'resizing':
-                            width = width - currentX + e.clientX;
-                            height = height - currentY + e.clientY;
-                            currentX = e.clientX;
-                            currentY = e.clientY;
-                            element.style.width = width + 'px';
-                            element.style.height = height + 'px';
-                        break;
-
-                        case 'h-resizing':
-                            height = height - currentY + e.clientY;
-                            currentX = e.clientX;
-                            currentY = e.clientY;
-                            element.style.height = height + 'px';
-                        break;
-
-                        case 'w-resizing':
-                            width = width - currentX + e.clientX;
-                            currentX = e.clientX;
-                            currentY = e.clientY;
-                            element.style.width = width + 'px';
-                        break;
-                    }
-                };
+                element.transaction('save-box-position', wxfns.makeStyles(position));
             };
-        %>
+
+            document.onmousemove = (e) => {
+                switch (mode) {
+                    case 'dragging':
+                        element.style.left = (element.offsetLeft - currentX + e.clientX) + 'px';
+                        element.style.top = (element.offsetTop - currentY + e.clientY) + 'px';
+                        currentX = e.clientX;
+                        currentY = e.clientY;
+                    break;
+
+                    case 'resizing':
+                        width = width - currentX + e.clientX;
+                        height = height - currentY + e.clientY;
+                        currentX = e.clientX;
+                        currentY = e.clientY;
+                        element.style.width = width + 'px';
+                        element.style.height = height + 'px';
+                    break;
+
+                    case 'h-resizing':
+                        height = height - currentY + e.clientY;
+                        currentX = e.clientX;
+                        currentY = e.clientY;
+                        element.style.height = height + 'px';
+                    break;
+
+                    case 'w-resizing':
+                        width = width - currentX + e.clientX;
+                        currentX = e.clientX;
+                        currentY = e.clientY;
+                        element.style.width = width + 'px';
+                    break;
+                }
+            };
+        };
+    %>
     </initElement>
 
     <load>
-        const value = await database.objectValue(node, context, xten, '-position');
+        const value = await database.nodeValue(node, context, xten, '.position');
         if (value) {
             node.addStyle(value);
         }
@@ -150,7 +153,7 @@
         if (!attribs.name) {
             return { rc: 'missing name in txn: ' + txn };
         }
-        return await database.saveFieldValue(context.objKey, 'position-' + attribs.name, data, attribs, attribs.collection);
+        return await database.saveFieldValue(context.objKey, attribs.name + '.position', data, attribs, attribs.collection);
     %>
     </txn>
 </xten>

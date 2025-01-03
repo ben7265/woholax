@@ -43,7 +43,7 @@
 
     <load>
     <%
-        const rating = await database.objectValue(node, context, xten);
+        const rating = await database.nodeValue(node, context, xten);
         node.attribs['star-value'] = rating;
 
         if (rating) {

@@ -125,9 +125,6 @@ document.addEventListener('changeUser', (event) => {
     showHide();
 });
 
-window.addEventListener('resize', (event) => {
-});
-
 server.post = async (url, data) => {
     try {
         const response = await fetch(url, {
@@ -182,9 +179,80 @@ const initialiseCSSVars = () => {
 };
 */
 
-const validateForm = (form) => {
-    return true;
-};
+function str2hex(str) {
+    return Array.from(str)
+        .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join('');
+}
+
+function hex2str(hex) {
+    let str = '';
+    for (let i = 0; i < hex.length; i += 2) {
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    }
+    return str;
+}
+
+class SessionClass {
+    constructor() {
+        this.session = {};
+
+        const cookies = document.cookie;
+
+        if (!cookies) {
+            return;
+        }
+
+        const list = cookies.split(/\s*;\s*/);
+        for (let i = 0; i < list.length; i++) {
+            const nameValue = list[i].split('=');
+            if (nameValue[0] === 'session') {
+                const hex = nameValue[1];
+                try {
+                    const str = hex2str(hex);
+                    this.session = JSON.parse(str);
+                } catch (e) {
+                    console.error("Failed to parse session cookie:", e);
+                }
+                return;
+            }
+        }
+    }
+
+    get(name) {
+        return this.session[name];
+    }
+
+    async set(name, value, forceReload) {
+        this.session[name] = value;
+        this.session['force-reload'] = forceReload || false;
+        await this.updateCookie();
+    }
+
+    async delete(name) {
+        if (this.session[name]) {
+            delete this.session[name];
+            await this.updateCookie();
+        }
+    }
+
+    clear() {
+        this.session = {};
+        document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+
+    async updateCookie() {
+        /*
+        document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        const str = JSON.stringify(this.session);
+        const hex = str2hex(str);
+        document.cookie = `session=${hex}; path=/; secure=false; samesite=Strict`;
+        */
+        await server.post('/set-session', this.session);
+    }
+}
+
+const session = new SessionClass();
 
 socket.on('hello', (message) => {
     console.debug('server sent', message);

@@ -208,7 +208,7 @@
     <load>
     <%
         const img = node.findChildren('img')[0];
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         if (value) {
             node.attribs.src = value;
             img.attribs.src = value;

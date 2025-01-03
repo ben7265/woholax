@@ -10,7 +10,7 @@
             const result = await element.transaction(action, data);
             const captcha = element.querySelector('.wx-xten-check-human');
             if (captcha) {
-                captcha.invoke('clear', captcha);
+                captcha.invoke('clear');
             }
             if (result.rc != 'success') {
                 return;

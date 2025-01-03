@@ -53,7 +53,7 @@
     </toolbar>
 
     <load>
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         if (value) {
             node.attribs.data = value;
         }

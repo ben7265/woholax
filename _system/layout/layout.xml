@@ -92,7 +92,7 @@
 
     <load>
     <%
-        const content = await database.objectValue(node, context, xten);
+        const content = await database.nodeValue(node, context, xten);
         const areasText = content ? content : node.attribs.areas;
         if (!areasText) {
             return;

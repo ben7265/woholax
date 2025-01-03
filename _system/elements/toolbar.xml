@@ -1,7 +1,8 @@
 <xten name="toolbar" element="div">
     <style>
         display: flex;
-        gap: 1px;
+        gap: 0.1vw;
+        cursor: pointer;
     </style>
 
     <nodeStyle>
@@ -10,102 +11,76 @@
         position: [$position||absolute];
     </nodeStyle>
 
+    <css>
+        .wx-xten-toolbar span {
+            height: 1.8vw;
+            font-size: 1.2vw;
+        }
+    </css>
+
     <initElement>
     <%
-        const position = element.getAttribute('placement') || 'top-right';
-        const top = element.getAttribute('top');
-        const left = element.getAttribute('left');
-        const bottom = element.getAttribute('bottom');
-        const right = element.getAttribute('right');
+        const parent = element.parentElement.closest('[xten]');
+        const position = parent.getAttribute('toolbar-position') || element.getAttribute('position') || 'absolute'; 
+        const placement = parent.getAttribute('toolbar-placement') || element.getAttribute('placement') || 'top-right';
+        const top = parent.getAttribute('toolbar-top') || element.getAttribute('top');
+        const left = parent.getAttribute('toolbar-left') || element.getAttribute('left');
+        const bottom = parent.getAttribute('toolbar-bottom') || element.getAttribute('bottom');
+        const right = parent.getAttribute('toolbar-right') || element.getAttribute('right');
 
-        switch (position) {
+        element.style.position = position;
+
+        switch (placement) {
             case 'top-left':
-                element.style.top = (top || '0') + 'px';
-                element.style.left = (left || '0') + 'px';
+                element.style.top = top || '0px';
+                element.style.left = left || '0px';
                 break;
                 
             case 'top-right':
-                element.style.top = (top || '0') + 'px';
-                element.style.right = (right || '0') + 'px';
+                element.style.top = top || '0px';
+                element.style.right = right || '0px';
                 break;
                 
             case 'bottom-left':
-                element.style.bottom = (bottom || '0') + 'px';
-                element.style.left = (left || '0') + 'px';
+                element.style.bottom = bottom || '0px';
+                element.style.left = left || '0px';
                 break;
                 
             case 'bottom-right':
-                element.style.bottom = (bottom || '0') + 'px';
-                element.style.right = (right || '0') + 'px';
+                element.style.bottom = bottom || '0px';
+                element.style.right = right || '0px';
                 break;
 
             case 'center':
-                element.style.position = 'absolute';
                 element.style.top = '50%';
                 element.style.left = '50%';
                 element.style.transform = 'translate(-50%, -50%)';
                 break;
                 
             case 'top':
-                element.style.top = (top || '0') + 'px';
+                element.style.top = top || '0px';
                 element.style.left = '50%';
                 element.style.transform = 'translateX(-50%)';
                 break;
                 
             case 'bottom':
-                element.style.bottom = (bottom || '0') + 'px';
+                element.style.bottom = bottom || '0px';
                 element.style.left = '50%';
                 element.style.transform = 'translateX(-50%)';
                 break;
                 
             case 'left':
-                element.style.left = (left || '0') + 'px';
+                element.style.left = left || '0px';
                 element.style.top = '50%';
                 element.style.transform = 'translateY(-50%)';
                 break;
                 
             case 'right':
-                element.style.right = (right || '0') + 'px';
+                element.style.right = right || '0px';
                 element.style.top = '50%';
                 element.style.transform = 'translateY(-50%)';
-                break;
-            
-            default:
-                element.style.position = 'static';
-                break;
+                break;            
         }
-
-        /*
-        function isOverlapping(rect1, rect2) {
-            return !(
-                rect1.right < rect2.left ||
-                rect1.left > rect2.right ||
-                rect1.bottom < rect2.top ||
-                rect1.top > rect2.bottom
-            );
-        }
-
-        const toolbars = document.querySelectorAll('.wx-xten-toolbar');
-        const rects = {};
-
-        const name = element.getName();
-
-        const elementRect = element.getBoundingClientRect();
-        name == 'edit-style-toolbar' && console.log(element.id, elementRect);
-
-        toolbars.forEach(toolbar => {
-            if (toolbar.id == element.id) {
-                return;
-            }
-
-            const rect = toolbar.getBoundingClientRect();
-            if (isOverlapping(elementRect, rect)) {
-                rects[toolbar.id] = rect;
-            }
-        });
-
-        name == 'edit-style-toolbar' && console.log(rects);
-        */
     %>
     </initElement>
 

@@ -25,7 +25,7 @@
 
     <load>
     <%
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         const input = node.findChild('input');
         input.attribs.value = value;
     %>
@@ -33,56 +33,10 @@
 
     <event name="input" fname="_autoSaveInputEventInput">
     <%
-        const valid = element.invoke('validate', event.currentTarget);
-
+        const valid = event.currentTarget.validate();
         if (valid) {
             const result = await element.saveData(element.value);
         }
     %>
     </event>
-
-    <function name="validate">
-    <%
-        const input = element.querySelector('.auto-input-control');
-        const validate = element.getAttribute('validate');
-        const required = element.getAttribute('required') == 'true';
-        const errorElement = element.querySelector('.auto-input-error');
-
-        errorElement.innerText = '';
-
-        var value = input.value;        
-        if (!value) {
-            if (required) {
-                errorElement.innerText = 'Input value is required';
-                return false;
-            }
-            return true;
-        }
-
-        if (!validate) {
-            return true;
-        }
-
-        var valid = true;
-        const checks = validate.split(/\s*\,\s*/);
-        for (var i = 0; i < checks.length; i++) {
-            const _check = checks[i].trim();
-            const matches = _check.match(/^([a-z]+)\s*(\(\s*(.*)\s*\))?$/);
-            const _fname = matches[1];
-            if (!_fname || !validations[_fname]) {
-                errorElement.innerText = 'validation ' + _fname + ' not defined';
-                return false;
-            }
-            const _args = matches[3];
-            const error = validations[_fname](value, _args);
-            if (error) {
-                valid = false;
-                errorElement.innerText = 'Input is ' + error;
-                break;
-            }
-        }
-
-        return valid;
-    %>
-    </function>
 </xten>

@@ -10,7 +10,7 @@
 
     <load>
     <%
-        const value = await database.objectValue(node, context, xten) || null;
+        const value = await database.nodeValue(node, context, xten) || null;
         for (var i = 0; i < node.children.length; i++) {
             const option = node.children[i];
             if (!value) {

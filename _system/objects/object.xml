@@ -1,0 +1,115 @@
+<xten name="object" element="div">
+    <allow>owner, admin</allow>
+
+    <style>
+        position: relative;
+    </style>
+
+    <css>
+        .wx-xten-object > .wx-xten-object-data-wrapper {position: relative;}
+        .wx-xten-object > .view {display:none}
+        .wx-xten-object > .wx-xten-object-data-wrapper > .wx-view-object-list-item {position: relative;}
+        .wx-xten-object > .object-list-toolbar {display: none;}
+        .wx-xten-object.wx-state-ediable > .object-list-toolbar {display: inline-block;}
+        .wx-xten-object .wx-xten-object-item-toolbar {display: none;}
+        .wx-xten-object.wx-state-editable .wx-xten-object-item-toolbar {display: none;}
+    </css>
+
+    <load>
+    <%
+        var objKey = node.getValue('object-name');
+        if (!objKey) {
+            common.nodeerror('object-name is missing in xten object', node);
+            return;
+        }
+
+        var output = null;
+        if (objKey.startsWith('[@')) {
+            output = await database.getPageDataFromURL(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find page ' + context.vars.url, node);
+                return;
+            }
+        }
+        else
+        {
+            output = await database.getPageDataFromObjectName(context.vars.url);
+            if (output.rc != 'success') {
+                common.nodeerror('could not find object ' + objKey, node);
+                return;
+            }
+        }
+
+        if (!output.doc) {
+            common.nodeerror('empty page data found ' + objKey + '-' + context.vars.url, node);
+            return;
+        }
+
+        objKey = output.doc['object-name'];
+        objType = output.doc.type;
+
+        objConfigNode = common.findNamed(node, 'object-config', objType);
+        if (!objConfigNode) {
+            common.nodeerror('invalid object type: ' + objType, node);
+            return;
+        }
+
+        const objConfig = common._tojson(objConfigNode, 'page, view');
+
+        const data = await database.getObjectData(objKey, node.getValue('collection') || objConfig.collection || 'object_data');
+        if (data.rc != 'success') {
+            common.nodeerror('System Error ' + data.rc, node);
+            return;
+        }
+
+        if (!data.doc) {
+            common.nodeerror('page not found ' + objKey, node);
+            return;
+        }
+
+        const viewName = node.getValue('object-view') || 'default';
+        const view = objConfigNode.findNamedChild('object-view', viewName);
+        if (!view) {
+            common.nodeerror('object-view : ' + viewName + ' not found. object-config: ' + objType, node);
+            return;
+        }
+
+        common.substituteVars(view, node.attribs);
+
+        const configLabel = objConfig.label ? objConfig.label._text : '';
+        node.attribs['object-label'] = node.getValue('label') || configLabel || common.toCamelCase(objType);
+        const vars = node.attribs;
+        for (var prop in node.attribs) {
+            vars[prop] = node.attribs[prop];
+        }
+        
+        node.empty();
+
+        const rec = data.doc;
+
+        const _vars = rec;
+        _vars['object-type'] = objType;
+        _vars['object-label'] = node.getValue('label') || configLabel || common.toCamelCase(objType);
+        _vars['object-name'] = rec['name'];
+
+        const _view = view.clone();
+        _view.attribs.element = 'div';
+        _view.addClass('wx-view-object-list-item');
+        _view.attribs.name = 'object-view';
+
+        /*
+        var _toolbar = null;
+        if (objectItemToolbar) {
+            _toolbar = objectItemToolbar.clone();
+            node.addChild(_toolbar);
+        }
+        */
+
+        common.substituteVars(_view, _vars, true, common.recordPattern);
+        common.substituteVars(_view, node.attribs);
+
+        node.addChild(_view);
+        xtensions.processXtens(node, context);
+    %>
+    </load>
+</xten>

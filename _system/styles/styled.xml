@@ -50,7 +50,7 @@
                     return;
                 }
                 
-                await element.saveData(output, '-styles');
+                await element.saveData(output);
 
                 element.setAttribute('allstyles', wxfns.makeStyles(output));
 
@@ -122,9 +122,9 @@
 
     <load>
     <%
-        const styles = await database.objectValue(node, context, xten, '-styles');
+        const styles = await database.nodeValue(node, context, xten);
 
-        node.attribs.allstyles = node.makeStyles(styles);
+        node.attribs.allstyles = common.makeStyles(styles);
 
         const nodeStyles = {};
         const underlayStyles = {};

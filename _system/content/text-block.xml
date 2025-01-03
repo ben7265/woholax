@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <load>
     <%
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         node.text = value ? value : (node.text && node.text.trim() ? node.text : ('text ' + node.attribs.name));
     %>
     </load>

@@ -3,7 +3,9 @@
     <allow>owner, admin</allow>
 
     <view>
-        <span class="inline-value"></span>
+        <span class="inline-value">
+            <node-content />
+        </span>
     </view>
 
     <nodeStyle>
@@ -27,9 +29,9 @@
 
     <load>
     <%
-        const value = await database.objectValue(node, context, xten);
+        const value = await database.nodeValue(node, context, xten);
         const span = node.findChild('.inline-value');
-        span.text = value ? value : (node.text && node.text.trim() ? node.text : 'inline ' + node.attribs.name);
+        span.text = value ? value : (span.text && span.text.trim() ? span.text : 'inline - ' + node.attribs.name);
     %>
     </load>
 

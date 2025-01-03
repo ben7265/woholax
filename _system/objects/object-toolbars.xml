@@ -1,0 +1,26 @@
+<view name="object-list-toolbar">
+    <toolbar name="object-list-toolbar" class="object-list-toolbar" object-type="[@object-type]" top="[$toolbar-top||0]" right="[$toolbar-right||0]">
+        <icon name="add">
+            <tooltip>add [@object-label]</tooltip>
+            <click fname="_eventObjectAdd">
+                <toolbar-element/>
+                <transaction name="add-object" />
+                <reload/>
+            </click>
+        </icon>
+    </toolbar>
+</view>
+
+<view name="object-item-toolbar">
+    <toolbar name="object-item-toolbar" class="object-item-toolbar">
+        <icon name="remove" object-type="[@object-type]" object-name="[@object-name]">
+            <tooltip>delete [@object-label] </tooltip>
+            <click fname="_eventObjectDelete">
+                <toolbar-element/>
+                <confirm>Do you want to delete object [@object-name]?</confirm>
+                <transaction name="delete-object" target="event-target" />
+                <reload/>
+            </click>
+        </icon>
+    </toolbar>
+</view>

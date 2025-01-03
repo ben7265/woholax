@@ -2,32 +2,62 @@
     <mandatory>name</mandatory>
     <style>
         position: relative;
+        overflow-y: visible;
+        width: 100%;
+        border: 1px solid red;
     </style>
 
     <initElement>
     <%
-        /* to do - need coding 
-        const scaleChildDivs = () => {
-            const parentWidth = element.offsetWidth;
-            const originalParentWidth = 100;
-            const scaleRatio = parentWidth / originalParentWidth;
+        const children = document.querySelectorAll('.wx-xten-draggable');
 
-            const childDivs = element.querySelectorAll('.wx-xten-draggable');
+        const sizes = Array.from(children).map(child => {
+            return {
+                child: child,
+                width: child.offsetWidth,
+                height: child.offsetHeight,
+                top: child.offsetTop,
+                left: child.offsetLeft
+            };
+        });
 
-            childDivs.forEach(childDiv => {
-                const originalWidth = parseFloat(childDiv.getAttribute('data-original-width'));
-                const originalLeft = parseFloat(childDiv.getAttribute('data-original-left'));
-
-                const scaledWidth = originalWidth * scaleRatio;
-                const scaledLeft = originalLeft * scaleRatio;
-
-                childDiv.style.width = `${scaledWidth}px`;
-                childDiv.style.left = `${scaledLeft}px`;
+        const calculateHeight = () => {
+            var max = 0;
+            sizes.forEach(item => {
+                if (max < item.height + item.top) {
+                    max = item.height + item.top;
+                }
             });
+            return max + element.offsetHeight;
         };
 
-        element.addEventListener('resize', scaleChildDivs);
-        */
+        const height = calculateHeight();
+
+        element.style.height = height + 'px';
+
+        const original = {
+            width: element.offsetWidth,
+            height: height
+        };
+
+        const resizeObserver = new ResizeObserver(() => {
+            const scaleX = element.offsetWidth / original.width;
+            
+            sizes.forEach(item => {
+                const left = item.left * scaleX;
+                const right = item.left + item.width;
+                const updatedRight = right * scaleX;
+                const width = updatedRight - left;
+                if (!left || !right || !width) {
+                    return;
+                }
+
+                item.child.style.left = `${left}px`;
+                item.child.style.width = `${width}px`;
+            });            
+        });
+
+        resizeObserver.observe(element);
     %>
     </initElement>
 
