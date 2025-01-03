@@ -61,7 +61,6 @@
         const items = [];
 
         const mode = sessionStorage.getItem(name + '-mode') || 'mode-view';
-        console.log(mode);
 
         element.addClass(mode);
 
@@ -84,7 +83,6 @@
                     child.makeDraggable(async (pos) => {
                         pos.parentWidth = parentWidth;
 
-                        console.log(pos);
                         const result = await child.transaction('save-box-position', pos);
                         if (result.rc != 'success') {
                             return result;
@@ -214,8 +212,6 @@
                     return;
                 }
 
-                console.log(width);
-
                 element.style.width = width ? width + 'px' : '100%';
                 await element.saveData(parseInt(width), '.styles.width');
                 element.refresh();
@@ -305,7 +301,6 @@
             const child = children[order];
         */
 
-        console.log(value.children);
         for (var uid in value.children) {
             const child = value.children[uid];
 
@@ -450,8 +445,6 @@
         }
 
         const contentWidth = value && value.styles && value.styles.width ? value.styles.width : 1200;
-
-        console.log(max);
 
         child.top = max * 100 / contentWidth;
         child.left = 0;
@@ -686,7 +679,6 @@
 
                 /* const output = await wxfns.stylesDialog(input, name + ' Styles'); */
                 const output = await element.openModal('layout-child-styles', name + ' Styles', input);
-                console.log(output);
 
                 if (!output) {
                     return;
@@ -777,7 +769,6 @@
                 
                 const code = '';
                 const output = await element.openModal('wxml-modal', 'Enter code', code);
-                console.log(output);
                 if (!output) {
                     return;
                 }
@@ -894,12 +885,9 @@
             return {rc: 'update error', message: 'cannot find the element'};
         }
 
-        console.log(pos, data, attribs);
-
         if (data.top.endsWith('px')) {
             const top = parseInt(data.top ? data.top.replace('px', '') : 0);
             pos.top = top * 100 / data.parentWidth;
-            console.log('top', top, 'pos.top', pos.top);
 
             if (pos.top < 0) {
                 pos.top = 0;

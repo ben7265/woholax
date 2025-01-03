@@ -376,8 +376,6 @@ Element.prototype.getFormData = function () {
     const checkHuman = this.querySelector('.wx-xten-check-human');
     data['check-human'] = checkHuman ? checkHuman._value : true;
 
-    console.log(data);
-
     return data;
 };
 
@@ -612,7 +610,6 @@ Element.prototype.makeDraggable = function (dropHandler, dragHandler, key, handl
                 this.style.cursor = 'move';
         }
 
-        console.log(mode);
         let currentX = e.clientX;
         let currentY = e.clientY;
 

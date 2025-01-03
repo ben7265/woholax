@@ -1,0 +1,168 @@
+<xten name="tabs" element="div">
+    <css>
+        .wx-xten-tabs {
+            display: flex;
+        }
+
+        .wx-xten-tabs .tabs {
+            display: flex;
+            border: 1px solid #ccc;
+            width: max-content;
+        }
+
+        .wx-xten-tabs .tabs button {
+            padding: 10px;
+            border: none;
+        }
+
+        .wx-xten-tabs .tabs button:hover {
+            background-color: #ddd;
+        }
+
+        .wx-xten-tabs .tabs button.active {
+            background-color: #ccc;
+        }
+
+        .wx-xten-tabs .tab-content {
+            display: none;
+        }
+
+        .wx-xten-tabs .tab-content.active {
+            display: block;
+        }
+    </css>
+
+    <cssNode>
+        #[$id] .tabs {
+            [$tabs-style||]
+        }
+
+        #[$id] .tabs button {
+            [$button-style||]
+        }
+
+        #[$id] .tabs button:hover {
+            [$button-hover-style||]
+        }
+
+        #[$id] .tabs button.active {
+            [$button-active-style||]
+        }
+
+        #[$id].vertical {
+            flex-direction: row;
+        }
+
+        #[$id].vertical .tabs {
+            flex-direction: column;
+        }
+
+        #[$id].vertical.right {
+            flex-direction: row-reverse;
+            justify-content: start;
+        }
+
+        #[$id].vertical .tabs {
+            flex-direction: column;
+        }
+
+        #[$id].horizontal {
+            flex-direction: column;
+        }
+
+        #[$id].horizontal .tabs {
+            flex-direction: row;
+        }
+    </cssNode>
+    
+    <event name="click" fname="_tabsEventClick">
+    <%
+        const target = event.currentTarget;
+        const tab = event.target;
+
+        if (!tab.classList.contains('tab')) {
+            return;
+        }
+
+        const tabContents = target.querySelectorAll('.tab-content');
+        const tabs = target.querySelectorAll('.tab');
+        if (tabContents.length == 0 || tabs.length == 0) {
+            return;
+        }
+
+        const tabTitle = tab.getAttribute('name');
+        tabContents.forEach(content => {
+            const divTitle = content.getAttribute('title');
+
+            if (divTitle == tabTitle) {
+                content.classList.add('active');
+            }
+            else {
+                content.classList.remove('active');
+            }
+        });
+
+        tabs.forEach(_tab => {
+            const name = _tab.getAttribute('name');
+
+            if (name == tabTitle) {
+                _tab.classList.add('active');
+            }
+            else {
+                _tab.classList.remove('active');
+            }
+        });
+    %>
+    </event>
+
+    <init>
+    <%
+        if (!node.children) {
+            return;
+        }
+
+        const tabs = node.findChildren('tab');
+        if (!tabs || tabs.length == 0) {
+            return;
+        }
+
+        const location = node.getValue('location') || 'top';
+        if (location == 'left' || location == 'right') {
+            node.addClass('vertical');
+
+            if (location == 'right') {
+                node.addClass('right');
+            }
+        }
+        else {
+            node.addClass('horizontal');
+        }
+
+        const tabContainer = new DomNode('div');
+        tabContainer.addClass('tabs');
+
+        var tabNodes = [];
+        tabs.forEach(_child => {
+            const tabTitle = _child.attribs.title;
+            _child.tag = 'div';
+
+            const tab = new DomNode('button');
+            tab.attribs.name = tabTitle;
+            tab.text = tabTitle;
+            tab.addClass('tab');
+            tabNodes.push(tab);
+
+            _child.addClass('tab-content');
+        });
+
+        tabNodes[0].addClass('active');
+        tabContainer.insertChildren(0, tabNodes);
+        const insertIdx = location == 'bottom' ? 'last' : 0; 
+        node.insertChild(insertIdx, tabContainer);
+
+        const activeTab = tabs[0];
+        activeTab.addClass('active');
+    %>
+    </init>
+
+</xten>

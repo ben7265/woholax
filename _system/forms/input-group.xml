@@ -8,15 +8,10 @@
         align-items: center;
     </style>
 
-    <nodeStyle>
-        padding: [$margin||2px 0];
-        gap: [$item-gap||10px];
-    </nodeStyle>
-
     <css>
         .wx-xten-input-group .input-label {
             flex: 1; 
-            min-width: 150px; 
+            min-width: 150px;
             text-align: right;
         }
 
@@ -108,7 +103,7 @@
                     <color-picker name="[$name]" value="[$value]" class="input-group-control" placeholder="[$placeholder||]" />
                 </case>
                 <default>
-                    <input name="[$name]" value="[$value]" type="[$type]" class="input-group-control" placeholder="[$placeholder||]" />
+                    <input name="[$name]" value="[$value||]" type="[$type]" class="input-group-control" placeholder="[$placeholder||]" />
                 </default>
             </switch>
             <node-content name="suffix" element="span" />
@@ -120,13 +115,13 @@
         const label = node.attribs.label;
 
         switch (true) {
-            case 'none': 
-                delete node.attribs.label; 
+            case label == 'none': 
+                delete node.attribs.label;
                 break;
             case !label: 
                 node.attribs.label = node.attribs.name.split('-').map(v => v[0].toUpperCase() + v.slice(1)).join(' '); 
                 break;
-            default: 
+            default:
         }
     %>
     </init>
@@ -143,7 +138,7 @@
         for (const attr of element.attributes) {
             const prop = attr.name;
 
-            const ignore = ['name', 'type', 'value', 'placeholder', 'id', 'label', 'txnkey', 'class', 'element', 'xten'];
+            const ignore = ['name', 'type', 'placeholder', 'id', 'label', 'txnkey', 'class', 'element', 'xten'];
             if (ignore.includes(prop)) {
                 continue;
             }

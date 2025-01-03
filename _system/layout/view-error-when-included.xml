@@ -1,4 +1,4 @@
-<xten name="view">
+<!--xten name="view">
     <init>
     <%
         const viewNode = value[0].node.clone();
@@ -48,4 +48,4 @@
         common.substituteVars(node, node.attribs);
     %>
     </init>
-</xten>
+</xten -->

@@ -97,6 +97,7 @@
 #include _system/layout/row.xml
 #include _system/layout/screencover.xml
 #include _system/layout/static-grid.xml
+#include _system/layout/tabs.xml
 
 #include _system/logic/click.xml
 #include _system/logic/event.xml
