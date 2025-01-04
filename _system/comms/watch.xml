@@ -12,21 +12,20 @@
     <initElement>
     <%
         const viewer = element.querySelector('video[name="viewer"]');
-        console.log(viewer);
 
         const peerConnection = new RTCPeerConnection(peerConnectionConfig);
 
         peerConnection.onicecandidate = event => {
-            console.log('ice candidate on pc');
+            console.debug('ice candidate on pc');
             if (event.candidate) {
                 websocket.emit('ice-candidate', event.candidate);
             }
         };
 
         peerConnection.ontrack = event => {
-            console.log('track recieved');
+            console.debug('track recieved');
             if (event.streams[0]) {
-                console.log('setting stream', event.streams[0]);
+                console.debug('setting stream', event.streams[0]);
                 if (viewer.srcObject !== event.streams[0]) {
                     viewer.srcObject = event.streams[0];
                 }
@@ -38,19 +37,19 @@
         peerConnection.onconnectionstatechange = () => {
             console.debug('Connection state change:', peerConnection.connectionState);
             if (peerConnection.connectionState === 'connected') {
-                console.log('Connection established successfully');
+                console.debug('Connection established successfully');
             }
         };
 
         peerConnection.oniceconnectionstatechange = () => {
             console.debug('ICE connection state change:', peerConnection.iceConnectionState);
             if (peerConnection.iceConnectionState === 'connected') {
-                console.log('ICE connection established successfully');
+                console.debug('ICE connection established successfully');
             }
         };
 
         websocket.on('offer', async (offer) => {
-            console.log('offer recieved');
+            console.debug('offer recieved');
             await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
             const answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
@@ -58,12 +57,12 @@
         });
 
         websocket.on('answer', async (answer) => {
-            console.log('answer received');
+            console.debug('answer received');
             await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
         });
 
         websocket.on('ice-candidate', async (iceCandidate) => {
-            console.log('ice candidate received on socket');
+            console.debug('ice candidate received on socket');
             await peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
         });
     %>

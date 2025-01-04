@@ -31,7 +31,7 @@
         <gap height="20px"/>
         <text-block name="blog-desc" element="div" object-name="[@object-name]">
             Add post description
-        </text>
+        </text-block>
         <object-item-toolbar />
     </object-view>
 

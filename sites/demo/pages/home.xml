@@ -45,7 +45,7 @@
         <align>
             <text-block name="company-description" css-min-height="100px">
                 Example company description. Click to edit this.
-            </text>
+            </text-block>
         </align>                        
 
         <gap height="30px" />
@@ -93,7 +93,7 @@
             <column ratio="6">
                 <text-block name="example-text-1">
                     example text 1 Click to edit this text block
-                </text>
+                </text-block>
             </column>
         </row>
 
@@ -104,7 +104,7 @@
             <column ratio="6">
                 <text-block name="example-text-2">
                     example text 2 Click to edit this text block
-                </text>
+                </text-block>
             </column>
             <column>
                 <image name="example-image-2" aspect-ratio="1.5" />

@@ -179,20 +179,6 @@ const initialiseCSSVars = () => {
 };
 */
 
-function str2hex(str) {
-    return Array.from(str)
-        .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
-        .join('');
-}
-
-function hex2str(hex) {
-    let str = '';
-    for (let i = 0; i < hex.length; i += 2) {
-        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-    }
-    return str;
-}
-
 class SessionClass {
     constructor() {
         this.session = {};
@@ -209,7 +195,7 @@ class SessionClass {
             if (nameValue[0] === 'session') {
                 const hex = nameValue[1];
                 try {
-                    const str = hex2str(hex);
+                    const str = wxfns.hex2str(hex);
                     this.session = JSON.parse(str);
                 } catch (e) {
                     console.error("Failed to parse session cookie:", e);

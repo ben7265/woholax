@@ -1,4 +1,4 @@
-<xten name="dynamic-layout" element="div">
+<!--xten name="dynamic-layout" element="div">
     <mandatory>name, template</mandatory>
     <allow>admin, designer</allow>
 
@@ -294,15 +294,17 @@
             return;
         }
 
-        /*
         const children = Object.values(value.children).sort((a, b) => a.idx - b.idx);
+
+        /*
+        for (var uid in value.children) {
+            const child = value.children[uid];
+            const order = child.order;
+        */
 
         for (var order = 0; order < children.length; order++) {
             const child = children[order];
-        */
-
-        for (var uid in value.children) {
-            const child = value.children[uid];
+            const uid = child.uid;
 
             const childNode = new DomNode('layout-child');
 
@@ -310,9 +312,7 @@
             childNode.attribs.name = child.name || 'child-' + child.idx;
             childNode.attribs['data-selector'] = name + '.children.' + child.uid;
             childNode.attribs['layout-idx'] = child.idx;
-            /*
             childNode.attribs['child-order'] = order;
-            */
             childNode.addClass('layout-child');
 
             childNode.attribs.toppct = child.top.toString();
@@ -326,8 +326,14 @@
 
             childNode.attribs.allstyles = common.makeStyles(child.styles);
 
+            console.log(childNode.attribs.allstyles);
+
             if (child.content) {
-                
+                const root = new DomNode();
+                root.fromJSON(child.content);
+                childNode.insertChildren(0, root.children);
+                const xml = childNode.innerXML();
+                childNode.attribs.hexcode = common.str2hex(xml);
             }
             else
             {
@@ -358,6 +364,11 @@
 
                     case 'color':
                     case 'padding':
+                    case 'font-family':
+                    case 'line-height':
+                    case 'letter-spacing':
+                    case 'text-transform':
+                    case 'text-decoration':
                         contentStyles[prop] = child.styles[prop];
                     break;
 
@@ -470,9 +481,22 @@
                 <input-group name="padding" type="text" value="[$padding]" />
                 <input-group name="border" type="text" value="[$border]" />
                 <input-group name="border-radius" type="text" value="[$border-radius]" />
+                <input-group name="box-shadow" type="text" value="[$box-shadow]" />
+                <input-group name="filter" type="text" value="[$filter]" />
+                <input-group name="opacity" type="number" value="[$opacity]" min="0.0" max="1.0" step="0.01" />
+                <input-group name="clip-path" type="text" value="[$clip-path]" />
                 <input-group name="color" type="color" value="[$color]" label="Text Color" />
+                <input-group name="font-family" type="text" value="[$font-family]" />
+                <input-group name="font-weight" type="text" value="[$font-weight]" />
+                <input-group name="line-height" type="text" value="[$line-height]" />
+                <input-group name="letter-spacing" type="text" value="[$letter-spacing]" />
+                <input-group name="text-transform" type="text" value="[$text-transform]" />
+                <input-group name="text-decoration" type="text" value="[$text-decoration]" />
                 <input-group name="background-color" type="color" value="[$background-color]" />
-                <input-group name="opacity" type="number" value="[$opacity]" min="0.0" max="1.0" step="0.01" label="Background Opacity" />
+                <input-group name="background-size" type="text" value="[$background-size]" />
+                <input-group name="background-position" type="text" value="[$background-position]" />
+                <input-group name="transform" type="text" value="[$transform]" />
+                <input-group name="transition" type="text" value="[$transition]" />
             </form>
         </content>
 
@@ -709,8 +733,13 @@
                             underlayStyles[prop] = output[prop];
                         break;
 
-                        case 'padding':
                         case 'color':
+                        case 'padding':
+                        case 'font-family':
+                        case 'line-height':
+                        case 'letter-spacing':
+                        case 'text-transform':
+                        case 'text-decoration':
                             contentStyles[prop] = output[prop];
                         break;
 
@@ -767,15 +796,22 @@
                     }
                 ];
                 
-                const code = '';
+                const hexcode = element.getAttribute('hexcode');
+                const code = wxfns.escapeXml(wxfns.hex2str(hexcode));
+
                 const output = await element.openModal('wxml-modal', 'Enter code', code);
                 if (!output) {
                     return;
                 }
 
+                element.setAttribute('hexcode', wxfns.str2hex(output.code));
+
                 if (!demo) {
-                    await element.saveData(output.code, '.code');
-                }                
+                    const json = wxfns.parseXmlStringToJson(output.code);
+                    await element.saveData(json, '.content');
+                    const layout = element.closest('.wx-xten-dynamic-layout');
+                    await layout.refresh();
+                }
             %>
             </click>
         </icon>
@@ -927,4 +963,4 @@
         return {rc: 'success', pos: pos};
     %>
     </txn>
-</xten>
+</xten -->

@@ -546,4 +546,69 @@ const wxfns = {
     zoomLevel: () => {
         return Math.round(window.devicePixelRatio * 100);
     },
+
+    xmlToJson: (xml) => {
+        let obj = {
+            tag: null,
+            attribs: {},
+            children: [],
+            text: null
+        };
+    
+        if (xml.nodeType === 1) {
+            if (xml.attributes.length > 0) {
+                for (let j = 0; j < xml.attributes.length; j++) {
+                    let attribute = xml.attributes.item(j);
+                    obj.attribs[attribute.nodeName] = attribute.nodeValue;
+                }
+            }
+        } else if (xml.nodeType === 3) {
+            obj.text = xml.nodeValue;
+        }
+    
+        if (xml.hasChildNodes()) {
+            for (let i = 0; i < xml.childNodes.length; i++) {
+                let item = xml.childNodes.item(i);
+                let nodeName = item.nodeName;
+                if (nodeName == '#text') {
+                    obj.text = item.textContent.trim();
+                }
+                else
+                {
+                    const child = wxfns.xmlToJson(item);
+                    child.tag = nodeName;
+                    obj.children.push(child);    
+                }
+            }
+        }
+        return obj;
+    },
+    
+    parseXmlStringToJson: (xmlString) => {
+        let parser = new DOMParser();
+        let xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+        return wxfns.xmlToJson(xmlDoc);
+    },
+
+    str2hex: (str) => {
+        return Array.from(str)
+            .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
+            .join('');
+    },
+    
+    hex2str: (hex) => {
+        let str = '';
+        for (let i = 0; i < hex.length; i += 2) {
+            str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+        }
+        return str;
+    },
+
+    escapeXml: (xmlString) => {
+        return xmlString.replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;');
+    }
 };

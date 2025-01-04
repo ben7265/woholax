@@ -61,15 +61,18 @@ body::before {
 }
 
 .modal .button-panel {
-    padding: 10px; 
-    border-top: 1px solid darkgrey;
-    text-align: right;
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid grey;
 }
 
 .modal .button-panel button {
-    padding: 5px 10px;
-    background-color: lightblue;
-    margin: 5px;
+    padding: 5px;
+    min-width: 80px;
+    max-width: max-content;
 }
 
 /* get-value */
@@ -85,3 +88,4 @@ body::before {
     line-height: 1.2em;
     margin: 10px;
 }
+

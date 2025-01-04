@@ -34,9 +34,7 @@
             <option value="eyes">Eyes</option>
         </dropdown>
         <gap height="20px"/>
-        <text-block name="blog-desc" element="div" object-name="[@object-name]">
-            Add post description
-        </text>
+        <text-block name="blog-desc" element="div" object-name="[@object-name]" />
         <object-item-toolbar />
     </object-view>
 

@@ -54,6 +54,8 @@
 #include _system/data/count.xml
 #include _system/data/stat.xml
 
+#include _system/design/dynamic-layout.xml
+
 #include _system/elements/banner.xml
 #include _system/elements/carousel.xml
 #include _system/elements/circle.xml
@@ -84,7 +86,6 @@
 
 #include _system/layout/column.xml
 #include _system/layout/cover.xml
-#include _system/layout/design.xml
 #include _system/layout/draggable-layout.xml
 #include _system/layout/draggable.xml
 #include _system/layout/dynamic-grid.xml

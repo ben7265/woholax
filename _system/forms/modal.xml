@@ -67,6 +67,31 @@
             padding: 10px;
             height: 100%;
         }
+
+        .wx-xten-modal .button-panel {
+            padding: 10px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid grey;
+        }
+
+        .wx-xten-modal .button-panel button {
+            padding: 5px;
+            min-width: 80px;
+            max-width: max-content;
+        }
+
+        .wx-xten-modal .modal-error:empty {
+            padding: 0;
+        }
+
+        .wx-xten-modal .modal-error {
+            padding: 5px;
+            text-align: center; 
+            color: red; 
+        }
     </css>
 
     <cssNode>
@@ -108,7 +133,7 @@
             <div class="button-panel">
                 <node-content name="buttons" />
             </div>
-            <div class="modal-error" style="text-align: center; color: red; padding: 5px"></div>
+            <div class="modal-error"></div>
         </div>
     </view>
 

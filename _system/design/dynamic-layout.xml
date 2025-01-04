@@ -1,0 +1,966 @@
+<xten name="dynamic-layout" element="div">
+    <mandatory>name, template</mandatory>
+    <allow>admin, designer</allow>
+
+    <style>
+        position: relative;
+        margin: auto;
+    </style>
+
+    <css>
+        body:has(.wx-xten-dynamic-layout.wx-state-editable.mode-design) {
+            margin: 35px auto;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        body:has(.wx-xten-dynamic-layout.wx-state-editable.mode-view) .wx-xten-page-config {
+            display: none;
+        }
+
+        .wx-xten-dynamic-layout.empty {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .wx-xten-dynamic-layout.wx-state-editable.mode-design {
+            border: 1px solid red;
+            min-height: 2000px;
+            overflow: visible;
+        }
+
+        .wx-xten-dynamic-layout.wx-state-editable.mode-responsive {
+            overflow: hidden;
+            border: 1px solid red;
+        }
+
+        .wx-xten-dynamic-layout > .wx-xten-toolbar {
+            display: none;
+        }
+
+        .wx-xten-dynamic-layout > .wx-xten-toolbar .wx-xten-icon[mode="mode-design"] {
+            display: none;
+        }
+
+        .wx-xten-dynamic-layout.mode-design > .wx-xten-toolbar .wx-xten-icon[mode="mode-design"] {
+            display: inline-flex;
+        }
+
+        .wx-xten-dynamic-layout.wx-state-editable > .wx-xten-toolbar {
+            display: inline-flex;
+        }
+    </css>
+
+    <initElement>
+    <%
+        const name = element.getName();
+
+        const children = element.querySelectorAll('.layout-child');
+        const items = [];
+
+        const mode = sessionStorage.getItem(name + '-mode') || 'mode-view';
+
+        element.addClass(mode);
+
+        const elementWidth = element.offsetWidth;
+        const span = element.querySelector('span.mode-text');
+        span.innerText = mode;
+
+        switch (mode) {
+            case 'mode-design':
+                element.style.width = element.style.maxWidth;
+                delete element.style.maxWidth;
+
+                document.addEventListener('click', event => {
+                    element.querySelectorAll('.menu-open').forEach(e => e.removeClass('menu-open'));
+                    element.querySelectorAll('.selected').forEach(e => e.removeClass('selected'));
+                });
+
+                children.forEach(child => {
+                    const parentWidth = element.offsetWidth;
+                    child.makeDraggable(async (pos) => {
+                        pos.parentWidth = parentWidth;
+
+                        const result = await child.transaction('save-box-position', pos);
+                        if (result.rc != 'success') {
+                            return result;
+                        }
+
+                        element.refresh();
+                    });
+
+                    child.addEventListener('click', event => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const _child = event.currentTarget;
+
+                        element.querySelectorAll('.menu-open').forEach(e => e.removeClass('menu-open'));
+                        element.querySelectorAll('.selected').forEach(e => e.removeClass('selected'));
+
+                        if (_child.hasClass('is-dragging')) {
+                            return;
+                        };
+
+                        if (event.metaKey || event.ctrlKey) {
+                            _child.toggleClass('selected');
+                        }
+                        else
+                        {
+                            _child.addClass('menu-open');
+                        }
+                    });
+                });
+            break;
+
+            case 'mode-content':
+                element.style.width = element.style.maxWidth;
+                delete element.style.maxWidth;
+                
+                document.addEventListener('click', event => {
+                    element.querySelectorAll('.menu-open').forEach(e => e.removeClass('menu-open'));
+                });
+
+                children.forEach(child => {
+                    child.addEventListener('click', event => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        element.querySelectorAll('.menu-open').forEach(e => e.removeClass('menu-open'));
+                        const _child = event.currentTarget;
+                        _child.addClass('menu-open');
+                    });
+                });
+                break;
+
+            case 'mode-responsive':
+            case 'mode-view':
+                const resizeObserver = new ResizeObserver(() => {
+                    const contentWidth = element.offsetWidth;
+                    children.forEach(child => {
+                        const toppct = parseFloat(child.getAttribute('toppct') || 0);
+                        const heightpct = parseFloat(child.getAttribute('heightpct') || 0);
+                        const top = Math.floor(toppct * contentWidth / 100);
+                        const height = Math.floor(heightpct * contentWidth / 100);
+
+                        child.style.top = top + 'px';
+                        child.style.height = height + 'px';
+                    });
+                });
+
+                resizeObserver.observe(element);
+                break;
+        }
+
+        const doubleClick = event => {
+            event.preventDefault();
+            event.stopPropagation();
+            alert('double click');
+        };
+
+        const contextMenu = event => {
+            /*
+            event.preventDefault();
+            event.stopPropagation();
+
+            document.querySelectorAll('.menu-open').forEach(e => e.removeClass('menu-open'));
+            event.currentTarget.addClass('menu-open');
+            */
+        };
+
+    %>
+    </initElement>
+
+    <toolbar name="dynamic-layout-toolbar" placement="top-left" position="fixed">
+        <icon ch="M">
+            <tooltip>change mode</tooltip>
+            <click fname="_dlayoutChangeMode">
+            <%
+                var element = wxfns.getToolbarParent(event);
+
+                const name = element.getName();
+                var prev = sessionStorage.getItem(name + '-mode');
+                element.removeClass(prev);
+
+                const modes = ['mode-design', 'mode-content', 'mode-responsive', 'mode-view'];
+                var idx = modes.indexOf(prev);
+                idx++;
+                if (idx >= modes.length) {
+                    idx = 0;
+                }
+
+                mode = modes[idx];
+                sessionStorage.setItem(name + '-mode', mode);
+                /* window.location.reload(); */
+                element.refresh();
+            %>
+            </click>
+        </icon>
+        <span class="mode-text"></span>
+        <icon ch="W" mode="mode-design">
+            <tooltip>change width</tooltip>
+            <click fname="_dlayoutChangeWidth">
+            <%
+                var element = wxfns.getToolbarParent(event);
+
+                const prevWidth = element.style.maxWidth ? parseInt(element.style.maxWidth.replace('px', '')) : 1200 ;
+                const width = await wxfns.getUserValue('width', 'number', 'Get Max Width', {
+                        value: prevWidth,
+                        min: 0
+                });
+                if (width === null) {
+                    return;
+                }
+
+                element.style.width = width ? width + 'px' : '100%';
+                await element.saveData(parseInt(width), '.styles.width');
+                element.refresh();
+            %>
+            </click>
+        </icon>
+        <icon ch="H" mode="mode-design">
+            <tooltip>change height</tooltip>
+            <click fname="_dlayoutChangeHeight">
+            <%
+                var element = wxfns.getToolbarParent(event);
+
+                const prevHeight = element.style.height ? parseInt(element.style.height.replace('px', '')) : 2000;
+                const height = await wxfns.getUserValue('height', 'number', 'Get Height', {
+                        value: prevHeight,
+                        min: 0
+                });
+                if (height === null) {
+                    return;
+                }
+
+                element.style.height = height ? height + 'px' : '2000px';
+                await element.saveData(parseInt(height), '.styles.height');
+            %>
+            </click>
+        </icon>
+        <icon name="add" mode="mode-design">
+            <tooltip>add new component</tooltip>
+            <click fname="_dlayoutAddNew">
+            <%
+                const demo = query.demo == 'yes';
+                if (demo) {
+                    wxfns.inform('New components can be added by simply clicking plus');
+                    return;
+                }
+
+                var element = wxfns.getToolbarParent(event);
+
+                var result = null;
+
+                result = await element.transaction('add-layout-child');
+                if (result.rc != 'success') {
+                    return;
+                }
+
+                const children = element.querySelectorAll('.layout-child');
+                if (children.length) {
+                    await element.refresh();
+                }
+                else
+                {
+                    /* ### if there are no children there is no css and js for child xten in refresh */
+                    window.location.reload();
+                }
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <load>
+    <%
+        const name = node.attribs.name;
+        const toolbar = node.findChild('toolbar');
+        node.empty();
+        node.addChild(toolbar);
+
+        const value = await database.nodeValue(node, context, xten);
+
+        const contentWidth = value && value.styles && value.styles.width ? value.styles.width : 1200;
+        node.addStyle(`max-width: ${contentWidth}px; width: 100%`);
+        const contentHeight = value && value.styles && value.styles.height ? value.styles.height : 2000;
+        node.addStyle(`height: ${contentHeight}px;`);
+
+        if (!value || !value.children || !Object.keys(value.children).length) {
+            node.addClass('empty');
+            const span = new DomNode('span');
+            span.addClass('empty-message');
+            span.text = 'empty layout - ' + name;
+            node.addChild(span);
+            return;
+        }
+
+        const children = Object.values(value.children).sort((a, b) => a.idx - b.idx);
+
+        /*
+        for (var uid in value.children) {
+            const child = value.children[uid];
+            const order = child.order;
+        */
+
+        for (var order = 0; order < children.length; order++) {
+            const child = children[order];
+            const uid = child.uid;
+
+            const childNode = new DomNode('layout-child');
+
+            childNode.attribs.id = uid;
+            childNode.attribs.name = child.name || 'child-' + child.idx;
+            childNode.attribs['data-selector'] = name + '.children.' + child.uid;
+            childNode.attribs['layout-idx'] = child.idx;
+            childNode.attribs['child-order'] = order;
+            childNode.addClass('layout-child');
+
+            childNode.attribs.toppct = child.top.toString();
+            childNode.attribs.heightpct = child.height.toString();
+
+            const top = Math.floor(child.top * contentWidth / 100);
+            const height = Math.floor(child.height * contentWidth / 100);
+            var style = `top: ${top}px; left: ${child.left}%; width: ${child.width}%; height: ${height}px;`;
+
+            childNode.attribs.style = style;
+
+            childNode.attribs.allstyles = common.makeStyles(child.styles);
+
+            console.log(childNode.attribs.allstyles);
+
+            if (child.content) {
+                const root = new DomNode();
+                root.fromJSON(child.content);
+                childNode.insertChildren(0, root.children);
+                const xml = childNode.innerXML();
+                childNode.attribs.hexcode = common.str2hex(xml);
+            }
+            else
+            {
+                const span = new DomNode('span');
+                span.attribs.name = 'layout-child-name';
+                span.attribs.style = 'cursor: text';
+                span.attribs['data-selector'] = name + '.children.' + child.uid + '.name';
+                span.text = child.name || 'child ' + child.idx + ' name';
+                childNode.addClass('empty');
+                span.addClass('empty-message');
+                childNode.addChild(span);
+            }
+
+            node.addChild(childNode);
+
+            xtensions.processXtens(childNode, context);
+
+            const wrapperStyles = {};
+            const underlayStyles = {};
+            const contentStyles = {};
+
+            for (var prop in child.styles) {
+                switch (prop) {
+                    case 'background-color':
+                    case 'opacity':
+                        underlayStyles[prop] = child.styles[prop];
+                    break;
+
+                    case 'color':
+                    case 'padding':
+                    case 'font-family':
+                    case 'line-height':
+                    case 'letter-spacing':
+                    case 'text-transform':
+                    case 'text-decoration':
+                        contentStyles[prop] = child.styles[prop];
+                    break;
+
+                    default:
+                        wrapperStyles[prop] = child.styles[prop];
+                }
+            }
+
+            const wrapper = childNode.findChild('.child-wrapper');
+            wrapper.addStyle(wrapperStyles);
+
+            const underlay = wrapper.findChild('.styled-underlay');
+            underlay.addStyle(underlayStyles);
+
+            const content = wrapper.findChild('.styled-content');
+            content.addStyle(contentStyles);
+
+            if (!child['background-media']) {
+                continue;
+            }
+
+            const alt = child.name + '-background';
+            const src = child['background-media'];
+
+            const ext = src.split('.').pop().toLowerCase();
+
+            var code = null;
+
+            switch (true) {
+                case common.imageExtsArray.includes(ext):
+                    code = `
+                        <img src="${src}" alt="${alt}" onerror="this.onerror=null; this.src='images/error.svg';" />
+                    `;
+                break;
+
+                case common.videoExtsArray.includes(ext):
+                        code = `
+                            <video autoplay="true" muted="true" loop="true">
+                                <source src="stream/${src}" type="video/${ext}">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                break;
+            }
+
+            const background = childNode.findOne('.styled-background');
+            background.text = code;
+        }
+    %>
+    </load>
+
+    <txn name="add-layout-child">
+    <%
+        const name = attribs.name;
+
+        if (!name) {
+            return { rc: 'missing name in txn: ' + txn };
+        }
+
+        var value = await database.getValue(txn, attribs, user, context);
+        if (!value) {
+            value = {
+                name: name
+            };
+        }
+
+        if (!value.children) {
+            value.children = {};
+        }
+
+        const uid = common.uuid();
+
+        const child = {};
+        child.uid = uid;
+        
+        var max = 0;
+        var idx = 0;
+        for (var prop in value.children) {
+            const child = value.children[prop];
+            const y = child.top + child.height;
+            if (y > max) {
+                max = y;
+            }
+            idx++;
+        }
+
+        const contentWidth = value && value.styles && value.styles.width ? value.styles.width : 1200;
+
+        child.top = max * 100 / contentWidth;
+        child.left = 0;
+        child.height = 100 * 100 / contentWidth;
+        child.width = 100;
+        child.idx = idx;
+        child.order = idx;
+
+        value.children[uid] = child;
+
+        const result = await database.saveValue(txn, attribs, value, user, context);
+        if (result.rc != 'success') {
+            return result;
+        }
+
+        return {rc: 'success', uid: uid};
+    %>
+    </txn>
+
+    <modal name="layout-child-styles">
+        <content>
+            <form class="styles">
+                <input-group name="padding" type="text" value="[$padding]" />
+                <input-group name="border" type="text" value="[$border]" />
+                <input-group name="border-radius" type="text" value="[$border-radius]" />
+                <input-group name="box-shadow" type="text" value="[$box-shadow]" />
+                <input-group name="filter" type="text" value="[$filter]" />
+                <input-group name="opacity" type="number" value="[$opacity]" min="0.0" max="1.0" step="0.01" />
+                <input-group name="clip-path" type="text" value="[$clip-path]" />
+                <input-group name="color" type="color" value="[$color]" label="Text Color" />
+                <input-group name="font-family" type="text" value="[$font-family]" />
+                <input-group name="font-weight" type="text" value="[$font-weight]" />
+                <input-group name="line-height" type="text" value="[$line-height]" />
+                <input-group name="letter-spacing" type="text" value="[$letter-spacing]" />
+                <input-group name="text-transform" type="text" value="[$text-transform]" />
+                <input-group name="text-decoration" type="text" value="[$text-decoration]" />
+                <input-group name="background-color" type="color" value="[$background-color]" />
+                <input-group name="background-size" type="text" value="[$background-size]" />
+                <input-group name="background-position" type="text" value="[$background-position]" />
+                <input-group name="transform" type="text" value="[$transform]" />
+                <input-group name="transition" type="text" value="[$transition]" />
+            </form>
+        </content>
+
+        <buttons>
+            <button type="submit">Save</button>
+            <button type="cancel">Cancel</button>
+        </buttons>
+    </modal>
+
+    <modal name="wxml-modal">
+        <content>
+            <form class="styles">
+                <input-group name="code" type="textarea" value="[$data]" />
+            </form>
+        </content>
+
+        <buttons>
+            <button type="submit">Save</button>
+            <button type="cancel">Cancel</button>
+        </buttons>
+    </modal>
+</xten>
+
+<xten name="layout-child" element="div">
+    <style>
+        position: absolute;
+    </style>
+
+    <css>
+        .wx-xten-layout-child .child-wrapper {
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .wx-xten-layout-child .wx-xten-toolbar {
+            display: none;
+        }
+
+        .mode-design .wx-xten-layout-child.menu-open .wx-xten-toolbar {
+            display: inline-flex;
+        }
+        
+        .mode-design .wx-xten-layout-child .wx-xten-icon[mode="mode-design"] {
+            display: inline-flex;
+        }
+
+        .mode-content .wx-xten-layout-child.menu-open .wx-xten-toolbar {
+            display: inline-flex;
+        }
+
+        .mode-content .wx-xten-layout-child .wx-xten-icon[mode="mode-content"] {
+            display: inline-flex;
+        }
+
+        .wx-xten-layout-child.is-dragging.menu-open .wx-xten-toolbar {
+            display: none;
+        }
+
+        .mode-design .wx-xten-layout-child:hover {
+            border: 1px solid blue;
+        }
+
+        .wx-xten-layout-child .wx-xten-icon {
+            display: none;
+        }
+
+        .wx-xten-dynamic-layout .layout-child {
+            position: absolute;
+        }
+
+        .wx-xten-dynamic-layout.mode-design .child-wrapper {
+            border: 1px solid blue;
+            background-color: lightgrey;
+            opacity: 0.8;
+        }
+
+        .wx-xten-dynamic-layout.mode-content .child-wrapper {
+            border: 1px solid blue;
+        }
+
+        .wx-xten-dynamic-layout.wx-state-editable .layout-child.selected {
+            background-color: lightyellow;
+        }
+
+        .wx-xten-dynamic-layout.wx-state-editable .layout-child.empty .styled-content {
+            display: flex;
+            font-size: 1.2vw;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-xten-dynamic-layout.mode-responsive .layout-child {
+            border: 1px solid blue;
+        }
+
+        .wx-xten-layout-child .styled-underlay,
+        .wx-xten-layout-child .styled-background,
+        .wx-xten-layout-child .styled-content
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .wx-xten-layout-child > .wx-xten-toolbar {
+            display: none;
+        }
+
+        .wx-xten-layout-child.wx-state-editable > .wx-xten-toolbar {
+            display: initial;
+        }
+
+        .wx-xten-layout-child .styled-background img,
+        .wx-xten-layout-child .styled-background video
+        {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    </css>
+
+    <view>
+        <div class="child-wrapper">
+            <div class="styled-background"></div>
+            <div class="styled-underlay"></div>
+            <div class="styled-content">
+                <node-content />
+            </div>
+        </div>
+    </view>
+
+    <toolbar name="layout-child-toolbar" index="0" top="-1.8vw" right="0">
+        <icon name="wallpaper" mode="mode-design">
+            <tooltip>background image or video</tooltip>
+            <click fname="_dlayoutBackgroundMedia">
+                <%
+                    const demo = query.demo == 'yes';
+
+                    var element = wxfns.getToolbarParent(event);
+
+                    const supportedExtensions = '[#image-extensions], [#video-extensions]'.split(/\s*\,\s*/).map(e => ('.' + e)).join(',');
+
+                    const selectedFile = await wxfns.selectFile(supportedExtensions);
+
+                    var url = null;
+                    if (demo) {
+                        url = URL.createObjectURL(selectedFile);
+                    }
+                    else
+                    {
+                        const result = await element.upload('save-media', null, selectedFile, '.background-media');
+                        if (result.rc != 'success') {
+                            return;
+                        }
+                        url = result.output;
+                    }
+                    
+                    element.invoke('updateMedia', url);
+                    element.setAttribute('src', url);
+            %>
+            </click>
+        </icon>
+        <icon name="remove-media">
+            <tooltip>delete background media</tooltip>
+            <click fname="_dlayoutMediaDelete">
+            <%
+                const demo = query.demo == 'yes';
+
+                const element = wxfns.getToolbarParent(event);
+
+                if (!demo) {
+                    const result = await element.transaction('remove-media', null, '.background-media');
+                    if (result.rc != 'success') {
+                        return;
+                    }
+                }
+
+                const blank = element.getAttribute('blank');
+                element.setAttribute('src', blank || 'images/blank.svg');
+                element.updateMedia(blank || 'images/blank.svg');
+            %>
+            </click>
+        </icon>
+        <icon name="styles" mode="mode-design">
+            <tooltip>change styles</tooltip>
+            <click fname="_dlayoutChangeStyles">
+            <%
+                const demo = query.demo == 'yes';
+
+                const element = wxfns.getToolbarParent(event);
+                const name = element.getName();
+                const original = element.getAttribute('allstyles');
+                const input = wxfns.parseStyles(original);
+
+                delete input['check-human'];
+
+                /* const output = await wxfns.stylesDialog(input, name + ' Styles'); */
+                const output = await element.openModal('layout-child-styles', name + ' Styles', input);
+
+                if (!output) {
+                    return;
+                }
+
+                for (var prop in output) {
+                    if (!output[prop]) {
+                        delete output[prop];
+                    }
+                }
+                delete output['check-human'];
+                
+                if (!demo) {
+                    await element.saveData(output, '.styles');
+                }
+
+                element.setAttribute('allstyles', wxfns.makeStyles(output));
+
+                const wrapperStyles = {};
+                const underlayStyles = {};
+                const contentStyles = {};
+
+                for (var prop in output) {
+                    if (prop)
+                    switch (prop) {
+                        case 'background-color':
+                        case 'opacity':
+                            underlayStyles[prop] = output[prop];
+                        break;
+
+                        case 'color':
+                        case 'padding':
+                        case 'font-family':
+                        case 'line-height':
+                        case 'letter-spacing':
+                        case 'text-transform':
+                        case 'text-decoration':
+                            contentStyles[prop] = output[prop];
+                        break;
+
+                        default:
+                            wrapperStyles[prop] = output[prop];
+                    }
+                }
+
+                const wrapper = element.querySelector('.child-wrapper');
+                wrapper.addStyle(wrapperStyles);
+
+                const underlay = element.querySelector('.styled-underlay');
+                underlay.addStyle(underlayStyles);
+
+                const content = element.querySelector('.styled-content');
+                content.addStyle(contentStyles);
+            %>
+            </click>
+        </icon>
+        <icon name="code" mode="mode-content">
+            <tooltip>edit wxml code</tooltip>
+            <click fname="_dlayoutEditCode">
+            <%
+                const demo = query.demo == 'yes';
+
+                const element = wxfns.getToolbarParent(event);
+                const list = [
+                    {
+                        name: 'text',
+                        type: 'static',
+                        vars: {
+                            'font-size': 'text'
+                        }
+                    },
+                    {
+                        name: 'inline',
+                        type: 'xten',
+                        vars: {
+                            'name': 'text',
+                            'object-name': 'text',
+                        }
+                    },
+                    {
+                        name: 'media',
+                        type: 'xten',
+                        vars: {
+                            'name': 'text',
+                            'object-name': 'text',
+                        }
+                    },
+                    {
+                        name: 'code',
+                        type: 'wxml'
+                    }
+                ];
+                
+                const hexcode = element.getAttribute('hexcode');
+                const code = wxfns.escapeXml(wxfns.hex2str(hexcode));
+
+                const output = await element.openModal('wxml-modal', 'Enter code', code);
+                if (!output) {
+                    return;
+                }
+
+                element.setAttribute('hexcode', wxfns.str2hex(output.code));
+
+                if (!demo) {
+                    const json = wxfns.parseXmlStringToJson(output.code);
+                    await element.saveData(json, '.content');
+                    const layout = element.closest('.wx-xten-dynamic-layout');
+                    await layout.refresh();
+                }
+            %>
+            </click>
+        </icon>
+        <icon ch="N" mode="mode-design">
+            <tooltip>section name</tooltip>
+            <click fname="_dlayoutName">
+            <%
+                const demo = query.demo == 'yes';
+                var element = wxfns.getToolbarParent(event);
+
+                var name = await wxfns.getUserValue('name', 'text', 'Name of element', {value: element.getAttribute('name')});
+                if (!name) {
+                    return;
+                }
+
+                name = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+                if (!demo) {
+                    const result = await element.saveData(name, '.name');
+                    if (result.rc != 'success') {
+                        return;
+                    }
+                }
+
+                element.setAttribute('name', name);
+                const span = element.querySelector('[name="layout-child-name"]');
+                span.innerText = name;
+            %>
+            </click>
+        </icon>
+        <icon name="remove" mode="mode-design">
+            <tooltip>delete layout child</tooltip>
+            <click fname="_dlayoutRemove">
+            <%
+                const demo = query.demo == 'yes';                
+                var element = wxfns.getToolbarParent(event);
+
+                if (!demo) {
+                    const result = await element.transaction('delete-layout-child');
+                    if (result.rc != 'success') {
+                        return;
+                    }
+                }
+
+                element.remove();
+            %>
+            </click>
+        </icon>
+    </toolbar>
+
+    <function name="updateMedia" args="src, isBlob">
+    <%
+        const ext = (isBlob ? src.originalname : src).split('.').pop().toLowerCase();
+        const alt = this.getName() + '-background';
+
+        var code = null;
+
+        const imageExtensions = '[#image-extensions]'.split(/\s*\,\s*/);
+        const videoExtensions = '[#video-extensions]'.split(/\s*\,\s*/);
+
+        switch (true) {
+            case imageExtensions.includes(ext):
+                code = `
+                    <img src="${src}" alt="${alt}" onerror="this.onerror=null; this.src='images/error.svg';" />
+                `;
+            break;
+
+            case videoExtensions.includes(ext):
+                    code = `
+                        <video autoplay="true" muted="true" loop="true">
+                            <source src="stream/${src}" type="video/${ext}">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+            break;
+        }
+
+        const background = this.querySelector('.styled-background');
+        background.innerHTML = code;
+    %>
+    </function>
+
+    <init>
+    <%
+        const toolbar = node.findOne('[name="layout-child-toolbar"]');
+        toolbar.remove();
+        node.addChild(toolbar);
+    %>
+    </init>
+
+    <txn name="delete-layout-child">
+    <%
+        const result = await database.removeFieldValue(context.objKey, attribs.name, attribs);
+        if (result.rc != 'success') {
+            return result;
+        }
+
+        await context.forceRefresh();
+        return {rc: 'success'};
+    %>
+    </txn>
+
+    <txn name="save-box-position">
+    <%
+        var pos = await database.getFieldValue(context.objKey, attribs.name, attribs);
+        if (!pos) {
+            return {rc: 'update error', message: 'cannot find the element'};
+        }
+
+        if (data.top.endsWith('px')) {
+            const top = parseInt(data.top ? data.top.replace('px', '') : 0);
+            pos.top = top * 100 / data.parentWidth;
+
+            if (pos.top < 0) {
+                pos.top = 0;
+            }
+        }
+
+        if (data.height.endsWith('px')) {
+            const height = parseInt(data.height ? data.height.replace('px', '') : 0);
+            pos.height = height * 100 / data.parentWidth;
+            if (pos.height < 0) {
+                pos.height = 0;
+            }
+        }
+
+        if (data.left.endsWith('px')) {
+            const left = parseInt(data.left ? data.left.replace('px', '') : 0);
+            pos.left = left * 100 / data.parentWidth;
+            if (pos.left < 0) {
+                pos.left = 0;
+            }
+        }
+
+        if (data.width.endsWith('px')) {
+            const width = parseInt(data.width ? data.width.replace('px', '') : 0);
+            pos.width = width * 100 / data.parentWidth;
+            if (pos.left + pos.width > 100) {
+                pos.width = pos.width - (pos.width - pos.left - 100);
+            }
+        }
+
+        const result = await database.saveFieldValue(context.objKey, attribs.name, pos, attribs);
+        if (result.rc != 'success') {
+            return result;
+        }
+
+        await context.forceRefresh();
+        return {rc: 'success', pos: pos};
+    %>
+    </txn>
+</xten>
