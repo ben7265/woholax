@@ -1,0 +1,80 @@
+<xten name="auto-radio" element="div">
+    <mandatory>name</mandatory>
+    <allow>admin</allow>
+
+    <initElement>
+    <%
+        const access = element.checkAccess();
+        if (!access) {
+            const radioButtons = element.querySelectorAll('input');
+            radioButtons.forEach(radioButton => {
+                radioButton.disabled = true;
+            });
+        }
+    %>
+    </initElement>
+
+    <init>
+    <%
+        const options = {};
+        if (node.text) {
+            const list = node.text.trim().split(/\s*\,\s*/);
+            list.forEach(_item => {
+                var key = _item.toLowerCase();
+                key = key.replace(/[^a-z0-9\-]+/g, '-');
+                options[key] = _item;
+            });
+            node.text = '';
+        }
+        else {
+            node.children.forEach(_child => {
+                options[_child.tag] = _child.text ? _child.text.trim() : _child.tag;
+            });
+        }
+        node.empty();
+
+        for (let key in options) {
+            const id = common.uuid();
+
+            const checkbox = new DomNode('input');
+            checkbox.attribs.id = id;
+            checkbox.attribs.value = key;
+            checkbox.attribs.type = 'radio';
+            checkbox.attribs.name = node.attribs.name;
+            node.addChild(checkbox);
+
+            const label = new DomNode('label');
+            label.text = options[key];
+            label.attribs.for = id;
+            node.addChild(label);
+        }
+    %>
+    </init>
+
+    <load>
+    <%
+        const value = await database.nodeValue(node, context, xten);
+        const radioButtons = node.findChildren('[type="radio"]');
+        radioButtons.forEach(radioButton => {
+            if (value == radioButton.attribs.value) {
+                radioButton.attribs.checked = 'true';
+            }
+            else {
+                delete radioButton.attribs.checked;
+            }
+        });
+    %>
+    </load>
+
+    <event name="input" fname="_autoRadioEventInput">
+    <%
+        const target = event.currentTarget;
+        const input = event.target;
+
+        const result = await target.saveData(input.value);
+        if (result.rc != 'success') {
+            return;
+        }
+    %>
+    </event>
+</xten>

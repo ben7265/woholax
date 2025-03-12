@@ -3,9 +3,14 @@
         <icon name="add">
             <tooltip>add [@object-label]</tooltip>
             <click fname="_eventObjectAdd">
-                <toolbar-element/>
+            <%
+                /*<toolbar-element/>
                 <transaction name="add-object" />
-                <reload/>
+                <reload/>*/
+                var element = wxfns.getToolbarParent(event);
+                const result = await element.transaction('add-object');
+                element.refresh();
+            %>
             </click>
         </icon>
     </toolbar>
@@ -16,10 +21,29 @@
         <icon name="remove" object-type="[@object-type]" object-name="[@object-name]">
             <tooltip>delete [@object-label] </tooltip>
             <click fname="_eventObjectDelete">
-                <toolbar-element/>
+            <%
+                /*<toolbar-element/>
                 <confirm>Do you want to delete object [@object-name]?</confirm>
                 <transaction name="delete-object" target="event-target" />
-                <reload/>
+                <reload/>*/
+                var child = wxfns.getToolbarParent(event);
+
+                /* just delete object instead of object list*/
+
+                var element = child.closest('.wx-xten-object-list');
+                if (element) {
+                    const result = await element.transaction('delete-object', {'object-name': child.getAttribute('object-name')});
+                    element.refresh();
+                    return;
+                }
+
+                /*var element = child.closest('.wx-xten-object');
+                if (element) {
+                    const result = await element.transaction('delete-object', {'object-name': child.getAttribute('object-name')});
+                }
+
+                window.location.reload();*/
+            %>
             </click>
         </icon>
     </toolbar>

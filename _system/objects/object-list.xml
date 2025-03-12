@@ -198,6 +198,9 @@
             
             const li = listItemView.clone();
             li.children[0].addClass('wx-view-list-item');
+            li.children[0].attribs.id = "x-" + common.uuid();
+            li.children[0].attribs['object-name'] = rec.name;
+            li.children[0].attribs['object-type'] = objType;
             common.substituteVars(li, rec, true, common.recordPattern);
             common.substituteVars(li, node.attribs);
             /*xtensions.processXtens(li, context);*/

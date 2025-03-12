@@ -41,6 +41,7 @@
 
 #include _system/content/auto-checkbox.xml
 #include _system/content/auto-input.xml
+#include _system/content/auto-radio.xml
 #include _system/content/datetime.xml
 #include _system/content/dropdown.xml
 #include _system/content/image.xml
@@ -71,6 +72,7 @@
 #include _system/elements/rating.xml
 #include _system/elements/space.xml
 #include _system/elements/toggle-view.xml
+#include _system/elements/toggle.xml
 #include _system/elements/toolbar.xml
 #include _system/elements/tooltip.xml
 

@@ -364,6 +364,7 @@
 
                     case 'color':
                     case 'padding':
+                    case 'font-size':
                     case 'font-family':
                     case 'line-height':
                     case 'letter-spacing':
@@ -486,6 +487,7 @@
                 <input-group name="opacity" type="number" value="[$opacity]" min="0.0" max="1.0" step="0.01" />
                 <input-group name="clip-path" type="text" value="[$clip-path]" />
                 <input-group name="color" type="color" value="[$color]" label="Text Color" />
+                <input-group name="font-size" type="text" value="[$font-size]" />
                 <input-group name="font-family" type="text" value="[$font-family]" />
                 <input-group name="font-weight" type="text" value="[$font-weight]" />
                 <input-group name="line-height" type="text" value="[$line-height]" />

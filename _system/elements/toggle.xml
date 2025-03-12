@@ -1,0 +1,119 @@
+<xten name="toggle" element="div">
+    <allow>admin</allow>
+    <mandatory>name, label-one</mandatory>
+
+    <view>
+        <if var-value="label-two">
+            <span class="label2">[$label-two]</span>
+        </if>
+        <label>
+            <input type="checkbox"/>
+            <div class="slider"></div>
+            [$label-one]
+        </label>
+    </view>
+
+    <css>
+        .wx-xten-toggle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .wx-xten-toggle .label2 {
+            margin-right: 0.4em;
+        }
+
+        .wx-xten-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .wx-xten-toggle label {
+            align-items: center;
+            display: inline-flex;
+            position: relative;
+        }
+
+        .wx-xten-toggle input[type='checkbox'] + div.slider {
+            align-items: center;
+            display: inline-flex;
+        }
+
+        .wx-xten-toggle input[type='checkbox'] + div.slider:before {
+            content: "";
+            position: absolute;
+            display: inline-flex;
+            transition: .4s;
+        }
+    </css>
+
+    <cssNode>
+        #[$id] input[type='checkbox']:checked + div.slider {
+            background-color: [$switch-active-color||#2196F3];
+            border: [$switch-border||none];
+        }
+
+        #[$id] input[type='checkbox'] + div.slider {
+            background-color: [$switch-color||#bbb];
+            width: [$toggle-width||4em];
+            height: [$toggle-height||2em];
+            border-radius: [$toggle-radius||1.6em];
+            margin-right: [$toggle-margin-right||0.4em];
+        }
+
+        #[$id] input[type='checkbox'] + div.slider:before {
+            background-color: [$slider-color||white];
+            width: [$toggle-radius||1.6em];
+            height: [$toggle-radius||1.6em];
+            left: [$toggle-unchecked-left||0.3em];
+            border-radius: [$toggle-radius||1.6em];
+        }
+
+        #[$id] input[type='checkbox']:checked + div.slider:before {
+            left: [$toggle-checked-left||2.1em];
+        }
+    </cssNode>
+
+    <initElement>
+    <%
+        const access = element.checkAccess();
+        const input = element.querySelector('input');
+        if (!access) {
+            input.checked = false;
+            input.disabled = true;
+            return;
+        }
+    %>
+    </initElement>
+
+    <event name="input" fname="_toggleEventInput">
+    <%
+        const access = element.checkAccess();
+        if (!access) {
+            return;
+        }
+
+        const input = event.target;
+        const result = await element.saveData(input.checked);
+        if (result.rc != 'success') {
+            return;
+        }
+    %>
+    </event>
+
+    <load>
+    <%
+        const value = await database.nodeValue(node, context, xten);
+        const checkbox = node.findOne('[type="checkbox"]');
+        if (value) {
+            checkbox.attribs.checked = 'true';
+        }
+        else {
+            delete checkbox.attribs.checked;
+        }
+    %>
+    </load>
+
+</xten>

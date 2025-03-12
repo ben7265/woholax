@@ -2,11 +2,11 @@
     <mandatory>name</mandatory>
     <allow>owner, admin</allow>
 
-    <view>
+    <!-- view>
         <span class="inline-value">
             <node-content />
         </span>
-    </view>
+    </view -->
 
     <nodeStyle>
         text-align: [$align||center];
@@ -27,11 +27,23 @@
         }
     </css>
 
+    <init>
+    <%
+        const span = new DomNode('span');
+        span.addClass('inline-value');
+        span.text = node.text || 'inline - ' + node.attribs.name;
+        node.empty();
+        node.addChild(span);
+    %>
+    </init>
+
     <load>
     <%
         const value = await database.nodeValue(node, context, xten);
-        const span = node.findChild('.inline-value');
-        span.text = value ? value : (span.text && span.text.trim() ? span.text : 'inline - ' + node.attribs.name);
+        if (value) {
+            const span = node.findChild('.inline-value');
+            span.text = value;
+        }
     %>
     </load>
 

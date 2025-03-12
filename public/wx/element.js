@@ -114,6 +114,11 @@ Element.prototype.notify = function (message, data, target) {
 Element.prototype.checkAccess = function () {
     const user = getUser();
     var allow = this.getAttribute('allow');
+    if (allow == 'logged_in') {
+        if (!user?.role || user.role != 'public') {
+            return true;
+        }
+    }
     allow = allow ? allow.trim().split(/\s*\,\s*/) : [];
     const role = user ? user.role : 'public';
     return allow.includes(role);

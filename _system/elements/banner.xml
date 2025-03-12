@@ -73,12 +73,13 @@
             <icon name="right">
                 <click fname="_fnBannerRightClick">
                 <%
-                    var element = wxfns.getToolbarParent(event);
+                    var element = event.target.closest('.wx-xten-banner');
                     var active = element.querySelector('.wx-xten-listitem.active');
                     const idx = parseInt(active ? active.getAttribute('list-idx') : '0');
                     if (active) {
                         active.classList.remove('active');
                     }
+
                     var total = element.querySelectorAll('.wx-xten-listitem').length;
                     const next = idx == total - 1 ? 0 : idx + 1;
                     const target = element.querySelector('.wx-xten-listitem[list-idx="' + next.toString() + '"]');

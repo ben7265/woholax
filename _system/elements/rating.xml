@@ -1,5 +1,5 @@
 <xten name="rating" element="div">    
-    <allow>admin</allow>
+    <allow>logged_in</allow>
     <mandatory>name</mandatory>
 
     <css>
@@ -10,8 +10,35 @@
 
         .wx-xten-rating .checked svg { 
             fill: orange;
-        };
+        }
+
+        .wx-xten-rating .fg {
+            position: relative;
+            z-index: 1;
+        }
+
+        .wx-xten-rating .bg {
+            position: absolute;
+        }
     </css>
+
+    <cssNode>
+        #[$id] div {
+            display: flex;
+            flex-direction: [$orientation||row];
+            gap: [$item-gap||initial];
+        }
+
+        #[$id] .checked svg { 
+            fill: [$color||orange];
+        }
+
+        #[$id] .checked.partial svg {
+            height: 100%;
+            fill: [$color||orange];
+            mask-image: linear-gradient(to right, black 50%, transparent 50%);
+        }
+    </cssNode>
 
     <initElement>
     <%
@@ -22,49 +49,91 @@
                 star.removeClass('checked');
             });
         }
+
+        const n = element.getAttribute('n') || 5;
+        const mode = element.getAttribute('mode') || 'edit';
+
+        (async () => {
+            var result;
+
+            if (mode == 'view') {
+                result = await element.transaction('get-avg-rating');
+            }
+            else {
+                result = await element.transaction('get-user-rating');
+            }
+
+            const rating = result.rating;
+            const halfRating = rating - Math.floor(rating);
+
+            if (result.rc == "success" && rating) {
+                for (let i = 1; i <= n; i++) {
+                    const star = element.querySelector(`[idx="${i}"]`);
+                    if (star) {
+                        if (i <= rating) {
+                            star.addClass('checked');
+                        }
+                        else {
+                            star.removeClass('checked');
+                        }
+                    }
+                }
+            }
+
+            if (halfRating && halfRating >= 0.5) {
+                const halfStar = Math.ceil(rating);
+                const star = element.querySelector(`[idx="${halfStar}"]`);
+                if (star) {
+                    star.addClass('checked');
+                    star.addClass('partial');
+                }
+            }
+        })();
     %>
     </initElement>
 
     <init>
     <%
+        const n = node.getValue('n') || 5;
+        const icon = node.getValue('icon') || 'star';
+
         node.empty();
-        for (let i = 1; i <= 5; i++) {
+
+        const bgStarRow = new DomNode('div');
+        bgStarRow.attribs.class = 'bg';
+        node.addChild(bgStarRow);
+
+        const fgStarRow = new DomNode('div');
+        fgStarRow.attribs.class = 'fg';
+        node.addChild(fgStarRow);
+
+        for (let i = 1; i <= n; i++) {
             const star = new DomNode('icon');
-            star.attribs.class = "star";
-            star.attribs.name = 'star';
+            star.attribs.class = 'star';
+            star.attribs.name = icon;
             star.attribs.inline = 'true';
             star.attribs.idx = i.toString();
             star.attribs.border = 'none';
             star.attribs['background-color'] = 'initial';
-            node.addChild(star);
+            fgStarRow.addChild(star);
+
+            const starBg = new DomNode('icon');
+            starBg.attribs.class = 'star-bg';
+            starBg.attribs.name = icon;
+            starBg.attribs.inline = 'true';
+            starBg.attribs.border = 'none';
+            starBg.attribs['background-color'] = 'initial';
+            bgStarRow.addChild(starBg);
         }
     %>
     </init>
 
-    <load>
-    <%
-        const rating = await database.nodeValue(node, context, xten);
-        node.attribs['star-value'] = rating;
-
-        if (rating) {
-            for (let i = 1; i <= 5; i++) {
-                const star = node.findChild(`[idx="${i}"]`);
-
-                if (i <= rating) {
-                    star.addClass('checked');
-                }
-                else {
-                    star.removeClass('checked');
-                }
-            }
-        }
-    %>
-    </load>
-
     <event name="click" fname="_ratingEventClick">
     <%
         const access = element.checkAccess();
-        if (!access) {
+        const mode = element.getAttribute('mode');
+
+        if (!access || mode == 'view') {
             return;
         }
 
@@ -81,11 +150,105 @@
             }
         });
 
-        const result = await element.saveData(num);
-        if (result.rc != 'success') {
+        const result = await element.transaction('save-rating', { rating: num });
+        if (result?.rc != 'success') {
             return;
         }
     %>
     </event>
+
+    <txn name="save-rating">
+    <%
+        const collection = attribs.collection || 'object_data';
+        const objectKey = attribs['object-name'] || context.objKey;
+
+        const query = {
+            name: objectKey
+        };
+
+        const updateResult = await database.updateOne(collection,
+            { name: objectKey, ratings: { $exists: false } },
+            { $set: { ratings: [] } }
+        );
+
+        const result = await database.findOne({
+            name: objectKey,
+            "ratings.user_key": user.key
+        }, collection);
+
+        if (result.doc) {
+            const set = {
+                $set: { "ratings.$[elem].rating": data.rating }
+            };
+            const options = {
+                arrayFilters: [{ "elem.user_key": user.key }],
+                upsert: true
+            };
+            
+            return await database.updateOne(collection, query, set, options);
+        }
+
+        const set = {
+            $push: {
+                ratings: {
+                    user_key: user.key,
+                    rating: data.rating
+                }
+            }
+        };
+
+        return await database.updateOne(collection, query, set);
+    %>
+    </txn>
+
+    <txn name="get-user-rating">
+    <%
+        const collection = attribs.collection || 'object_data';
+
+        const query = { 
+            name: context.objKey, 
+            "ratings.user_key": user.key
+        };
+
+        const options = {
+            "ratings.$": 1
+        };
+
+        const result = await database.findOne(query, collection, options);
+
+        if (result?.rc == 'success') {
+            const ratings = result?.doc?.ratings;
+            const userRating = ratings?.find((element) => element.user_key == user.key);
+
+            return { rc: 'success', rating: userRating ? userRating.rating : 0 };
+        }
+        
+        return { rc: 'error', rating: 0 };
+    %>
+    </txn>
+
+    <txn name="get-avg-rating">
+    <%
+        const collection = attribs.collection || 'object_data';
+        const objectKey = attribs['object-name'] || context.objKey;
+
+        const pipeline = [
+        {
+            $match: { name: objectKey }
+        },
+        {
+            $project: {
+                averageRating: { $avg: "$ratings.rating" }
+            }
+        }];
+        
+        const result = await database.aggregate(collection, pipeline);
+        if (result?.rc == 'success') {
+            return { rc: 'success', rating: result?.doc ? result?.doc[0].averageRating : 0 };
+        }
+
+        return { rc: 'error', rating: 0 };
+    %>
+    </txn>
 
 </xten>
